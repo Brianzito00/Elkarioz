@@ -220,17 +220,16 @@
 
 <div class="ficha-container">
     <div class="header-rpg-container">
-        <div class="portrait-slot" onclick="document.getElementById('header-file-input').click()">
+        <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
             <div id="portrait-placeholder">📷</div>
-            <input type="file" id="header-file-input" accept="image/*" style="display: none;" onchange="loadHeaderPortrait(this)">
         </div>
 
         <div class="header-info-grid">
             <div class="header-row">
                 <div class="campo-rpg" style="flex: 2;"><input type="text" id="char-name-input" oninput="sincronizarComMestre()"><label>Personagem</label></div>
                 <div class="campo-rpg" style="flex: 1;"><input type="text" id="player-name-input" oninput="sincronizarComMestre()"><label>Jogador(a)</label></div>
-                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="A carregar..." oninput="sincronizarComMestre()" readonly><label>Sala / UID</label></div>
+                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="Digite a Sala..." oninput="sincronizarComMestre()"><label>Sala / UID</label></div>
             </div>
             <div class="header-row">
                 <div class="campo-rpg"><input type="text"><label>Raça</label></div>
@@ -413,8 +412,8 @@
     
     <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
         <div style="flex:1;">
-            <label style="font-size:0.7rem; font-weight:bold;">IMAGEM (Opcional)</label>
-            <input type="file" id="mi-img" accept="image/*" class="form-input" style="padding: 5px; font-size: 0.75rem; border:none; background:transparent; margin-bottom:0;">
+            <label style="font-size:0.7rem; font-weight:bold;">URL DA IMAGEM (Opcional)</label>
+            <input type="text" id="mi-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
         </div>
         <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
             <img id="mi-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
@@ -513,7 +512,8 @@
     </div>
 </div>
 
-<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;"><div class="modal-content"><span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span><h3 class="section-title">Perfil</h3><input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px;"><div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;"><div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">FOTO (Opcional)</label><input type="file" id="ms-img" accept="image/*" class="form-input" style="padding: 5px; font-size: 0.75rem; border:none; background:transparent; margin-bottom:0;"></div><div id="ms-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;"><img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;"></div></div><textarea id="ms-desc" placeholder="História, funções ou anotações..." class="form-input" style="height:100px; resize:none; margin-bottom:12px;"></textarea><button class="btn-salvar" onclick="salvarSubItem()">SALVAR</button></div></div>
+<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;"><div class="modal-content"><span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span><h3 class="section-title">Perfil</h3><input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px;"><div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;"><div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">URL DA FOTO (Opcional)</label>
+    <input type="text" id="ms-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('ms-img', 'ms-img-preview', 'ms-img-preview-container')"></div><div id="ms-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;"><img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;"></div></div><textarea id="ms-desc" placeholder="História, funções ou anotações..." class="form-input" style="height:100px; resize:none; margin-bottom:12px;"></textarea><button class="btn-salvar" onclick="salvarSubItem()">SALVAR</button></div></div>
 
 <div id="modal-view" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><div style="display:flex; flex-direction:column; align-items:center;"><img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none;"><h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3></div><div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:4px; border:1px solid #8b5a2b;"><div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div><div style="display:flex; gap:10px;"><button class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button><button class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button></div></div><div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;"><span style="font-family:'Cinzel'; font-weight:bold;">QUANTIDADE:</span><button class="btn-status" onclick="alterarMunicaoView(-1)">-</button><span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.2rem;"></span><button class="btn-status" onclick="alterarMunicaoView(1)">+</button></div><p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p><div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div><button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button></div></div>
 
@@ -622,7 +622,7 @@
         sincronizarComMestre();
     }
 
-    // === UTILIDADES ===
+    // === UTILIDADES E IMAGEM ===
     function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     function mudarAbaPrincipal(idAba, btn) { 
@@ -649,30 +649,30 @@
         }
         try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
-    function bindImageUpload(inputId, previewId, containerId, callback) {
-        document.getElementById(inputId).addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) { callback(event.target.result); document.getElementById(previewId).src = event.target.result; document.getElementById(containerId).style.display = 'block'; };
-                reader.readAsDataURL(file);
-            }
-        });
+
+    // NOVA FUNÇÃO PARA FOTO PRINCIPAL
+    function pedirUrlRetrato() {
+        let url = prompt("Cole a URL da imagem do seu personagem:");
+        if (url !== null && url.trim() !== "") {
+            document.getElementById('portrait-img').src = url.trim();
+            document.getElementById('portrait-img').style.display = 'block';
+            document.getElementById('portrait-placeholder').style.display = 'none';
+            sincronizarComMestre();
+        }
     }
-    bindImageUpload('mi-img', 'mi-img-preview', 'mi-img-preview-container', (b64) => tempImgBase64 = b64);
-    bindImageUpload('ms-img', 'ms-img-preview', 'ms-img-preview-container', (b64) => tempSubImgBase64 = b64);
-    
-    function loadHeaderPortrait(input) {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('portrait-img').src = e.target.result;
-                document.getElementById('portrait-img').style.display = 'block';
-                document.getElementById('portrait-placeholder').style.display = 'none';
-                sincronizarComMestre();
-            }
-            reader.readAsDataURL(file);
+
+    // NOVA FUNÇÃO PARA PREVIEW DE IMAGENS NOS MODAIS
+    function atualizarPreview(inputId, imgId, containerId) {
+        let url = document.getElementById(inputId).value.trim();
+        if(url) {
+            document.getElementById(imgId).src = url;
+            document.getElementById(containerId).style.display = 'block';
+            if(inputId === 'mi-img') tempImgBase64 = url; 
+            if(inputId === 'ms-img') tempSubImgBase64 = url;
+        } else {
+            document.getElementById(containerId).style.display = 'none';
+            if(inputId === 'mi-img') tempImgBase64 = "";
+            if(inputId === 'ms-img') tempSubImgBase64 = "";
         }
     }
 
@@ -887,7 +887,8 @@
         document.getElementById('ms-nome').value = subObj.nome; document.getElementById('ms-desc').value = subObj.desc || '';
         tempSubImgBase64 = subObj.img || '';
         if(tempSubImgBase64) { document.getElementById('ms-img-preview').src = tempSubImgBase64; document.getElementById('ms-img-preview-container').style.display = 'block'; } else { document.getElementById('ms-img-preview-container').style.display = 'none'; }
-        document.getElementById('ms-img').value = ''; document.getElementById('modal-personagem').style.display = 'flex';
+        document.getElementById('ms-img').value = tempSubImgBase64; // Adicionado para manter a URL ao reabrir
+        document.getElementById('modal-personagem').style.display = 'flex';
     }
 
     function salvarSubItem() {
