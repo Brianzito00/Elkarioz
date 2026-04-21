@@ -51,6 +51,7 @@
         .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-weight: 700; font-size: 1rem; padding: 0 10px; height: 38px; width: 100%; background: rgba(255, 255, 255, 0.7); color: #000; }
         .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #000; font-weight: 900; text-transform: uppercase; margin-top: 3px; margin-left: 5px; }
         
+        /* Destaque para o campo de UID */
         .campo-uid input { background: rgba(183, 28, 28, 0.1); border-color: #b71c1c; color: #b71c1c; }
         .campo-uid label { color: #b71c1c; }
 
@@ -77,7 +78,7 @@
         .atributo-box input { width: 100%; text-align: center; font-size: 1.4rem; font-weight: bold; border: none; background: transparent; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS === */
+        /* === MEIO: BARRAS LADO A LADO === */
         .status-container { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px; padding: 15px 10px; border-top: 2px dashed rgba(200, 185, 158, 0.8); border-bottom: 2px dashed rgba(200, 185, 158, 0.8); }
         .status-module { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(234, 221, 197, 0.5); padding: 10px 15px; border-radius: 10px; border: 1px solid rgba(139, 90, 43, 0.3); flex: 1; min-width: 300px; max-width: 48%; }
         .circle-icon { width: 45px; height: 45px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 2px solid #000; flex-shrink: 0; font-size: 1.1rem; }
@@ -95,27 +96,62 @@
         .max-box label { font-size: 0.55rem; font-weight: 900; font-family: 'Roboto'; color: #000; }
         .max-input { width: 36px; height: 36px; border: 3px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 800; font-size: 0.9rem; background: rgba(255, 255, 255, 0.8); }
 
-        /* PERICIAS E LISTAS */
+        /* === MEIO: PERÍCIAS E GRIDS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; width: 100%; }
         .pericia-card { background-color: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
         .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.15); box-shadow: 0 0 8px rgba(183, 28, 28, 0.3); }
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.75rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.1rem; margin-top: 5px; gap: 5px;}
 
-        /* DIREITA */
+        /* === INVENTÁRIO CARDS === */
+        .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
+        .equip-label { font-size: 0.7rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
+        .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
+        .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
+        .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
+        .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.8rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
+
+        /* === DIREITA E LISTAS === */
         .defesa-box { background-color: rgba(236, 239, 241, 0.8); border: 2px solid #455a64; border-radius: 8px; padding: 10px; text-align: center; width: 100%; margin-bottom: 20px; }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; display: block; margin-bottom: 3px; }
         .defesa-box input { font-size: 2rem; font-weight: 800; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
-
+        
         .list-section { padding: 5px 0; border-top: 1px solid rgba(139, 90, 43, 0.5); width: 100%; margin-bottom: 15px; }
         .btn-add { background: rgba(255,255,255,0.3); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
+        .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         .item-btn { background-color: rgba(234, 221, 197, 0.85); border-left: 4px solid #8b5a2b; border-top: 1px solid rgba(215, 204, 200, 0.5); border-right: 1px solid rgba(215, 204, 200, 0.5); border-bottom: 1px solid rgba(215, 204, 200, 0.5); padding: 8px; margin-bottom: 5px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
 
-        /* DADOS ANIMADOS */
+        /* === ARMAS EQUIPADAS (SIDEBAR) === */
+        .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 8px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .arma-equipada-header { display: flex; align-items: center; gap: 8px; }
+        .arma-equipada-img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
+        .arma-equipada-icon { width: 40px; height: 40px; border-radius: 4px; background: rgba(255,255,255,0.4); border: 1px solid #5c3a21; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.8rem; color: #3e2723; flex: 1; line-height: 1.1; }
+        .arma-equipada-botoes { display: flex; gap: 5px; margin-top: 5px; }
+        .btn-atq { flex: 1; background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px; font-weight: bold; font-size: 0.7rem; font-family: 'Cinzel'; cursor: pointer; display:flex; justify-content:center; align-items:center; gap:3px; transition:0.2s;}
+        .btn-atq:hover { background: #b71c1c; }
+        .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px; font-weight: bold; font-size: 0.65rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
+        .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
+
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
+        .inv-top-bar { display: flex; gap: 15px; justify-content: space-between; margin-bottom: 20px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
+        .carga-container { flex: 1 1 50%; min-width: 250px; text-align: center; background: rgba(234, 221, 197, 0.85); padding: 15px; border-radius: 8px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
+        .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; }
+        .carga-barra-bg { width: 100%; height: 12px; background: rgba(255,255,255,0.7); border: 2px solid #000; border-radius: 6px; margin: 10px 0 0 0; overflow: hidden; }
+        .carga-barra-fill { height: 100%; width: 0%; background: rgba(46, 125, 50, 0.9); transition: 0.3s; }
+        .carga-barra-fill.excedido { background: rgba(183, 28, 28, 0.9); }
+        
+        .moedas-container { flex: 1 1 30%; min-width: 150px; background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 0.8rem; color: #5c3a21; margin-bottom: 5px; }
+        .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; }
+        .btn-moeda { flex-shrink: 0; background: #ffb300; color: #3e2723; border: 2px solid #5c3a21; width: 30px; height: 30px; border-radius: 4px; font-weight: 900; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;}
+        .btn-moeda:hover { background: #ffca28; }
+        .input-moeda { width: 80px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.8); color: #3e2723; border-radius: 4px; height: 30px; padding: 0;}
+
+        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.1); }
         #dice-result-container {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.5); opacity: 0;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0;
             background: rgba(255, 255, 255, 0.98); border: 4px solid #b71c1c; padding: 25px 40px; border-radius: 15px;
             z-index: 2000; text-align: center; pointer-events: none; width: auto; min-width: 280px;
             transition: opacity 0.3s ease, transform 0.3s ease;
@@ -123,9 +159,26 @@
         #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
         
+        .pop-dado-img { width: 50px; height: 50px; margin-bottom: 10px; object-fit: contain; }
+        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
         .pop-total { font-size: 4rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 5px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        .pop-categoria-badge { color: #fff; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; font-family: 'Roboto'; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.85rem; font-family: 'Lora'; display: block;}
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.7rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        @media (max-width: 900px) { .main-layout { flex-direction: column; } .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } }
+        /* === MODAIS GERAIS === */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-content { background-color: rgba(244, 235, 216, 0.95); border: 2px solid #8b5a2b; padding: 25px; width: 90%; max-width: 520px; border-radius: 4px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); max-height: 95vh; overflow-y: auto; }
+        .fechar-modal { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .form-input { width: 100%; padding: 8px; border: 2px solid rgba(0,0,0,0.5); background: rgba(255,255,255,0.8); font-weight: bold; font-size: 0.9rem; color: #3e2723; }
+        .btn-salvar { width: 100%; background: rgba(92, 58, 33, 0.95); color: #fff; padding: 12px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; border-radius: 4px; transition: 0.2s; }
+        .btn-salvar:hover { background: #3e2723; }
+        .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
+
+        @media (max-width: 900px) { 
+            .main-layout { flex-direction: column; } 
+            .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } 
+        }
     </style>
 </head>
 <body>
@@ -163,7 +216,8 @@
 
     <div class="tabs-nav">
         <button class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">PRINCIPAL</button>
-        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">INVENTÁRIO</button>
+        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">INVENTÁRIO / LOCAIS</button>
+        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">MAGIAS</button>
     </div>
 
     <div id="tab-principal" class="tab-content active">
@@ -194,7 +248,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
                         <div class="bar-wrapper">
@@ -217,18 +270,52 @@
 
             <div class="sidebar-direita">
                 <div class="defesa-box"><label>DEFESA</label><input type="number" value="10" oninput="sincronizarComMestre()"></div>
-                <div class="list-section"><h3 class="section-title" style="font-size:1rem; border:none;">PROFICIÊNCIAS</h3><div id="lista-proficiencias"></div></div>
-                <div class="list-section"><h3 class="section-title" style="font-size:1rem; border:none;">HABILIDADES</h3><div id="lista-habilidades"></div></div>
+                <div class="list-section"><h3 class="section-title">PROFICIÊNCIAS</h3><div id="lista-proficiencias"></div><button class="btn-add" onclick="abrirModalHab('prof')">+ NOVA PROFICIÊNCIA</button></div>
+                <div class="list-section"><h3 class="section-title">HABILIDADES</h3><div id="lista-habilidades"></div><button class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button></div>
+                <div class="list-section"><h3 class="section-title" style="color:#5c3a21;">ARMAS EQUIPADAS</h3><div id="lista-armas-equipadas"></div></div>
+                <div class="list-section"><h3 class="section-title" style="color:#b71c1c;">MAGIAS</h3><div id="lista-magias-principal"></div><button class="btn-add" onclick="abrirModalMagia()">+ APRENDER MAGIA</button></div>
             </div>
         </div>
     </div>
 
     <div id="tab-inventario" class="tab-content">
-        <div class="status-container">
-             <p style="text-align:center; font-family: Cinzel; font-weight: bold;">ABA DE INVENTÁRIO EM CONSTRUÇÃO</p>
+        <div class="main-layout">
+            <div class="conteudo-principal">
+                <div class="inv-top-bar">
+                    <div class="carga-container">
+                        <span class="carga-texto">CARGA: <span id="carga-atual">0</span> / <span id="carga-max">10</span></span>
+                        <div class="carga-barra-bg"><div id="carga-fill" class="carga-barra-fill"></div></div>
+                    </div>
+                    <div class="moedas-container">
+                        <span class="moedas-title">TIBARES (T$)</span>
+                        <div class="moedas-controle">
+                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', -10)">-</button>
+                            <input type="number" id="moedas-atual" value="0" class="input-moeda" oninput="recalcularTudo()">
+                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', 10)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-bottom:20px;"><button class="btn-salvar" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button></div>
+                <div id="grid-inventario" class="pericias-grid"></div>
+            </div>
+            <div class="sidebar-direita">
+                <div class="list-section"><h3>GUILDAS</h3><div id="lista-guildas"></div><button class="btn-add" onclick="abrirModalCriacaoListas('guilda')">+ NOVA GUILDA</button></div>
+                <div class="list-section"><h3>PESSOAS</h3><div id="lista-pessoas"></div><button class="btn-add" onclick="abrirModalCriacaoListas('pessoa')">+ NOVA PESSOA</button></div>
+                <div class="list-section"><h3>LOCAIS</h3><div id="lista-locais"></div><button class="btn-add" onclick="abrirModalCriacaoListas('local')">+ NOVO LOCAL</button></div>
+            </div>
         </div>
     </div>
+
+    <div id="tab-magias" class="tab-content">
+        <div id="magias-container"></div>
+    </div>
 </div>
+
+<div id="modal-inventario" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Novo Item</h3><div class="modal-tabs"><button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button><button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button><button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button><button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button></div><input type="text" id="mi-nome" placeholder="Nome" class="form-input"><input type="number" id="mi-peso" value="1" step="0.5" class="form-input"><input type="text" id="mi-dano" placeholder="Dano (ex: 1d8)" class="form-input" style="display:none;" class="arma-field"><textarea id="mi-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarItemInv()">SALVAR</button></div></div>
+<div id="modal-hab" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mh-titulo">Novo</h3><input type="text" id="mh-nome" placeholder="Nome" class="form-input"><textarea id="mh-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarHab()">SALVAR</button></div></div>
+<div id="modal-magia-add" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Aprender Magia</h3><input type="text" id="mm-nome" placeholder="Nome" class="form-input"><select id="mm-circulo" class="form-input"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option></select><textarea id="mm-desc" placeholder="Efeito" class="form-input"></textarea><button class="btn-salvar" onclick="salvarMagia()">SALVAR</button></div></div>
+<div id="modal-criacao-listas" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mcl-titulo">Nova</h3><input type="text" id="mcl-nome" placeholder="Nome" class="form-input"><textarea id="mcl-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarCriacaoLista()">SALVAR</button></div></div>
+<div id="modal-view" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mv-nome"></h3><p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px;"></p><button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button></div></div>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -236,20 +323,22 @@
     const socket = io();
     let meuUID = "";
 
-    // Pede ao servidor para gerar um código mal a página carrega
     socket.emit('criarFicha');
-
     socket.on('uidGerada', (uid) => {
         meuUID = uid;
         document.getElementById('uid-input').value = uid;
     });
 
-    const listaPericiasBase = [{n:'Acrobacia',a:'agilidade'},{n:'Atletismo',a:'forca'},{n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Iniciativa',a:'agilidade'},{n:'Intuição',a:'sabedoria'},{n:'Luta',a:'forca'},{n:'Percepção',a:'sabedoria'},{n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Vontade',a:'sabedoria'}];
+    const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
+    const listaPericiasBase = [{n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},{n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},{n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},{n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},{n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},{n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},{n:'Misticismo',a:'intelecto'},{n:'Nobreza',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},{n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},{n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}];
+    
     let dbPericias = {}; listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
+    let dbInventario = [], dbProficiencias = [], dbHabilidades = [], dbGuildas = [], dbPessoas = [], dbLocais = [], dbMagias = [];
+    let tipoContexto = '', itemAbertoId = null, diceState = 0;
 
-    // === SINCRONIZAÇÃO COM O MESTRE ===
     function sincronizarComMestre() {
-        let portraitSrc = document.getElementById('portrait-img').src;
+        let portraitImg = document.getElementById('portrait-img');
+        let portraitSrc = portraitImg.style.display !== 'none' ? portraitImg.src : "";
         
         let dadosParaMestre = {
             charName: document.getElementById('char-name-input').value,
@@ -260,51 +349,27 @@
             mpMax: getValor('mana-max'),
             nivel: document.getElementById('nivel').value,
             defesa: document.querySelector('.defesa-box input').value,
-            img: document.getElementById('portrait-img').style.display !== 'none' ? portraitSrc : ""
+            img: portraitSrc
         };
         
-        enviarAlteracao(dadosParaMestre);
-    }
-
-    function enviarAlteracao(novosDados) {
         let uidAtual = document.getElementById('uid-input').value || meuUID;
-        socket.emit('atualizarDados', { uid: uidAtual, dados: novosDados });
+        socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
     }
 
     function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
-
-    function loadHeaderPortrait(input) {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgEl = document.getElementById('portrait-img');
-                const placeholderEl = document.getElementById('portrait-placeholder');
-                imgEl.src = e.target.result;
-                imgEl.style.display = 'block';
-                placeholderEl.style.display = 'none';
-                sincronizarComMestre();
-            }
-            reader.readAsDataURL(file);
-        }
+    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    function mudarAbaPrincipal(id, btn) { 
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        document.getElementById(id).classList.add('active'); 
+        btn.classList.add('active'); 
     }
 
-    function recalcularTudo() {
-        const nivel = parseInt(document.getElementById('nivel').value); 
-        let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : 5;
-        
-        const grid = document.getElementById('grid-pericias');
-        grid.innerHTML = '';
-        
-        listaPericiasBase.forEach(p => { 
-            let d = dbPericias[p.n]; 
-            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0);
-            grid.innerHTML += `<div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="rolarDado('${p.n}', ${d.total})">
-                <div class="pericia-header">${p.n}</div>
-                <div class="pericia-roll-box"><span>+${d.total}</span></div>
-            </div>`;
-        });
-        sincronizarComMestre();
+    function alterarStatus(id, delta) { 
+        let input = document.getElementById(id); 
+        input.value = (parseInt(input.value) || 0) + delta; 
+        if(id === 'moedas-atual' && input.value < 0) input.value = 0;
+        atualizarBarras(); recalcularTudo();
     }
 
     function atualizarBarras() {
@@ -314,49 +379,166 @@
         sincronizarComMestre();
     }
 
-    function alterarStatus(id, delta) { 
-        let input = document.getElementById(id); 
-        input.value = (parseInt(input.value) || 0) + delta; 
-        atualizarBarras(); 
+    function recalcularTudo() {
+        const forca = getValor('forca');
+        const cargaMax = 10 + (forca * 2);
+        document.getElementById('carga-max').innerText = cargaMax;
+        
+        let cargaAtual = 0;
+        dbInventario.forEach(i => { if(i.equipado) cargaAtual += i.peso || 1; });
+        document.getElementById('carga-atual').innerText = cargaAtual;
+        document.getElementById('carga-fill').style.width = Math.min((cargaAtual/cargaMax)*100, 100) + '%';
+
+        const nivel = parseInt(document.getElementById('nivel').value);
+        let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : 5;
+        
+        listaPericiasBase.forEach(p => {
+            let d = dbPericias[p.n];
+            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + d.bonus;
+        });
+        renderizarPericias();
     }
 
-    function mudarAbaPrincipal(idAba, btn) { 
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById(idAba).classList.add('active'); 
-        btn.classList.add('active'); 
+    function renderizarPericias() {
+        const grid = document.getElementById('grid-pericias'); 
+        if(!grid) return;
+        grid.innerHTML = '';
+        listaPericiasBase.forEach(p => {
+            const d = dbPericias[p.n];
+            grid.innerHTML += `<div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="rolarDado('${p.n}', ${d.total})">
+                <div class="pericia-header">${p.n}</div>
+                <div class="pericia-roll-box"><span>+${d.total}</span></div>
+            </div>`;
+        });
+        renderizarListas();
+    }
+
+    function renderizarListas() {
+        const gridInv = document.getElementById('grid-inventario'); gridInv.innerHTML = '';
+        dbInventario.forEach(i => {
+            gridInv.innerHTML += `<div class="pericia-card" onclick="abrirVisualizacao('inv', ${i.id})">
+                <div class="pericia-header">${i.nome}</div>
+                <div class="equip-box" onclick="event.stopPropagation()"><input type="checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(${i.id})"> Equipado</div>
+            </div>`;
+        });
+
+        document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
+        document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
+        document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => `<button class="item-btn" onclick="abrirVisualizacao('guilda', ${g.id})">${g.nome}</button>`).join('');
+        document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `<button class="item-btn" onclick="abrirVisualizacao('pessoa', ${p.id})">${p.nome}</button>`).join('');
+        document.getElementById('lista-locais').innerHTML = dbLocais.map(l => `<button class="item-btn" onclick="abrirVisualizacao('local', ${l.id})">${l.nome}</button>`).join('');
+        renderizarMagias();
+    }
+
+    function toggleEquip(id) { let i = dbInventario.find(x => x.id === id); if(i) i.equipado = !i.equipado; recalcularTudo(); }
+
+    function abrirVisualizacao(tipo, id) {
+        tipoContexto = tipo;
+        let lista = tipo == 'inv' ? dbInventario : (tipo == 'prof' ? dbProficiencias : (tipo == 'guilda' ? dbGuildas : (tipo == 'local' ? dbLocais : (tipo == 'pessoa' ? dbPessoas : (tipo == 'magia' ? dbMagias : dbHabilidades)))));
+        let item = lista.find(x => x.id === id);
+        if(!item) return;
+        itemAbertoId = id;
+        document.getElementById('mv-nome').innerText = item.nome;
+        document.getElementById('mv-desc').innerText = item.desc || "Sem descrição.";
+        document.getElementById('modal-view').style.display = 'flex';
+    }
+
+    function apagarItemAberto() {
+        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'guilda') dbGuildas = dbGuildas.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'pessoa') dbPessoas = dbPessoas.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'local') dbLocais = dbLocais.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId);
+        else dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId);
+        renderizarListas(); fecharModais();
+    }
+
+    function abrirModalInv() { fecharModais(); document.getElementById('modal-inventario').style.display = 'flex'; }
+    function mudarAbaItem(t) { 
+        document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-'+t).classList.add('active');
+        document.getElementById('mi-dano').style.display = (t == 'corpo' || t == 'dist') ? 'block' : 'none';
+    }
+    function salvarItemInv() { 
+        let n = document.getElementById('mi-nome').value; 
+        if(!n) return;
+        dbInventario.push({id: Date.now(), nome: n, desc: document.getElementById('mi-desc').value, equipado: false, peso: parseFloat(document.getElementById('mi-peso').value)});
+        renderizarListas(); fecharModais();
+    }
+    function abrirModalHab(t) { tipoContexto = t; document.getElementById('mh-titulo').innerText = t == 'prof' ? "Nova Proficiência" : "Nova Habilidade"; document.getElementById('modal-hab').style.display = 'flex'; }
+    function salvarHab() {
+        let n = document.getElementById('mh-nome').value;
+        if(tipoContexto == 'prof') dbProficiencias.push({id: Date.now(), nome: n, desc: document.getElementById('mh-desc').value});
+        else dbHabilidades.push({id: Date.now(), nome: n, desc: document.getElementById('mh-desc').value});
+        renderizarListas(); fecharModais();
+    }
+    function abrirModalMagia() { document.getElementById('modal-magia-add').style.display = 'flex'; }
+    function salvarMagia() {
+        let n = document.getElementById('mm-nome').value;
+        dbMagias.push({id: Date.now(), nome: n, circulo: document.getElementById('mm-circulo').value, desc: document.getElementById('mm-desc').value});
+        renderizarListas(); fecharModais();
+    }
+    function renderizarMagias() {
+        const container = document.getElementById('magias-container'); container.innerHTML = '';
+        dbMagias.forEach(m => {
+            container.innerHTML += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})">
+                <div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.circulo}º Círculo</div>
+            </div>`;
+        });
+    }
+
+    function abrirModalCriacaoListas(t) { tipoContexto = t; document.getElementById('mcl-titulo').innerText = "Adicionar " + t; document.getElementById('modal-criacao-listas').style.display = 'flex'; }
+    function salvarCriacaoLista() {
+        let n = document.getElementById('mcl-nome').value;
+        let d = {id: Date.now(), nome: n, desc: document.getElementById('mcl-desc').value};
+        if(tipoContexto == 'guilda') dbGuildas.push(d);
+        else if(tipoContexto == 'pessoa') dbPessoas.push(d);
+        else if(tipoContexto == 'local') dbLocais.push(d);
+        renderizarListas(); fecharModais();
     }
 
     function rolarDado(nome, bonus) {
+        if(diceState !== 0) return;
+        diceState = 1;
         const box = document.getElementById('dice-result-container');
         const text = document.getElementById('dice-text');
         const overlay = document.getElementById('dice-overlay-click');
         
-        let dadoReal = Math.floor(Math.random() * 20) + 1;
-        let total = dadoReal + bonus;
-
-        text.innerHTML = `<span class="pop-pericia-nome">${nome}</span><span class="pop-total">${total}</span><small>d20: ${dadoReal} + Bônus: ${bonus}</small>`;
-        
-        box.style.display = 'block';
-        overlay.style.display = 'block';
+        box.style.display = 'block'; overlay.style.display = 'block';
         box.classList.add('dice-pop-active');
 
-        // Envia para o servidor para log do mestre
-        socket.emit('player_dice_roll', {
-            uid: meuUID,
-            playerName: document.getElementById('player-name-input').value || 'Jogador',
-            nomeRolagem: nome,
-            resultadoFinal: total
-        });
+        let frames = 0;
+        let anim = setInterval(() => {
+            let t = Math.floor(Math.random() * 20) + 1;
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total">${t + bonus}</span>`;
+            if(++frames > 12) {
+                clearInterval(anim);
+                let final = Math.floor(Math.random() * 20) + 1;
+                text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total">${final + bonus}</span><small>d20: ${final} + ${bonus}</small>`;
+                socket.emit('player_dice_roll', { uid: meuUID, playerName: document.getElementById('char-name-input').value, nomeRolagem: nome, resultadoFinal: final + bonus });
+                diceState = 2;
+            }
+        }, 50);
 
-        overlay.onclick = () => {
-            box.classList.remove('dice-pop-active');
-            overlay.style.display = 'none';
-        };
+        overlay.onclick = () => { if(diceState === 2) { box.classList.remove('dice-pop-active'); overlay.style.display = 'none'; diceState = 0; } };
+    }
+
+    function loadHeaderPortrait(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById('portrait-img');
+                img.src = e.target.result; img.style.display = 'block';
+                document.getElementById('portrait-placeholder').style.display = 'none';
+                sincronizarComMestre();
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     window.onload = () => { recalcularTudo(); atualizarBarras(); };
 </script>
-
 </body>
 </html>
