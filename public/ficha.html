@@ -626,17 +626,22 @@
     }
 
     function sincronizarComMestre() {
-        let portraitSrc = document.getElementById('portrait-img').src;
-        
-        let dadosParaMestre = {
-            charName: document.getElementById('char-name-input').value,
-            playerName: document.getElementById('player-name-input').value,
-            hpAtual: getValor('vida-atual'),
-            hpMax: getValor('vida-max'),
-            mpAtual: getValor('mana-atual'),
-            mpMax: getValor('mana-max'),
-            img: document.getElementById('portrait-img').style.display !== 'none' ? portraitSrc : ""
-        };
+    let portraitSrc = document.getElementById('portrait-img').src;
+    
+    let dadosParaMestre = {
+        charName: document.getElementById('char-name-input').value,
+        playerName: document.getElementById('player-name-input').value,
+        hpAtual: getValor('vida-atual'),
+        hpMax: getValor('vida-max'),
+        mpAtual: getValor('mana-atual'),
+        mpMax: getValor('mana-max'),
+        nivel: document.getElementById('nivel').value,
+        defesa: document.querySelector('.defesa-box input').value,
+        img: document.getElementById('portrait-img').style.display !== 'none' ? portraitSrc : ""
+    };
+    
+    enviarAlteracao(dadosParaMestre);
+}
         
         // Em vez do antigo emit, usa a nova função pedida enviando UID e os dados num pacote
         enviarAlteracao(dadosParaMestre);
