@@ -1,87 +1,51 @@
 const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const path = require('path');
 
-// Serve os ficheiros estáticos da pasta 'public'
-app.use(express.static('public'));
-
-// Objeto para armazenar o estado das sessões ativas (opcional para persistência básica)
-const sessoesAtivas = {};
-
-// Função auxiliar para gerar um ID curto de 4 caracteres
-function gerarUID() {
-    return Math.random().toString(36).substring(2, 6).toUpperCase();
-}
+// Servir arquivos estáticos (coloque a ficha.html e mestre.html na mesma pasta do server.js)
+app.use(express.static(path.join(__dirname)));
 
 io.on('connection', (socket) => {
-    console.log('Um utilizador conectou-se:', socket.id);
+    console.log('Um usuário conectou:', socket.id);
 
-    // --- LÓGICA DO JOGADOR ---
-    
-    // Quando uma ficha é aberta, ela pede a criação de uma UID
+    // Quando a ficha do jogador carregar, ela pede uma UID
     socket.on('criarFicha', () => {
-        const uid = gerarUID();
-        
-        // O socket entra numa "sala" exclusiva com o nome da UID
-        socket.join(uid);
-        
-        sessoesAtivas[uid] = {
-            jogadorId: socket.id,
-            dados: {}
-        };
-
-        console.log(`Ficha criada e sala aberta: ${uid}`);
-        
-        // Envia a UID de volta apenas para este jogador
+        // Gera um código de 4 caracteres aleatórios para a sala/UID
+        const uid = Math.random().toString(36).substring(2, 6).toUpperCase();
         socket.emit('uidGerada', uid);
     });
 
-    // --- LÓGICA DO MESTRE ---
-
-    // Quando o mestre insere a UID no escudo
-    socket.on('linkarEscudo', (uidSolicitada) => {
-        const uid = uidSolicitada.toUpperCase();
-
-        // Verifica se essa sala/sessão existe
-        if (sessoesAtivas[uid]) {
-            socket.join(uid);
-            console.log(`Mestre (ID: ${socket.id}) conectou-se à ficha: ${uid}`);
-            
-            socket.emit('linkSucesso', uid);
-            
-            // Avisa o jogador que o mestre agora está a observar
-            socket.to(uid).emit('mestreConectado');
-        } else {
-            socket.emit('erroLink', 'Código UID não encontrado.');
-        }
+    // Recebe a atualização de status (HP, MP, Nome) do jogador e envia para o mestre
+    socket.on('atualizarDados', (payload) => {
+        // Repassa para todos (o Escudo do Mestre vai escutar isso)
+        socket.broadcast.emit('dadosAtualizados', payload);
     });
 
-    // --- SINCRONIZAÇÃO DE DADOS ---
+    // Recebe a rolagem de dados do jogador e envia para o mestre
+    socket.on('player_dice_roll', (logData) => {
+        socket.broadcast.emit('player_dice_roll', logData);
+    });
 
-    // O evento agora espera um objeto: { uid: 'ABCD', dados: { ... } }
-    socket.on('atualizarDados', (pacote) => {
-        const { uid, dados } = pacote;
+    // Mestre enviando um item para um jogador específico ou todos
+    socket.on('gm_send_item', (payload) => {
+        socket.broadcast.emit('gm_send_item', payload);
+    });
 
-        if (uid && sessoesAtivas[uid]) {
-            // Atualiza os dados na memória do servidor
-            sessoesAtivas[uid].dados = dados;
-
-            // Envia a atualização apenas para os membros daquela sala (UID)
-            // O broadcast dentro da sala garante que quem enviou não receba de volta
-            socket.to(uid).emit('dadosAtualizados', dados);
-        }
+    // Mestre enviando uma entidade (Guilda, NPC, Local)
+    socket.on('gm_send_entity', (payload) => {
+        socket.broadcast.emit('gm_send_entity', payload);
     });
 
     socket.on('disconnect', () => {
-        console.log('Utilizador desconectou-se:', socket.id);
+        console.log('Usuário desconectou:', socket.id);
     });
 });
 
-const PORTA = process.env.PORT || 3000;
-server.listen(PORTA, () => {
-    console.log(`Servidor a correr em http://localhost:${PORTA}`);
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, () => {
+    console.log(`Servidor de RPG rodando na porta ${PORT}`);
+    console.log(`Acesse a Ficha: http://localhost:${PORT}/ficha.html`);
+    console.log(`Acesse o Mestre: http://localhost:${PORT}/mestre.html`);
 });
