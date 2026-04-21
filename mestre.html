@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escudo do Mestre - ONLINE</title>
+    <style>
+        /* === FONTES E RESET === */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Lora', serif; background-color: #170f0a; 
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh;
+        }
+
+        .escudo-container {
+            background-color: rgba(244, 235, 216, 0.85); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            padding: 35px; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.9); width: 100%; max-width: 1450px;
+            border: 2px solid #8b5a2b; outline: 4px solid rgba(92, 58, 33, 0.8); outline-offset: -10px; position: relative;
+        }
+
+        .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.8rem; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom: 8px; text-align: center; font-weight: 900; }
+
+        /* === ABAS DE NAVEGAÇÃO === */
+        .tabs-nav { display: flex; gap: 8px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; justify-content: center; flex-wrap: wrap;}
+        .tab-btn { background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; padding: 10px 15px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 700; color: #5c3a21; border-radius: 8px 8px 0 0; transition: 0.3s; font-size: 0.9rem;}
+        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 2px solid #b71c1c; }
+        .tab-content { display: none; width: 100%; }
+        .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
+        @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
+
+        /* === LAYOUT PRINCIPAL (ESQUERDA ABAS / DIREITA LOG) === */
+        .main-workspace { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+        .tabs-area { flex: 3; min-width: 60%; }
+        .log-sidebar { flex: 1; min-width: 280px; max-width: 320px; background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; height: 80vh; position: sticky; top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+
+        /* === CONTROLES DO TOPO E STATUS === */
+        .top-controls { display: flex; justify-content: center; margin-bottom: 20px; }
+        .btn-atualizar { background: rgba(92, 58, 33, 0.95); color: #fff; padding: 12px 30px; cursor: pointer; border: 2px solid #3e2723; font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; border-radius: 6px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+        .btn-atualizar:hover { background: #b71c1c; border-color: #7f0000; transform: translateY(-2px); }
+        
+        /* === GRID DE JOGADORES === */
+        .escudo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; }
+        .gm-card { background: rgba(255,255,255,0.6); border: 3px solid #3e2723; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; position: relative;}
+        .gm-card:hover { transform: scale(1.02); background: rgba(255,255,255,0.8); }
+        .gm-portrait { width: 80px; height: 100px; border: 4px solid #3e2723; border-radius: 6px; object-fit: cover; background: rgba(0,0,0,0.1); box-shadow: 0 4px 8px rgba(0,0,0,0.3);}
+        .gm-portrait-placeholder { font-size: 2.5rem; display: flex; align-items: center; justify-content: center; }
+        .gm-name { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #3e2723; text-align: center; margin: 0; line-height: 1.1; }
+        .gm-player { font-family: 'Roboto'; font-size: 0.7rem; color: #5c3a21; text-transform: uppercase; font-weight: bold; margin-top: -3px; }
+        .gm-bar-container { display: flex; flex-direction: column; gap: 8px; width: 100%; border-top: 2px dashed rgba(139, 90, 43, 0.4); padding-top: 12px; }
+        .status-row { display: flex; align-items: center; gap: 8px; width: 100%; }
+        .icon-mini { width: 26px; height: 26px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 2px solid #000; flex-shrink: 0; font-size: 0.7rem; }
+        .mini-track { flex: 1; height: 20px; background: rgba(0,0,0,0.2); border: 2px solid #000; border-radius: 12px; position: relative; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);}
+        .liquid-fill { height: 100%; width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .vida-color { background-color: rgba(183, 28, 28, 0.9); }
+        .mana-color { background-color: rgba(13, 71, 161, 0.9); }
+        .mini-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem; font-weight: 900; text-shadow: 1px 1px 2px #000, -1px -1px 2px #000; z-index: 5; font-family: 'Roboto'; letter-spacing: 1px;}
+        .status-danger { animation: pulseRed 1.5s infinite; border-color: #b71c1c; }
+
+        /* === LOG DE ROLAGENS === */
+        #dice-log-container::-webkit-scrollbar { width: 6px; }
+        #dice-log-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 4px; }
+        #dice-log-container::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 4px; }
+
+        /* === CATÁLOGO E GRID DE BESTIÁRIO === */
+        .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; width: 100%; margin-top: 10px; margin-bottom: 20px;}
+        .bestiario-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 25px; width: 100%; margin-top: 10px; margin-bottom: 20px; align-items: start;}
+
+        .weapon-card { background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: 0.2s; cursor: pointer;}
+        .weapon-card:hover { border-color: #b71c1c; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.5); }
+        .weapon-card-img { width: 100%; height: 140px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(139, 90, 43, 0.5); margin-bottom: 5px; background: rgba(0,0,0,0.1); }
+        .weapon-header { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; color: #b71c1c; border-bottom: 2px solid rgba(139, 90, 43, 0.3); padding-bottom: 5px; text-align: center; line-height: 1.2;}
+        .weapon-category { display: block; font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #5c3a21; text-transform: uppercase; font-weight: bold; margin-top: 3px; }
+        .weapon-stats { display: flex; flex-direction: column; gap: 4px; font-family: 'Roboto', sans-serif; font-size: 0.85rem; color: #3e2723; }
+        .weapon-stats span { background: rgba(0,0,0,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(139, 90, 43, 0.2); }
+        .weapon-stats span strong { color: #5c3a21; }
+        .card-buttons { display: flex; gap: 5px; margin-top: auto; padding-top: 8px;}
+        .btn-enviar-arma { flex: 2; background: #0d47a1; color: #fff; border: 1px solid #002171; padding: 6px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Cinzel'; transition: 0.2s; }
+        .btn-enviar-arma:hover { background: #1565c0; }
+        .btn-apagar-arma { flex: 1; background: #b71c1c; color: #fff; border: 1px solid #7f0000; padding: 6px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Cinzel'; transition: 0.2s; }
+        .btn-apagar-arma:hover { background: #7f0000; }
+
+        /* === ABA DE HISTÓRIA === */
+        .layout-colunas { display: flex; gap: 20px; align-items: flex-start; width: 100%; }
+        .coluna-principal { flex: 1; min-width: 0; }
+        .coluna-lateral { flex: 0 0 250px; }
+
+        .capitulos-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; border-bottom: 1px solid rgba(139, 90, 43, 0.3); }
+        .capitulos-nav::-webkit-scrollbar { height: 6px; }
+        .capitulos-nav::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 4px; }
+        .capitulo-btn { background: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; padding: 8px 15px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 700; color: #5c3a21; border-radius: 6px; transition: 0.2s; white-space: nowrap; font-size: 0.85rem;}
+        .capitulo-btn:hover { background: rgba(255,255,255,0.9); }
+        .capitulo-btn.active { background: #b71c1c; color: #fff; border-color: #7f0000; }
+        .historia-textarea { width: 100%; height: 60vh; background: rgba(255, 255, 255, 0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; font-family: 'Lora', serif; font-size: 1.1rem; color: #3e2723; resize: vertical; line-height: 1.5; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .historia-textarea:focus { background: rgba(255, 255, 255, 0.9); outline: none; border-color: #b71c1c; }
+        .list-section { padding: 5px 0; border-top: 1px solid rgba(139, 90, 43, 0.5); width: 100%; margin-bottom: 15px; }
+        .btn-add { background: rgba(255,255,255,0.3); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
+        .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
+        .item-btn { background-color: rgba(234, 221, 197, 0.85); border-left: 4px solid #8b5a2b; border-top: 1px solid rgba(215, 204, 200, 0.5); border-right: 1px solid rgba(215, 204, 200, 0.5); border-bottom: 1px solid rgba(215, 204, 200, 0.5); padding: 8px; margin-bottom: 5px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;}
+        .item-btn:hover { background-color: rgba(255, 255, 255, 0.95); border-left-color: #b71c1c; }
+        .membro-badge { background: rgba(234, 221, 197, 0.9); border: 1px solid #8b5a2b; padding: 4px 8px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        .membro-badge span { color: #b71c1c; cursor: pointer; font-size: 1rem; line-height: 1; }
+
+        /* === ABA INICIATIVA === */
+        .iniciativa-container { background: rgba(255,255,255,0.5); border: 2px solid rgba(139, 90, 43, 0.4); border-radius: 8px; padding: 20px; }
+        .ini-controls { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap;}
+        .ini-list { display: flex; flex-direction: column; gap: 10px; }
+        .ini-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 8px; display: flex; align-items: center; padding: 10px 15px; transition: 0.3s; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.2);}
+        .ini-card.active-turn { border-color: #b71c1c; background: rgba(255,255,255,0.95); box-shadow: 0 0 15px rgba(183, 28, 28, 0.6); transform: scale(1.02); z-index: 10;}
+        .ini-valor { background: #3e2723; color: #fff; font-family: 'Cinzel'; font-size: 1.5rem; font-weight: 900; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-right: 15px; border: 2px solid #8b5a2b; box-shadow: inset 0 0 5px rgba(0,0,0,0.5);}
+        .ini-card.active-turn .ini-valor { background: #b71c1c; border-color: #7f0000; }
+        .ini-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #8b5a2b; margin-right: 15px; background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;}
+        .ini-nome { font-family: 'Cinzel'; font-size: 1.2rem; font-weight: 900; color: #3e2723; flex: 1; line-height: 1.1;}
+        .ini-card.active-turn .ini-nome { color: #b71c1c; }
+        .ini-tipo { font-family: 'Roboto'; font-size: 0.7rem; color: #5c3a21; text-transform: uppercase; font-weight: bold; display: block; margin-top: 3px;}
+        .btn-ini-del { background: #b71c1c; color: #fff; border: 1px solid #7f0000; width: 35px; height: 35px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; display: flex; align-items: center; justify-content: center;}
+        .btn-ini-del:hover { background: #7f0000; transform: scale(1.1);}
+        
+        .turn-indicator { position: absolute; left: -25px; font-size: 1.5rem; animation: bounceRight 1s infinite; display: none; }
+        .ini-card.active-turn .turn-indicator { display: block; }
+        @keyframes bounceRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+
+        /* === MODAIS GERAIS === */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-content { background: rgba(244, 235, 216, 0.95); border: 2px solid #8b5a2b; padding: 25px; width: 90%; max-width: 520px; border-radius: 4px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); max-height: 95vh; overflow-y: auto; }
+        .fechar-modal { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .form-input { width: 100%; padding: 8px; border: 2px solid rgba(0,0,0,0.5); background: rgba(255,255,255,0.8); font-weight: bold; font-size: 0.9rem; color: #3e2723; }
+        .btn-salvar { width: 100%; background: rgba(92, 58, 33, 0.95); color: #fff; padding: 12px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; border-radius: 4px; transition: 0.2s; }
+        .btn-salvar:hover { background: #3e2723; }
+        .btn-apagar-view { background: rgba(183, 28, 28, 0.9); margin-top: 15px; }
+        .btn-apagar-view:hover { background: #7f0000; }
+
+        /* === ESTILO DO CARD DE MONSTRO === */
+        .monster-sheet-card { background: #e8e1d7; border: 2px solid #8b5a2b; border-radius: 6px; padding: 20px; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.4); display: flex; flex-direction: column; margin-bottom: 10px;}
+        .op-stat-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; width: 100%; flex-wrap: wrap;}
+        .op-attr-box { background: rgba(244, 235, 216, 0.8); border: 1px solid #c8b99e; border-radius: 6px; padding: 5px; text-align: center; flex: 1; min-width: 50px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .op-attr-label { font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 900; color: #5c3a21; display: block; margin-bottom: 2px; text-transform: uppercase;}
+        .op-attr-val { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 900; color: #b71c1c; }
+        
+        /* Barras Alteráveis para Monstros */
+        .op-bar-track { flex: 1; height: 26px; background: rgba(0,0,0,0.2); border: 2px solid #000; border-radius: 15px; position: relative; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .op-bar-fill { height: 100%; width: 100%; transition: width 0.3s ease; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .op-bar-fill.vida { background-color: rgba(183, 28, 28, 0.9); }
+        .op-bar-fill.defesa { background-color: rgba(13, 71, 161, 0.9); }
+        .op-bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.9rem; font-weight: 900; text-shadow: 1px 1px 2px #000, -1px -1px 2px #000; z-index: 5; font-family: 'Roboto'; letter-spacing: 1px;}
+        
+        .status-adjust-row { display: flex; align-items: center; gap: 8px; width: 100%; margin-bottom: 10px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); }
+        .status-adjust-label { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.75rem; color: #5c3a21; width: 35px; text-align: center; flex-shrink: 0; }
+        .adjust-controls { display: flex; gap: 3px; flex-shrink: 0; }
+        .btn-small-adjust { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #3e2723; background: #f4ebd8; color: #3e2723; font-family: 'Roboto'; font-weight: 900; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.1s; }
+        .btn-small-adjust:hover { background: #3e2723; color: #f4ebd8; transform: scale(1.1); }
+        .btn-small-adjust:active { transform: scale(0.95); }
+
+        .op-skill-btn { background: rgba(183, 28, 28, 0.1); border: 1px solid #b71c1c; border-radius: 6px; color: #b71c1c; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.75rem; padding: 8px 4px; cursor: pointer; flex: 1; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); min-width: 80px;}
+        .op-skill-btn:hover { background: #b71c1c; color: #fff; }
+        
+        .op-section-title { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; color: #5c3a21; text-transform: uppercase; border-bottom: 1px solid rgba(139, 90, 43, 0.4); padding-bottom: 5px; margin-top: 15px; margin-bottom: 10px; width: 100%; text-align: left; }
+        
+        .op-attack-card { background: rgba(0,0,0,0.05); border: 1px solid rgba(139, 90, 43, 0.3); border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+        .op-attack-title { font-family: 'Cinzel', serif; font-weight: 900; color: #b71c1c; font-size: 0.95rem; margin-bottom: 5px; text-transform: uppercase; }
+        .op-attack-desc { font-family: 'Roboto', sans-serif; font-size: 0.85rem; color: #3e2723; margin-bottom: 10px; line-height: 1.4; }
+        .op-attack-btn-row { display: flex; gap: 8px; flex-wrap: wrap;}
+        .op-btn-atq { background: rgba(183, 28, 28, 0.1); border: 1px solid #b71c1c; border-radius: 4px; color: #b71c1c; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.8rem; padding: 6px 10px; cursor: pointer; transition: 0.2s; }
+        .op-btn-atq:hover { background: #b71c1c; color: #fff; }
+        
+        .op-tesouro-box { background: rgba(0,0,0,0.05); border: 1px solid rgba(139, 90, 43, 0.3); border-radius: 6px; padding: 12px; font-family: 'Roboto', sans-serif; font-size: 0.9rem; color: #3e2723; min-height: 60px; white-space: pre-wrap;}
+        
+        .btn-apagar-bestiario { background: #b71c1c; color: white; border: none; border-radius: 4px; padding: 12px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; width: 100%; cursor: pointer; transition: 0.2s; margin-top: 15px; }
+        .btn-apagar-bestiario:hover { background: #7f0000; }
+
+        .ataque-form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; background: rgba(0,0,0,0.05); padding: 10px; border: 1px dashed #8b5a2b; border-radius: 4px; position: relative;}
+        .btn-remover-ataque { position: absolute; top: -10px; right: -10px; background: #b71c1c; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
+
+        /* === GRID DE SELEÇÃO DE JOGADORES === */
+        .envio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding: 10px; }
+        .envio-card { background: rgba(255,255,255,0.7); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.2s; }
+        .envio-card:hover { background: rgba(255,255,255,0.9); transform: scale(1.05); }
+        .envio-card.selected { border-color: #b71c1c; background: rgba(183, 28, 28, 0.1); box-shadow: 0 0 10px rgba(183,28,28,0.4); transform: scale(1.05); }
+        .envio-portrait { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; margin-bottom: 8px; }
+        .envio-placeholder { width: 60px; height: 60px; border-radius: 50%; background: rgba(0,0,0,0.1); border: 2px solid #3e2723; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 8px; }
+        .envio-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.8rem; color: #3e2723; text-align: center; line-height: 1.1; }
+
+        /* === RESPONSIVIDADE === */
+        @media (max-width: 900px) { 
+            .main-workspace { flex-direction: column; }
+            .tabs-area { width: 100%; }
+            .log-sidebar { width: 100% !important; height: 400px !important; max-width: 100%; position: relative; top: 0; margin-top: 20px;}
+            .layout-colunas { flex-direction: column; }
+            .coluna-lateral { width: 100% !important; max-width: 100%;}
+            .bestiario-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="escudo-container">
+    <h2 class="section-title">Painel do Mestre (Online)</h2>
+    
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="mudarAba('tab-mesa', this)">🛡️ MESA</button>
+        <button class="tab-btn" onclick="mudarAba('tab-iniciativa', this)">⏱️ INICIATIVA</button>
+        <button class="tab-btn" onclick="mudarAba('tab-catalogo', this)">🎒 CATÁLOGO</button>
+        <button class="tab-btn" onclick="mudarAba('tab-monstros', this)">🧟 BESTIÁRIO</button>
+        <button class="tab-btn" onclick="mudarAba('tab-historia', this)">📜 HISTÓRIA</button>
+    </div>
+
+    <div class="main-workspace">
+        
+        <div class="tabs-area">
+            
+            <div id="tab-mesa" class="tab-content active">
+                <div class="top-controls"><button class="btn-atualizar" onclick="renderizarMesaOnline()">🔄 ATUALIZAR MESA</button></div>
+                <div class="escudo-grid" id="mesa-grid"></div>
+            </div>
+
+            <div id="tab-iniciativa" class="tab-content">
+                <div class="iniciativa-container">
+                    <div class="ini-controls">
+                        <button class="btn-salvar" style="width: auto; background: #b71c1c; font-size: 1.1rem; padding: 10px 25px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                        <button class="btn-salvar" style="width: auto; background: rgba(92, 58, 33, 0.8);" onclick="abrirModalManualIni()">+ ADICIONAR MANUAL</button>
+                        <button class="btn-salvar" style="width: auto; background: #5c3a21;" onclick="limparIniciativa()">🧹 LIMPAR LISTA</button>
+                    </div>
+                    
+                    <p style="text-align: center; color: #5c3a21; font-family: 'Roboto'; font-size: 0.85rem; opacity: 0.8;">
+                        * As rolagens de "Iniciativa" dos jogadores (conectados na rede) e dos monstros caem aqui automaticamente.
+                    </p>
+
+                    <div id="iniciativa-list" class="ini-list">
+                        </div>
+                </div>
+            </div>
+
+            <div id="tab-catalogo" class="tab-content">
+                <div style="text-align:center; margin-bottom:10px;">
+                    <button class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalCriarGM()">+ CRIAR NOVO ITEM</button>
+                </div>
+                <h3 style="text-align: center; color: #5c3a21; font-family: 'Lora'; opacity: 0.8; font-size: 0.9rem;">Catálogo para consulta ou saque do Mestre</h3>
+                <div id="catalogo-container"></div>
+            </div>
+
+            <div id="tab-monstros" class="tab-content">
+                <div style="text-align:center; margin-bottom:10px;">
+                    <button class="btn-salvar" style="width:250px; margin:0 auto; background: #5c3a21;" onclick="abrirModalCriarMonstro()">+ CRIAR MONSTRO</button>
+                </div>
+                <h3 style="text-align: center; color: #5c3a21; font-family: 'Lora'; opacity: 0.8; font-size: 0.9rem; margin-bottom: 20px;">Fichas e Ameaças</h3>
+                <div class="bestiario-grid" id="grid-monstros"></div>
+            </div>
+
+            <div id="tab-historia" class="tab-content">
+                <div class="layout-colunas">
+                    <div class="coluna-principal" style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom: 10px;">
+                            <h3 style="color: #5c3a21; font-family: 'Cinzel'; font-size: 1.3rem; margin: 0; font-weight: 900;">Capítulos da Campanha</h3>
+                            <button class="btn-salvar" style="width: auto; margin: 0; padding: 8px 15px; font-size: 0.85rem;" onclick="document.getElementById('modal-criar-capitulo').style.display='flex'; document.getElementById('gm-capitulo-nome').value='';">+ NOVO CAPÍTULO</button>
+                        </div>
+                        <div id="lista-capitulos" class="capitulos-nav"></div>
+                        <div id="area-edicao-capitulo" style="display: none; flex-direction: column; gap: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <h4 id="titulo-capitulo-ativo" style="font-family: 'Cinzel'; color: #b71c1c; margin: 0; font-size: 1.2rem;">Nome do Capítulo</h4>
+                                <button class="btn-apagar-arma" style="width: auto; padding: 6px 12px;" onclick="apagarCapituloAtivo()">APAGAR ESTE CAPÍTULO</button>
+                            </div>
+                            <textarea id="gm-capitulo-texto" class="historia-textarea" placeholder="Escreva os acontecimentos e anotações deste capítulo aqui... (Salvo automaticamente)" oninput="salvarTextoCapituloAtivo()"></textarea>
+                        </div>
+                        <div id="msg-sem-capitulo" style="text-align: center; padding: 60px 0; color: #5c3a21; opacity: 0.7; font-family: 'Roboto'; font-weight: bold; border: 2px dashed rgba(139, 90, 43, 0.3); border-radius: 8px; background: rgba(255,255,255,0.3);">
+                            Crie um novo capítulo para começar a escrever sua história.
+                        </div>
+                    </div>
+                    
+                    <div class="coluna-lateral">
+                        <div class="list-section" style="border-top:none;">
+                            <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</h3>
+                            <div id="gm-lista-guildas"></div>
+                            <button class="btn-add" onclick="abrirModalCriacaoListasGM('guilda')">+ NOVA GUILDA</button>
+                        </div>
+                        <div class="list-section" style="margin-top:30px;">
+                            <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">PESSOAS / NPCs</h3>
+                            <div id="gm-lista-pessoas"></div>
+                            <button class="btn-add" onclick="abrirModalCriacaoListasGM('pessoa')">+ NOVA PESSOA</button>
+                        </div>
+                        <div class="list-section" style="margin-top:30px;">
+                            <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS CHAVE</h3>
+                            <div id="gm-lista-locais"></div>
+                            <button class="btn-add" onclick="abrirModalCriacaoListasGM('local')">+ NOVO LOCAL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-sidebar">
+            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px solid rgba(139, 90, 43, 0.3); padding-bottom: 5px;">Log de Rolagens</h3>
+            <div id="dice-log-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding-right: 5px;">
+                <p style="text-align: center; color: #5c3a21; font-family: 'Roboto'; font-size: 0.85rem; opacity: 0.7; margin-top: 50%;">Aguardando rolagens...</p>
+            </div>
+            <button class="btn-salvar" onclick="limparLog()" style="margin-top: 15px; font-size: 0.8rem; padding: 8px; background: rgba(92, 58, 33, 0.7); border: 1px solid #3e2723;">🧹 LIMPAR LOG</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-ini-manual" class="modal-overlay" style="z-index: 1020;">
+    <div class="modal-content" style="max-width: 400px;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-ini-manual').style.display='none'">&times;</span>
+        <h3 class="section-title" style="font-size:1.2rem; margin-bottom:15px;">Adicionar à Iniciativa</h3>
+        <input type="text" id="ini-manual-nome" placeholder="Nome do Personagem/Ameaça" class="form-input" style="margin-bottom:10px;">
+        <input type="number" id="ini-manual-valor" placeholder="Resultado do Dado" class="form-input" style="margin-bottom:15px;">
+        <button class="btn-salvar" onclick="salvarIniManual()">ADICIONAR</button>
+    </div>
+</div>
+
+<div id="modal-criar-monstro" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="fechar-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+        <h3 class="section-title" style="font-size:1.2rem; margin-bottom:15px; color: #5c3a21;">Nova Ameaça</h3>
+        
+        <input type="text" id="monstro-nome" placeholder="Nome do Monstro/Ameaça" class="form-input" style="margin-bottom:12px; border-color: #5c3a21;">
+        
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">ELEMENTO / TIPO</label><input type="text" id="monstro-elemento" placeholder="Sangue, Morte, Fera..." class="form-input" style="text-align:center;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">VD / CR</label><input type="text" id="monstro-vd" placeholder="Ex: 20" class="form-input" style="text-align:center;"></div>
+            <div style="flex:2;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">URL DA FOTO (Opcional)</label><input type="text" id="monstro-img" placeholder="Link da imagem..." class="form-input"></div>
+        </div>
+
+        <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">ATRIBUTOS BASE (Modificadores)</label>
+        <div style="display:flex; gap:5px; margin-bottom:12px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">FOR</label><input type="number" id="monstro-for" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">AGI</label><input type="number" id="monstro-agi" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">VIG</label><input type="number" id="monstro-vig" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">INT</label><input type="number" id="monstro-int" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">SAB</label><input type="number" id="monstro-sab" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">CAR</label><input type="number" id="monstro-car" value="0" class="form-input" style="text-align:center; padding: 5px;"></div>
+        </div>
+
+        <div style="display:flex; gap:20px; border-top: 1px solid rgba(139, 90, 43, 0.4); padding-top: 10px; margin-bottom: 15px;">
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold; color:#b71c1c;">PONTOS DE VIDA</label>
+                <div style="display:flex; gap:5px;">
+                    <input type="number" id="monstro-pv-atual" placeholder="Atual" class="form-input" style="text-align:center; color:#b71c1c; border-color:#b71c1c;">
+                    <input type="number" id="monstro-pv-max" placeholder="Máx" class="form-input" style="text-align:center; color:#b71c1c; border-color:#b71c1c;">
+                </div>
+            </div>
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold; color:#0d47a1;">DEFESA</label>
+                <div style="display:flex; gap:5px;">
+                    <input type="number" id="monstro-def-atual" placeholder="Atual" class="form-input" style="text-align:center; color:#0d47a1; border-color:#0d47a1;">
+                    <input type="number" id="monstro-def-max" placeholder="Máx" class="form-input" style="text-align:center; color:#0d47a1; border-color:#0d47a1;">
+                </div>
+            </div>
+        </div>
+
+        <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">PERÍCIAS EXTRAS (Serão somadas aos atributos)</label>
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">INICIATIVA</label><input type="number" id="monstro-inic" value="0" class="form-input" style="text-align:center;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">PERCEPÇÃO</label><input type="number" id="monstro-perc" value="0" class="form-input" style="text-align:center;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">FORTITUDE</label><input type="number" id="monstro-fort" value="0" class="form-input" style="text-align:center;"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">VONTADE</label><input type="number" id="monstro-vont" value="0" class="form-input" style="text-align:center;"></div>
+        </div>
+
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 5px;">
+            <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">ATAQUES E HABILIDADES</label>
+            <button class="btn-salvar" style="background: rgba(92, 58, 33, 0.8); width: auto; font-size: 0.7rem; padding: 4px 10px;" onclick="addAtaqueMonstroField()">+ ADICIONAR ATAQUE</button>
+        </div>
+        
+        <div id="monstro-ataques-container" style="margin-bottom: 10px; max-height: 200px; overflow-y: auto; padding-right: 5px;"></div>
+
+        <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">TESOURO (Loot)</label>
+        <textarea id="monstro-tesouro" placeholder="Ex: 1d4 Poções, 200 Tibares..." class="form-input" style="height:50px; resize:vertical; margin-top:3px; margin-bottom: 15px;"></textarea>
+
+        <button class="btn-salvar" style="background: #5c3a21;" onclick="salvarMonstroGM()">SALVAR NO BESTIÁRIO</button>
+    </div>
+</div>
+
+<div id="modal-arma-gm" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+        <h3 class="section-title" style="font-size:1.2rem; margin-bottom:15px;">Adicionar ao Catálogo</h3>
+        <input type="text" id="gm-arma-nome" placeholder="Nome do Item/Arma" class="form-input" style="margin-bottom:12px;">
+        <div style="display:flex; gap:10px; margin-bottom:12px; align-items:center;">
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">CATEGORIA</label><select id="gm-arma-categoria" class="form-input" style="padding: 7px;" onchange="toggleGMFields()"><option value="Corpo a Corpo">Arma: Corpo a Corpo</option><option value="Distância">Arma: Distância</option><option value="Item Comum">Item Comum</option><option value="Munição">Munição</option></select></div>
+            <div style="flex:2;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">URL DA FOTO (Opcional)</label><input type="text" id="gm-arma-img" placeholder="https://link-da-imagem.com/foto.png" class="form-input"></div>
+        </div>
+        <div id="gm-combat-fields">
+            <div style="display:flex; gap:10px; margin-bottom:12px; width: 100%;">
+                <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">DANO</label><input type="text" id="gm-arma-dano" placeholder="Ex: 1d8" class="form-input" style="text-align:center;"></div>
+                <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">CRÍTICO</label><input type="text" id="gm-arma-crit" placeholder="Ex: 19/x2" class="form-input" style="text-align:center;"></div>
+                <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">ALCANCE</label><input type="text" id="gm-arma-alcance" placeholder="Curto, Médio..." class="form-input"></div>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:15px; width: 100%;">
+            <div id="gm-ammo-fields" style="flex:1; display:none;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">QUANTIDADE</label><input type="number" id="gm-item-qtd" value="20" class="form-input" style="text-align:center;"></div>
+            <div id="gm-tipo-field" style="flex:2;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">TIPO DE DANO / EFEITO</label><input type="text" id="gm-arma-tipo" placeholder="Corte, Fogo, Cura..." class="form-input"></div>
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">PESO / ESPAÇOS</label><input type="number" id="gm-arma-peso" value="1" step="0.5" class="form-input" style="text-align:center;"></div>
+        </div>
+        <div id="gm-desc-field" style="display:none; margin-bottom:15px; width: 100%;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21;">DESCRIÇÃO</label><textarea id="gm-item-desc" placeholder="Detalhes, história, utilidade..." class="form-input" style="height:60px; resize:none;"></textarea></div>
+        <button class="btn-salvar" onclick="salvarArmaGM()">SALVAR NO CATÁLOGO</button>
+    </div>
+</div>
+
+<div id="modal-enviar-item" class="modal-overlay">
+    <div class="modal-content" style="max-width: 600px;">
+        <span class="fechar-modal" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
+        <h3 class="section-title" id="titulo-modal-envio" style="font-size:1.2rem; margin-bottom:15px; color: #b71c1c;">Entregar Item</h3>
+        <p style="text-align: center; font-family: 'Roboto'; font-size: 0.9rem; color: #5c3a21; margin-bottom: 15px;">Clique no jogador que irá receber:</p>
+        <div id="grid-jogador-envio" class="envio-grid"></div>
+        <button class="btn-salvar" id="btn-confirmar-envio-geral" style="background-color: #0d47a1; font-size: 1.1rem; letter-spacing: 1px;" onclick="confirmarEnvio()">CONFIRMAR ENVIO</button>
+    </div>
+</div>
+
+<div id="modal-criacao-listas-gm" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="document.getElementById('modal-criacao-listas-gm').style.display='none'">&times;</span>
+        <h3 class="section-title" id="mcl-titulo-gm">Nova Entidade</h3>
+        <input type="text" id="mcl-nome-gm" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
+        
+        <div id="mcl-img-container-gm" style="margin-bottom:12px;">
+            <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:block; margin-bottom:3px;">URL DA FOTO (Opcional)</label>
+            <input type="text" id="mcl-img-gm" placeholder="https://link-da-imagem.com/foto.png" class="form-input">
+        </div>
+        
+        <div id="mcl-local-vinculo-container-gm" style="display:none; margin-bottom:12px;">
+            <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:block; margin-bottom:3px;">VINCULAR A UM LOCAL (Opcional)</label>
+            <select id="mcl-local-vinculo-gm" class="form-input" style="padding: 7px;"></select>
+        </div>
+        
+        <div id="mcl-subitems-container-gm" style="margin-bottom:15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <label id="mcl-label-adicionar-gm" style="font-size:0.8rem; font-weight:bold; color:#5c3a21;">ADICIONAR</label>
+            <div style="display:flex; gap:10px; margin-top:5px;">
+                <input type="text" id="mcl-subitem-nome-gm" placeholder="Nome do Personagem/Ponto" class="form-input">
+                <button class="btn-salvar" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1;" onclick="addTempListaGM()">+</button>
+            </div>
+            <div id="mcl-subitems-list-gm" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;"></div>
+        </div>
+        
+        <label id="mcl-label-desc-gm" style="font-size:0.7rem; font-weight:bold; color:#5c3a21; margin-bottom:3px; display:block;">ANOTAÇÕES</label>
+        <textarea id="mcl-desc-gm" placeholder="Descrição ou Anotações" class="form-input" style="height:80px; resize:vertical;"></textarea>
+        
+        <button class="btn-salvar" onclick="salvarCriacaoListaGM()">SALVAR</button>
+    </div>
+</div>
+
+<div id="modal-view-gm" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="document.getElementById('modal-view-gm').style.display='none'">&times;</span>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <img id="mv-img-gm" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none;">
+            <h3 class="section-title" id="mv-nome-gm" style="margin-bottom:15px;">Nome</h3>
+        </div>
+        <p id="mv-desc-gm" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p>
+        <div id="mv-subitems-list-gm" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
+        <button id="btn-enviar-entidade" class="btn-salvar" style="background-color: #0d47a1; margin-bottom: 10px;" onclick="enviarEntidadeTodos()">ENVIAR PARA TODOS OS JOGADORES</button>
+        <button class="btn-salvar btn-apagar-view" style="margin-top: 0;" onclick="apagarEntidadeAbertaGM()">APAGAR DEFINITIVAMENTE</button>
+    </div>
+</div>
+
+<div id="modal-subitem-gm" class="modal-overlay" style="z-index: 1010;">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="document.getElementById('modal-subitem-gm').style.display='none'">&times;</span>
+        <h3 class="section-title">Perfil</h3>
+        <input type="text" id="ms-nome-gm" placeholder="Nome" class="form-input" style="margin-bottom:12px;">
+        <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold;">FOTO (Opcional)</label>
+                <input type="file" id="ms-img-gm" accept="image/*" class="form-input" style="padding: 5px; font-size: 0.75rem; border:none; background:transparent;">
+            </div>
+            <div id="ms-img-preview-container-gm" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
+                <img id="ms-img-preview-gm" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <textarea id="ms-desc-gm" placeholder="História, funções ou anotações..." class="form-input" style="height:100px; resize:none; margin-bottom:12px;"></textarea>
+        <button class="btn-salvar" onclick="salvarSubItemGM()">SALVAR</button>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    // === CONEXÃO COM O SERVIDOR ===
+    const socket = io();
+    let jogadoresMesa = {}; // Armazena a vida/mana de quem está conectado
+
+    // Escuta novas rolagens vindo da internet
+    socket.on('nova_rolagem', (rollData) => {
+        adicionarLogDado(rollData);
+        // Se for iniciativa e não for do Mestre, entra no Tracker
+        if(rollData.nomeRolagem.toLowerCase().includes('iniciativa') && rollData.playerName !== '[ MESTRE ]') {
+            adicionarIniciativa(rollData.playerName, rollData.resultadoFinal, false, rollData.img || "");
+        }
+    });
+
+    // Escuta a atualização de vida/mana dos jogadores conectados
+    socket.on('sincronizar_mesa_mestre', (dadosDoJogador) => {
+        jogadoresMesa[dadosDoJogador.charName || 'Desconhecido'] = dadosDoJogador;
+        renderizarMesaOnline();
+    });
+
+    // === CALCULADORA DE DANO PARA O GM ===
+    function calcularDanoStr(expressao, mult = 1) {
+        if(!expressao) return 0;
+        let str = expressao.toLowerCase().replace(/\s+/g, '');
+        let parsedStr = str;
+        let diceRegex = /(\d*)d(\d+)/g;
+        let match;
+        
+        while((match = diceRegex.exec(str)) !== null) {
+            let qtd = (parseInt(match[1]) || 1) * mult;
+            let faces = parseInt(match[2]) || 1;
+            let somaDados = 0;
+            for(let i=0; i<qtd; i++) {
+                somaDados += Math.floor(Math.random() * faces) + 1;
+            }
+            parsedStr = parsedStr.replace(match[0], somaDados);
+        }
+        
+        try {
+            let parts = parsedStr.match(/[+-]?\d+/g);
+            return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0;
+        } catch(e) {
+            return 0;
+        }
+    }
+
+    let modoEnvio = 'item';
+    let armaSelecionadaEnvio = null;
+    let targetSelecionadoEnvio = 'todos';
+
+    // ==========================================
+    // === LÓGICA DE INICIATIVA ===
+    // ==========================================
+    let listaIniciativa = JSON.parse(localStorage.getItem('gm_iniciativa')) || [];
+    let turnoAtualIndex = parseInt(localStorage.getItem('gm_turno_index')) || 0;
+
+    function renderizarIniciativa() {
+        const container = document.getElementById('iniciativa-list');
+        container.innerHTML = '';
+        
+        if(listaIniciativa.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding: 20px; font-weight:bold; color: #5c3a21; opacity:0.6;">A lista está vazia. Aguardando rolagens...</div>';
+            return;
+        }
+
+        if (turnoAtualIndex >= listaIniciativa.length) turnoAtualIndex = 0;
+
+        listaIniciativa.forEach((item, index) => {
+            let isActive = (index === turnoAtualIndex);
+            let imgHTML = item.img ? `<img src="${item.img}" class="ini-img">` : `<div class="ini-img">${item.isMonster ? '👹' : '👤'}</div>`;
+            
+            container.innerHTML += `
+                <div class="ini-card ${isActive ? 'active-turn' : ''}">
+                    <span class="turn-indicator">▶</span>
+                    <div class="ini-valor">${item.valor}</div>
+                    ${imgHTML}
+                    <div style="flex:1;">
+                        <div class="ini-nome">${item.nome}</div>
+                        <span class="ini-tipo">${item.isMonster ? 'Ameaça' : 'Jogador'}</span>
+                    </div>
+                    <button class="btn-ini-del" onclick="removerIniciativa(${index})">X</button>
+                </div>
+            `;
+        });
+    }
+
+    function adicionarIniciativa(nome, valor, isMonster, img) {
+        let valorNum = parseInt(valor) || 0;
+        let existente = listaIniciativa.find(i => i.nome === nome && i.isMonster === isMonster);
+        if(existente) {
+            existente.valor = valorNum;
+            if(img) existente.img = img;
+        } else {
+            listaIniciativa.push({ id: Date.now() + Math.random(), nome, valor: valorNum, isMonster, img });
+        }
+        listaIniciativa.sort((a, b) => b.valor - a.valor);
+        localStorage.setItem('gm_iniciativa', JSON.stringify(listaIniciativa));
+        renderizarIniciativa();
+    }
+
+    function removerIniciativa(index) {
+        listaIniciativa.splice(index, 1);
+        if (turnoAtualIndex >= listaIniciativa.length) turnoAtualIndex = 0;
+        if (index < turnoAtualIndex) turnoAtualIndex--; 
+        localStorage.setItem('gm_iniciativa', JSON.stringify(listaIniciativa));
+        localStorage.setItem('gm_turno_index', turnoAtualIndex);
+        renderizarIniciativa();
+    }
+
+    function proximoTurno() {
+        if(listaIniciativa.length <= 1) return;
+        turnoAtualIndex++;
+        if (turnoAtualIndex >= listaIniciativa.length) turnoAtualIndex = 0;
+        localStorage.setItem('gm_turno_index', turnoAtualIndex);
+        renderizarIniciativa();
+    }
+
+    function limparIniciativa() {
+        if(confirm("Deseja zerar a lista de iniciativa?")) {
+            listaIniciativa = [];
+            turnoAtualIndex = 0;
+            localStorage.setItem('gm_iniciativa', JSON.stringify(listaIniciativa));
+            localStorage.setItem('gm_turno_index', turnoAtualIndex);
+            renderizarIniciativa();
+        }
+    }
+
+    function abrirModalManualIni() {
+        document.getElementById('ini-manual-nome').value = '';
+        document.getElementById('ini-manual-valor').value = '';
+        document.getElementById('modal-ini-manual').style.display = 'flex';
+    }
+
+    function salvarIniManual() {
+        let nome = document.getElementById('ini-manual-nome').value.trim();
+        let valor = document.getElementById('ini-manual-valor').value;
+        if(nome && valor !== "") {
+            adicionarIniciativa(nome, valor, false, "");
+            document.getElementById('modal-ini-manual').style.display = 'none';
+        }
+    }
+
+
+    // ==========================================
+    // === LÓGICA DO BESTIÁRIO ===
+    // ==========================================
+    let gmMonstros = JSON.parse(localStorage.getItem('gm_monstros_campanha')) || [];
+
+    function abrirModalCriarMonstro() {
+        document.querySelectorAll('#modal-criar-monstro .form-input').forEach(i => i.value = (i.type === 'number' ? '0' : ''));
+        document.getElementById('monstro-nome').value = '';
+        document.getElementById('monstro-elemento').value = '';
+        document.getElementById('monstro-vd').value = '';
+        document.getElementById('monstro-img').value = '';
+        document.getElementById('monstro-tesouro').value = '';
+        
+        document.getElementById('monstro-pv-max').value = '100';
+        document.getElementById('monstro-pv-atual').value = ''; 
+        document.getElementById('monstro-def-max').value = '15';
+        document.getElementById('monstro-def-atual').value = ''; 
+        
+        document.getElementById('monstro-ataques-container').innerHTML = '';
+        document.getElementById('modal-criar-monstro').style.display = 'flex';
+    }
+
+    function addAtaqueMonstroField() {
+        const div = document.createElement('div');
+        div.className = 'ataque-form-row';
+        div.innerHTML = `
+            <button class="btn-remover-ataque" onclick="this.parentElement.remove()">X</button>
+            <div style="flex: 1; min-width: 45%;"><input type="text" placeholder="Nome (Ex: Garra)" class="form-input ataque-nome"></div>
+            <div style="flex: 1; min-width: 20%;"><input type="number" placeholder="Atq (+10)" class="form-input ataque-bonus"></div>
+            <div style="flex: 1; min-width: 25%;"><input type="text" placeholder="Dano (1d6+5)" class="form-input ataque-dano"></div>
+            <div style="flex: 1; min-width: 100%;"><input type="text" placeholder="Descrição / Efeito extra..." class="form-input ataque-desc"></div>
+        `;
+        document.getElementById('monstro-ataques-container').appendChild(div);
+    }
+
+    function salvarMonstroGM() {
+        let nome = document.getElementById('monstro-nome').value.trim();
+        if(!nome) return alert("Digite o nome da ameaça!");
+        
+        let ataquesArray = [];
+        document.querySelectorAll('.ataque-form-row').forEach(row => {
+            let n = row.querySelector('.ataque-nome').value.trim();
+            if(n) {
+                ataquesArray.push({
+                    nome: n,
+                    bonus: row.querySelector('.ataque-bonus').value || '',
+                    dano: row.querySelector('.ataque-dano').value.trim() || '',
+                    desc: row.querySelector('.ataque-desc').value.trim() || ''
+                });
+            }
+        });
+
+        // Garantia de proteção contra NaN
+        let pvMaxInput = parseInt(document.getElementById('monstro-pv-max').value) || 1;
+        let pvAtualInputStr = document.getElementById('monstro-pv-atual').value;
+        let pvAtualInput = pvAtualInputStr !== "" ? parseInt(pvAtualInputStr) : pvMaxInput;
+
+        let defMaxInput = parseInt(document.getElementById('monstro-def-max').value) || 0;
+        let defAtualInputStr = document.getElementById('monstro-def-atual').value;
+        let defAtualInput = defAtualInputStr !== "" ? parseInt(defAtualInputStr) : defMaxInput;
+
+        let novoMonstro = {
+            id: Date.now(),
+            nome: nome,
+            elemento: document.getElementById('monstro-elemento').value.trim() || 'Desconhecido',
+            vd: document.getElementById('monstro-vd').value.trim() || '?',
+            img: document.getElementById('monstro-img').value.trim(),
+            forca: document.getElementById('monstro-for').value || 0,
+            agilidade: document.getElementById('monstro-agi').value || 0,
+            vigor: document.getElementById('monstro-vig').value || 0,
+            intelecto: document.getElementById('monstro-int').value || 0,
+            sabedoria: document.getElementById('monstro-sab').value || 0,
+            carisma: document.getElementById('monstro-car').value || 0,
+            iniciativa: document.getElementById('monstro-inic').value || 0,
+            percepcao: document.getElementById('monstro-perc').value || 0,
+            fortitude: document.getElementById('monstro-fort').value || 0,
+            vontade: document.getElementById('monstro-vont').value || 0,
+            pvMax: pvMaxInput,
+            pvAtual: pvAtualInput,
+            defesaMax: defMaxInput,
+            defesaAtual: defAtualInput,
+            ataques: ataquesArray,
+            tesouro: document.getElementById('monstro-tesouro').value.trim()
+        };
+        
+        gmMonstros.push(novoMonstro);
+        localStorage.setItem('gm_monstros_campanha', JSON.stringify(gmMonstros));
+        
+        document.getElementById('modal-criar-monstro').style.display = 'none';
+        renderizarMonstrosGM();
+    }
+
+    function renderizarMonstrosGM() {
+        const grid = document.getElementById('grid-monstros');
+        grid.innerHTML = '';
+        
+        if (gmMonstros.length === 0) {
+            grid.innerHTML = '<p style="text-align:center; width:100%; grid-column: 1 / -1; opacity:0.6; color:#5c3a21; font-weight:bold; margin-top:30px;">O bestiário está vazio.</p>';
+            return;
+        }
+
+        gmMonstros.forEach(m => {
+            let imgHtml = m.img ? `<img src="${m.img}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 3px solid #b71c1c; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">` : '';
+            
+            let ataquesHtml = '';
+            if(m.ataques && m.ataques.length > 0) {
+                m.ataques.forEach(atq => {
+                    ataquesHtml += `<div class="op-attack-card">
+                        <div class="op-attack-title">${atq.nome}</div>`;
+                    if(atq.desc) ataquesHtml += `<div class="op-attack-desc">${atq.desc}</div>`;
+                    ataquesHtml += `<div class="op-attack-btn-row">`;
+                    if(atq.bonus !== '') {
+                        let b = parseInt(atq.bonus) || 0;
+                        ataquesHtml += `<button class="op-btn-atq" onclick="rolarDadoGM('Atq: ${atq.nome} (${m.nome})', ${b})">⚔️ ATQ ${b>=0?'+':''}${b}</button>`;
+                    }
+                    if(atq.dano !== '') {
+                        ataquesHtml += `<button class="op-btn-atq" style="border-color:#b71c1c; color:#b71c1c;" onclick="rolarDanoGM('Dano: ${atq.nome} (${m.nome})', '${atq.dano}')">🩸 DANO ${atq.dano.toUpperCase()}</button>`;
+                    }
+                    ataquesHtml += `</div></div>`;
+                });
+            } else {
+                ataquesHtml = `<span style="color:#555; font-style:italic; font-size:0.8rem;">Nenhum ataque cadastrado.</span>`;
+            }
+
+            let fVal = parseInt(m.forca) || 0; let fStr = fVal >= 0 ? `+${fVal}` : fVal;
+            let aVal = parseInt(m.agilidade) || 0; let aStr = aVal >= 0 ? `+${aVal}` : aVal;
+            let vVal = parseInt(m.vigor) || 0; let vStr = vVal >= 0 ? `+${vVal}` : vVal;
+            let iVal = parseInt(m.intelecto) || 0; let iStr = iVal >= 0 ? `+${iVal}` : iVal;
+            let sVal = parseInt(m.sabedoria) || 0; let sStr = sVal >= 0 ? `+${sVal}` : sVal;
+            let cVal = parseInt(m.carisma) || 0; let cStr = cVal >= 0 ? `+${cVal}` : cVal;
+
+            let iniVal = parseInt(m.iniciativa) || 0; let totalIni = aVal + iniVal; let strIni = totalIni >= 0 ? `+${totalIni}` : totalIni;
+            let perVal = parseInt(m.percepcao) || 0; let totalPer = sVal + perVal; let strPer = totalPer >= 0 ? `+${totalPer}` : totalPer;
+            let fortVal = parseInt(m.fortitude) || 0; let totalFort = vVal + fortVal; let strFort = totalFort >= 0 ? `+${totalFort}` : totalFort;
+            let vonVal = parseInt(m.vontade) || 0; let totalVon = cVal + vonVal; let strVon = totalVon >= 0 ? `+${totalVon}` : totalVon;
+
+            // Prevenção de NaN no HTML do monstro
+            let pvMax = parseInt(m.pvMax !== undefined ? m.pvMax : (m.pv || 1)) || 1;
+            let pvAtual = parseInt(m.pvAtual !== undefined ? m.pvAtual : pvMax) || 0;
+            let pctPv = pvMax > 0 ? Math.max(0, Math.min(100, (pvAtual / pvMax) * 100)) : 0;
+            
+            let defMax = parseInt(m.defesaMax !== undefined ? m.defesaMax : (m.defesa || 0)) || 0;
+            let defAtual = parseInt(m.defesaAtual !== undefined ? m.defesaAtual : defMax) || 0;
+            let pctDef = defMax > 0 ? Math.max(0, Math.min(100, (defAtual / defMax) * 100)) : 0;
+
+            grid.innerHTML += `
+                <div class="monster-sheet-card">
+                    ${imgHtml}
+                    <div style="display:flex; flex-direction:column; align-items:center;">
+                        <h2 style="font-family: 'Cinzel', serif; font-weight: 900; color: #b71c1c; font-size: 1.3rem; margin: 0 0 3px 0; border-bottom: 2px solid rgba(183, 28, 28, 0.3); padding-bottom: 3px; text-align: center; width: 80%; text-transform: uppercase;">${m.nome}</h2>
+                        <div style="background: rgba(0,0,0,0.1); border-radius: 20px; padding: 2px 12px; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.65rem; color: #5c3a21; margin-bottom: 15px;">${m.elemento.toUpperCase()} | VD ${m.vd}</div>
+                    </div>
+                    
+                    <div class="op-stat-row">
+                        <div class="op-attr-box"><span class="op-attr-label">FOR</span><span class="op-attr-val">${fStr}</span></div>
+                        <div class="op-attr-box"><span class="op-attr-label">AGI</span><span class="op-attr-val">${aStr}</span></div>
+                        <div class="op-attr-box"><span class="op-attr-label">VIG</span><span class="op-attr-val">${vStr}</span></div>
+                        <div class="op-attr-box"><span class="op-attr-label">INT</span><span class="op-attr-val">${iStr}</span></div>
+                        <div class="op-attr-box"><span class="op-attr-label">SAB</span><span class="op-attr-val">${sStr}</span></div>
+                        <div class="op-attr-box"><span class="op-attr-label">CAR</span><span class="op-attr-val">${cStr}</span></div>
+                    </div>
+                    
+                    <div class="status-adjust-row">
+                        <span class="status-adjust-label" style="color:#b71c1c;">PV</span>
+                        <div class="adjust-controls">
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'pv', -10)">-10</button>
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'pv', -1)">-1</button>
+                        </div>
+                        <div class="op-bar-track">
+                            <div class="op-bar-fill vida" style="width: ${pctPv}%;"></div>
+                            <div class="op-bar-text">${pvAtual} / ${pvMax}</div>
+                        </div>
+                        <div class="adjust-controls">
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'pv', 1)">+1</button>
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'pv', 10)">+10</button>
+                        </div>
+                    </div>
+                    
+                    <div class="status-adjust-row">
+                        <span class="status-adjust-label" style="color:#0d47a1;">DEF</span>
+                        <div class="adjust-controls">
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'defesa', -1)">-1</button>
+                        </div>
+                        <div class="op-bar-track">
+                            <div class="op-bar-fill defesa" style="width: ${pctDef}%;"></div>
+                            <div class="op-bar-text">${defAtual} / ${defMax}</div>
+                        </div>
+                        <div class="adjust-controls">
+                            <button class="btn-small-adjust" onclick="alterarStatusMonstro(${m.id}, 'defesa', 1)">+1</button>
+                        </div>
+                    </div>
+                    
+                    <div class="op-stat-row" style="margin-top:5px; gap: 4px;">
+                        <button class="op-skill-btn" onclick="rolarIniciativaMonstro('${m.nome}', ${totalIni}, '${m.img || ''}')">🎲 INIC ${strIni}</button>
+                        <button class="op-skill-btn" onclick="rolarDadoGM('Percepção (${m.nome})', ${totalPer})">🎲 PERC ${strPer}</button>
+                        <button class="op-skill-btn" onclick="rolarDadoGM('Fortitude (${m.nome})', ${totalFort})">🎲 FORT ${strFort}</button>
+                        <button class="op-skill-btn" onclick="rolarDadoGM('Vontade (${m.nome})', ${totalVon})">🎲 VONT ${strVon}</button>
+                    </div>
+                    
+                    <div class="op-section-title">Ataques e Habilidades</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${ataquesHtml}
+                    </div>
+                    
+                    <div class="op-section-title">Tesouro</div>
+                    <div class="op-tesouro-box">
+                        ${m.tesouro || "Nenhum tesouro cadastrado."}
+                    </div>
+                    
+                    <button class="btn-apagar-bestiario" onclick="apagarMonstroDiretoGM(${m.id})">APAGAR AMEAÇA</button>
+                </div>
+            `;
+        });
+    }
+
+    function alterarStatusMonstro(id, tipo, delta) {
+        let m = gmMonstros.find(x => x.id === id);
+        if(!m) return;
+        
+        if (tipo === 'pv') {
+            m.pvMax = parseInt(m.pvMax !== undefined ? m.pvMax : (m.pv || 1)) || 1;
+            m.pvAtual = parseInt(m.pvAtual !== undefined ? m.pvAtual : m.pvMax) || 0;
+            m.pvAtual = Math.max(0, Math.min(m.pvMax, m.pvAtual + delta));
+        } else {
+            m.defesaMax = parseInt(m.defesaMax !== undefined ? m.defesaMax : (m.defesa || 0)) || 0;
+            m.defesaAtual = parseInt(m.defesaAtual !== undefined ? m.defesaAtual : m.defesaMax) || 0;
+            m.defesaAtual = Math.max(0, Math.min(m.defesaMax, m.defesaAtual + delta));
+        }
+        
+        localStorage.setItem('gm_monstros_campanha', JSON.stringify(gmMonstros));
+        renderizarMonstrosGM();
+    }
+
+    function apagarMonstroDiretoGM(id) {
+        if(confirm("Deseja apagar permanentemente?")) {
+            gmMonstros = gmMonstros.filter(x => x.id !== id);
+            localStorage.setItem('gm_monstros_campanha', JSON.stringify(gmMonstros));
+            renderizarMonstrosGM();
+        }
+    }
+
+    // ==========================================
+    // === LÓGICA DE DADOS E LOG (COM SOCKET) ===
+    // ==========================================
+    function rolarIniciativaMonstro(nome, bonus, img) {
+        let dado = Math.floor(Math.random() * 20) + 1;
+        let total = dado + parseInt(bonus);
+        let rollLog = {
+            playerName: "[ MESTRE ]",
+            nomeRolagem: `Iniciativa (${nome})`,
+            resultadoFinal: total,
+            detalhes: `(d20: ${dado} ${bonus >= 0 ? '+' : ''}${bonus})`,
+            categoria: "INICIATIVA",
+            corCategoria: "#3e2723",
+            isDano: false,
+            isCritico: (dado===20),
+            isDesastre: (dado===1),
+            _trigger: Math.random()
+        };
+        
+        // EMITE PARA O SERVIDOR EM VEZ DE LOCALSTORAGE
+        socket.emit('rolar_dado', rollLog);
+        
+        // Adiciona localmente pro GM
+        adicionarLogDado(rollLog);
+        adicionarIniciativa(nome, total, true, img);
+    }
+
+    function rolarDadoGM(nomeRolagem, bonus) {
+        let dado = Math.floor(Math.random() * 20) + 1;
+        let total = dado + parseInt(bonus);
+        let isCrit = (dado === 20);
+        let isDes = (dado === 1);
+        
+        let rollLog = {
+            playerName: "[ MESTRE ]",
+            nomeRolagem: nomeRolagem,
+            resultadoFinal: total,
+            detalhes: `(d20: ${dado} ${bonus >= 0 ? '+' : ''}${bonus})`,
+            categoria: isCrit ? "CRÍTICO!" : (isDes ? "DESASTRE" : "NORMAL"),
+            corCategoria: isCrit ? "#cc6600" : (isDes ? "#660000" : "#3e2723"),
+            isDano: false,
+            isCritico: isCrit,
+            isDesastre: isDes,
+            _trigger: Math.random()
+        };
+        
+        // EMITE PARA O SERVIDOR
+        socket.emit('rolar_dado', rollLog);
+        adicionarLogDado(rollLog);
+    }
+
+    function rolarDanoGM(nomeRolagem, expressao) {
+        let total = calcularDanoStr(expressao);
+        let rollLog = {
+            playerName: "[ MESTRE ]",
+            nomeRolagem: nomeRolagem,
+            resultadoFinal: total,
+            detalhes: `(Rolagem: ${expressao})`,
+            categoria: "DANO",
+            corCategoria: "#8b0000",
+            isDano: true,
+            isCritico: false,
+            isDesastre: false,
+            _trigger: Math.random()
+        };
+        
+        // EMITE PARA O SERVIDOR
+        socket.emit('rolar_dado', rollLog);
+        adicionarLogDado(rollLog);
+    }
+
+    function adicionarLogDado(data) {
+        const logContainer = document.getElementById('dice-log-container');
+        if(logContainer.innerHTML.includes('Aguardando rolagens...')) {
+            logContainer.innerHTML = '';
+        }
+        
+        let categoria = "NORMAL";
+        let corCategoria = "#33cc00";
+        
+        if (data.isDano) {
+            categoria = "DANO";
+            corCategoria = "#8b0000";
+        } else if (data.categoria === "INICIATIVA") {
+            categoria = "INIC.";
+            corCategoria = "#5c3a21";
+        } else {
+            if (data.isDesastre) {
+                categoria = "DESASTRE";
+                corCategoria = "#660000";
+            } else if (data.isCritico) {
+                categoria = "CRÍTICO!";
+                corCategoria = "#v";
+            } else {
+                let total = parseInt(data.resultadoFinal) || 0;
+                if (total <= 6) {
+                    categoria = "FALHA";
+                    corCategoria = "#5d4037";
+                } else if (total >= 7 && total <= 12) {
+                    categoria = "NORMAL";
+                    corCategoria = "#33cc00";
+                } else if (total >= 13 && total <= 17) {
+                    categoria = "BOM";
+                    corCategoria = "#3399ff";
+                } else if (total >= 18) {
+                    categoria = "EXTREMO";
+                    corCategoria = "#ffcc33";
+                }
+            }
+        }
+        
+        let background = (data.isCritico) ? 'rgba(204, 102, 0, 0.15)' : (data.isDesastre ? 'rgba(102, 0, 0, 0.15)' : 'rgba(255,255,255,0.7)');
+        
+        let html = `
+            <div style="background: ${background}; border-left: 5px solid ${corCategoria}; padding: 8px 10px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 10px; animation: fadeInTabs 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                    <div style="font-family: 'Roboto'; font-size: 0.7rem; color: #5c3a21; text-transform: uppercase; font-weight: bold;">${data.playerName}</div>
+                    <div style="background-color: ${corCategoria}; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Roboto'; font-weight: bold; letter-spacing: 1px;">${categoria}</div>
+                </div>
+                <div style="font-family: 'Cinzel'; font-size: 0.9rem; font-weight: 900; color: #b71c1c; line-height: 1.1;">${data.nomeRolagem}</div>
+                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 5px;">
+                    <span style="font-family: 'Cinzel'; font-size: 1.5rem; font-weight: 900; color: ${corCategoria}; line-height: 1;">${data.resultadoFinal}</span>
+                    <span style="font-family: 'Roboto'; font-size: 0.7rem; color: #555; font-weight: bold;">${data.detalhes}</span>
+                </div>
+            </div>
+        `;
+        logContainer.innerHTML = html + logContainer.innerHTML;
+    }
+
+    function limparLog() {
+        document.getElementById('dice-log-container').innerHTML = '<p style="text-align: center; color: #5c3a21; font-family: \'Roboto\'; font-size: 0.85rem; opacity: 0.7; margin-top: 50%;">Aguardando rolagens...</p>';
+    }
+
+    // ==========================================
+    // === LÓGICA DE ABAS E MESA ONLINE ===
+    // ==========================================
+    function mudarAba(idAba, btn) {
+        document.querySelectorAll('.tab-content').forEach(aba => aba.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(botao => botao.classList.remove('active'));
+        document.getElementById(idAba).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function renderizarMesaOnline() {
+        const grid = document.getElementById('mesa-grid');
+        grid.innerHTML = ''; 
+        
+        // Pega todos os jogadores da memória RAM do Escudo (populado pelo socket)
+        let playersAtivos = Object.values(jogadoresMesa);
+
+        // Preenche sempre as 8 cadeiras (como antes)
+        for (let i = 0; i < 8; i++) {
+            let p = playersAtivos[i];
+            let isConnected = !!p;
+            
+            if (!isConnected) {
+                p = { charName: "Aguardando...", playerName: `Cadeira ${i+1}`, hpAtual: 0, hpMax: 0, mpAtual: 0, mpMax: 0, img: "" };
+            }
+
+            let pctVida = p.hpMax > 0 ? Math.min((p.hpAtual / p.hpMax) * 100, 100) : 0;
+            let pctMana = p.mpMax > 0 ? Math.min((p.mpAtual / p.mpMax) * 100, 100) : 0;
+            let perigoClass = (pctVida <= 25 && p.hpMax > 0 && isConnected) ? 'status-danger' : '';
+            let opacidade = isConnected ? '1' : '0.4'; 
+            let imgHTML = p.img ? `<img src="${p.img}" class="gm-portrait">` : `<div class="gm-portrait gm-portrait-placeholder">${isConnected ? '👤' : '🪑'}</div>`;
+
+            grid.innerHTML += `
+                <div class="gm-card ${perigoClass}" style="opacity: ${opacidade};">
+                    ${imgHTML}
+                    <div style="display:flex; flex-direction:column; align-items:center; width: 100%;">
+                        <h3 class="gm-name">${p.charName || 'Herói sem nome'}</h3>
+                        <span class="gm-player">${p.playerName}</span>
+                    </div>
+                    <div class="gm-bar-container">
+                        <div class="status-row">
+                            <div class="icon-mini">PV</div>
+                            <div class="mini-track">
+                                <div class="liquid-fill vida-color" style="width: ${pctVida}%;"></div>
+                                <div class="mini-text">${p.hpAtual} / ${p.hpMax || '-'}</div>
+                            </div>
+                        </div>
+                        <div class="status-row">
+                            <div class="icon-mini">PM</div>
+                            <div class="mini-track">
+                                <div class="liquid-fill mana-color" style="width: ${pctMana}%;"></div>
+                                <div class="mini-text">${p.mpAtual} / ${p.mpMax || '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Também atualiza a grid de enviar itens
+        renderizarGridJogadoresEnvio();
+    }
+
+    // ==========================================
+    // === LÓGICA DE HISTÓRIA E CAMPANHA ===
+    // ==========================================
+    let gmCapitulos = JSON.parse(localStorage.getItem('gm_capitulos_campanha')) || [];
+    let capituloAtivoId = null;
+
+    function inicializarHistoriaGM() {
+        renderizarEntidadesGM();
+        renderizarCapitulosGM();
+        renderizarMonstrosGM();
+        if(gmCapitulos.length > 0) {
+            abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id);
+        }
+    }
+
+    function salvarNovoCapitulo() {
+        let nome = document.getElementById('gm-capitulo-nome').value.trim();
+        if(!nome) return alert("Digite o nome!");
+        
+        let novoCapitulo = { id: Date.now(), nome: nome, texto: "" };
+        gmCapitulos.push(novoCapitulo);
+        localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+        
+        document.getElementById('modal-criar-capitulo').style.display = 'none';
+        renderizarCapitulosGM();
+        abrirCapituloGM(novoCapitulo.id);
+    }
+
+    function renderizarCapitulosGM() {
+        const container = document.getElementById('lista-capitulos');
+        container.innerHTML = '';
+        
+        gmCapitulos.forEach(cap => {
+            let btnClass = (cap.id === capituloAtivoId) ? 'capitulo-btn active' : 'capitulo-btn';
+            container.innerHTML += `<button class="${btnClass}" onclick="abrirCapituloGM(${cap.id})">${cap.nome}</button>`;
+        });
+        
+        if(gmCapitulos.length === 0) {
+            document.getElementById('area-edicao-capitulo').style.display = 'none';
+            document.getElementById('msg-sem-capitulo').style.display = 'block';
+        }
+    }
+
+    function abrirCapituloGM(id) {
+        capituloAtivoId = id;
+        let cap = gmCapitulos.find(c => c.id === id);
+        if(!cap) return;
+        
+        document.getElementById('titulo-capitulo-ativo').innerText = cap.nome;
+        document.getElementById('gm-capitulo-texto').value = cap.texto;
+        
+        document.getElementById('area-edicao-capitulo').style.display = 'flex';
+        document.getElementById('msg-sem-capitulo').style.display = 'none';
+        renderizarCapitulosGM();
+    }
+
+    function salvarTextoCapituloAtivo() {
+        if(!capituloAtivoId) return;
+        let cap = gmCapitulos.find(c => c.id === capituloAtivoId);
+        if(cap) {
+            cap.texto = document.getElementById('gm-capitulo-texto').value;
+            localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+        }
+    }
+
+    function apagarCapituloAtivo() {
+        if(!capituloAtivoId) return;
+        if(confirm("Apagar ESTE CAPÍTULO?")) {
+            gmCapitulos = gmCapitulos.filter(c => c.id !== capituloAtivoId);
+            localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+            capituloAtivoId = null;
+            document.getElementById('area-edicao-capitulo').style.display = 'none';
+            document.getElementById('msg-sem-capitulo').style.display = 'block';
+            renderizarCapitulosGM();
+            
+            if(gmCapitulos.length > 0) {
+                abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id);
+            }
+        }
+    }
+
+    // ==========================================
+    // === LÓGICA DE ENTIDADES E NPCs ===
+    // ==========================================
+    let gmGuildas = JSON.parse(localStorage.getItem('gm_guildas_campanha')) || [];
+    let gmPessoas = JSON.parse(localStorage.getItem('gm_pessoas_campanha')) || [];
+    let gmLocais = JSON.parse(localStorage.getItem('gm_locais_campanha')) || [];
+    
+    let tipoEntidadeAtual = '';
+    let idEntidadeAberta = null;
+    let tempSubItemsLista = [];
+    let tempSubImgBase64 = "";
+    let currentParentContext = null;
+    let currentSubItemId = null;
+
+    document.getElementById('ms-img-gm').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                tempSubImgBase64 = event.target.result;
+                document.getElementById('ms-img-preview-gm').src = tempSubImgBase64;
+                document.getElementById('ms-img-preview-container-gm').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function abrirModalCriacaoListasGM(tipo) {
+        tipoEntidadeAtual = tipo;
+        document.getElementById('mcl-titulo-gm').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa');
+        document.getElementById('mcl-nome-gm').value = '';
+        document.getElementById('mcl-desc-gm').value = '';
+        document.getElementById('mcl-img-gm').value = '';
+        
+        if (tipo === 'pessoa') {
+            document.getElementById('mcl-subitems-container-gm').style.display = 'none';
+            let selectLocal = document.getElementById('mcl-local-vinculo-gm');
+            selectLocal.innerHTML = '<option value="">Nenhum</option>';
+            gmLocais.forEach(l => {
+                selectLocal.innerHTML += `<option value="${l.id}">${l.nome}</option>`;
+            });
+            document.getElementById('mcl-local-vinculo-container-gm').style.display = 'block';
+        } else {
+            document.getElementById('mcl-subitems-container-gm').style.display = 'block';
+            document.getElementById('mcl-local-vinculo-container-gm').style.display = 'none';
+            document.getElementById('mcl-label-adicionar-gm').innerText = tipo == 'guilda' ? 'ADICIONAR MEMBROS' : 'ADICIONAR PONTOS';
+            document.getElementById('mcl-subitem-nome-gm').value = '';
+            tempSubItemsLista = [];
+            renderizarSubItemsTempGM();
+        }
+        document.getElementById('modal-criacao-listas-gm').style.display = 'flex';
+    }
+
+    function addTempListaGM() {
+        let nome = document.getElementById('mcl-subitem-nome-gm').value.trim();
+        if(nome) {
+            tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' });
+            document.getElementById('mcl-subitem-nome-gm').value = '';
+            renderizarSubItemsTempGM();
+        }
+    }
+
+    function removerTempListaGM(idx) {
+        tempSubItemsLista.splice(idx, 1);
+        renderizarSubItemsTempGM();
+    }
+
+    function renderizarSubItemsTempGM() {
+        const container = document.getElementById('mcl-subitems-list-gm');
+        container.innerHTML = '';
+        tempSubItemsLista.forEach((sub, idx) => {
+            container.innerHTML += `<span class="membro-badge">${sub.nome} <span onclick="removerTempListaGM(${idx})">&times;</span></span>`;
+        });
+    }
+
+    function salvarCriacaoListaGM() {
+        let nome = document.getElementById('mcl-nome-gm').value.trim();
+        let desc = document.getElementById('mcl-desc-gm').value.trim();
+        let img = document.getElementById('mcl-img-gm') ? document.getElementById('mcl-img-gm').value.trim() : "";
+        let localIdVinculo = document.getElementById('mcl-local-vinculo-gm') ? document.getElementById('mcl-local-vinculo-gm').value : "";
+        
+        if(!nome) return alert('Digite o nome!');
+        
+        if(tipoEntidadeAtual == 'guilda') {
+            gmGuildas.push({ id: Date.now(), nome: nome, desc: desc, img: img, membros: [...tempSubItemsLista] });
+            localStorage.setItem('gm_guildas_campanha', JSON.stringify(gmGuildas));
+        } else if(tipoEntidadeAtual == 'local') {
+            gmLocais.push({ id: Date.now(), nome: nome, desc: desc, img: img, pontos: [...tempSubItemsLista] });
+            localStorage.setItem('gm_locais_campanha', JSON.stringify(gmLocais));
+        } else if(tipoEntidadeAtual == 'pessoa') {
+            gmPessoas.push({ id: Date.now(), nome: nome, desc: desc, img: img, localId: localIdVinculo });
+            localStorage.setItem('gm_pessoas_campanha', JSON.stringify(gmPessoas));
+        }
+        
+        document.getElementById('modal-criacao-listas-gm').style.display = 'none';
+        renderizarEntidadesGM();
+    }
+
+    function renderizarEntidadesGM() {
+        const divGuildas = document.getElementById('gm-lista-guildas');
+        const divPessoas = document.getElementById('gm-lista-pessoas');
+        const divLocais = document.getElementById('gm-lista-locais');
+        
+        if(divGuildas) divGuildas.innerHTML = '';
+        if(divPessoas) divPessoas.innerHTML = '';
+        if(divLocais) divLocais.innerHTML = '';
+        
+        if(divGuildas) gmGuildas.forEach(g => {
+            divGuildas.innerHTML += `<button class="item-btn" onclick="abrirVisualizacaoGM('guilda', ${g.id})">${g.nome}</button>`;
+        });
+        
+        if(divPessoas) gmPessoas.forEach(p => {
+            divPessoas.innerHTML += `<button class="item-btn" onclick="abrirVisualizacaoGM('pessoa', ${p.id})">${p.nome}</button>`;
+        });
+        
+        if(divLocais) gmLocais.forEach(l => {
+            divLocais.innerHTML += `<button class="item-btn" onclick="abrirVisualizacaoGM('local', ${l.id})">${l.nome}</button>`;
+        });
+    }
+
+    function abrirVisualizacaoGM(tipoLista, id) {
+        tipoEntidadeAtual = tipoLista;
+        idEntidadeAberta = id;
+        
+        let lista = tipoLista === 'guilda' ? gmGuildas : (tipoLista === 'pessoa' ? gmPessoas : gmLocais);
+        let item = lista.find(e => e.id === id);
+        
+        if(!item) return;
+        
+        document.getElementById('mv-nome-gm').innerText = item.nome;
+        document.getElementById('mv-desc-gm').innerHTML = (item.desc || "Sem anotações.").replace(/\n/g, '<br>');
+        
+        let imgEl = document.getElementById('mv-img-gm');
+        if(item.img) {
+            imgEl.src = item.img;
+            imgEl.style.display = 'block';
+        } else {
+            imgEl.style.display = 'none';
+        }
+
+        const subListContainer = document.getElementById('mv-subitems-list-gm');
+        subListContainer.innerHTML = '';
+        subListContainer.style.display = 'none';
+
+        if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) {
+            subListContainer.style.display = 'flex';
+            subListContainer.innerHTML = '<h4 style="width:100%; border-bottom:1px solid #c8b99e;">MEMBROS DA GUILDA</h4>';
+            item.membros.forEach(sub => {
+                let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px;">` : `👤`;
+                subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItemGM('${tipoLista}', ${item.id}, ${sub.id})">${img}<span>${sub.nome}</span></div>`;
+            });
+        } else if (tipoLista == 'local') {
+            if(item.pontos && item.pontos.length > 0) {
+                subListContainer.style.display = 'flex';
+                subListContainer.innerHTML = '<h4>PONTOS</h4>';
+                item.pontos.forEach(sub => {
+                    subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItemGM('${tipoLista}', ${item.id}, ${sub.id})">📍<span>${sub.nome}</span></div>`;
+                });
+            }
+            let npcsDoLocal = gmPessoas.filter(p => p.localId == item.id);
+            if(npcsDoLocal.length > 0) {
+                subListContainer.style.display = 'flex';
+                subListContainer.innerHTML += '<h4>NPCs</h4>';
+                npcsDoLocal.forEach(npc => {
+                    subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirVisualizacaoGM('pessoa', ${npc.id})">👤<span>${npc.nome}</span></div>`;
+                });
+            }
+        } else if (tipoLista == 'pessoa') {
+            if (item.localId) {
+                let localLinkado = gmLocais.find(l => l.id == item.localId);
+                if (localLinkado) {
+                    document.getElementById('mv-desc-gm').innerHTML = `<strong style="color:#b71c1c;">📍 Local:</strong> ${localLinkado.nome}<br><br>` + document.getElementById('mv-desc-gm').innerHTML;
+                }
+            }
+        }
+        
+        document.getElementById('modal-view-gm').style.display = 'flex';
+    }
+
+    function abrirSubItemGM(tipoParent, parentId, subId) {
+        currentParentContext = { tipo: tipoParent, id: parentId };
+        currentSubItemId = subId;
+        
+        let parentObj = (tipoParent == 'guilda' ? gmGuildas : gmLocais).find(x => x.id == parentId);
+        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        
+        document.getElementById('ms-nome-gm').value = subObj.nome;
+        document.getElementById('ms-desc-gm').value = subObj.desc || '';
+        
+        tempSubImgBase64 = subObj.img || '';
+        if(tempSubImgBase64) {
+            document.getElementById('ms-img-preview-gm').src = tempSubImgBase64;
+            document.getElementById('ms-img-preview-container-gm').style.display = 'block';
+        } else {
+            document.getElementById('ms-img-preview-container-gm').style.display = 'none';
+        }
+        
+        document.getElementById('ms-img-gm').value = '';
+        document.getElementById('modal-subitem-gm').style.display = 'flex';
+    }
+
+    function salvarSubItemGM() {
+        let parentObj = (currentParentContext.tipo == 'guilda' ? gmGuildas : gmLocais).find(x => x.id == currentParentContext.id);
+        let subObj = (currentParentContext.tipo == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == currentSubItemId);
+        
+        subObj.nome = document.getElementById('ms-nome-gm').value.trim();
+        subObj.desc = document.getElementById('ms-desc-gm').value.trim();
+        subObj.img = tempSubImgBase64;
+        
+        if (currentParentContext.tipo == 'guilda') {
+            localStorage.setItem('gm_guildas_campanha', JSON.stringify(gmGuildas));
+        } else {
+            localStorage.setItem('gm_locais_campanha', JSON.stringify(gmLocais));
+        }
+        
+        document.getElementById('modal-subitem-gm').style.display = 'none';
+        abrirVisualizacaoGM(currentParentContext.tipo, currentParentContext.id);
+    }
+
+    function apagarEntidadeAbertaGM() {
+        if(confirm("Deseja excluir permanentemente?")) {
+            if(tipoEntidadeAtual === 'pessoa') {
+                gmPessoas = gmPessoas.filter(e => e.id !== idEntidadeAberta);
+                localStorage.setItem('gm_pessoas_campanha', JSON.stringify(gmPessoas));
+            } else if(tipoEntidadeAtual === 'guilda') {
+                gmGuildas = gmGuildas.filter(e => e.id !== idEntidadeAberta);
+                localStorage.setItem('gm_guildas_campanha', JSON.stringify(gmGuildas));
+            } else {
+                gmLocais = gmLocais.filter(e => e.id !== idEntidadeAberta);
+                localStorage.setItem('gm_locais_campanha', JSON.stringify(gmLocais));
+            }
+            document.getElementById('modal-view-gm').style.display = 'none';
+            renderizarEntidadesGM();
+        }
+    }
+
+    // ==========================================
+    // === LÓGICA DE CATÁLOGO (ENVIO ONLINE) ===
+    // ==========================================
+    function renderizarGridJogadoresEnvio() {
+        let gridEnvio = document.getElementById('grid-jogador-envio');
+        gridEnvio.innerHTML = `<div class="envio-card selected" onclick="selecionarAlvoEnvio('todos', this)">
+            <div class="envio-placeholder" style="color:#b71c1c;">⚡</div>
+            <span class="envio-name" style="color:#b71c1c;">TODOS</span>
+        </div>`;
+        
+        let playersAtivos = Object.values(jogadoresMesa);
+        
+        for (let i = 0; i < 8; i++) {
+            let connectedPlayer = playersAtivos[i];
+            if (connectedPlayer) {
+                let charName = connectedPlayer.charName || 'Herói sem nome';
+                let imgHtml = connectedPlayer.img ? `<img src="${connectedPlayer.img}" class="envio-portrait">` : `<div class="envio-placeholder">👤</div>`;
+                gridEnvio.innerHTML += `<div class="envio-card" onclick="selecionarAlvoEnvio('${charName}', this)">
+                    ${imgHtml}<span class="envio-name">${charName}</span>
+                </div>`;
+            } else {
+                gridEnvio.innerHTML += `<div class="envio-card" style="opacity:0.4; cursor:not-allowed;">
+                    <div class="envio-placeholder">🪑</div><span class="envio-name">Vazio</span>
+                </div>`;
+            }
+        }
+    }
+
+    function selecionarAlvoEnvio(alvo, element) {
+        targetSelecionadoEnvio = alvo;
+        document.querySelectorAll('.envio-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+    }
+
+    function abrirModalCriarGM() {
+        document.getElementById('gm-arma-nome').value = '';
+        document.getElementById('gm-arma-img').value = '';
+        document.getElementById('gm-arma-dano').value = '';
+        document.getElementById('gm-arma-crit').value = '';
+        document.getElementById('gm-arma-alcance').value = '';
+        document.getElementById('gm-arma-tipo').value = '';
+        document.getElementById('gm-arma-peso').value = '1';
+        document.getElementById('gm-item-qtd').value = '20';
+        document.getElementById('gm-item-desc').value = '';
+        document.getElementById('gm-arma-categoria').value = 'Corpo a Corpo';
+        
+        toggleGMFields();
+        document.getElementById('modal-arma-gm').style.display = 'flex';
+    }
+
+    function toggleGMFields() {
+        let cat = document.getElementById('gm-arma-categoria').value;
+        let combatFields = document.getElementById('gm-combat-fields');
+        let ammoFields = document.getElementById('gm-ammo-fields');
+        let tipoField = document.getElementById('gm-tipo-field');
+        let descField = document.getElementById('gm-desc-field');
+        
+        if (cat === 'Item Comum') {
+            combatFields.style.display = 'none';
+            ammoFields.style.display = 'none';
+            tipoField.style.display = 'none';
+            descField.style.display = 'block';
+        } else if (cat === 'Munição') {
+            combatFields.style.display = 'none';
+            ammoFields.style.display = 'block';
+            tipoField.style.display = 'none';
+            descField.style.display = 'none';
+        } else {
+            combatFields.style.display = 'block';
+            ammoFields.style.display = 'none';
+            tipoField.style.display = 'block';
+            descField.style.display = 'none';
+        }
+    }
+
+    let gmCatalogoArmas = JSON.parse(localStorage.getItem('gm_catalogo_armas')) || [];
+
+    function salvarArmaGM() {
+        let nome = document.getElementById('gm-arma-nome').value.trim();
+        if(!nome) return alert("Digite o nome!");
+        
+        let cat = document.getElementById('gm-arma-categoria').value;
+        let novaArma = {
+            id: Date.now(),
+            nome: nome,
+            categoria: cat,
+            img: document.getElementById('gm-arma-img').value.trim(),
+            peso: document.getElementById('gm-arma-peso').value || '1',
+            dano: document.getElementById('gm-arma-dano').value || '-',
+            critico: document.getElementById('gm-arma-crit').value || 'x2',
+            alcance: document.getElementById('gm-arma-alcance').value || '-',
+            tipo: document.getElementById('gm-arma-tipo').value || '-',
+            quantidade: document.getElementById('gm-item-qtd').value || '20',
+            desc: document.getElementById('gm-item-desc').value.trim()
+        };
+        
+        gmCatalogoArmas.push(novaArma);
+        localStorage.setItem('gm_catalogo_armas', JSON.stringify(gmCatalogoArmas));
+        
+        document.getElementById('modal-arma-gm').style.display = 'none';
+        renderizarCatalogo();
+    }
+
+    function apagarArmaGM(id) {
+        if(confirm("Deseja apagar este item do catálogo?")) {
+            gmCatalogoArmas = gmCatalogoArmas.filter(arma => arma.id !== id);
+            localStorage.setItem('gm_catalogo_armas', JSON.stringify(gmCatalogoArmas));
+            renderizarCatalogo();
+        }
+    }
+
+    function abrirModalEnvio(idArma) {
+        modoEnvio = 'item';
+        armaSelecionadaEnvio = idArma;
+        targetSelecionadoEnvio = 'todos';
+        document.getElementById('titulo-modal-envio').innerText = "Entregar Item";
+        renderizarGridJogadoresEnvio();
+        document.getElementById('modal-enviar-item').style.display = 'flex';
+    }
+
+    function enviarEntidadeTodos() {
+        let lista = tipoEntidadeAtual === 'guilda' ? gmGuildas : (tipoEntidadeAtual === 'local' ? gmLocais : gmPessoas);
+        let entidade = lista.find(e => e.id === idEntidadeAberta);
+        if(!entidade) return;
+        
+        let payloadData = JSON.parse(JSON.stringify(entidade));
+        
+        if (tipoEntidadeAtual === 'pessoa' && payloadData.localId) {
+            let localLinkado = gmLocais.find(l => l.id == payloadData.localId);
+            if (localLinkado) {
+                payloadData.desc = `[📍 Local: ${localLinkado.nome}]\n\n` + (payloadData.desc || "");
+            }
+        }
+        
+        let payload = { tipoLista: tipoEntidadeAtual, dados: payloadData };
+        
+        // EMITE PARA O SERVIDOR
+        socket.emit('enviar_entidade', { entidade: payload, target: 'todos' });
+        
+        let btn = document.getElementById('btn-enviar-entidade');
+        if(btn) {
+            btn.innerText = "ENVIADO PARA TODOS ✔️";
+            btn.style.background = "#2e7d32";
+            setTimeout(() => {
+                btn.innerText = "ENVIAR PARA TODOS";
+                btn.style.background = "#0d47a1";
+            }, 1500);
+        }
+    }
+
+    function confirmarEnvio() {
+        if (modoEnvio === 'item') {
+            let arma = gmCatalogoArmas.find(a => a.id === armaSelecionadaEnvio);
+            if(!arma) return;
+            
+            let tipoPlayer = 'comum';
+            if (arma.categoria === 'Corpo a Corpo') tipoPlayer = 'corpo';
+            else if (arma.categoria === 'Distância') tipoPlayer = 'dist';
+            else if (arma.categoria === 'Munição') tipoPlayer = 'municao';
+            
+            let descPlayer = `[ MESTRE ]`;
+            if(tipoPlayer === 'corpo' || tipoPlayer === 'dist') {
+                descPlayer += ` | Tipo: ${arma.tipo}\nAlcance: ${arma.alcance}\nDano: ${arma.dano} | Crítico: ${arma.critico}`;
+            } else if (tipoPlayer === 'comum') {
+                descPlayer += `\n${arma.desc}`;
+            }
+            
+            let itemParaEnvio = {
+                id: Date.now(),
+                nome: arma.nome,
+                peso: parseFloat(arma.peso) || 1,
+                desc: descPlayer,
+                tipo: tipoPlayer,
+                img: arma.img || "",
+                equipado: false,
+                dano: (tipoPlayer === 'corpo' || tipoPlayer === 'dist') ? arma.dano : "",
+                crit: (tipoPlayer === 'corpo' || tipoPlayer === 'dist') ? arma.critico : "",
+                periciaLink: "",
+                munAtual: tipoPlayer === 'municao' ? (parseInt(arma.quantidade) || 20) : 0,
+                munMax: tipoPlayer === 'municao' ? (parseInt(arma.quantidade) || 20) : 0
+            };
+            
+            // EMITE PARA O SERVIDOR
+            socket.emit('enviar_item', { item: itemParaEnvio, target: targetSelecionadoEnvio });
+            
+            let btn = document.getElementById(`btn-env-${armaSelecionadaEnvio}`);
+            if(btn) {
+                btn.innerText = "ENVIADO ✔️";
+                btn.style.background = "#2e7d32";
+                btn.style.borderColor = "#1b5e20";
+                setTimeout(() => {
+                    btn.innerText = "ENVIAR";
+                    btn.style.background = "#0d47a1";
+                    btn.style.borderColor = "#002171";
+                }, 1000);
+            }
+        }
+        document.getElementById('modal-enviar-item').style.display = 'none';
+    }
+
+    function renderizarCatalogo() {
+        const container = document.getElementById('catalogo-container');
+        container.innerHTML = '';
+        
+        if (gmCatalogoArmas.length === 0) {
+            container.innerHTML = '<p style="text-align:center; width:100%; opacity:0.6; color:#5c3a21; font-weight:bold; margin-top:30px;">O catálogo está vazio.</p>';
+            return;
+        }
+        
+        const categorias = ['Corpo a Corpo', 'Distância', 'Munição', 'Item Comum'];
+        
+        categorias.forEach(cat => {
+            let itensDaCat = gmCatalogoArmas.filter(a => a.categoria === cat);
+            if (itensDaCat.length > 0) {
+                let catHTML = `<h4 style="font-family: 'Cinzel'; color: #b71c1c; border-bottom: 2px solid rgba(183, 28, 28, 0.3); padding-bottom: 5px; margin-top: 20px; text-transform: uppercase;">${cat}</h4><div class="catalogo-grid">`;
+                
+                itensDaCat.forEach(arma => {
+                    let imgHtml = arma.img ? `<img src="${arma.img}" class="weapon-card-img" alt="Foto">` : '';
+                    let statsHtml = '';
+                    
+                    if (arma.categoria === 'Item Comum') {
+                        statsHtml = `<span style="font-style: italic; white-space: pre-wrap; font-size: 0.75rem; border: none; background: transparent; padding: 0;">${arma.desc || 'Sem descrição'}</span><span style="margin-top: auto;"><strong>PESO:</strong> ${arma.peso}</span>`;
+                    } else if (arma.categoria === 'Munição') {
+                        statsHtml = `<span><strong>QTDE:</strong> ${arma.quantidade}</span><span><strong>PESO:</strong> ${arma.peso}</span>`;
+                    } else {
+                        statsHtml = `<span><strong>DANO:</strong> ${arma.dano}</span><span><strong>CRÍTICO:</strong> ${arma.critico}</span><span><strong>ALCANCE:</strong> ${arma.alcance}</span><span><strong>TIPO:</strong> ${arma.tipo}</span><span><strong>PESO:</strong> ${arma.peso}</span>`;
+                    }
+                    
+                    catHTML += `
+                        <div class="weapon-card">
+                            ${imgHtml}
+                            <div class="weapon-header">${arma.nome}</div>
+                            <div class="weapon-stats" style="flex: 1;">${statsHtml}</div>
+                            <div class="card-buttons">
+                                <button id="btn-env-${arma.id}" class="btn-enviar-arma" onclick="abrirModalEnvio(${arma.id})">ENVIAR</button>
+                                <button class="btn-apagar-arma" onclick="apagarArmaGM(${arma.id})">X</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                catHTML += `</div>`;
+                container.innerHTML += catHTML;
+            }
+        });
+    }
+
+    // Inicialização do Mestre
+    window.onload = () => { 
+        renderizarMesaOnline(); 
+        renderizarCatalogo();
+        inicializarHistoriaGM();
+        renderizarIniciativa();
+    };
+
+</script>
+
+</body>
+</html>
