@@ -3,186 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Mestre - RPG</title>
+    <title>Escudo do Mestre - RPG</title>
     <script src="/socket.io/socket.io.js"></script>
     <style>
-        :root {
-            --bg-dark: #121212;
-            --card-bg: #1e1e1e;
-            --primary: #bb86fc;
-            --secondary: #03dac6;
-            --text: #e0e0e0;
-            --border: #333;
-        }
+        /* === MESMAS FONTES DA FICHA === */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
+
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text);
+            font-family: 'Lora', serif;
+            background-color: #170f0a;
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #3e2723;
             margin: 0;
             padding: 20px;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1200px;
+        /* === CONTAINER ESTILO PERGAMINHO === */
+        .master-container {
+            background-color: rgba(244, 235, 216, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.9);
+            border: 2px solid #8b5a2b;
+            outline: 4px solid rgba(92, 58, 33, 0.8);
+            outline-offset: -10px;
+            max-width: 1400px;
             margin: auto;
         }
 
-        h1 {
-            color: var(--primary);
+        .header-mestre {
             text-align: center;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #8b5a2b;
+            padding-bottom: 15px;
         }
 
-        /* Área de Adicionar UID */
-        .setup-section {
-            background: var(--card-bg);
+        .header-mestre h1 {
+            font-family: 'Cinzel', serif;
+            color: #5c3a21;
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* === SEÇÃO DE CONEXÃO === */
+        .conn-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(139, 90, 43, 0.1);
             padding: 20px;
             border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
+            margin-bottom: 30px;
+            border: 1px dashed #8b5a2b;
         }
 
         input {
-            background: #2d2d2d;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 16px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: 2px solid #3e2723;
+            background: white;
+            color: #b71c1c;
+            font-size: 1.2rem;
+            width: 150px;
+            text-align: center;
         }
 
-        button {
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-weight: bold;
+        .btn-add {
+            font-family: 'Cinzel', serif;
+            background: #b71c1c;
+            color: white;
+            border: 2px solid #3e2723;
+            padding: 10px 25px;
             cursor: pointer;
+            font-weight: 900;
             transition: 0.3s;
         }
 
-        button:hover {
-            background-color: #9965f4;
-        }
+        .btn-add:hover { background: #7f0000; transform: scale(1.05); }
 
-        /* Grid de Fichas dos Jogadores */
-        #painel-jogadores {
+        /* === GRID DE JOGADORES === */
+        #grid-players {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
         }
 
-        .ficha-monitor {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        .player-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #8b5a2b;
             padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        .ficha-monitor h3 {
-            margin-top: 0;
-            color: var(--secondary);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 5px;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .dado-log {
-            background: #2d2d2d;
-            padding: 5px;
             border-radius: 4px;
-            font-size: 0.9em;
-            margin-top: 10px;
-            border-left: 3px solid var(--primary);
+            position: relative;
+            animation: fadeIn 0.5s ease;
         }
 
-        .uid-tag {
-            font-size: 0.8em;
-            color: #888;
-            float: right;
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .player-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            border-bottom: 1px solid rgba(139, 90, 43, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .player-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid #3e2723;
+            background: #ddd;
+        }
+
+        .player-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: #5c3a21;
+        }
+
+        .uid-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.6rem;
+            background: #b71c1c;
+            color: white;
+            padding: 2px 6px;
+            font-family: 'Roboto';
+            font-weight: 900;
+        }
+
+        /* === BARRAS DE STATUS === */
+        .status-mini-bar {
+            margin-bottom: 8px;
+        }
+
+        .bar-label {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 900;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .track {
+            height: 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid #000;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .fill { height: 100%; transition: width 0.5s ease; }
+        .vida-color { background: #b71c1c; }
+        .mana-color { background: #0d47a1; }
+
+        .dice-log {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.05);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border-left: 3px solid #b71c1c;
+        }
+
+        .dice-val {
+            font-family: 'Cinzel';
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #b71c1c;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+<div class="master-container">
+    <div class="header-mestre">
         <h1>Escudo do Mestre</h1>
-
-        <div class="setup-section">
-            <input type="text" id="input-uid" placeholder="Digite o UID do Jogador">
-            <button onclick="adicionarJogador()">Adicionar Jogador</button>
-        </div>
-
-        <div id="painel-jogadores">
-            </div>
     </div>
 
-    <script>
-        const socket = io();
-        const jogadoresAtivos = {};
+    <div class="conn-box">
+        <input type="text" id="uid-input" placeholder="UID" maxlength="4">
+        <button class="btn-add" onclick="conectarJogador()">ADICIONAR JOGADOR</button>
+    </div>
 
-        function adicionarJogador() {
-            const uid = document.getElementById('input-uid').value.toUpperCase().trim();
-            if (uid && !jogadoresAtivos[uid]) {
-                criarCardJogador(uid);
-                document.getElementById('input-uid').value = '';
-            }
+    <div id="grid-players">
+        </div>
+</div>
+
+<script>
+    const socket = io();
+    const jogadoresMonitorados = {};
+
+    function conectarJogador() {
+        const uid = document.getElementById('uid-input').value.toUpperCase().trim();
+        if (uid && !jogadoresMonitorados[uid]) {
+            jogadoresMonitorados[uid] = { conectado: true };
+            criarCard(uid);
+            document.getElementById('uid-input').value = '';
+            // Solicita uma atualização imediata ao entrar (opcional, depende do server)
         }
+    }
 
-        function criarCardJogador(uid) {
-            const painel = document.getElementById('painel-jogadores');
-            
-            const card = document.createElement('div');
-            card.className = 'ficha-monitor';
-            card.id = `card-${uid}`;
-            card.innerHTML = `
-                <span class="uid-tag">#${uid}</span>
-                <h3 id="nome-${uid}">Aguardando dados...</h3>
-                <div class="status-grid">
-                    <div>❤️ PV: <span id="pv-${uid}">--</span></div>
-                    <div>✨ PM: <span id="pm-${uid}">--</span></div>
-                    <div>🛡️ DEF: <span id="def-${uid}">--</span></div>
-                    <div>🎯 NÍVEL: <span id="lvl-${uid}">--</span></div>
+    function criarCard(uid) {
+        const grid = document.getElementById('grid-players');
+        const card = document.createElement('div');
+        card.className = 'player-card';
+        card.id = `card-${uid}`;
+        
+        card.innerHTML = `
+            <div class="uid-badge">${uid}</div>
+            <div class="player-header">
+                <img id="img-${uid}" src="" class="player-img" style="display:none;">
+                <div id="placeholder-${uid}" class="player-img" style="display:flex; align-items:center; justify-content:center; font-weight:bold;">?</div>
+                <div>
+                    <div id="name-${uid}" class="player-name">Buscando...</div>
+                    <div id="sub-${uid}" style="font-size:0.7rem; font-family:Roboto; font-weight:bold;">Nível: -- | Defesa: --</div>
                 </div>
-                <div id="log-${uid}" class="dado-log">Nenhuma rolagem ainda.</div>
-            `;
+            </div>
+
+            <div class="status-mini-bar">
+                <div class="bar-label"><span>PONTOS DE VIDA</span> <span id="txt-pv-${uid}">0/0</span></div>
+                <div class="track"><div id="bar-pv-${uid}" class="fill vida-color" style="width:0%"></div></div>
+            </div>
+
+            <div class="status-mini-bar">
+                <div class="bar-label"><span>PONTOS DE MANA</span> <span id="txt-pm-${uid}">0/0</span></div>
+                <div class="track"><div id="bar-pm-${uid}" class="fill mana-color" style="width:0%"></div></div>
+            </div>
+
+            <div id="log-${uid}" class="dice-log">
+                Aguardando rolagens...
+            </div>
+        `;
+        grid.appendChild(card);
+    }
+
+    // ATUALIZAÇÃO EM TEMPO REAL
+    socket.on('dadosAtualizados', (payload) => {
+        const uid = payload.uid;
+        if (jogadoresMonitorados[uid]) {
+            const d = payload.dados;
             
-            painel.appendChild(card);
-            jogadoresAtivos[uid] = true;
+            // Atualiza Nome e Imagem
+            document.getElementById(`name-${uid}`).innerText = d.charName || "Sem Nome";
+            document.getElementById(`sub-${uid}`).innerText = `Jogador: ${d.playerName || '---'}`;
+
+            if(d.img) {
+                document.getElementById(`img-${uid}`).src = d.img;
+                document.getElementById(`img-${uid}`).style.display = 'block';
+                document.getElementById(`placeholder-${uid}`).style.display = 'none';
+            }
+
+            // Atualiza Barras
+            const pvPerc = (d.hpAtual / (d.hpMax || 1)) * 100;
+            const pmPerc = (d.mpAtual / (d.mpMax || 1)) * 100;
+
+            document.getElementById(`bar-pv-${uid}`).style.width = Math.min(pvPerc, 100) + "%";
+            document.getElementById(`bar-pm-${uid}`).style.width = Math.min(pmPerc, 100) + "%";
+            
+            document.getElementById(`txt-pv-${uid}`).innerText = `${d.hpAtual}/${d.hpMax}`;
+            document.getElementById(`txt-pm-${uid}`).innerText = `${d.mpAtual}/${d.mpMax}`;
         }
+    });
 
-        // Escutar atualizações do servidor
-        socket.on('dadosAtualizados', (dados) => {
-            if (jogadoresAtivos[dados.uid]) {
-                document.getElementById(`nome-${dados.uid}`).innerText = dados.nome || "Sem Nome";
-                document.getElementById(`pv-${dados.uid}`).innerText = dados.pv;
-                document.getElementById(`pm-${dados.uid}`).innerText = dados.pm;
-                document.getElementById(`def-${dados.uid}`).innerText = dados.defesa;
-                document.getElementById(`lvl-${dados.uid}`).innerText = dados.nivel;
-            }
-        });
+    // ROLAGENS EM TEMPO REAL
+    socket.on('player_dice_roll', (log) => {
+        if (jogadoresMonitorados[log.uid]) {
+            const logBox = document.getElementById(`log-${log.uid}`);
+            const cor = log.corCategoria || "#3e2723";
+            
+            logBox.style.borderLeftColor = cor;
+            logBox.innerHTML = `
+                <div style="font-weight:bold; color:#5c3a21; text-transform:uppercase; font-size:0.7rem;">${log.nomeRolagem}</div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="dice-val" style="color:${cor}">${log.resultadoFinal}</span>
+                    <span style="background:${cor}; color:white; padding:2px 5px; border-radius:3px; font-size:0.6rem; font-weight:bold;">${log.categoria}</span>
+                </div>
+                <div style="font-size:0.65rem; color:#666;">${log.detalhes}</div>
+            `;
+        }
+    });
+</script>
 
-        // Escutar rolagens de dados
-        socket.on('player_dice_roll', (log) => {
-            if (jogadoresAtivos[log.uid]) {
-                const logDiv = document.getElementById(`log-${log.uid}`);
-                logDiv.innerHTML = `🎲 <strong>${log.pericia}:</strong> ${log.resultado} (d20:${log.d20} + mod:${log.mod})`;
-            }
-        });
-    </script>
 </body>
 </html>
