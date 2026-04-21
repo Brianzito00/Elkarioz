@@ -4,7 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 
-// AJUSTE AQUI: Agora ele lê de dentro da pasta 'public'
+// Ajuste para ler de dentro da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
@@ -15,20 +15,22 @@ io.on('connection', (socket) => {
         socket.emit('uidGerada', uid);
     });
 
+    // === AQUI ESTAVA O PROBLEMA ===
     socket.on('atualizarDados', (payload) => {
-        socket.broadcast.emit('dadosAtualizados', payload);
+        // Agora o servidor retransmite com o MESMO NOME que o Mestre está esperando
+        io.emit('atualizarDados', payload);
     });
 
     socket.on('player_dice_roll', (logData) => {
-        socket.broadcast.emit('player_dice_roll', logData);
+        io.emit('player_dice_roll', logData);
     });
 
     socket.on('gm_send_item', (payload) => {
-        socket.broadcast.emit('gm_send_item', payload);
+        io.emit('gm_send_item', payload);
     });
 
     socket.on('gm_send_entity', (payload) => {
-        socket.broadcast.emit('gm_send_entity', payload);
+        io.emit('gm_send_entity', payload);
     });
 
     socket.on('disconnect', () => {
