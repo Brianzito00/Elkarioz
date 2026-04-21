@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escudo do Mestre - RPG Total</title>
+    <title>Painel do Mestre - RPG Total</title>
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
@@ -11,201 +11,318 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Lora', serif; background-color: #170f0a; 
+            font-family: 'Lora', serif; 
+            background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; min-height: 100vh;
+            color: #3e2723; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh;
         }
 
-        .gm-header {
-            background-color: rgba(92, 58, 33, 0.95); width: 100%; max-width: 1400px; padding: 20px; border-radius: 8px;
-            border: 2px solid #ff9100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        /* === PAINEL PRINCIPAL (Estilo Pergaminho) === */
+        .painel-mestre {
+            background-color: #e3d8c1; /* Cor de pergaminho base */
+            background-image: radial-gradient(circle at center, rgba(139,90,43,0.08) 0%, rgba(227, 216, 193, 1) 60%);
+            border: 4px solid #4a2f1d;
+            border-radius: 8px;
+            width: 100%; max-width: 1400px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 50px rgba(139,90,43,0.2);
+            display: flex; flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
-        .gm-title { font-family: 'Cinzel', serif; color: #f4ebd8; font-size: 2rem; margin: 0; font-weight: 900; text-shadow: 2px 2px 5px #000; }
-        .room-config { display: flex; gap: 10px; align-items: center; }
-        .room-config input { padding: 10px; border: 2px solid #000; font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; border-radius: 4px; text-align: center; width: 150px; }
-        .btn-mestre { background: #b71c1c; color: #fff; border: 2px solid #ff9100; padding: 10px 20px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.2s; }
-        .btn-mestre:hover { background: #ff9100; color: #3e2723; }
 
-        /* === LAYOUT PRINCIPAL === */
-        .gm-layout { display: flex; gap: 20px; width: 100%; max-width: 1400px; align-items: flex-start; flex-wrap: wrap; }
+        /* Linha decorativa no topo */
+        .painel-mestre::before {
+            content: ''; position: absolute; top: 100px; left: 5%; right: 5%; height: 1px; background-color: rgba(74, 47, 29, 0.3);
+        }
+
+        .header-titulo {
+            text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2rem; color: #4a2f1d;
+            margin-top: 30px; margin-bottom: 20px; letter-spacing: 1px;
+        }
+
+        /* === ABAS DE NAVEGAÇÃO === */
+        .tabs-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; position: relative; z-index: 10; flex-wrap: wrap; padding: 0 20px; }
+        .tab-btn {
+            background-color: #f1e8d5; border: 2px solid #8b5a2b; border-radius: 6px;
+            padding: 8px 20px; font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.85rem;
+            color: #4a2f1d; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .tab-btn:hover { background-color: #eaddc4; transform: translateY(-2px); }
+        .tab-btn.active { background-color: #9c2b2b; color: #f1e8d5; border-color: #4a2f1d; box-shadow: inset 0 3px 5px rgba(0,0,0,0.3); }
+
+        /* === ESTRUTURA DE COLUNAS === */
+        .conteudo-wrapper {
+            display: flex; flex: 1; padding: 20px 30px; gap: 30px; height: calc(100vh - 200px); overflow: hidden;
+        }
+
+        /* Coluna Central (Formulários e Listas) */
+        .coluna-central {
+            flex: 1; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 10px;
+        }
+
+        /* Coluna Direita (Log de Rolagens) */
+        .coluna-log {
+            width: 320px; flex-shrink: 0; background: rgba(241, 232, 213, 0.5); border: 2px solid rgba(139, 90, 43, 0.4);
+            border-radius: 8px; padding: 20px; display: flex; flex-direction: column;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.1rem; color: #4a2f1d;
+            text-align: center; border-bottom: 1px solid rgba(139, 90, 43, 0.4); padding-bottom: 5px; margin-top: 0; margin-bottom: 15px;
+        }
+
+        /* === CAIXAS DE ESTILO (Formulários) === */
+        .box-pergaminho {
+            background-color: #f1e8d5; border: 2px solid #a68b6c; border-radius: 6px; padding: 20px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .form-group { margin-bottom: 12px; }
+        .form-label { font-family: 'Roboto', sans-serif; font-size: 0.8rem; font-weight: 900; color: #4a2f1d; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid #a68b6c; border-radius: 4px; background-color: #faf5eb; font-family: 'Lora', serif; font-size: 0.95rem; color: #3e2723; }
+        .form-input:focus { border-color: #8b5a2b; outline: none; background-color: #fff; }
+
+        .btn-acao {
+            background-color: #4a2f1d; color: #f1e8d5; border: 2px solid #2d1c11; border-radius: 4px;
+            padding: 10px 15px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; transition: 0.2s; width: 100%;
+        }
+        .btn-acao:hover { background-color: #634028; }
+
+        /* Lista de Entidades Criadas */
+        .lista-entidades { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto; }
+        .card-entidade {
+            background-color: #fbf8f1; border: 1px solid #cbb89d; border-radius: 6px; padding: 10px;
+            display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;
+        }
+        .card-entidade:hover { border-color: #8b5a2b; background-color: #fff; }
+        .card-entidade.selecionado { border: 2px solid #9c2b2b; background-color: rgba(156, 43, 43, 0.05); }
+        .card-info { display: flex; align-items: center; gap: 10px; }
+        .card-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #a68b6c; background: #e3d8c1; display:flex; align-items:center; justify-content:center; font-size:1.2rem;}
+        .card-nome { font-family: 'Cinzel', serif; font-weight: bold; color: #4a2f1d; font-size: 1rem; margin:0;}
+        .card-desc { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #666; margin:0; }
+
+        /* === CAIXA DE ENVIO AO JOGADOR (Estilo Couro) === */
+        .box-couro {
+            background-color: #3b2516; /* Cor de couro escuro */
+            border: 4px solid #1a1009; border-radius: 8px; padding: 20px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
+            position: relative; margin-top: 10px;
+        }
+        /* Costura do couro */
+        .box-couro::before {
+            content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px dashed rgba(255, 255, 255, 0.2); pointer-events: none; border-radius: 4px;
+        }
+        .box-couro .section-title { color: #f1e8d5; border-bottom-color: rgba(255,255,255,0.2); }
+        .box-couro .form-label { color: #d4c4a8; }
+        .box-couro .form-input { background-color: #523521; border-color: #2d1c11; color: #f1e8d5; font-weight: bold; }
+        .box-couro .form-input::placeholder { color: rgba(241, 232, 213, 0.5); }
         
-        .panel { 
-            background-color: rgba(244, 235, 216, 0.9); backdrop-filter: blur(8px);
-            padding: 25px; border-radius: 8px; border: 3px solid #8b5a2b; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        .btn-enviar {
+            background: linear-gradient(to bottom, #722c2c, #4a1919); color: #f1e8d5;
+            border: 2px solid #2b0e0e; border-radius: 4px; padding: 15px; font-family: 'Cinzel', serif; font-weight: 900;
+            font-size: 1.1rem; width: 100%; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.4);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
-        .panel-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 2px solid rgba(139, 90, 43, 0.5); padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; }
+        .btn-enviar:hover { background: linear-gradient(to bottom, #8a3636, #5c1f1f); transform: translateY(-1px); }
 
-        /* === COLUNA ESQUERDA: MONITORAMENTO === */
-        .col-monitor { flex: 1; min-width: 350px; display: flex; flex-direction: column; gap: 20px; }
-        
-        .players-grid { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
-        .player-card { background: rgba(255,255,255,0.7); border: 2px solid #5c3a21; border-radius: 6px; padding: 15px; display: flex; gap: 15px; align-items: center; }
-        .player-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #b71c1c; }
-        .player-info { flex: 1; }
-        .player-name { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; color: #3e2723; line-height: 1; margin-bottom: 5px; }
-        .player-realname { font-family: 'Roboto'; font-size: 0.8rem; color: #555; margin-bottom: 10px; display: block; }
-        .player-stats { display: flex; gap: 10px; font-family: 'Roboto'; font-weight: bold; font-size: 0.85rem; }
+        /* === LOG DE ROLAGENS E JOGADORES === */
+        #dice-log-container {
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;
+        }
+        .log-entry { background: rgba(0,0,0,0.8); border: 1px solid #4a2f1d; border-radius: 6px; padding: 12px; color: #f1e8d5; font-family: 'Roboto', sans-serif; }
+        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-bottom: 5px; }
+        .log-result { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; margin-top: 5px; text-align: center; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Lista de jogadores na Mesa */
+        .player-card { background: rgba(255,255,255,0.6); border: 2px solid #a68b6c; border-radius: 6px; padding: 15px; display: flex; gap: 15px; align-items: center; margin-bottom: 10px; }
+        .player-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #4a2f1d; }
+        .player-stats { display: flex; gap: 10px; margin-top: 8px; font-family: 'Roboto', sans-serif; font-size: 0.8rem; font-weight: bold; }
         .stat-badge { padding: 4px 8px; border-radius: 4px; color: #fff; text-shadow: 1px 1px 0 #000; }
-        .badge-hp { background: #b71c1c; } .badge-mp { background: #0d47a1; } .badge-def { background: #455a64; }
 
-        .dice-log { background: #170f0a; border: 2px solid #5c3a21; border-radius: 6px; padding: 15px; height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .log-entry { background: rgba(244, 235, 216, 0.1); border-left: 4px solid #fff; padding: 10px; border-radius: 4px; color: #f4ebd8; font-family: 'Roboto'; }
-        .log-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.8rem; color: #aaa; }
-        .log-title { font-family: 'Cinzel'; font-weight: bold; color: #ff9100; font-size: 1.1rem; text-transform: uppercase; }
-        .log-result { font-size: 1.5rem; font-weight: 900; margin-top: 5px; font-family: 'Cinzel'; }
-
-        /* === COLUNA DIREITA: ENVIO DE ENTIDADES === */
-        .col-editor { flex: 2; min-width: 400px; display: flex; flex-direction: column; gap: 20px; }
-
-        .tabs-nav { display: flex; border-bottom: 2px solid #8b5a2b; margin-bottom: 20px; }
-        .tab-btn { flex: 1; background: rgba(234, 221, 197, 0.5); border: none; padding: 15px; font-family: 'Cinzel'; font-weight: bold; color: #5c3a21; cursor: pointer; transition: 0.2s; font-size: 1.1rem; }
-        .tab-btn.active { background: #8b5a2b; color: #fff; }
-        .tab-content { display: none; } .tab-content.active { display: block; }
-
-        .form-group { margin-bottom: 15px; }
-        .form-label { font-family: 'Roboto'; font-weight: 900; font-size: 0.8rem; color: #5c3a21; display: block; margin-bottom: 5px; text-transform: uppercase; }
-        .form-input { width: 100%; padding: 12px; border: 2px solid #5c3a21; background: #fff; font-family: 'Lora'; font-weight: bold; font-size: 1rem; border-radius: 4px; }
-        
-        .subitem-box { background: rgba(0,0,0,0.05); border: 1px dashed #8b5a2b; padding: 15px; border-radius: 6px; margin-bottom: 15px; }
-        .subitem-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .subitem-badge { background: #3e2723; color: #f4ebd8; padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; font-family: 'Roboto'; display: flex; align-items: center; gap: 8px; }
-        .subitem-badge span { color: #ff9100; cursor: pointer; font-weight: bold; }
-
-        .target-box { background: rgba(183, 28, 28, 0.1); border: 2px solid #b71c1c; padding: 15px; border-radius: 6px; margin-top: 20px; margin-bottom: 20px; }
-        .target-box input { border-color: #b71c1c; color: #b71c1c; }
-
-        .btn-enviar { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 15px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; border-radius: 4px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .btn-enviar:hover { background: #1b5e20; }
-        
-        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); } ::-webkit-scrollbar-thumb { background: #8b5a2b; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
     </style>
 </head>
 <body>
 
-    <div class="gm-header">
-        <h1 class="gm-title">ESCUDO DO MESTRE</h1>
-        <div class="room-config">
-            <label style="color:#f4ebd8; font-family:'Roboto'; font-weight:bold; font-size:0.8rem;">UID DA SALA:</label>
-            <input type="text" id="gm-uid" placeholder="Ex: SESSAO123">
-            <button class="btn-mestre" onclick="conectarSala()">CONECTAR MESA</button>
-        </div>
+<div class="painel-mestre">
+    <h1 class="header-titulo">PAINEL DO MESTRE (ONLINE)</h1>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
+        <button class="tab-btn" onclick="mudarAba('guilda')">🛡️ GUILDA</button>
+        <button class="tab-btn" onclick="mudarAba('local')">📜 LOCAIS</button>
+        <button class="tab-btn" onclick="mudarAba('npc')">🧙 NPCs</button>
     </div>
 
-    <div class="gm-layout">
+    <div class="conteudo-wrapper">
         
-        <div class="col-monitor">
-            <div class="panel">
-                <h2 class="panel-title">Jogadores na Mesa</h2>
-                <div class="players-grid" id="players-container">
-                    <div style="color:#8b5a2b; font-style:italic; font-size:0.9rem; text-align:center;">Aguardando conexões...</div>
+        <div class="coluna-central">
+            
+            <div id="tab-mesa" class="tab-content active">
+                <div class="box-pergaminho" style="text-align: center; margin-bottom: 20px;">
+                    <h2 class="section-title">CONEXÃO DA SESSÃO</h2>
+                    <p style="font-family: 'Roboto'; font-size: 0.9rem; color: #666;">Para receber os dados e dados dos jogadores, insira o UID da sala.</p>
+                    <div style="display: flex; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto;">
+                        <input type="text" id="gm-uid" class="form-input" style="text-align: center; font-weight: bold; font-family: 'Cinzel';" placeholder="Insira o UID da Sala...">
+                        <button class="btn-acao" style="width: auto;" onclick="conectarSala()">CONECTAR</button>
+                    </div>
+                </div>
+
+                <div class="box-pergaminho">
+                    <h2 class="section-title">JOGADORES CONECTADOS</h2>
+                    <div id="players-container">
+                        <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;">Aguardando jogadores conectarem na sala...</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="panel" style="padding: 15px;">
-                <h2 class="panel-title" style="margin-left:10px;">Log de Rolagens</h2>
-                <div class="dice-log" id="dice-log-container"></div>
+            <div id="tab-criacao" class="tab-content">
+                <div class="box-pergaminho">
+                    <h2 class="section-title" id="titulo-criacao">ADICIONAR NOVO NPC</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nome</label>
+                        <input type="text" id="form-nome" class="form-input" placeholder="Ex: Sir Kaelen">
+                    </div>
+                    
+                    <div class="form-group" id="box-imagem">
+                        <label class="form-label">URL do Retrato (Opcional)</label>
+                        <input type="text" id="form-img" class="form-input" placeholder="http://link-da-imagem.com/foto.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Descrição / Histórico</label>
+                        <textarea id="form-desc" class="form-input" style="height: 80px; resize: vertical;" placeholder="Detalhes..."></textarea>
+                    </div>
+
+                    <button class="btn-acao" onclick="salvarEntidadeDb()">SALVAR NO CATÁLOGO</button>
+                </div>
+
+                <div class="box-pergaminho" style="margin-top: 15px;">
+                    <h2 class="section-title" id="titulo-lista">LISTA DO MUNDO</h2>
+                    <div class="lista-entidades" id="lista-catalogo">
+                        </div>
+                </div>
             </div>
         </div>
 
-        <div class="panel col-editor">
-            <h2 class="panel-title">Adicionar ao Mundo</h2>
+        <div style="display:flex; flex-direction: column; gap: 15px; width: 320px;">
             
-            <div class="tabs-nav">
-                <button class="tab-btn active" onclick="mudarAba('npc')">NPC / PESSOA</button>
-                <button class="tab-btn" onclick="mudarAba('guilda')">GUILDA / FACÇÃO</button>
-                <button class="tab-btn" onclick="mudarAba('local')">LOCAL</button>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Nome da Entidade</label>
-                <input type="text" id="form-nome" class="form-input" placeholder="Ex: Rei Arthur, Guilda dos Ladrões, Taverna...">
-            </div>
-
-            <div class="form-group" id="box-imagem">
-                <label class="form-label">URL da Imagem (Opcional)</label>
-                <input type="text" id="form-img" class="form-input" placeholder="http://link-da-imagem.com/foto.jpg">
-            </div>
-
-            <div class="subitem-box" id="box-subitens" style="display: none;">
-                <label class="form-label" id="label-subitens">Adicionar Membros / Pontos</label>
-                <div style="display:flex; gap:10px;">
-                    <input type="text" id="form-subitem-nome" class="form-input" placeholder="Nome do Membro / Local..." style="margin-bottom:0;">
-                    <button class="btn-mestre" style="padding: 0 20px; font-size: 1.5rem; margin-top:0;" onclick="addSubItem()">+</button>
+            <div class="box-couro">
+                <h2 class="section-title">CONTROLES DE ENVIO AO JOGADOR</h2>
+                <div class="form-group">
+                    <label class="form-label">Nome do Personagem (Alvo):</label>
+                    <input type="text" id="form-target" class="form-input" value="todos" placeholder="Ex: 'todos' ou Nome do Personagem">
                 </div>
-                <div class="subitem-list" id="lista-subitens-temp"></div>
+                <button class="btn-enviar" onclick="enviarParaJogador()">ENVIAR SELECIONADO</button>
+                <p style="font-family:'Roboto'; font-size:0.7rem; color:rgba(241,232,213,0.6); text-align:center; margin-top:10px; margin-bottom:0;">
+                    Selecione um item no catálogo ao lado, defina o alvo e clique em enviar.
+                </p>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Descrição / Histórico</label>
-                <textarea id="form-desc" class="form-input" style="height: 120px; resize: vertical;" placeholder="Detalhes que os jogadores poderão ler..."></textarea>
+            <div class="coluna-log" style="flex:1;">
+                <h2 class="section-title" style="margin-bottom: 20px;">LOG DE ROLAGENS</h2>
+                <div id="dice-log-container">
+                    <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.85rem; margin-top:50%;">Aguardando rolagens...</p>
+                </div>
             </div>
-
-            <div class="target-box">
-                <label class="form-label" style="color:#b71c1c;">ALVO DO ENVIO (Quem vai receber na ficha?)</label>
-                <input type="text" id="form-target" class="form-input" value="todos" placeholder="Digite 'todos' ou o Nome do Personagem">
-                <small style="color:#5c3a21; font-family:'Roboto'; font-weight:bold; display:block; margin-top:5px;">Para enviar a todos, deixe "todos". Para enviar a um jogador específico, digite o Nome do Personagem exato dele.</small>
-            </div>
-
-            <button class="btn-enviar" onclick="enviarEntidade()">🚀 ENVIAR PARA JOGADOR(ES)</button>
-
+            
         </div>
     </div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
     let gmUid = "";
-    let jogadores = {}; // Armazena dados dos jogadores
-    let tempSubItems = []; // Array temporário para membros de guilda ou pontos de local
-    let abaAtual = 'npc';
+    let jogadores = {}; 
+    
+    // Bancos de Dados Locais do Mestre
+    let dbNPCs = [];
+    let dbGuildas = [];
+    let dbLocais = [];
+    
+    let abaAtual = 'mesa';
+    let tipoCriacaoAtual = 'npc';
+    let itemSelecionadoParaEnvio = null;
+
+    // === NAVEGAÇÃO ===
+    function mudarAba(aba) {
+        abaAtual = aba;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        if(aba === 'mesa') {
+            document.getElementById('tab-mesa').classList.add('active');
+        } else {
+            document.getElementById('tab-criacao').classList.add('active');
+            tipoCriacaoAtual = aba;
+            
+            // Ajusta Títulos e UI
+            let tituloStr = aba === 'npc' ? 'NPC' : (aba === 'guilda' ? 'GUILDA' : 'LOCAL');
+            document.getElementById('titulo-criacao').innerText = `ADICIONAR NOVO ${tituloStr}`;
+            document.getElementById('titulo-lista').innerText = `LISTA DE ${tituloStr}S CRIADOS`;
+            
+            // Esconde imagem para Locais/Guildas por simplicidade, ou mantém. Vamos manter para todos.
+            document.getElementById('box-imagem').style.display = 'block'; 
+            
+            itemSelecionadoParaEnvio = null; // Reseta seleção
+            renderizarCatalogo();
+        }
+    }
 
     // === CONEXÃO DO MESTRE ===
     function conectarSala() {
         gmUid = document.getElementById('gm-uid').value.trim();
         if(!gmUid) return alert("Digite um UID de sala para monitorar!");
         alert("Escudo Conectado à sala: " + gmUid);
-        // O mestre pode emitir para o backend que entrou na sala
-        // Dependendo de como o servidor está estruturado, ele passa a ouvir eventos
     }
 
-    // === RECEBIMENTO DE DADOS DOS JOGADORES (atualizarDados) ===
+    // === RECEBIMENTO DE JOGADORES ===
     socket.on('atualizarDados', function(data) {
-        // Se a sala não bater (caso o servidor mande tudo global, filtramos aqui)
         if(gmUid && data.uid !== gmUid) return;
 
         let j = data.dados;
         if(!j.charName) return;
-
-        // Atualiza ou insere jogador
         jogadores[j.charName] = j;
-        renderizarJogadores();
+        if (abaAtual === 'mesa') renderizarJogadores();
     });
 
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
-        container.innerHTML = '';
-        
         let chaves = Object.keys(jogadores);
+        
         if(chaves.length === 0) {
-            container.innerHTML = '<div style="color:#8b5a2b; font-style:italic; font-size:0.9rem; text-align:center;">Nenhum jogador enviou dados ainda.</div>';
+            container.innerHTML = '<p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;">Nenhum jogador enviou dados ainda.</p>';
             return;
         }
 
+        container.innerHTML = '';
         chaves.forEach(key => {
             let p = jogadores[key];
-            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img" style="background:#3e2723; display:flex; align-items:center; justify-content:center; font-size:2rem;">👤</div>`;
+            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img" style="background:#e3d8c1; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👤</div>`;
             
             container.innerHTML += `
                 <div class="player-card">
                     ${imgHtml}
-                    <div class="player-info">
-                        <div class="player-name">${p.charName || 'Desconhecido'} (Nvl ${p.nivel || 1})</div>
-                        <div class="player-realname">Jogador: ${p.playerName || '-'}</div>
+                    <div style="flex:1;">
+                        <div style="font-family:'Cinzel'; font-weight:900; font-size:1.1rem; color:#4a2f1d;">${p.charName} <span style="font-size:0.8rem; color:#666;">(Nvl ${p.nivel || 1})</span></div>
+                        <div style="font-family:'Roboto'; font-size:0.75rem; color:#8b5a2b; margin-bottom: 5px;">Jogador(a): ${p.playerName || '-'}</div>
                         <div class="player-stats">
-                            <span class="stat-badge badge-hp">PV: ${p.hpAtual}/${p.hpMax}</span>
-                            <span class="stat-badge badge-mp">PM: ${p.mpAtual}/${p.mpMax}</span>
-                            <span class="stat-badge badge-def">DEF: ${p.defesa}</span>
+                            <span class="stat-badge" style="background:#b71c1c;">PV: ${p.hpAtual}/${p.hpMax}</span>
+                            <span class="stat-badge" style="background:#0d47a1;">PM: ${p.mpAtual}/${p.mpMax}</span>
+                            <span class="stat-badge" style="background:#455a64;">DEF: ${p.defesa}</span>
                         </div>
                     </div>
                 </div>
@@ -213,124 +330,118 @@
         });
     }
 
-    // === RECEBIMENTO DE DADOS DE ROLAGEM (player_dice_roll) ===
+    // === RECEBIMENTO DE DADOS DE ROLAGEM ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid !== gmUid) return;
 
         const logContainer = document.getElementById('dice-log-container');
+        if (logContainer.querySelector('p')) logContainer.innerHTML = ''; // Remove o texto "Aguardando..."
         
-        let color = roll.corCategoria || "#33cc00";
-        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: 0 0 10px ${color};` : '';
-        let resultStyle = `color: ${color}; text-shadow: 1px 1px 0 #000;`;
+        let color = roll.corCategoria || "#2e7d32";
+        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 10px ${color}, 0 0 5px ${color}; border-color:${color};` : '';
 
         let entry = `
-            <div class="log-entry" style="border-left-color: ${color}; ${shadow}">
+            <div class="log-entry" style="${shadow}">
                 <div class="log-header">
-                    <span><strong>${roll.playerName || 'Jogador'}</strong> rolou:</span>
-                    <span style="color:${color}; font-weight:bold;">${roll.categoria}</span>
+                    <span><strong>${roll.playerName || 'Jogador'}</strong></span>
+                    <span style="color:${color}; font-weight:bold; font-family:'Cinzel';">${roll.categoria}</span>
                 </div>
-                <div class="log-title">${roll.nomeRolagem}</div>
-                <div class="log-result" style="${resultStyle}">${roll.resultadoFinal}</div>
-                <div style="font-size:0.75rem; color:#aaa; margin-top:3px;">${roll.detalhes}</div>
+                <div style="font-family:'Cinzel'; font-weight:bold; color:#ff9100; font-size: 0.9rem;">${roll.nomeRolagem}</div>
+                <div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div>
+                <div style="font-size:0.7rem; color:#888; text-align:center; margin-top:2px;">${roll.detalhes}</div>
             </div>
         `;
 
-        // Prepend (coloca no topo)
         logContainer.innerHTML = entry + logContainer.innerHTML;
-        
-        // Limita a 50 rolagens no log para não travar
-        if(logContainer.children.length > 50) {
-            logContainer.removeChild(logContainer.lastChild);
-        }
+        if(logContainer.children.length > 30) logContainer.removeChild(logContainer.lastChild);
     });
 
-    // === GERENCIAMENTO DE FORMULÁRIO (ENTIDADES) ===
-    function mudarAba(tipo) {
-        abaAtual = tipo;
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+    // === CRIAÇÃO E CATÁLOGO DO MESTRE ===
+    function salvarEntidadeDb() {
+        let nome = document.getElementById('form-nome').value.trim();
+        let desc = document.getElementById('form-desc').value.trim();
+        let img = document.getElementById('form-img').value.trim();
 
-        // Limpa formulário
+        if(!nome) return alert("O campo Nome é obrigatório!");
+
+        let novoItem = { id: Date.now(), nome: nome, desc: desc, img: img };
+
+        if(tipoCriacaoAtual === 'npc') dbNPCs.push(novoItem);
+        else if(tipoCriacaoAtual === 'guilda') dbGuildas.push(novoItem);
+        else if(tipoCriacaoAtual === 'local') dbLocais.push(novoItem);
+
         document.getElementById('form-nome').value = '';
-        document.getElementById('form-img').value = '';
         document.getElementById('form-desc').value = '';
-        tempSubItems = []; renderSubItems();
+        document.getElementById('form-img').value = '';
+        
+        renderizarCatalogo();
+    }
 
-        if (tipo === 'npc') {
-            document.getElementById('box-imagem').style.display = 'block';
-            document.getElementById('box-subitens').style.display = 'none';
-        } else {
-            document.getElementById('box-imagem').style.display = 'none';
-            document.getElementById('box-subitens').style.display = 'block';
-            document.getElementById('label-subitens').innerText = tipo === 'guilda' ? 'ADICIONAR MEMBROS DA GUILDA' : 'ADICIONAR PONTOS DO LOCAL / NPCs';
+    function renderizarCatalogo() {
+        const container = document.getElementById('lista-catalogo');
+        container.innerHTML = '';
+        
+        let listaAtual = tipoCriacaoAtual === 'npc' ? dbNPCs : (tipoCriacaoAtual === 'guilda' ? dbGuildas : dbLocais);
+        let iconePadrao = tipoCriacaoAtual === 'npc' ? '👤' : (tipoCriacaoAtual === 'guilda' ? '🛡️' : '📜');
+
+        if(listaAtual.length === 0) {
+            container.innerHTML = `<p style="text-align:center; font-size:0.85rem; color:#8b5a2b; font-style:italic;">Nenhum registro criado.</p>`;
+            return;
         }
-    }
 
-    function addSubItem() {
-        let input = document.getElementById('form-subitem-nome');
-        let nome = input.value.trim();
-        if(nome) {
-            // O ID é gerado pelo mestre antes de enviar, para a ficha do jogador conseguir ler
-            tempSubItems.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' });
-            input.value = '';
-            renderSubItems();
-        }
-    }
-
-    function removeSubItem(idx) {
-        tempSubItems.splice(idx, 1);
-        renderSubItems();
-    }
-
-    function renderSubItems() {
-        const list = document.getElementById('lista-subitens-temp');
-        list.innerHTML = '';
-        tempSubItems.forEach((sub, idx) => {
-            list.innerHTML += `<div class="subitem-badge">${sub.nome} <span onclick="removeSubItem(${idx})">&times;</span></div>`;
+        listaAtual.forEach(item => {
+            let isSelected = itemSelecionadoParaEnvio && itemSelecionadoParaEnvio.id === item.id ? 'selecionado' : '';
+            let imgHtml = item.img ? `<img src="${item.img}" class="card-img">` : `<div class="card-img">${iconePadrao}</div>`;
+            
+            container.innerHTML += `
+                <div class="card-entidade ${isSelected}" onclick="selecionarItem(${item.id})">
+                    <div class="card-info">
+                        ${imgHtml}
+                        <div>
+                            <h4 class="card-nome">${item.nome}</h4>
+                            <p class="card-desc">${item.desc ? item.desc.substring(0, 30) + '...' : 'Sem descrição'}</p>
+                        </div>
+                    </div>
+                    <div style="color: #9c2b2b; font-size: 1.2rem;">${isSelected ? '✔️' : ''}</div>
+                </div>
+            `;
         });
     }
 
-    // === ENVIO PARA OS JOGADORES (gm_send_entity) ===
-    function enviarEntidade() {
-        let nome = document.getElementById('form-nome').value.trim();
-        if(!nome) return alert("A entidade precisa ter um nome!");
+    function selecionarItem(id) {
+        let listaAtual = tipoCriacaoAtual === 'npc' ? dbNPCs : (tipoCriacaoAtual === 'guilda' ? dbGuildas : dbLocais);
+        itemSelecionadoParaEnvio = listaAtual.find(i => i.id === id);
+        renderizarCatalogo();
+    }
 
-        let desc = document.getElementById('form-desc').value.trim();
-        let img = document.getElementById('form-img').value.trim();
+    // === ENVIO PARA O JOGADOR (SOCKET) ===
+    function enviarParaJogador() {
+        if(!itemSelecionadoParaEnvio) return alert("Selecione um item da lista do catálogo primeiro!");
+        
         let target = document.getElementById('form-target').value.trim() || 'todos';
 
-        // Constrói o objeto de dados esperado pela ficha do jogador
-        let dados = { id: Date.now(), nome: nome, desc: desc };
+        // Mapeia o tipo interno do Mestre para o tipo esperado pela Ficha do Jogador
+        let tipoParaFicha = tipoCriacaoAtual === 'npc' ? 'pessoa' : tipoCriacaoAtual;
 
-        if(abaAtual === 'npc' || abaAtual === 'pessoa') {
-            abaAtual = 'pessoa'; // Força o padrão da ficha
-            dados.img = img;
-        } else if (abaAtual === 'guilda') {
-            dados.membros = [...tempSubItems];
-        } else if (abaAtual === 'local') {
-            dados.pontos = [...tempSubItems];
-        }
-
-        // Payload padrão estruturado para bater com a ficha
         let payload = {
             target: target,
             entidade: {
-                tipoLista: abaAtual,
-                dados: dados
+                tipoLista: tipoParaFicha,
+                dados: { 
+                    id: itemSelecionadoParaEnvio.id, 
+                    nome: itemSelecionadoParaEnvio.nome, 
+                    desc: itemSelecionadoParaEnvio.desc,
+                    img: itemSelecionadoParaEnvio.img 
+                }
             }
         };
 
-        // Envia para o servidor (que fará o broadcast)
         socket.emit('gm_send_entity', payload);
-
-        alert(`Enviado com sucesso para: ${target.toUpperCase()}!`);
+        alert(`O item "${itemSelecionadoParaEnvio.nome}" foi enviado para: ${target.toUpperCase()}!`);
         
-        // Limpar form após envio
-        document.getElementById('form-nome').value = '';
-        document.getElementById('form-desc').value = '';
-        tempSubItems = []; renderSubItems();
+        itemSelecionadoParaEnvio = null; // Tira a seleção após envio
+        renderizarCatalogo();
     }
-
 </script>
 
 </body>
