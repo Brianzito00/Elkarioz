@@ -474,6 +474,18 @@
         renderizarMesaOnline();
     });
 
+    // === NOVA COMUNICAÇÃO DE ATUALIZAÇÕES GERAIS ===
+    // Ouvir atualizações genéricas dos jogadores (se houver alguma no futuro)
+    socket.on('dadosAtualizados', (dados) => {
+        console.log('Dados recebidos dos jogadores:', dados);
+        // Atualize a interface aqui com os novos dados se necessário
+    });
+
+    // Função para o mestre enviar atualizações para os jogadores 
+    function enviarAtualizacao(meusDados) {
+        socket.emit('atualizarDados', meusDados);
+    }
+
     // === CALCULADORA DE DANO PARA O GM ===
     function calcularDanoStr(expressao, mult = 1) {
         if(!expressao) return 0;
