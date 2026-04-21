@@ -50,6 +50,10 @@
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
         .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-weight: 700; font-size: 1rem; padding: 0 10px; height: 38px; width: 100%; background: rgba(255, 255, 255, 0.7); color: #000; }
         .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #000; font-weight: 900; text-transform: uppercase; margin-top: 3px; margin-left: 5px; }
+        
+        /* Destaque para o campo de UID */
+        .campo-uid input { background: rgba(183, 28, 28, 0.1); border-color: #b71c1c; color: #b71c1c; }
+        .campo-uid label { color: #b71c1c; }
 
         /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; }
@@ -230,8 +234,9 @@
 
         <div class="header-info-grid">
             <div class="header-row">
-                <div class="campo-rpg" style="flex: 2.5;"><input type="text" id="char-name-input" oninput="sincronizarComMestre()"><label>Personagem</label></div>
-                <div class="campo-rpg" style="flex: 1.2;"><input type="text" id="player-name-input" oninput="sincronizarComMestre()"><label>Jogador(a)</label></div>
+                <div class="campo-rpg" style="flex: 2;"><input type="text" id="char-name-input" oninput="sincronizarComMestre()"><label>Personagem</label></div>
+                <div class="campo-rpg" style="flex: 1;"><input type="text" id="player-name-input" oninput="sincronizarComMestre()"><label>Jogador(a)</label></div>
+                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="Ex: Sala123" oninput="sincronizarComMestre()"><label>Sala / UID</label></div>
             </div>
             <div class="header-row">
                 <div class="campo-rpg"><input type="text"><label>Raça</label></div>
@@ -519,13 +524,10 @@
     // COMUNICAÇÃO BASE: JOGADOR <--> MESTRE
     // =======================================================
     
-    // Ouvir atualizações vindas do mestre ou de outros jogadores
     socket.on('dadosAtualizados', (dados) => {
         console.log('Dados recebidos do mestre:', dados);
-        // Aqui, futuramente, vamos atualizar a ficha do jogador se o mestre mudar algo.
     });
 
-    // Função para o jogador enviar alterações (ex: perdeu vida, gastou magia)
     function enviarAtualizacao(meusDados) {
         socket.emit('atualizarDados', meusDados);
     }
@@ -612,7 +614,9 @@
 
     function sincronizarComMestre() {
         let portraitSrc = document.getElementById('portrait-img').src;
+        // ADICIONADO O CAMPO DE UID AQUI
         let dadosParaMestre = {
+            uid: document.getElementById('uid-input').value, // <-- NOVO
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
             hpAtual: getValor('vida-atual'),
@@ -849,7 +853,6 @@
         document.getElementById('mcl-nome').value = ''; 
         document.getElementById('mcl-desc').value = ''; 
         
-        // Ocultar os sub-itens se for pessoa e mostra o input de Imagem
         if (tipo === 'pessoa') {
             document.getElementById('mcl-subitems-container').style.display = 'none';
             document.getElementById('mcl-img-container').style.display = 'block';
@@ -965,7 +968,7 @@
 
     function abrirVisualizacao(tipoLista, id) { 
         tipoContexto = tipoLista; 
-        let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbPessoas : (tipoLista == 'magia' ? dbMagias : dbHabilidades))))); 
+        let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbMagias : dbHabilidades)))); 
         let item = lista.find(x => x.id == id); if(!item) return;
 
         itemAbertoId = id; document.getElementById('mv-nome').innerText = item.nome; 
@@ -1109,7 +1112,21 @@
 
         // === ENVIA A INFORMAÇÃO COM CORES E ETIQUETAS PRO ESCUDO DO MESTRE (SOCKET.IO) ===
         let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
-        let rollLog = { playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() };
+        
+        // ADICIONADO O CAMPO DE UID AQUI TAMBÉM
+        let rollLog = { 
+            uid: document.getElementById('uid-input').value, // <-- NOVO
+            playerName: meuNome, 
+            nomeRolagem: nome, 
+            resultadoFinal: resultadoLog, 
+            detalhes: detalhesLog, 
+            categoria: tipoCategoriaLog, 
+            corCategoria: corCategoriaLog, 
+            isDano: currentRollData.isDano, 
+            isCritico: isCrit, 
+            isDesastre: isDesastre, 
+            _trigger: Math.random() 
+        };
         
         socket.emit('player_dice_roll', rollLog); // Emitindo via Socket.IO
 
