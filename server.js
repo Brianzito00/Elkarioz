@@ -9,71 +9,75 @@ const io = new Server(server);
 // Serve os ficheiros estáticos da pasta 'public'
 app.use(express.static('public'));
 
-// Função para gerar um UID curto (4 caracteres alfanuméricos)
+// Objeto para armazenar o estado das sessões ativas (opcional para persistência básica)
+const sessoesAtivas = {};
+
+// Função auxiliar para gerar um ID curto de 4 caracteres
 function gerarUID() {
     return Math.random().toString(36).substring(2, 6).toUpperCase();
 }
 
-// Guarda as sessões ativas na memória do servidor
-const sessoesAtivas = {};
-
-// Gere as conexões do Socket.IO
 io.on('connection', (socket) => {
     console.log('Um utilizador conectou-se:', socket.id);
 
-    // 1. JOGADOR: Pede para criar a ficha e gerar o UID
+    // --- LÓGICA DO JOGADOR ---
+    
+    // Quando uma ficha é aberta, ela pede a criação de uma UID
     socket.on('criarFicha', () => {
         const uid = gerarUID();
-        socket.join(uid); // Coloca o jogador nesta sala exclusiva
+        
+        // O socket entra numa "sala" exclusiva com o nome da UID
+        socket.join(uid);
         
         sessoesAtivas[uid] = {
-            jogador: socket.id,
-            mestre: null,
-            dados: {} // Podemos guardar o estado da ficha aqui futuramente
+            jogadorId: socket.id,
+            dados: {}
         };
 
-        console.log(`Ficha criada com UID: ${uid}`);
-        socket.emit('uidGerada', uid); // Devolve o código para a interface do jogador
+        console.log(`Ficha criada e sala aberta: ${uid}`);
+        
+        // Envia a UID de volta apenas para este jogador
+        socket.emit('uidGerada', uid);
     });
 
-    // 2. MESTRE: Tenta ligar-se a uma ficha usando o UID
-    socket.on('linkarEscudo', (uid) => {
-        // Verifica se o UID existe, pondo tudo em maiúsculas para evitar erros de digitação
-        const uidFormatado = uid.toUpperCase();
+    // --- LÓGICA DO MESTRE ---
 
-        if (sessoesAtivas[uidFormatado]) {
-            socket.join(uidFormatado); // Coloca o Mestre na sala da ficha
-            sessoesAtivas[uidFormatado].mestre = socket.id;
+    // Quando o mestre insere a UID no escudo
+    socket.on('linkarEscudo', (uidSolicitada) => {
+        const uid = uidSolicitada.toUpperCase();
+
+        // Verifica se essa sala/sessão existe
+        if (sessoesAtivas[uid]) {
+            socket.join(uid);
+            console.log(`Mestre (ID: ${socket.id}) conectou-se à ficha: ${uid}`);
             
-            console.log(`Mestre ligou-se à ficha ${uidFormatado}`);
+            socket.emit('linkSucesso', uid);
             
-            // Avisa o mestre que conectou com sucesso
-            socket.emit('linkSucesso', uidFormatado);
-            // Avisa o jogador que o mestre agora está a ver a ficha dele
-            socket.to(uidFormatado).emit('mestreConectado'); 
+            // Avisa o jogador que o mestre agora está a observar
+            socket.to(uid).emit('mestreConectado');
         } else {
-            // Se o código estiver errado
-            socket.emit('erroLink', 'Código UID não encontrado ou inválido.');
+            socket.emit('erroLink', 'Código UID não encontrado.');
         }
     });
 
-    // 3. ATUALIZAR DADOS: Agora precisa saber de qual UID estamos a falar
-    // O cliente agora tem de enviar um objeto do tipo: { uid: "A7B9", dados: {...} }
+    // --- SINCRONIZAÇÃO DE DADOS ---
+
+    // O evento agora espera um objeto: { uid: 'ABCD', dados: { ... } }
     socket.on('atualizarDados', (pacote) => {
         const { uid, dados } = pacote;
-        
-        if (sessoesAtivas[uid]) {
-            // Guarda os dados na memória do servidor (opcional, mas útil se alguém der F5)
+
+        if (uid && sessoesAtivas[uid]) {
+            // Atualiza os dados na memória do servidor
             sessoesAtivas[uid].dados = dados;
-            
-            // Envia para a sala (se for o jogador a enviar, o mestre recebe; e vice-versa)
+
+            // Envia a atualização apenas para os membros daquela sala (UID)
+            // O broadcast dentro da sala garante que quem enviou não receba de volta
             socket.to(uid).emit('dadosAtualizados', dados);
         }
     });
 
     socket.on('disconnect', () => {
         console.log('Utilizador desconectou-se:', socket.id);
-        // Opcional: Adicionar código para limpar 'sessoesAtivas' se a sala ficar vazia
     });
 });
 
