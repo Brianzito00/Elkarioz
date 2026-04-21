@@ -515,6 +515,22 @@
     // === CONSTANTES E DB ===
     const socket = io(); // CONEXÃO COM O SERVIDOR INICIADA
 
+    // =======================================================
+    // COMUNICAÇÃO BASE: JOGADOR <--> MESTRE
+    // =======================================================
+    
+    // Ouvir atualizações vindas do mestre ou de outros jogadores
+    socket.on('dadosAtualizados', (dados) => {
+        console.log('Dados recebidos do mestre:', dados);
+        // Aqui, futuramente, vamos atualizar a ficha do jogador se o mestre mudar algo.
+    });
+
+    // Função para o jogador enviar alterações (ex: perdeu vida, gastou magia)
+    function enviarAtualizacao(meusDados) {
+        socket.emit('atualizarDados', meusDados);
+    }
+    // =======================================================
+
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     const listaPericiasBase = [{n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},{n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},{n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},{n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},{n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},{n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},{n:'Misticismo',a:'intelecto'},{n:'Nobreza',a:'intelecto'},{n:'Ofício 1',a:'intelecto'},{n:'Ofício 2',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},{n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},{n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}];
     
