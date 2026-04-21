@@ -40,8 +40,9 @@
 
         /* === CONTROLES === */
         .top-controls { display: flex; justify-content: center; margin-bottom: 20px; }
-        .btn-atualizar { background: rgba(92, 58, 33, 0.95); color: #fff; padding: 12px 30px; cursor: pointer; border: 2px solid #3e2723; font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; border-radius: 6px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
-        .btn-atualizar:hover { background: #b71c1c; border-color: #7f0000; transform: translateY(-2px); }
+        .campo-uid-box { display: flex; flex-direction: column; background: rgba(183, 28, 28, 0.1); border: 2px solid #b71c1c; padding: 5px 15px; border-radius: 6px; min-width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .campo-uid-box label { font-family: 'Roboto'; font-weight: 900; font-size: 0.7rem; color: #b71c1c; text-transform: uppercase; text-align: center; }
+        .campo-uid-box input { background: transparent; border: none; font-family: 'Lora'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; outline: none; text-align: center; }
         
         /* === MESA E JOGADORES === */
         .escudo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; }
@@ -181,7 +182,12 @@
         <div class="tabs-area">
             
             <div id="tab-mesa" class="tab-content active">
-                <div class="top-controls"><button class="btn-atualizar" onclick="renderizarMesaOnline()">🔄 ATUALIZAR MESA</button></div>
+                <div class="top-controls">
+                    <div class="campo-uid-box">
+                        <label>UID DA SALA (Filtro em Tempo Real)</label>
+                        <input type="text" id="gm-uid" placeholder="Digite a Sala" oninput="limparFiltroMesa()">
+                    </div>
+                </div>
                 <div class="escudo-grid" id="mesa-grid"></div>
             </div>
 
@@ -455,13 +461,32 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    // === CONEXÃO COM O SERVIDOR (NÃO MEXER) ===
-    // O io() vazio encontra a porta automaticamente
+    // === CONEXÃO COM O SERVIDOR ===
     const socket = io();
     let jogadoresMesa = {};
 
+    // Função para pegar o UID do input do mestre
+    function getGMUID() {
+        return document.getElementById('gm-uid').value.trim();
+    }
+
+    // Função para limpar a mesa e o log quando trocar de sala
+    function limparFiltroMesa() {
+        jogadoresMesa = {};
+        renderizarMesaOnline();
+        limparLog();
+        // Nota: Bestiário, Catálogo e História são locais do Mestre, então não são apagados aqui.
+    }
+
+    // === TEMPO REAL: ESCUTAR EVENTOS DA REDE ===
+
     // Escuta novas rolagens vindo da internet
     socket.on('nova_rolagem', (rollData) => {
+        const salaMestre = getGMUID();
+        
+        // Verifica se a sala preenchida bate com a do jogador
+        if (salaMestre !== "" && rollData.uid !== salaMestre) return;
+
         adicionarLogDado(rollData);
         if(rollData.nomeRolagem.toLowerCase().includes('iniciativa') && rollData.playerName !== '[ MESTRE ]') {
             adicionarIniciativa(rollData.playerName, rollData.resultadoFinal, false, rollData.img || "");
@@ -470,18 +495,20 @@
 
     // Escuta a atualização de vida/mana dos jogadores conectados
     socket.on('sincronizar_mesa_mestre', (dadosDoJogador) => {
+        const salaMestre = getGMUID();
+        
+        // Verifica se a sala preenchida bate com a do jogador
+        if (salaMestre !== "" && dadosDoJogador.uid !== salaMestre) return;
+
         jogadoresMesa[dadosDoJogador.charName || 'Desconhecido'] = dadosDoJogador;
         renderizarMesaOnline();
     });
 
-    // === NOVA COMUNICAÇÃO DE ATUALIZAÇÕES GERAIS ===
-    // Ouvir atualizações genéricas dos jogadores (se houver alguma no futuro)
+    // Ouvir atualizações genéricas dos jogadores
     socket.on('dadosAtualizados', (dados) => {
         console.log('Dados recebidos dos jogadores:', dados);
-        // Atualize a interface aqui com os novos dados se necessário
     });
 
-    // Função para o mestre enviar atualizações para os jogadores 
     function enviarAtualizacao(meusDados) {
         socket.emit('atualizarDados', meusDados);
     }
@@ -848,6 +875,7 @@
         let dado = Math.floor(Math.random() * 20) + 1;
         let total = dado + parseInt(bonus);
         let rollLog = {
+            uid: getGMUID(),
             playerName: "[ MESTRE ]",
             nomeRolagem: `Iniciativa (${nome})`,
             resultadoFinal: total,
@@ -872,6 +900,7 @@
         let isDes = (dado === 1);
         
         let rollLog = {
+            uid: getGMUID(),
             playerName: "[ MESTRE ]",
             nomeRolagem: nomeRolagem,
             resultadoFinal: total,
@@ -891,6 +920,7 @@
     function rolarDanoGM(nomeRolagem, expressao) {
         let total = calcularDanoStr(expressao);
         let rollLog = {
+            uid: getGMUID(),
             playerName: "[ MESTRE ]",
             nomeRolagem: nomeRolagem,
             resultadoFinal: total,
@@ -1474,7 +1504,7 @@
         
         let payload = { tipoLista: tipoEntidadeAtual, dados: payloadData };
         
-        socket.emit('enviar_entidade', { entidade: payload, target: 'todos' });
+        socket.emit('enviar_entidade', { entidade: payload, target: 'todos', uid: getGMUID() });
         
         let btn = document.getElementById('btn-enviar-entidade');
         if(btn) {
@@ -1519,7 +1549,7 @@
                 munMax: tipoPlayer === 'municao' ? (parseInt(arma.quantidade) || 20) : 0
             };
             
-            socket.emit('enviar_item', { item: itemParaEnvio, target: targetSelecionadoEnvio });
+            socket.emit('enviar_item', { item: itemParaEnvio, target: targetSelecionadoEnvio, uid: getGMUID() });
             
             let btn = document.getElementById(`btn-env-${armaSelecionadaEnvio}`);
             if(btn) {
