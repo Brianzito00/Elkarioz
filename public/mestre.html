@@ -41,8 +41,9 @@
         /* === CONTROLES === */
         .top-controls { display: flex; justify-content: center; margin-bottom: 20px; }
         .campo-uid-box { display: flex; flex-direction: column; background: rgba(183, 28, 28, 0.1); border: 2px solid #b71c1c; padding: 5px 15px; border-radius: 6px; min-width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .campo-uid-box label { font-family: 'Roboto'; font-weight: 900; font-size: 0.7rem; color: #b71c1c; text-transform: uppercase; text-align: center; }
-        .campo-uid-box input { background: transparent; border: none; font-family: 'Lora'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; outline: none; text-align: center; }
+        .campo-uid-box label { font-family: 'Roboto'; font-weight: 900; font-size: 0.7rem; color: #b71c1c; text-transform: uppercase; text-align: center; margin-bottom: 5px; }
+        .campo-uid-box input { background: transparent; border: none; font-family: 'Lora'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; outline: none; text-align: center; width: 100%; border-bottom: 1px solid rgba(183, 28, 28, 0.3); padding-bottom: 3px; }
+        .campo-uid-box .connect-row { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 5px; }
         
         /* === MESA E JOGADORES === */
         .escudo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; }
@@ -184,8 +185,11 @@
             <div id="tab-mesa" class="tab-content active">
                 <div class="top-controls">
                     <div class="campo-uid-box">
-                        <label>UID DA SALA (Filtro em Tempo Real)</label>
-                        <input type="text" id="gm-uid" placeholder="Digite a Sala" oninput="limparFiltroMesa()">
+                        <label>UID DA SALA</label>
+                        <div class="connect-row">
+                            <input type="text" id="gm-uid" placeholder="Digite a Sala" oninput="limparFiltroMesa()">
+                            <button class="btn-salvar" style="width: auto; padding: 5px 15px; font-size: 0.8rem; margin: 0;" onclick="conectarJogador(document.getElementById('gm-uid').value)">CONECTAR</button>
+                        </div>
                     </div>
                 </div>
                 <div class="escudo-grid" id="mesa-grid"></div>
@@ -461,18 +465,45 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    // === CONEXÃO COM O SERVIDOR ===
+    // === CONEXÃO COM O SERVIDOR E INTEGRAÇÃO DO MESTRE ===
     const socket = io();
     let jogadoresMesa = {};
+    let uidAtivo = ""; // Adicionado conforme o snippet fornecido
 
-    // Função para pegar o UID do input do mestre
+    // Snippet integrado: O Mestre digita o código num input e clica num botão "Conectar"
+    function conectarJogador(codigoDigitado) {
+        if(codigoDigitado && codigoDigitado.trim() !== "") {
+            socket.emit('linkarEscudo', codigoDigitado);
+        } else {
+            alert("Por favor, digite o UID da Sala primeiro.");
+        }
+    }
+
+    // Retorno de Sucesso do Link
+    socket.on('linkSucesso', (uid) => {
+        uidAtivo = uid;
+        alert(`Ligado com sucesso à ficha: ${uid}`);
+    });
+
+    // Erro ao tentar conectar
+    socket.on('erroLink', (mensagem) => {
+        alert(mensagem); // Ex: "Código UID não encontrado"
+    });
+
+    // Função de envio com o uidAtivo
+    function enviarAlteracaoComoMestre(novosDados) {
+        socket.emit('atualizarDados', { uid: uidAtivo, dados: novosDados });
+    }
+
+    // Função para pegar o UID do input do mestre (adaptada para pegar o UID ativo também)
     function getGMUID() {
-        return document.getElementById('gm-uid').value.trim();
+        return uidAtivo || document.getElementById('gm-uid').value.trim();
     }
 
     // Função para limpar a mesa e o log quando trocar de sala
     function limparFiltroMesa() {
         jogadoresMesa = {};
+        uidAtivo = ""; // Limpa a sessão logada, se o campo for modificado
         renderizarMesaOnline();
         limparLog();
         // Nota: Bestiário, Catálogo e História são locais do Mestre, então não são apagados aqui.
@@ -509,8 +540,9 @@
         console.log('Dados recebidos dos jogadores:', dados);
     });
 
+    // Função original mantida por compatibilidade
     function enviarAtualizacao(meusDados) {
-        socket.emit('atualizarDados', meusDados);
+        enviarAlteracaoComoMestre(meusDados); // Apontado para a nova função integrada
     }
 
     // === CALCULADORA DE DANO PARA O GM ===
