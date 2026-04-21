@@ -3,476 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escudo do Mestre</title>
+    <title>Painel do Mestre - RPG</title>
+    <script src="/socket.io/socket.io.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Lora:ital,wght@0,400;0,600&family=Roboto:wght@500;700;900&display=swap');
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --primary: #bb86fc;
+            --secondary: #03dac6;
+            --text: #e0e0e0;
+            --border: #333;
+        }
 
         body {
-            font-family: 'Lora', serif; 
-            background-color: #0a0a0a; 
-            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #f4ebd8; 
-            display: flex; 
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Overlay escuro para dar o tom de "Mestre" */
-        .overlay-mestre {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); z-index: -1;
-        }
-
-        .topbar {
-            background: rgba(20, 10, 5, 0.9);
-            border-bottom: 2px solid #b71c1c;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-        }
-
-        .topbar h1 {
-            font-family: 'Cinzel', serif;
-            color: #b71c1c;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0 #000;
-        }
-
-        .main-container {
-            display: flex;
-            flex: 1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            margin: 0;
             padding: 20px;
-            gap: 20px;
-            overflow: hidden;
         }
 
-        /* === PAINEIS === */
-        .panel {
-            background: rgba(20, 15, 10, 0.85);
-            border: 2px solid #8b5a2b;
-            border-radius: 8px;
-            backdrop-filter: blur(5px);
-            display: flex;
-            flex-direction: column;
+        .container {
+            max-width: 1200px;
+            margin: auto;
         }
 
-        .panel-header {
-            background: rgba(139, 90, 43, 0.3);
-            padding: 10px;
-            font-family: 'Cinzel', serif;
+        h1 {
+            color: var(--primary);
             text-align: center;
-            border-bottom: 2px solid #8b5a2b;
-            font-weight: 900;
-            color: #f4ebd8;
-            letter-spacing: 1px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
         }
 
-        .panel-content {
-            padding: 15px;
-            flex: 1;
-            overflow-y: auto;
+        /* Área de Adicionar UID */
+        .setup-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
-        ::-webkit-scrollbar-thumb { background: #8b5a2b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #b71c1c; }
-
-        /* === COLUNA 1: JOGADORES (ESQUERDA) === */
-        .col-jogadores { flex: 1.5; min-width: 300px; }
-        
-        .jogador-card {
-            background: rgba(40, 30, 20, 0.9);
-            border: 1px solid #5c3a21;
-            border-left: 5px solid #b71c1c;
+        input {
+            background: #2d2d2d;
+            border: 1px solid var(--border);
+            color: white;
             padding: 10px;
             border-radius: 4px;
-            margin-bottom: 15px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 16px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        .jogador-card:hover { border-color: #8b5a2b; transform: translateX(5px); }
+        button:hover {
+            background-color: #9965f4;
+        }
 
-        .jogador-img {
-            width: 70px; height: 90px;
-            border: 2px solid #8b5a2b;
+        /* Grid de Fichas dos Jogadores */
+        #painel-jogadores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ficha-monitor {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .ficha-monitor h3 {
+            margin-top: 0;
+            color: var(--secondary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .dado-log {
+            background: #2d2d2d;
+            padding: 5px;
             border-radius: 4px;
-            object-fit: cover;
-            background: #000;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem;
+            font-size: 0.9em;
+            margin-top: 10px;
+            border-left: 3px solid var(--primary);
         }
 
-        .jogador-info { flex: 1; }
-        
-        .jogador-nome { font-family: 'Cinzel', serif; font-weight: bold; font-size: 1.2rem; color: #fff; margin-bottom: 2px; }
-        .jogador-player { font-size: 0.8rem; color: #aaa; margin-bottom: 8px; font-family: 'Roboto'; text-transform: uppercase; }
-
-        .status-bar-container { width: 100%; background: #111; height: 12px; border: 1px solid #000; border-radius: 6px; overflow: hidden; margin-bottom: 5px; position: relative;}
-        .status-bar-fill { height: 100%; transition: 0.4s ease; }
-        .vida-fill { background: #b71c1c; }
-        .mana-fill { background: #0d47a1; }
-        .status-text { position: absolute; top: -1px; left: 0; width: 100%; text-align: center; font-size: 0.65rem; font-weight: bold; font-family: 'Roboto'; color: #fff; text-shadow: 1px 1px 0 #000; line-height: 12px;}
-
-        /* === COLUNA 2: LOG DE DADOS (MEIO) === */
-        .col-log { flex: 1; min-width: 300px; }
-
-        .log-entry {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid #333;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            animation: slideIn 0.3s ease;
-            position: relative;
+        .uid-tag {
+            font-size: 0.8em;
+            color: #888;
+            float: right;
         }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .log-player-name { font-family: 'Cinzel', serif; font-weight: bold; color: #e0e0e0; }
-        .log-time { font-size: 0.7rem; color: #777; font-family: 'Roboto'; }
-        
-        .log-roll-name { font-size: 0.9rem; color: #aaa; margin-bottom: 5px; }
-        .log-result-row { display: flex; align-items: center; gap: 10px; }
-        .log-result-number { font-size: 2rem; font-weight: 900; font-family: 'Cinzel', serif; line-height: 1; text-shadow: 2px 2px 4px #000; }
-        .log-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; font-family: 'Roboto'; color: #fff; text-transform: uppercase; }
-        .log-details { font-size: 0.75rem; color: #888; margin-top: 5px; }
-
-        /* === COLUNA 3: AÇÕES (DIREITA) === */
-        .col-acoes { flex: 1; min-width: 300px; }
-
-        .form-group { margin-bottom: 15px; }
-        .form-label { display: block; font-family: 'Roboto'; font-size: 0.8rem; font-weight: bold; color: #c8b99e; margin-bottom: 5px; text-transform: uppercase; }
-        .form-input, .form-select, .form-textarea {
-            width: 100%; background: rgba(0,0,0,0.5); border: 1px solid #8b5a2b; color: #fff;
-            padding: 10px; border-radius: 4px; font-family: 'Lora', serif; outline: none;
-        }
-        .form-input:focus, .form-textarea:focus { border-color: #b71c1c; }
-        .form-textarea { resize: vertical; height: 80px; }
-        
-        .btn-mestre {
-            width: 100%; background: #b71c1c; color: #fff; border: 1px solid #ff5252;
-            padding: 12px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 1rem;
-            border-radius: 4px; cursor: pointer; transition: 0.2s;
-            text-shadow: 1px 1px 0 #000;
-        }
-        .btn-mestre:hover { background: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-        .btn-secondary { background: #5c3a21; border-color: #8b5a2b; margin-top: 10px; }
-        .btn-secondary:hover { background: #8b5a2b; }
-
-        .tabs-acoes { display: flex; border-bottom: 2px solid #8b5a2b; margin-bottom: 15px; }
-        .tab-acao-btn {
-            flex: 1; background: transparent; border: none; color: #c8b99e; padding: 10px;
-            font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.2s;
-        }
-        .tab-acao-btn.active { color: #fff; background: rgba(139, 90, 43, 0.3); border-bottom: 3px solid #b71c1c; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideIn 0.2s; }
-
     </style>
 </head>
 <body>
 
-<div class="overlay-mestre"></div>
+    <div class="container">
+        <h1>Escudo do Mestre</h1>
 
-<div class="topbar">
-    <h1>Escudo do Mestre</h1>
-    <div style="color: #aaa; font-family: 'Roboto'; font-size: 0.9rem;">
-        Status: <span style="color: #4caf50; font-weight: bold;">Online & Ouvindo Sala</span>
-    </div>
-</div>
-
-<div class="main-container">
-    
-    <div class="panel col-jogadores">
-        <div class="panel-header">Mesa / Jogadores Ativos</div>
-        <div class="panel-content" id="jogadores-container">
-            <div style="text-align: center; color: #777; font-style: italic; margin-top: 20px;">
-                Aguardando jogadores atualizarem a ficha...
-            </div>
+        <div class="setup-section">
+            <input type="text" id="input-uid" placeholder="Digite o UID do Jogador">
+            <button onclick="adicionarJogador()">Adicionar Jogador</button>
         </div>
-    </div>
 
-    <div class="panel col-log">
-        <div class="panel-header">Log de Rolagens de Dados</div>
-        <div class="panel-content" id="log-container">
+        <div id="painel-jogadores">
             </div>
     </div>
 
-    <div class="panel col-acoes">
-        <div class="panel-header">Intervenção do Mestre</div>
-        <div class="panel-content">
-            
-            <div class="tabs-acoes">
-                <button class="tab-acao-btn active" onclick="mudarAbaAcao('item', this)">Enviar Item</button>
-                <button class="tab-acao-btn" onclick="mudarAbaAcao('entidade', this)">Enviar Info/NPC</button>
-            </div>
+    <script>
+        const socket = io();
+        const jogadoresAtivos = {};
 
-            <div id="aba-item" class="tab-content active">
-                <div class="form-group">
-                    <label class="form-label">Alvo (Quem recebe?)</label>
-                    <select class="form-select" id="item-alvo">
-                        <option value="todos">Todos os Jogadores</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Nome do Item</label>
-                    <input type="text" id="item-nome" class="form-input" placeholder="Ex: Espada Longa Flamejante">
-                </div>
-                <div class="form-group" style="display: flex; gap: 10px;">
-                    <div style="flex: 1;">
-                        <label class="form-label">Tipo</label>
-                        <select id="item-tipo" class="form-select">
-                            <option value="comum">Comum / Mochila</option>
-                            <option value="corpo">Arma Corpo-a-Corpo</option>
-                            <option value="dist">Arma à Distância</option>
-                            <option value="municao">Munição</option>
-                        </select>
-                    </div>
-                    <div style="flex: 1;">
-                        <label class="form-label">Peso (Espaços)</label>
-                        <input type="number" id="item-peso" value="1" class="form-input" style="text-align: center;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Dano / Efeito (Se for arma)</label>
-                    <input type="text" id="item-dano" class="form-input" placeholder="Ex: 1d8, Crítico x2">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Descrição Mágica / Lore</label>
-                    <textarea id="item-desc" class="form-textarea" placeholder="O que esse item faz?"></textarea>
-                </div>
-                <button class="btn-mestre" onclick="enviarItem()">ENVIAR ITEM</button>
-            </div>
-
-            <div id="aba-entidade" class="tab-content">
-                <div class="form-group">
-                    <label class="form-label">Alvo (Quem descobre a Info?)</label>
-                    <select class="form-select" id="entidade-alvo">
-                        <option value="todos">Todos os Jogadores</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tipo de Conhecimento</label>
-                    <select id="entidade-tipo" class="form-select">
-                        <option value="pessoa">Pessoa / NPC</option>
-                        <option value="guilda">Guilda / Facção</option>
-                        <option value="local">Local Descoberto</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Nome</label>
-                    <input type="text" id="entidade-nome" class="form-input" placeholder="Ex: Rei Arthur, Guilda dos Ladrões...">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Informações / Segredos</label>
-                    <textarea id="entidade-desc" class="form-textarea" placeholder="O que eles sabem sobre isso?"></textarea>
-                </div>
-                <button class="btn-mestre btn-secondary" onclick="enviarEntidade()">ENVIAR INFORMAÇÃO</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-
-    // Dicionário para armazenar o status atualizado dos jogadores
-    let jogadoresDb = {};
-
-    function mudarAbaAcao(abaId, btn) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-acao-btn').forEach(el => el.classList.remove('active'));
-        document.getElementById('aba-' + abaId).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    // ==========================================
-    // 1. RECEBENDO ATUALIZAÇÕES DOS JOGADORES
-    // ==========================================
-    socket.on('dadosAtualizados', (payload) => {
-        if (!payload || !payload.uid) return;
-        
-        let uid = payload.uid;
-        let p = payload.dados;
-
-        // Atualiza a Database Local do Mestre
-        jogadoresDb[uid] = {
-            charName: p.charName || 'Herói sem Nome',
-            playerName: p.playerName || 'Anônimo',
-            hpAtual: p.hpAtual || 0,
-            hpMax: p.hpMax || 1,
-            mpAtual: p.mpAtual || 0,
-            mpMax: p.mpMax || 1,
-            img: p.img || '',
-            lastUpdate: Date.now()
-        };
-
-        renderizarJogadores();
-        atualizarSelectAlvos();
-    });
-
-    function renderizarJogadores() {
-        const container = document.getElementById('jogadores-container');
-        container.innerHTML = '';
-
-        Object.keys(jogadoresDb).forEach(uid => {
-            let j = jogadoresDb[uid];
-            let hpPercent = Math.min((j.hpAtual / j.hpMax) * 100, 100);
-            let mpPercent = Math.min((j.mpAtual / j.mpMax) * 100, 100);
-
-            let imgHtml = j.img 
-                ? `<img src="${j.img}" class="jogador-img">` 
-                : `<div class="jogador-img" style="color:#5c3a21;">📷</div>`;
-
-            container.innerHTML += `
-                <div class="jogador-card">
-                    ${imgHtml}
-                    <div class="jogador-info">
-                        <div class="jogador-nome">${j.charName}</div>
-                        <div class="jogador-player">${j.playerName} [UID: ${uid}]</div>
-                        
-                        <div class="status-bar-container" style="border-color: #b71c1c;">
-                            <div class="status-bar-fill vida-fill" style="width: ${hpPercent}%;"></div>
-                            <div class="status-text">${j.hpAtual} / ${j.hpMax} PV</div>
-                        </div>
-                        
-                        <div class="status-bar-container" style="border-color: #0d47a1;">
-                            <div class="status-bar-fill mana-fill" style="width: ${mpPercent}%;"></div>
-                            <div class="status-text">${j.mpAtual} / ${j.mpMax} PM</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function atualizarSelectAlvos() {
-        const selItem = document.getElementById('item-alvo');
-        const selEnt = document.getElementById('entidade-alvo');
-        
-        let options = '<option value="todos">Todos os Jogadores</option>';
-        Object.keys(jogadoresDb).forEach(uid => {
-            let nome = jogadoresDb[uid].charName;
-            options += `<option value="${nome}">${nome}</option>`;
-        });
-
-        selItem.innerHTML = options;
-        selEnt.innerHTML = options;
-    }
-
-    // ==========================================
-    // 2. RECEBENDO ROLAGENS DE DADOS
-    // ==========================================
-    socket.on('player_dice_roll', (log) => {
-        const container = document.getElementById('log-container');
-        
-        let hora = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-        
-        let isDanoTxt = log.isDano ? "⚔️ Rolagem de Dano" : "🎲 Teste de Perícia/Ataque";
-        
-        // Formatar o badge extra se for crítico ou desastre
-        let badgeHtml = `<span class="log-badge" style="background-color: ${log.corCategoria};">${log.categoria}</span>`;
-
-        let entry = document.createElement('div');
-        entry.className = 'log-entry';
-        entry.style.borderLeft = `4px solid ${log.corCategoria}`;
-        
-        entry.innerHTML = `
-            <div class="log-header">
-                <span class="log-player-name">${log.playerName}</span>
-                <span class="log-time">${hora}</span>
-            </div>
-            <div class="log-roll-name">${isDanoTxt}: <strong>${log.nomeRolagem}</strong></div>
-            <div class="log-result-row">
-                <span class="log-result-number" style="color: ${log.corCategoria};">${log.resultadoFinal}</span>
-                ${badgeHtml}
-            </div>
-            <div class="log-details">${log.detalhes}</div>
-        `;
-
-        // Prepend coloca no topo
-        container.insertBefore(entry, container.firstChild);
-    });
-
-    // ==========================================
-    // 3. ENVIANDO INFORMAÇÕES DO MESTRE PROS JOGADORES
-    // ==========================================
-    function enviarItem() {
-        let alvo = document.getElementById('item-alvo').value;
-        let nome = document.getElementById('item-nome').value.trim();
-        let tipo = document.getElementById('item-tipo').value;
-        let peso = parseFloat(document.getElementById('item-peso').value) || 0;
-        let dano = document.getElementById('item-dano').value.trim();
-        let desc = document.getElementById('item-desc').value.trim();
-
-        if (!nome) return alert("Dê um nome ao item!");
-
-        let newItem = {
-            id: Date.now(),
-            nome: nome,
-            peso: peso,
-            desc: desc,
-            tipo: tipo,
-            img: "", 
-            equipado: false,
-            dano: dano,
-            crit: "",
-            munMax: (tipo === 'dist' || tipo === 'municao') ? 20 : 0,
-            munAtual: (tipo === 'dist' || tipo === 'municao') ? 20 : 0
-        };
-
-        socket.emit('gm_send_item', { target: alvo, item: newItem });
-        
-        alert(`Item "${nome}" enviado para: ${alvo}`);
-        document.getElementById('item-nome').value = '';
-        document.getElementById('item-desc').value = '';
-    }
-
-    function enviarEntidade() {
-        let alvo = document.getElementById('entidade-alvo').value;
-        let tipo = document.getElementById('entidade-tipo').value;
-        let nome = document.getElementById('entidade-nome').value.trim();
-        let desc = document.getElementById('entidade-desc').value.trim();
-
-        if (!nome) return alert("Defina um nome para a entidade/local!");
-
-        let newEntidade = {
-            tipoLista: tipo,
-            dados: {
-                id: Date.now(),
-                nome: nome,
-                desc: desc,
-                img: "",
-                membros: [], 
-                pontos: []
+        function adicionarJogador() {
+            const uid = document.getElementById('input-uid').value.toUpperCase().trim();
+            if (uid && !jogadoresAtivos[uid]) {
+                criarCardJogador(uid);
+                document.getElementById('input-uid').value = '';
             }
-        };
+        }
 
-        socket.emit('gm_send_entity', { target: alvo, entidade: newEntidade });
-        
-        alert(`Conhecimento sobre "${nome}" enviado para: ${alvo}`);
-        document.getElementById('entidade-nome').value = '';
-        document.getElementById('entidade-desc').value = '';
-    }
+        function criarCardJogador(uid) {
+            const painel = document.getElementById('painel-jogadores');
+            
+            const card = document.createElement('div');
+            card.className = 'ficha-monitor';
+            card.id = `card-${uid}`;
+            card.innerHTML = `
+                <span class="uid-tag">#${uid}</span>
+                <h3 id="nome-${uid}">Aguardando dados...</h3>
+                <div class="status-grid">
+                    <div>❤️ PV: <span id="pv-${uid}">--</span></div>
+                    <div>✨ PM: <span id="pm-${uid}">--</span></div>
+                    <div>🛡️ DEF: <span id="def-${uid}">--</span></div>
+                    <div>🎯 NÍVEL: <span id="lvl-${uid}">--</span></div>
+                </div>
+                <div id="log-${uid}" class="dado-log">Nenhuma rolagem ainda.</div>
+            `;
+            
+            painel.appendChild(card);
+            jogadoresAtivos[uid] = true;
+        }
 
-</script>
+        // Escutar atualizações do servidor
+        socket.on('dadosAtualizados', (dados) => {
+            if (jogadoresAtivos[dados.uid]) {
+                document.getElementById(`nome-${dados.uid}`).innerText = dados.nome || "Sem Nome";
+                document.getElementById(`pv-${dados.uid}`).innerText = dados.pv;
+                document.getElementById(`pm-${dados.uid}`).innerText = dados.pm;
+                document.getElementById(`def-${dados.uid}`).innerText = dados.defesa;
+                document.getElementById(`lvl-${dados.uid}`).innerText = dados.nivel;
+            }
+        });
 
+        // Escutar rolagens de dados
+        socket.on('player_dice_roll', (log) => {
+            if (jogadoresAtivos[log.uid]) {
+                const logDiv = document.getElementById(`log-${log.uid}`);
+                logDiv.innerHTML = `🎲 <strong>${log.pericia}:</strong> ${log.resultado} (d20:${log.d20} + mod:${log.mod})`;
+            }
+        });
+    </script>
 </body>
 </html>
