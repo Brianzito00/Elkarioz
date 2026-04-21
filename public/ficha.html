@@ -236,7 +236,7 @@
             <div class="header-row">
                 <div class="campo-rpg" style="flex: 2;"><input type="text" id="char-name-input" oninput="sincronizarComMestre()"><label>Personagem</label></div>
                 <div class="campo-rpg" style="flex: 1;"><input type="text" id="player-name-input" oninput="sincronizarComMestre()"><label>Jogador(a)</label></div>
-                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="Ex: Sala123" oninput="sincronizarComMestre()"><label>Sala / UID</label></div>
+                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="A carregar..." oninput="sincronizarComMestre()" readonly><label>Sala / UID</label></div>
             </div>
             <div class="header-row">
                 <div class="campo-rpg"><input type="text"><label>Raça</label></div>
@@ -519,17 +519,30 @@
 <script>
     // === CONSTANTES E DB ===
     const socket = io(); // CONEXÃO COM O SERVIDOR INICIADA
+    let meuUID = ""; // ADICIONADO: Variável para guardar o UID
 
     // =======================================================
     // COMUNICAÇÃO BASE: JOGADOR <--> MESTRE
     // =======================================================
     
+    // Pede ao servidor para gerar um código mal a página carrega
+    socket.emit('criarFicha');
+
+    // Recebe o código do servidor e preenche automaticamente o input do UID na interface
+    socket.on('uidGerada', (uid) => {
+        meuUID = uid;
+        document.getElementById('uid-input').value = uid;
+    });
+
     socket.on('dadosAtualizados', (dados) => {
         console.log('Dados recebidos do mestre:', dados);
     });
 
-    function enviarAtualizacao(meusDados) {
-        socket.emit('atualizarDados', meusDados);
+    // Quando o jogador alterar a ficha, enviar o UID junto com os dados:
+    function enviarAlteracao(novosDados) {
+        // Usa o UID gerado OU o UID que o jogador possa ter digitado manualmente
+        let uidAtual = document.getElementById('uid-input').value || meuUID;
+        socket.emit('atualizarDados', { uid: uidAtual, dados: novosDados });
     }
     // =======================================================
 
@@ -614,9 +627,8 @@
 
     function sincronizarComMestre() {
         let portraitSrc = document.getElementById('portrait-img').src;
-        // ADICIONADO O CAMPO DE UID AQUI
+        
         let dadosParaMestre = {
-            uid: document.getElementById('uid-input').value, // <-- NOVO
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
             hpAtual: getValor('vida-atual'),
@@ -625,8 +637,9 @@
             mpMax: getValor('mana-max'),
             img: document.getElementById('portrait-img').style.display !== 'none' ? portraitSrc : ""
         };
-        // Emite os status para o servidor Socket.IO
-        socket.emit('player_data_sync', dadosParaMestre);
+        
+        // Em vez do antigo emit, usa a nova função pedida enviando UID e os dados num pacote
+        enviarAlteracao(dadosParaMestre);
     }
 
     function popularSelectPericias() {
@@ -1113,9 +1126,10 @@
         // === ENVIA A INFORMAÇÃO COM CORES E ETIQUETAS PRO ESCUDO DO MESTRE (SOCKET.IO) ===
         let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
         
-        // ADICIONADO O CAMPO DE UID AQUI TAMBÉM
+        let uidAtual = document.getElementById('uid-input').value || meuUID;
+
         let rollLog = { 
-            uid: document.getElementById('uid-input').value, // <-- NOVO
+            uid: uidAtual, // <-- ADICIONADO AQUI TAMBÉM NO DADO
             playerName: meuNome, 
             nomeRolagem: nome, 
             resultadoFinal: resultadoLog, 
