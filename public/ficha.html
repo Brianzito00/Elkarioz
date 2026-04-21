@@ -3,182 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Personagem - RPG</title>
+    <title>Ficha de Personagem - RPG Total</title>
     <style>
-        /* === FONTES E RESET === */
+        /* === FONTES E ESTILO VISUAL === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Lora', serif; background-color: #170f0a; 
+            font-family: 'Lora', serif; 
+            background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover; background-position: center; background-attachment: fixed;
             color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* === FICHA TRANSLÚCIDA COM BLUR === */
+        /* === CONTAINER DA FICHA === */
         .ficha-container {
-            background-color: rgba(244, 235, 216, 0.85);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            padding: 35px; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.9);
-            width: 100%; max-width: 1150px; border: 2px solid #8b5a2b; outline: 4px solid rgba(92, 58, 33, 0.8); outline-offset: -10px; position: relative;
+            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
         }
 
-        .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.3rem; margin-bottom: 20px; text-transform: uppercase; border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom: 8px; text-align: center; font-weight: 700; }
-        
-        input, select, textarea, button { font-family: 'Lora', serif; outline: none; background: rgba(255, 255, 255, 0.7); border: 1px solid #8b5a2b; }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+        .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-align: center; font-weight: 800; }
 
-        /* === CABEÇALHO COM RETRATO === */
-        .header-rpg-container { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 30px; width: 100%; }
+        /* === CABEÇALHO === */
+        .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; }
         .portrait-slot {
-            width: 130px; height: 160px; border: 6px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px;
-            background: rgba(0,0,0,0.2); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.2s; position: relative;
+            width: 140px; height: 180px; border: 6px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px;
+            background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s;
         }
-        .portrait-slot:hover { border-color: #b71c1c; outline-color: #ff9100; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
-        #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
-        .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-        .header-row { display: flex; gap: 15px; width: 100%; }
+        .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .header-row { display: flex; gap: 20px; width: 100%; }
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
-        .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-weight: 700; font-size: 1rem; padding: 0 10px; height: 38px; width: 100%; background: rgba(255, 255, 255, 0.7); color: #000; }
-        .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #000; font-weight: 900; text-transform: uppercase; margin-top: 3px; margin-left: 5px; }
-        
-        /* Destaque para o campo de UID */
-        .campo-uid input { background: rgba(183, 28, 28, 0.1); border-color: #b71c1c; color: #b71c1c; }
-        .campo-uid label { color: #b71c1c; }
+        .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-weight: 900; font-size: 1.1rem; padding: 0 12px; height: 42px; width: 100%; background: rgba(255, 255, 255, 0.8); color: #000; }
+        .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; text-transform: uppercase; margin-top: 4px; margin-left: 5px; }
 
-        /* === ABAS NAVEGAÇÃO === */
-        .tabs-nav { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; }
-        .tab-btn {
-            background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; padding: 10px 20px; cursor: pointer;
-            font-family: 'Cinzel', serif; font-weight: 700; color: #5c3a21; border-radius: 8px 8px 0 0; transition: 0.3s;
-        }
-        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 2px solid #b71c1c; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
-        @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
-
-        /* === LAYOUT COLUNAS === */
-        .main-layout { display: flex; gap: 25px; align-items: flex-start; width: 100%; }
-        .sidebar-atributos { flex: 0 0 100px; } 
-        .conteudo-principal { flex: 1; min-width: 0; } 
-        .sidebar-direita { flex: 0 0 260px; } 
+        /* === NAVEGAÇÃO === */
+        .tabs-nav { display: flex; gap: 12px; margin-bottom: 30px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
+        .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; }
+        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
 
         /* === ATRIBUTOS === */
-        .atributo-box { background-color: rgba(234, 221, 197, 0.8); padding: 8px; border-radius: 40px 10px 40px 10px; text-align: center; border: 1px solid rgba(215, 204, 200, 0.8); margin-bottom: 12px; width: 100%; }
-        .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 700; cursor: pointer; color: #5c3a21; font-size: 0.85rem; }
-        .atributo-box input { width: 100%; text-align: center; font-size: 1.4rem; font-weight: bold; border: none; background: transparent; }
-        .icone-dado { width: 16px; height: 16px; object-fit: contain; }
+        .sidebar-atributos { flex: 0 0 110px; display: flex; flex-direction: column; gap: 15px; }
+        .atributo-box { background-color: rgba(234, 221, 197, 0.9); padding: 10px; border-radius: 45px 12px 45px 12px; text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .atributo-box label { font-family: 'Cinzel', serif; font-weight: 800; cursor: pointer; color: #5c3a21; font-size: 0.9rem; display: block; margin-bottom: 5px; }
+        .atributo-box input { width: 100%; text-align: center; font-size: 1.6rem; font-weight: 900; border: none; background: transparent; color: #000; }
 
-        /* === MEIO: BARRAS LADO A LADO === */
-        .status-container { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px; padding: 15px 10px; border-top: 2px dashed rgba(200, 185, 158, 0.8); border-bottom: 2px dashed rgba(200, 185, 158, 0.8); }
-        .status-module { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(234, 221, 197, 0.5); padding: 10px 15px; border-radius: 10px; border: 1px solid rgba(139, 90, 43, 0.3); flex: 1; min-width: 300px; max-width: 48%; }
-        .circle-icon { width: 45px; height: 45px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 2px solid #000; flex-shrink: 0; font-size: 1.1rem; }
-        .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; }
-        .bar-title { font-family: 'Roboto'; font-weight: 900; font-size: 0.65rem; color: #3e2723; margin-bottom: 3px; margin-left: 38px; }
-        .bar-capsule { display: flex; align-items: center; gap: 8px; }
-        .btn-status { background-color: rgba(92, 58, 33, 0.9); color: #fff; border: 2px solid #3e2723; width: 26px; height: 26px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
-        .btn-status:hover { background-color: #b71c1c; }
-        .glass-track { width: 140px; height: 30px; background: rgba(0,0,0,0.15); border: 3px solid #000; border-radius: 20px; position: relative; overflow: hidden; }
-        .liquid-fill { height: 100%; width: 100%; transition: width 0.4s; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
-        .vida-color { background-color: rgba(183, 28, 28, 0.9); }
-        .mana-color { background-color: rgba(13, 71, 161, 0.9); }
-        .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #000; font-size: 1.2rem; font-weight: 900; text-shadow: 0 0 3px #fff; z-index: 5; }
-        .max-box { display: flex; flex-direction: column; align-items: center; }
-        .max-box label { font-size: 0.55rem; font-weight: 900; font-family: 'Roboto'; color: #000; }
-        .max-input { width: 36px; height: 36px; border: 3px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 800; font-size: 0.9rem; background: rgba(255, 255, 255, 0.8); }
+        /* === BARRAS DE STATUS === */
+        .status-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
+        .status-module { display: flex; align-items: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 20px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 320px; }
+        .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; font-size: 1.2rem; }
+        .glass-track { width: 160px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
+        .liquid-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .vida-color { background-color: #b71c1c; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
+        .mana-color { background-color: #0d47a1; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
+        .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1.3rem; font-weight: 900; text-shadow: 1px 1px 2px #000; z-index: 5; }
 
-        /* === MEIO: PERÍCIAS E GRIDS === */
-        .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; width: 100%; }
-        .pericia-card { background-color: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
-        .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.15); box-shadow: 0 0 8px rgba(183, 28, 28, 0.3); }
-        .pericia-header { font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.75rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
-        .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.1rem; margin-top: 5px; gap: 5px;}
+        /* === PERÍCIAS === */
+        .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        .pericia-card { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; transition: 0.2s; cursor: pointer; }
+        .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.1); }
+        .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; }
+        .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: 900; margin-top: 8px; background: rgba(0,0,0,0.05); }
 
-        /* === INVENTÁRIO CARDS === */
-        .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
-        .equip-label { font-size: 0.7rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
-        .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
-        .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
-        .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
-        .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.8rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
-
-        /* === DIREITA E LISTAS === */
-        .defesa-box { background-color: rgba(236, 239, 241, 0.8); border: 2px solid #455a64; border-radius: 8px; padding: 10px; text-align: center; width: 100%; margin-bottom: 20px; }
-        .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 600; display: block; margin-bottom: 3px; }
-        .defesa-box input { font-size: 2rem; font-weight: 800; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
-        
-        .list-section { padding: 5px 0; border-top: 1px solid rgba(139, 90, 43, 0.5); width: 100%; margin-bottom: 15px; }
-        .btn-add { background: rgba(255,255,255,0.3); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
-        .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
-        .item-btn { background-color: rgba(234, 221, 197, 0.85); border-left: 4px solid #8b5a2b; border-top: 1px solid rgba(215, 204, 200, 0.5); border-right: 1px solid rgba(215, 204, 200, 0.5); border-bottom: 1px solid rgba(215, 204, 200, 0.5); padding: 8px; margin-bottom: 5px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
-
-        /* === ARMAS EQUIPADAS (SIDEBAR) === */
-        .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 8px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .arma-equipada-header { display: flex; align-items: center; gap: 8px; }
-        .arma-equipada-img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
-        .arma-equipada-icon { width: 40px; height: 40px; border-radius: 4px; background: rgba(255,255,255,0.4); border: 1px solid #5c3a21; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-        .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.8rem; color: #3e2723; flex: 1; line-height: 1.1; }
-        .arma-equipada-botoes { display: flex; gap: 5px; margin-top: 5px; }
-        .btn-atq { flex: 1; background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px; font-weight: bold; font-size: 0.7rem; font-family: 'Cinzel'; cursor: pointer; display:flex; justify-content:center; align-items:center; gap:3px; transition:0.2s;}
-        .btn-atq:hover { background: #b71c1c; }
-        .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px; font-weight: bold; font-size: 0.65rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
-        .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
-
-        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
-        .inv-top-bar { display: flex; gap: 15px; justify-content: space-between; margin-bottom: 20px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
-        .carga-container { flex: 1 1 50%; min-width: 250px; text-align: center; background: rgba(234, 221, 197, 0.85); padding: 15px; border-radius: 8px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
-        .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; }
-        .carga-barra-bg { width: 100%; height: 12px; background: rgba(255,255,255,0.7); border: 2px solid #000; border-radius: 6px; margin: 10px 0 0 0; overflow: hidden; }
-        .carga-barra-fill { height: 100%; width: 0%; background: rgba(46, 125, 50, 0.9); transition: 0.3s; }
-        .carga-barra-fill.excedido { background: rgba(183, 28, 28, 0.9); }
-        
-        .moedas-container { flex: 1 1 30%; min-width: 150px; background: rgba(234, 221, 197, 0.85); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 0.8rem; color: #5c3a21; margin-bottom: 5px; }
-        .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; }
-        .btn-moeda { flex-shrink: 0; background: #ffb300; color: #3e2723; border: 2px solid #5c3a21; width: 30px; height: 30px; border-radius: 4px; font-weight: 900; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;}
-        .btn-moeda:hover { background: #ffca28; }
-        .input-moeda { width: 80px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.8); color: #3e2723; border-radius: 4px; height: 30px; padding: 0;}
-
-        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.1); }
+        /* === DADOS POP-UP === */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.2); }
         #dice-result-container {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0;
-            background: rgba(255, 255, 255, 0.98); border: 4px solid #b71c1c; padding: 25px 40px; border-radius: 15px;
-            z-index: 2000; text-align: center; pointer-events: none; width: auto; min-width: 280px;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
+            background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px;
+            z-index: 2000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
-        #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
-        
-        .pop-dado-img { width: 50px; height: 50px; margin-bottom: 10px; object-fit: contain; }
-        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
-        .pop-total { font-size: 4rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 5px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
-        .pop-categoria-badge { color: #fff; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; font-family: 'Roboto'; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.85rem; font-family: 'Lora'; display: block;}
-        .pop-hint { color: #999; font-weight: bold; font-size: 0.7rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
+        #dice-result-container.dice-pop-active { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel'; margin-bottom: 10px; display: block; color: #3e2723; }
+        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-        /* === MODAIS GERAIS === */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(4px); }
-        .modal-content { background-color: rgba(244, 235, 216, 0.95); border: 2px solid #8b5a2b; padding: 25px; width: 90%; max-width: 520px; border-radius: 4px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); max-height: 95vh; overflow-y: auto; }
-        .fechar-modal { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
-        .form-input { width: 100%; padding: 8px; border: 2px solid rgba(0,0,0,0.5); background: rgba(255,255,255,0.8); font-weight: bold; font-size: 0.9rem; color: #3e2723; }
-        .btn-salvar { width: 100%; background: rgba(92, 58, 33, 0.95); color: #fff; padding: 12px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: bold; font-size: 1rem; border-radius: 4px; transition: 0.2s; }
-        .btn-salvar:hover { background: #3e2723; }
-        .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
+        /* === MAGIAS E CIRCULOS === */
+        .magia-circulo-section { margin-bottom: 30px; }
+        .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; text-shadow: 1px 1px 0px #fff; }
 
-        @media (max-width: 900px) { 
-            .main-layout { flex-direction: column; } 
-            .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } 
-        }
+        /* === MODAIS === */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); }
+        .modal-content { background: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; max-height: 90vh; overflow-y: auto; }
+        .form-input { width: 100%; padding: 12px; border: 2px solid #3e2723; background: #fff; font-weight: 900; margin-bottom: 15px; font-size: 1rem; }
+        .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; }
+        .btn-salvar:hover { background: #b71c1c; }
+
+        /* === LISTAS LATERAIS === */
+        .list-section { padding: 10px 0; border-top: 1px solid rgba(139, 90, 43, 0.4); margin-bottom: 20px; }
+        .item-btn { background: rgba(234, 221, 197, 0.9); border-left: 5px solid #8b5a2b; border-bottom: 1px solid #ccc; padding: 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: 900; font-family: 'Lora'; display: flex; justify-content: space-between; }
+        .item-btn:hover { background: #fff; }
+
+        @media (max-width: 1000px) { .main-layout { flex-direction: column; } .sidebar-direita, .sidebar-atributos { width: 100%; } }
     </style>
 </head>
 <body>
@@ -190,7 +110,7 @@
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="document.getElementById('header-file-input').click()">
             <img id="portrait-img" src="" style="display: none;">
-            <div id="portrait-placeholder">📷</div>
+            <div id="portrait-placeholder" style="font-size: 4rem; color: #8b5a2b;">📷</div>
             <input type="file" id="header-file-input" accept="image/*" style="display: none;" onchange="loadHeaderPortrait(this)">
         </div>
 
@@ -198,26 +118,25 @@
             <div class="header-row">
                 <div class="campo-rpg" style="flex: 2;"><input type="text" id="char-name-input" oninput="sincronizarComMestre()"><label>Personagem</label></div>
                 <div class="campo-rpg" style="flex: 1;"><input type="text" id="player-name-input" oninput="sincronizarComMestre()"><label>Jogador(a)</label></div>
-                <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="A carregar..." readonly><label>Sala / UID</label></div>
+                <div class="campo-rpg" style="max-width: 150px;"><input type="text" id="uid-input" placeholder="..." readonly><label>UID da Sala</label></div>
             </div>
             <div class="header-row">
                 <div class="campo-rpg"><input type="text"><label>Raça</label></div>
-                <div class="campo-rpg"><input type="text"><label>Classe</label></div>
-                <div class="campo-rpg" style="max-width: 70px;">
+                <div class="campo-rpg"><input type="text"><label>Classe / Origem</label></div>
+                <div class="campo-rpg" style="max-width: 80px;">
                     <select id="nivel" onchange="recalcularTudo()">
                         <script>for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i}</option>`);</script>
                     </select>
                     <label>Nível</label>
                 </div>
-                <div class="campo-rpg"><input type="text"><label>Divindade</label></div>
             </div>
         </div>
     </div>
 
     <div class="tabs-nav">
-        <button class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">PRINCIPAL</button>
-        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">INVENTÁRIO / LOCAIS</button>
-        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">MAGIAS</button>
+        <button class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">ESTATÍSTICAS</button>
+        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">MOCHILA / MUNDO</button>
+        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">GRIMÓRIO</button>
     </div>
 
     <div id="tab-principal" class="tab-content active">
@@ -236,44 +155,52 @@
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
                         <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE VIDA</span>
-                            <div class="bar-capsule">
+                            <span class="bar-title" style="font-weight:900; font-size:0.7rem; margin-left:35px;">PONTOS DE VIDA</span>
+                            <div class="bar-capsule" style="display:flex; align-items:center; gap:10px;">
                                 <button class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="vida-fill" class="liquid-fill vida-color"></div>
                                     <input type="number" id="vida-atual" value="10" class="atual-input" oninput="atualizarBarras()">
                                 </div>
                                 <button class="btn-status" onclick="alterarStatus('vida-atual', 1)">+</button>
-                                <div class="max-box"><label>MÁX</label><input type="number" id="vida-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
+                                <div style="text-align:center;"><label style="font-size:0.6rem; font-weight:900; display:block;">MÁX</label><input type="number" id="vida-max" value="10" style="width:40px; height:40px; border-radius:50%; border:2px solid #000; text-align:center; font-weight:900;" oninput="atualizarBarras()"></div>
                             </div>
                         </div>
                     </div>
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
                         <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE MANA</span>
-                            <div class="bar-capsule">
+                            <span class="bar-title" style="font-weight:900; font-size:0.7rem; margin-left:35px;">PONTOS DE MANA</span>
+                            <div class="bar-capsule" style="display:flex; align-items:center; gap:10px;">
                                 <button class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="mana-fill" class="liquid-fill mana-color"></div>
                                     <input type="number" id="mana-atual" value="10" class="atual-input" oninput="atualizarBarras()">
                                 </div>
                                 <button class="btn-status" onclick="alterarStatus('mana-atual', 1)">+</button>
-                                <div class="max-box"><label>MÁX</label><input type="number" id="mana-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
+                                <div style="text-align:center;"><label style="font-size:0.6rem; font-weight:900; display:block;">MÁX</label><input type="number" id="mana-max" value="10" style="width:40px; height:40px; border-radius:50%; border:2px solid #000; text-align:center; font-weight:900;" oninput="atualizarBarras()"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <h3 class="section-title">Perícias</h3>
+                <h3 class="section-title">Perícias & Treinamentos</h3>
                 <div class="pericias-grid" id="grid-pericias"></div>
             </div>
 
             <div class="sidebar-direita">
-                <div class="defesa-box"><label>DEFESA</label><input type="number" value="10" oninput="sincronizarComMestre()"></div>
-                <div class="list-section"><h3 class="section-title">PROFICIÊNCIAS</h3><div id="lista-proficiencias"></div><button class="btn-add" onclick="abrirModalHab('prof')">+ NOVA PROFICIÊNCIA</button></div>
-                <div class="list-section"><h3 class="section-title">HABILIDADES</h3><div id="lista-habilidades"></div><button class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button></div>
-                <div class="list-section"><h3 class="section-title" style="color:#5c3a21;">ARMAS EQUIPADAS</h3><div id="lista-armas-equipadas"></div></div>
-                <div class="list-section"><h3 class="section-title" style="color:#b71c1c;">MAGIAS</h3><div id="lista-magias-principal"></div><button class="btn-add" onclick="abrirModalMagia()">+ APRENDER MAGIA</button></div>
+                <div class="defesa-box" style="background:#cfd8dc; border:3px solid #455a64; border-radius:10px; padding:15px; text-align:center; margin-bottom:25px;">
+                    <label style="font-family:'Cinzel'; font-weight:900; color:#455a64;">DEFESA</label>
+                    <input type="number" value="10" style="width:100%; background:transparent; border:none; text-align:center; font-size:2.5rem; font-weight:900;" oninput="sincronizarComMestre()">
+                </div>
+                <div class="list-section">
+                    <h3 class="section-title" style="font-size:1rem;">HABILIDADES</h3>
+                    <div id="lista-habilidades"></div>
+                    <button class="btn-salvar" style="padding:8px; font-size:0.8rem;" onclick="abrirModalHab()">+ NOVA HABILIDADE</button>
+                </div>
+                <div class="list-section">
+                    <h3 class="section-title" style="font-size:1rem; color:#b71c1c;">ARMAS EQUIPADAS</h3>
+                    <div id="lista-armas-equipadas"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -283,39 +210,69 @@
             <div class="conteudo-principal">
                 <div class="inv-top-bar">
                     <div class="carga-container">
-                        <span class="carga-texto">CARGA: <span id="carga-atual">0</span> / <span id="carga-max">10</span></span>
-                        <div class="carga-barra-bg"><div id="carga-fill" class="carga-barra-fill"></div></div>
+                        <span class="carga-texto">ESPAÇOS: <span id="carga-atual">0</span> / <span id="carga-max">10</span></span>
+                        <div class="carga-barra-bg" style="width:100%; height:15px; background:#ddd; border:2px solid #000; border-radius:10px; margin-top:10px; overflow:hidden;">
+                            <div id="carga-fill" style="height:100%; width:0%; background:#2e7d32; transition:0.3s;"></div>
+                        </div>
                     </div>
                     <div class="moedas-container">
                         <span class="moedas-title">TIBARES (T$)</span>
-                        <div class="moedas-controle">
-                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', -10)">-</button>
-                            <input type="number" id="moedas-atual" value="0" class="input-moeda" oninput="recalcularTudo()">
-                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', 10)">+</button>
-                        </div>
+                        <input type="number" id="moedas-atual" value="0" class="form-input" style="text-align:center; margin:0; font-size:1.5rem;" oninput="recalcularTudo()">
                     </div>
                 </div>
-                <div style="text-align:center; margin-bottom:20px;"><button class="btn-salvar" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button></div>
-                <div id="grid-inventario" class="pericias-grid"></div>
+                <div style="text-align:center; margin-top:25px;"><button class="btn-salvar" onclick="abrirModalInv()">+ ADICIONAR ITEM / EQUIPAMENTO</button></div>
+                <div id="grid-inventario" class="pericias-grid" style="margin-top:25px;"></div>
             </div>
             <div class="sidebar-direita">
-                <div class="list-section"><h3>GUILDAS</h3><div id="lista-guildas"></div><button class="btn-add" onclick="abrirModalCriacaoListas('guilda')">+ NOVA GUILDA</button></div>
-                <div class="list-section"><h3>PESSOAS</h3><div id="lista-pessoas"></div><button class="btn-add" onclick="abrirModalCriacaoListas('pessoa')">+ NOVA PESSOA</button></div>
-                <div class="list-section"><h3>LOCAIS</h3><div id="lista-locais"></div><button class="btn-add" onclick="abrirModalCriacaoListas('local')">+ NOVO LOCAL</button></div>
+                <div class="list-section"><h3>GUILDAS</h3><div id="lista-guildas"></div><button class="btn-salvar" style="padding:5px;" onclick="abrirModalLista('guilda')">+ NOVA GUILDA</button></div>
+                <div class="list-section"><h3>NPCs / CONTATOS</h3><div id="lista-pessoas"></div><button class="btn-salvar" style="padding:5px;" onclick="abrirModalLista('pessoa')">+ NOVO NPC</button></div>
+                <div class="list-section"><h3>LOCAIS</h3><div id="lista-locais"></div><button class="btn-salvar" style="padding:5px;" onclick="abrirModalLista('local')">+ NOVO LOCAL</button></div>
             </div>
         </div>
     </div>
 
     <div id="tab-magias" class="tab-content">
+        <div style="text-align:center; margin-bottom:30px;"><button class="btn-salvar" style="max-width:300px;" onclick="abrirModalMagia()">+ APRENDER NOVA MAGIA</button></div>
         <div id="magias-container"></div>
     </div>
 </div>
 
-<div id="modal-inventario" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Novo Item</h3><div class="modal-tabs"><button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button><button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button><button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button><button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button></div><input type="text" id="mi-nome" placeholder="Nome" class="form-input"><input type="number" id="mi-peso" value="1" step="0.5" class="form-input"><input type="text" id="mi-dano" placeholder="Dano (ex: 1d8)" class="form-input" style="display:none;" class="arma-field"><textarea id="mi-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarItemInv()">SALVAR</button></div></div>
-<div id="modal-hab" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mh-titulo">Novo</h3><input type="text" id="mh-nome" placeholder="Nome" class="form-input"><textarea id="mh-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarHab()">SALVAR</button></div></div>
-<div id="modal-magia-add" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Aprender Magia</h3><input type="text" id="mm-nome" placeholder="Nome" class="form-input"><select id="mm-circulo" class="form-input"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option></select><textarea id="mm-desc" placeholder="Efeito" class="form-input"></textarea><button class="btn-salvar" onclick="salvarMagia()">SALVAR</button></div></div>
-<div id="modal-criacao-listas" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mcl-titulo">Nova</h3><input type="text" id="mcl-nome" placeholder="Nome" class="form-input"><textarea id="mcl-desc" placeholder="Descrição" class="form-input"></textarea><button class="btn-salvar" onclick="salvarCriacaoLista()">SALVAR</button></div></div>
-<div id="modal-view" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mv-nome"></h3><p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px;"></p><button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button></div></div>
+<div id="modal-inventario" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Novo Item</h3>
+    <div class="modal-tabs" style="display:flex; justify-content:space-around; margin-bottom:15px; border-bottom:1px solid #8b5a2b;">
+        <button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
+        <button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
+        <button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
+        <button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
+    </div>
+    <input type="text" id="mi-nome" placeholder="Nome do Item" class="form-input">
+    <input type="number" id="mi-peso" placeholder="Peso (Espaços)" value="1" step="0.5" class="form-input">
+    <div id="arma-campos" style="display:none;">
+        <input type="text" id="mi-dano" placeholder="Dano (ex: 2d6)" class="form-input">
+        <input type="text" id="mi-crit" placeholder="Crítico (ex: 19/x3)" class="form-input">
+    </div>
+    <div id="mun-campos" style="display:none;"><input type="text" id="mi-mun-link" placeholder="Nome da Munição que consome" class="form-input"></div>
+    <textarea id="mi-desc" placeholder="Descrição e detalhes..." class="form-input" style="height:100px;"></textarea>
+    <button class="btn-salvar" onclick="salvarItemInv()">SALVAR NA MOCHILA</button>
+</div></div>
+
+<div id="modal-magia-add" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title"> Grimório</h3>
+    <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input">
+    <select id="mm-circulo" class="form-input"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option></select>
+    <textarea id="mm-desc" placeholder="Efeito, custo e duração..." class="form-input" style="height:150px;"></textarea>
+    <button class="btn-salvar" onclick="salvarMagia()">APRENDER MAGIA</button>
+</div></div>
+
+<div id="modal-view" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mv-nome"></h3>
+    <div id="mv-actions-dist" style="display:none; text-align:center; margin-bottom:20px;">
+        <button class="btn-salvar" onclick="dispararArma()">💥 DISPARAR (Gastar 1 munição)</button>
+        <button class="btn-salvar" onclick="recarregarArma()" style="background:#0d47a1; margin-top:10px;">🔄 RECARREGAR (MÁX)</button>
+    </div>
+    <p id="mv-desc" style="white-space:pre-wrap; background:rgba(255,255,255,0.6); padding:20px; border-radius:4px; font-weight:bold;"></p>
+    <button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">DELETAR REGISTRO</button>
+</div></div>
+
+<div id="modal-listas" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="ml-titulo">Novo</h3><input type="text" id="ml-nome" placeholder="Nome" class="form-input"><textarea id="ml-desc" placeholder="Descrição..." class="form-input"></textarea><button class="btn-salvar" onclick="salvarListaExtra()">SALVAR</button></div></div>
+<div id="modal-hab" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Nova Habilidade</h3><input type="text" id="mh-nome" placeholder="Nome" class="form-input"><textarea id="mh-desc" placeholder="Descrição..." class="form-input"></textarea><button class="btn-salvar" onclick="salvarHab()">SALVAR</button></div></div>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -323,86 +280,107 @@
     const socket = io();
     let meuUID = "";
 
+    // Socket Connection
     socket.emit('criarFicha');
-    socket.on('uidGerada', (uid) => {
-        meuUID = uid;
-        document.getElementById('uid-input').value = uid;
-    });
+    socket.on('uidGerada', (uid) => { meuUID = uid; document.getElementById('uid-input').value = uid; });
 
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
-    const listaPericiasBase = [{n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},{n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},{n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},{n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},{n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},{n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},{n:'Misticismo',a:'intelecto'},{n:'Nobreza',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},{n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},{n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}];
     
-    let dbPericias = {}; listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
-    let dbInventario = [], dbProficiencias = [], dbHabilidades = [], dbGuildas = [], dbPessoas = [], dbLocais = [], dbMagias = [];
+    // Banco de Dados das Perícias
+    const listaPericiasBase = [
+        {n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},{n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},
+        {n:'Cavalgar',a:'agilidade'},{n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},{n:'Enganação',a:'carisma'},
+        {n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},
+        {n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},{n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},
+        {n:'Misticismo',a:'intelecto'},{n:'Nobreza',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},{n:'Pontaria',a:'agilidade'},
+        {n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},{n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}
+    ];
+    
+    let dbPericias = {}; 
+    listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, total: 0});
+    
+    let dbInventario = [], dbHabilidades = [], dbGuildas = [], dbPessoas = [], dbLocais = [], dbMagias = [];
     let tipoContexto = '', itemAbertoId = null, diceState = 0;
 
+    // === SISTEMA DE SINCRONIZAÇÃO (FIXED) ===
     function sincronizarComMestre() {
-        let portraitImg = document.getElementById('portrait-img');
-        let portraitSrc = portraitImg.style.display !== 'none' ? portraitImg.src : "";
-        
-        let dadosParaMestre = {
+        const pImg = document.getElementById('portrait-img');
+        const dados = {
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
-            hpAtual: getValor('vida-atual'),
-            hpMax: getValor('vida-max'),
-            mpAtual: getValor('mana-atual'),
-            mpMax: getValor('mana-max'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'),
+            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'),
             nivel: document.getElementById('nivel').value,
             defesa: document.querySelector('.defesa-box input').value,
-            img: portraitSrc
+            img: pImg.style.display !== 'none' ? pImg.src : ""
         };
-        
-        let uidAtual = document.getElementById('uid-input').value || meuUID;
-        socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
+        socket.emit('atualizarDados', { uid: meuUID, dados: dados });
     }
 
-    function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
-    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
-    function mudarAbaPrincipal(id, btn) { 
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById(id).classList.add('active'); 
-        btn.classList.add('active'); 
+    // === SISTEMA DE DADOS ANIMADO COM CATEGORIAS (FIXED) ===
+    function rolarDado(nome, bonus) {
+        if(diceState !== 0) return;
+        diceState = 1;
+        const box = document.getElementById('dice-result-container');
+        const overlay = document.getElementById('dice-overlay-click');
+        box.style.display = 'block'; overlay.style.display = 'block';
+        box.classList.add('dice-pop-active');
+
+        let frames = 0;
+        let anim = setInterval(() => {
+            let t = Math.floor(Math.random() * 20) + 1;
+            document.getElementById('dice-text').innerHTML = `<img src="${DADO_IMG_URL}" style="width:50px;"><br><span style="font-weight:900; color:#5c3a21;">${nome}</span><br><span class="pop-total">${t + bonus}</span>`;
+            if(++frames > 15) {
+                clearInterval(anim);
+                const d20 = Math.floor(Math.random() * 20) + 1;
+                const total = d20 + bonus;
+                let cat = "NORMAL", cor = "#3e2723";
+
+                if(d20 === 20) { cat = "CRÍTICO!"; cor = "#ff9100"; }
+                else if(d20 === 1) { cat = "DESASTRE"; cor = "#b71c1c"; }
+                else if(total >= 20) { cat = "EXTREMO"; cor = "#ffc107"; }
+                else if(total <= 8) { cat = "FALHA"; cor = "#607d8b"; }
+
+                document.getElementById('dice-text').innerHTML = `
+                    <img src="${DADO_IMG_URL}" style="width:50px;"><br>
+                    <span style="font-weight:900; color:#5c3a21; text-transform:uppercase;">${nome}</span><br>
+                    <span class="pop-total" style="color:${cor}">${total}</span>
+                    <div class="pop-categoria-badge" style="background:${cor}">${cat}</div><br>
+                    <small style="font-weight:900; color:#555;">(d20: ${d20} + Bônus: ${bonus})</small>
+                `;
+                socket.emit('player_dice_roll', { uid: meuUID, char: document.getElementById('char-name-input').value, rolagem: nome, total: total, cat: cat });
+                diceState = 2;
+            }
+        }, 40);
+
+        overlay.onclick = () => { if(diceState === 2) { box.classList.remove('dice-pop-active'); overlay.style.display = 'none'; diceState = 0; } };
     }
 
-    function alterarStatus(id, delta) { 
-        let input = document.getElementById(id); 
-        input.value = (parseInt(input.value) || 0) + delta; 
-        if(id === 'moedas-atual' && input.value < 0) input.value = 0;
-        atualizarBarras(); recalcularTudo();
-    }
-
-    function atualizarBarras() {
-        let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
-        document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
-        document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
-        sincronizarComMestre();
-    }
-
+    // === LÓGICA DE NEGÓCIO E CARGA ===
     function recalcularTudo() {
         const forca = getValor('forca');
         const cargaMax = 10 + (forca * 2);
         document.getElementById('carga-max').innerText = cargaMax;
         
         let cargaAtual = 0;
-        dbInventario.forEach(i => { if(i.equipado) cargaAtual += i.peso || 1; });
+        dbInventario.forEach(i => { if(i.equipado) cargaAtual += i.peso || 0; });
         document.getElementById('carga-atual').innerText = cargaAtual;
-        document.getElementById('carga-fill').style.width = Math.min((cargaAtual/cargaMax)*100, 100) + '%';
+        const fill = document.getElementById('carga-fill');
+        fill.style.width = Math.min((cargaAtual/cargaMax)*100, 100) + '%';
+        fill.style.background = cargaAtual > cargaMax ? "#b71c1c" : "#2e7d32";
 
         const nivel = parseInt(document.getElementById('nivel').value);
-        let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : 5;
+        const bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : 5;
         
         listaPericiasBase.forEach(p => {
             let d = dbPericias[p.n];
-            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + d.bonus;
+            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0);
         });
         renderizarPericias();
     }
 
     function renderizarPericias() {
-        const grid = document.getElementById('grid-pericias'); 
-        if(!grid) return;
-        grid.innerHTML = '';
+        const grid = document.getElementById('grid-pericias'); grid.innerHTML = '';
         listaPericiasBase.forEach(p => {
             const d = dbPericias[p.n];
             grid.innerHTML += `<div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="rolarDado('${p.n}', ${d.total})">
@@ -415,14 +393,23 @@
 
     function renderizarListas() {
         const gridInv = document.getElementById('grid-inventario'); gridInv.innerHTML = '';
+        const listArmas = document.getElementById('lista-armas-equipadas'); listArmas.innerHTML = '';
+
         dbInventario.forEach(i => {
             gridInv.innerHTML += `<div class="pericia-card" onclick="abrirVisualizacao('inv', ${i.id})">
+                <div style="font-size:1.4rem;">${i.tipo === 'dist' ? '🏹' : (i.tipo === 'corpo' ? '⚔️' : '🎒')}</div>
                 <div class="pericia-header">${i.nome}</div>
-                <div class="equip-box" onclick="event.stopPropagation()"><input type="checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(${i.id})"> Equipado</div>
+                <div style="font-size:0.7rem; font-weight:900;">${i.peso} ESPAÇOS</div>
+                <div class="equip-box" onclick="event.stopPropagation()"><input type="checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(${i.id})"> EQUIPAR</div>
             </div>`;
+            if(i.equipado && (i.tipo === 'corpo' || i.tipo === 'dist')) {
+                listArmas.innerHTML += `<div class="item-btn" style="flex-direction:column; gap:5px;">
+                    <div style="display:flex; justify-content:space-between;"><span>${i.nome}</span> <small>${i.dano}</small></div>
+                    <div style="display:flex; gap:5px;"><button class="btn-salvar" style="padding:4px; font-size:0.7rem;" onclick="rolarDado('Atq: ${i.nome}', 0)">ATACAR</button></div>
+                </div>`;
+            }
         });
 
-        document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
         document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => `<button class="item-btn" onclick="abrirVisualizacao('guilda', ${g.id})">${g.nome}</button>`).join('');
         document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `<button class="item-btn" onclick="abrirVisualizacao('pessoa', ${p.id})">${p.nome}</button>`).join('');
@@ -430,115 +417,98 @@
         renderizarMagias();
     }
 
+    // === MAGIAS POR CÍRCULO (FIXED) ===
+    function renderizarMagias() {
+        const container = document.getElementById('magias-container'); container.innerHTML = '';
+        const circulos = ["1", "2", "3", "4"];
+        circulos.forEach(c => {
+            let filt = dbMagias.filter(m => m.circulo === c);
+            if(filt.length > 0) {
+                let html = `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">`;
+                filt.forEach(m => { html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div></div>`; });
+                container.innerHTML += html + `</div></div>`;
+            }
+        });
+    }
+
+    // Funções de CRUD e Visualização
     function toggleEquip(id) { let i = dbInventario.find(x => x.id === id); if(i) i.equipado = !i.equipado; recalcularTudo(); }
 
     function abrirVisualizacao(tipo, id) {
         tipoContexto = tipo;
-        let lista = tipo == 'inv' ? dbInventario : (tipo == 'prof' ? dbProficiencias : (tipo == 'guilda' ? dbGuildas : (tipo == 'local' ? dbLocais : (tipo == 'pessoa' ? dbPessoas : (tipo == 'magia' ? dbMagias : dbHabilidades)))));
-        let item = lista.find(x => x.id === id);
-        if(!item) return;
+        let l = tipo === 'inv' ? dbInventario : (tipo === 'magia' ? dbMagias : (tipo === 'hab' ? dbHabilidades : (tipo === 'guilda' ? dbGuildas : dbPessoas)));
+        let item = l.find(x => x.id === id); if(!item) return;
         itemAbertoId = id;
         document.getElementById('mv-nome').innerText = item.nome;
-        document.getElementById('mv-desc').innerText = item.desc || "Sem descrição.";
+        document.getElementById('mv-desc').innerText = (item.dano ? "DANO: " + item.dano + " | CRIT: " + item.crit + "\n\n" : "") + (item.desc || "Sem descrição.");
+        document.getElementById('mv-actions-dist').style.display = item.tipo === 'dist' ? 'block' : 'none';
         document.getElementById('modal-view').style.display = 'flex';
     }
 
     function apagarItemAberto() {
-        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId);
-        else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId);
-        else if(tipoContexto == 'guilda') dbGuildas = dbGuildas.filter(x => x.id != itemAbertoId);
-        else if(tipoContexto == 'pessoa') dbPessoas = dbPessoas.filter(x => x.id != itemAbertoId);
-        else if(tipoContexto == 'local') dbLocais = dbLocais.filter(x => x.id != itemAbertoId);
-        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId);
-        else dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId);
+        if(tipoContexto === 'inv') dbInventario = dbInventario.filter(x => x.id !== itemAbertoId);
+        else if(tipoContexto === 'magia') dbMagias = dbMagias.filter(x => x.id !== itemAbertoId);
+        else if(tipoContexto === 'hab') dbHabilidades = dbHabilidades.filter(x => x.id !== itemAbertoId);
+        else if(tipoContexto === 'guilda') dbGuildas = dbGuildas.filter(x => x.id !== itemAbertoId);
+        else dbPessoas = dbPessoas.filter(x => x.id !== itemAbertoId);
         renderizarListas(); fecharModais();
     }
 
+    // Modal Adders
     function abrirModalInv() { fecharModais(); document.getElementById('modal-inventario').style.display = 'flex'; }
     function mudarAbaItem(t) { 
-        document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-'+t).classList.add('active');
-        document.getElementById('mi-dano').style.display = (t == 'corpo' || t == 'dist') ? 'block' : 'none';
+        tipoContexto = t; document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-'+t).classList.add('active');
+        document.getElementById('arma-campos').style.display = (t==='corpo'||t==='dist') ? 'block' : 'none';
+        document.getElementById('mun-campos').style.display = t==='dist' ? 'block' : 'none';
     }
     function salvarItemInv() { 
-        let n = document.getElementById('mi-nome').value; 
-        if(!n) return;
-        dbInventario.push({id: Date.now(), nome: n, desc: document.getElementById('mi-desc').value, equipado: false, peso: parseFloat(document.getElementById('mi-peso').value)});
+        let n = document.getElementById('mi-nome').value; if(!n) return;
+        dbInventario.push({ id: Date.now(), nome: n, peso: parseFloat(document.getElementById('mi-peso').value), tipo: tipoContexto, dano: document.getElementById('mi-dano').value, crit: document.getElementById('mi-crit').value, desc: document.getElementById('mi-desc').value, equipado: false, munAtual: 20, munMax: 20 });
         renderizarListas(); fecharModais();
     }
-    function abrirModalHab(t) { tipoContexto = t; document.getElementById('mh-titulo').innerText = t == 'prof' ? "Nova Proficiência" : "Nova Habilidade"; document.getElementById('modal-hab').style.display = 'flex'; }
-    function salvarHab() {
-        let n = document.getElementById('mh-nome').value;
-        if(tipoContexto == 'prof') dbProficiencias.push({id: Date.now(), nome: n, desc: document.getElementById('mh-desc').value});
-        else dbHabilidades.push({id: Date.now(), nome: n, desc: document.getElementById('mh-desc').value});
-        renderizarListas(); fecharModais();
-    }
+    function dispararArma() { let a = dbInventario.find(x => x.id === itemAbertoId); if(a.munAtual > 0) { a.munAtual--; alert("Disparou! Restam: " + a.munAtual); } else alert("Sem munição!"); }
+    function recarregarArma() { let a = dbInventario.find(x => x.id === itemAbertoId); a.munAtual = a.munMax; alert("Munição Recarregada!"); }
+
     function abrirModalMagia() { document.getElementById('modal-magia-add').style.display = 'flex'; }
     function salvarMagia() {
-        let n = document.getElementById('mm-nome').value;
-        dbMagias.push({id: Date.now(), nome: n, circulo: document.getElementById('mm-circulo').value, desc: document.getElementById('mm-desc').value});
-        renderizarListas(); fecharModais();
-    }
-    function renderizarMagias() {
-        const container = document.getElementById('magias-container'); container.innerHTML = '';
-        dbMagias.forEach(m => {
-            container.innerHTML += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})">
-                <div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.circulo}º Círculo</div>
-            </div>`;
-        });
+        let n = document.getElementById('mm-nome').value; if(!n) return;
+        dbMagias.push({ id: Date.now(), nome: n, circulo: document.getElementById('mm-circulo').value, desc: document.getElementById('mm-desc').value });
+        renderizarMagias(); fecharModais();
     }
 
-    function abrirModalCriacaoListas(t) { tipoContexto = t; document.getElementById('mcl-titulo').innerText = "Adicionar " + t; document.getElementById('modal-criacao-listas').style.display = 'flex'; }
-    function salvarCriacaoLista() {
-        let n = document.getElementById('mcl-nome').value;
-        let d = {id: Date.now(), nome: n, desc: document.getElementById('mcl-desc').value};
-        if(tipoContexto == 'guilda') dbGuildas.push(d);
-        else if(tipoContexto == 'pessoa') dbPessoas.push(d);
-        else if(tipoContexto == 'local') dbLocais.push(d);
+    function abrirModalLista(t) { tipoContexto = t; document.getElementById('ml-titulo').innerText = "Adicionar " + t; document.getElementById('modal-listas').style.display = 'flex'; }
+    function salvarListaExtra() {
+        let n = document.getElementById('ml-nome').value; if(!n) return;
+        let d = { id: Date.now(), nome: n, desc: document.getElementById('ml-desc').value };
+        if(tipoContexto==='guilda') dbGuildas.push(d); else if(tipoContexto==='pessoa') dbPessoas.push(d); else dbLocais.push(d);
         renderizarListas(); fecharModais();
     }
 
-    function rolarDado(nome, bonus) {
-        if(diceState !== 0) return;
-        diceState = 1;
-        const box = document.getElementById('dice-result-container');
-        const text = document.getElementById('dice-text');
-        const overlay = document.getElementById('dice-overlay-click');
-        
-        box.style.display = 'block'; overlay.style.display = 'block';
-        box.classList.add('dice-pop-active');
+    function abrirModalHab() { document.getElementById('modal-hab').style.display = 'flex'; }
+    function salvarHab() { let n = document.getElementById('mh-nome').value; if(n) dbHabilidades.push({id:Date.now(), nome:n, desc:document.getElementById('mh-desc').value}); renderizarListas(); fecharModais(); }
 
-        let frames = 0;
-        let anim = setInterval(() => {
-            let t = Math.floor(Math.random() * 20) + 1;
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total">${t + bonus}</span>`;
-            if(++frames > 12) {
-                clearInterval(anim);
-                let final = Math.floor(Math.random() * 20) + 1;
-                text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total">${final + bonus}</span><small>d20: ${final} + ${bonus}</small>`;
-                socket.emit('player_dice_roll', { uid: meuUID, playerName: document.getElementById('char-name-input').value, nomeRolagem: nome, resultadoFinal: final + bonus });
-                diceState = 2;
-            }
-        }, 50);
-
-        overlay.onclick = () => { if(diceState === 2) { box.classList.remove('dice-pop-active'); overlay.style.display = 'none'; diceState = 0; } };
+    // Auxiliares
+    function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
+    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    function mudarAbaPrincipal(id, btn) { document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); btn.classList.add('active'); }
+    function alterarStatus(id, d) { let el = document.getElementById(id); el.value = (parseInt(el.value)||0) + d; atualizarBarras(); }
+    function atualizarBarras() {
+        let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
+        document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
+        document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
+        sincronizarComMestre();
     }
 
     function loadHeaderPortrait(input) {
-        const file = input.files[0];
-        if (file) {
+        const file = input.files[0]; if (file) {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.getElementById('portrait-img');
-                img.src = e.target.result; img.style.display = 'block';
-                document.getElementById('portrait-placeholder').style.display = 'none';
-                sincronizarComMestre();
-            };
+            reader.onload = (e) => { const i = document.getElementById('portrait-img'); i.src = e.target.result; i.style.display = 'block'; document.getElementById('portrait-placeholder').style.display = 'none'; sincronizarComMestre(); };
             reader.readAsDataURL(file);
         }
     }
 
     window.onload = () => { recalcularTudo(); atualizarBarras(); };
 </script>
+
 </body>
 </html>
