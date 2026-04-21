@@ -6,38 +6,25 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Diz ao Node para servir os arquivos HTML, CSS e JS que estão na pasta 'public'
+// Serve os ficheiros estáticos da pasta 'public' (onde estão ficha.html e mestre.html)
 app.use(express.static('public'));
 
-// Quando alguém acessa o site (Mestre ou Jogador)
+// Gere as conexões do Socket.IO
 io.on('connection', (socket) => {
-    console.log('Um usuário conectou. ID:', socket.id);
+    console.log('Um utilizador conectou-se:', socket.id);
 
-    // 1. Escuta rolagens de dados
-    socket.on('rolar_dado', (dadosDaRolagem) => {
-        // Envia a rolagem para TODOS na mesa (incluindo o Mestre)
-        io.emit('nova_rolagem', dadosDaRolagem);
-    });
-
-    // 2. Escuta envio de itens (Do Mestre para o Jogador)
-    socket.on('enviar_item', (dadosDoItem) => {
-        // Envia para todos, o frontend do jogador verifica se é para ele
-        io.emit('receber_item', dadosDoItem); 
-    });
-
-    // 3. Atualização de status da mesa (Vida, Mana, etc)
-    socket.on('atualizar_mesa', (dadosDoJogador) => {
-        // O jogador manda os dados, o servidor repassa pro Mestre
-        socket.broadcast.emit('sincronizar_mesa_mestre', dadosDoJogador);
+    // Quando o servidor recebe uma alteração de um jogador ou do mestre
+    socket.on('atualizarDados', (dados) => {
+        // Envia os dados para todos os outros clientes conectados
+        socket.broadcast.emit('dadosAtualizados', dados);
     });
 
     socket.on('disconnect', () => {
-        console.log('Usuário desconectou:', socket.id);
+        console.log('Utilizador desconectou-se:', socket.id);
     });
 });
 
-// A porta que o Render vai usar (process.env.PORT) ou a 3000 para testes no seu PC
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Servidor rodando! Acesse: http://localhost:${PORT}`);
+const PORTA = process.env.PORT || 3000;
+server.listen(PORTA, () => {
+    console.log(`Servidor a correr em http://localhost:${PORTA}`);
 });
