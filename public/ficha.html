@@ -73,16 +73,16 @@
         .atributo-box input { width: 100%; text-align: center; font-size: 1.6rem; font-weight: 900; border: none; background: transparent; color: #000; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS === */
-        .status-container { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 25px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
-        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 20px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 320px; max-width: 48%; }
+        /* === STATUS - LADO A LADO === */
+        .status-container { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; gap: 20px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
+        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 15px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0; }
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
-        .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; }
+        .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; flex: 1;}
         .bar-title { font-family: 'Roboto'; font-weight: 900; font-size: 0.7rem; color: #3e2723; margin-bottom: 3px; margin-left: 38px; }
-        .bar-capsule { display: flex; align-items: center; gap: 10px; }
+        .bar-capsule { display: flex; align-items: center; gap: 10px; width: 100%; }
         .btn-status { background-color: rgba(92, 58, 33, 0.9); color: #fff; border: 2px solid #3e2723; width: 28px; height: 28px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
         .btn-status:hover { background-color: #b71c1c; }
-        .glass-track { width: 160px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
+        .glass-track { flex: 1; min-width: 80px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
         .liquid-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .vida-color { background-color: #b71c1c; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
         .mana-color { background-color: #0d47a1; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
@@ -318,7 +318,11 @@
                     <button class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button>
                 </div>
                 <div class="list-section" style="border-top:none;">
-                    <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; color:#b71c1c;">ARMAS EQUIPADAS</h3>
+                    <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; color:#b71c1c;">MAGIAS APRENDIDAS</h3>
+                    <div id="lista-magias-principal"></div>
+                </div>
+                <div class="list-section" style="border-top:none;">
+                    <h3 class="section-title" style="font-size:1.1rem; border:none; margin-bottom:10px; color:#5c3a21;">ARMAS EQUIPADAS</h3>
                     <div id="lista-armas-equipadas"></div>
                 </div>
             </div>
@@ -691,13 +695,23 @@
 
     function renderizarMagias() {
         const container = document.getElementById('magias-container'); container.innerHTML = '';
-        for(let c = 1; c <= 5; c++) {
-            let magiasCirculo = dbMagias.filter(m => m.circulo == c);
-            if(magiasCirculo.length > 0) {
-                container.innerHTML += `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">` + 
-                magiasCirculo.map(m => `<div class="pericia-card" style="border-color:#b71c1c;" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header" style="margin-bottom:0;">${m.nome}</div><div class="magia-escola">${m.escola}</div></div>`).join('') + `</div></div>`;
+        const listPrincipal = document.getElementById('lista-magias-principal'); 
+        if(listPrincipal) listPrincipal.innerHTML = '';
+
+        const circulos = ["1", "2", "3", "4", "5"];
+        circulos.forEach(c => {
+            let filt = dbMagias.filter(m => m.circulo == c);
+            if(filt.length > 0) {
+                let html = `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">`;
+                filt.forEach(m => { 
+                    html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; 
+                    if (listPrincipal) {
+                        listPrincipal.innerHTML += `<button class="item-btn" style="border-left-color:#b71c1c; display:flex; justify-content:space-between; align-items:center;" onclick="abrirVisualizacao('magia', ${m.id})"><span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span></button>`;
+                    }
+                });
+                container.innerHTML += html + `</div></div>`;
             }
-        }
+        });
     }
 
     function renderizarListas() {
@@ -792,7 +806,22 @@
     function salvarHab() { let nome = document.getElementById('mh-nome').value.trim(), desc = document.getElementById('mh-desc').value.trim(); if(!nome) return; if(tipoContexto == 'prof') dbProficiencias.push({ id: Date.now(), nome: nome, desc: desc }); else dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc }); renderizarListas(); fecharModais(); }
 
     function abrirModalMagia() { tipoContexto = 'magia'; document.getElementById('mm-nome').value = ''; document.getElementById('mm-circulo').value = '1'; document.getElementById('mm-escola').value = 'Abjuração'; document.getElementById('mm-execucao').value = ''; document.getElementById('mm-alcance').value = ''; document.getElementById('mm-alvo').value = ''; document.getElementById('mm-duracao').value = ''; document.getElementById('mm-resistencia').value = ''; document.getElementById('mm-desc').value = ''; document.getElementById('modal-magia-add').style.display = 'flex'; }
-    function salvarMagia() { let nome = document.getElementById('mm-nome').value.trim(); if(!nome) return alert("Digite o nome da magia!"); dbMagias.push({ id: Date.now(), nome: nome, circulo: document.getElementById('mm-circulo').value, escola: document.getElementById('mm-escola').value, execucao: document.getElementById('mm-execucao').value, alcance: document.getElementById('mm-alcance').value, alvo: document.getElementById('mm-alvo').value, duracao: document.getElementById('mm-duracao').value, resistencia: document.getElementById('mm-resistencia').value, desc: document.getElementById('mm-desc').value }); renderizarListas(); fecharModais(); }
+    function salvarMagia() { 
+        let n = document.getElementById('mm-nome').value.trim(); if(!n) return alert("Digite o nome da magia!"); 
+        dbMagias.push({ 
+            id: Date.now(), 
+            nome: n, 
+            circulo: document.getElementById('mm-circulo').value, 
+            escola: document.getElementById('mm-escola').value, 
+            execucao: document.getElementById('mm-execucao').value, 
+            alcance: document.getElementById('mm-alcance').value, 
+            alvo: document.getElementById('mm-alvo').value, 
+            duracao: document.getElementById('mm-duracao').value, 
+            resistencia: document.getElementById('mm-resistencia').value, 
+            desc: document.getElementById('mm-desc').value 
+        }); 
+        renderizarListas(); fecharModais(); 
+    }
 
     function abrirModalCriacaoListas(tipo) {
         tipoContexto = tipo; 
