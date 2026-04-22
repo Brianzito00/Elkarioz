@@ -8,7 +8,9 @@
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
         
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+        }
         
         body { 
             font-family: 'Lora', serif; 
@@ -26,8 +28,15 @@
             min-height: 100vh; 
         }
         
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; margin: 0; 
+        }
+        
+        input[type=number] { 
+            appearance: textfield; 
+            -moz-appearance: textfield; 
+        }
 
         /* === PAINEL PRINCIPAL === */
         .painel-mestre { 
@@ -72,18 +81,20 @@
         .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%;}
         .btn-acao:hover { background-color: #b71c1c; }
 
-        /* === LAYOUT DA ABA MESA E INICIATIVA (Sidebar + Principal) === */
+        /* === LAYOUT DA ABA MESA E INICIATIVA === */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
         .mesa-sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* === LISTA JOGADORES === */
+        /* === LISTAS GERAIS (Grade 3x6) === */
         #players-container { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
-        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px;}
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-historias-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
+        /* === CARDS === */
         .player-card, .monstro-card { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; position: relative; }
         .player-card:hover, .monstro-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
-        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; }
+        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
         .btn-kick:hover { transform: scale(1.3); color: #7f0000; }
         
         .player-header { display: flex; gap: 10px; align-items: center; padding-right: 15px;}
@@ -105,11 +116,13 @@
         .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
         .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
         .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+
         .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
         .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
         .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
         .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.6rem; font-weight: 900; color: #3e2723; display: block; }
         .monstro-stat-val { font-family: 'Roboto'; font-size: 0.9rem; font-weight: bold; color: #b71c1c; }
+
         .monstro-skill-btn { background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; transition: 0.2s; }
         .monstro-skill-btn:hover { background: #eaddc4; color: #b71c1c; border-color: #b71c1c; transform: scale(1.02); }
         .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 6px; margin-top: 4px; }
@@ -118,53 +131,38 @@
         .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; }
 
-        /* === INICIATIVA TOTALMENTE REFEITA === */
+        /* === INICIATIVA === */
         #lista-iniciativa { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
-        
-        .ini-row { 
-            display: flex; align-items: center; justify-content: space-between; 
-            background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; 
-            padding: 12px 20px; border-radius: 8px; transition: 0.3s; 
-            position: relative; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; padding: 12px 20px; border-radius: 8px; transition: 0.3s; position: relative; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ini-row:hover { background: #fff; transform: translateX(5px); }
-        
-        /* Turno Ativo com Animação */
-        .ini-row.ativo { 
-            border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); 
-            transform: scale(1.02) translateX(10px); 
-            box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); border-width: 3px; 
-            animation: pulseIni 2s infinite;
-        }
-        @keyframes pulseIni {
-            0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); }
-        }
-        
-        /* Faixa lateral indicadora */
+        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); transform: scale(1.02) translateX(10px); box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); border-width: 3px; animation: pulseIni 2s infinite; }
+        @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
         .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; }
-        
         .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.4rem; color: #3e2723; display: flex; align-items: center; gap: 10px; z-index: 2;}
         .ini-name .turn-marker { font-size: 1.2rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
-        
-        .ini-val { 
-            font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; 
-            background: #5c3a21; padding: 6px 16px; border-radius: 6px; 
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2;
-        }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; background: #5c3a21; padding: 6px 16px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
         .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
-        
-        .btn-kick-ini { 
-            background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; 
-            cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; 
-            padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px;
-        }
+        .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
         
-        /* === LOG E MODAIS === */
+        /* === HISTÓRIAS (ESTILO GOOGLE DOCS) === */
+        .historia-card { background: rgba(255,255,255,0.7); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; cursor: pointer; transition: 0.2s; position: relative; display: flex; flex-direction: column; height: 140px;}
+        .historia-card:hover { border-color: #b71c1c; transform: scale(1.03); background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .historia-titulo { font-family: 'Cinzel', serif; font-weight: bold; font-size: 1.1rem; color: #b71c1c; margin-bottom: 8px; padding-right: 20px;}
+        .historia-resumo { font-family: 'Lora', serif; font-size: 0.85rem; color: #555; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; flex: 1;}
+
+        #modal-historia .modal-content { background: #e0d5be; width: 100%; max-width: 1000px; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 8px; border: 4px solid #5c3a21;}
+        .docs-toolbar { background: #5c3a21; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; color: #fff;}
+        .docs-editor-area { flex: 1; padding: 40px; background: #cfc2a9; overflow-y: auto; display: flex; flex-direction: column; align-items: center;}
+        .docs-paper { width: 100%; max-width: 800px; min-height: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 50px 60px; display: flex; flex-direction: column; border-radius: 4px;}
+        .docs-title-input { border: none; font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: bold; color: #000; width: 100%; margin-bottom: 20px; padding-bottom: 10px; outline: none; background: transparent;}
+        .docs-title-input::placeholder { color: #ccc; }
+        .docs-body-input { border: none; font-family: 'Lora', serif; font-size: 1.15rem; line-height: 1.7; color: #333; width: 100%; flex: 1; resize: none; outline: none; background: transparent; }
+        .docs-body-input::placeholder { color: #ccc; }
+
+        /* === LOG DE ROLAGENS === */
         #dice-log-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
         .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
         .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
@@ -220,6 +218,7 @@
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
         <button class="tab-btn" onclick="mudarAba('iniciativa')">⏱️ INICIATIVA</button>
         <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
+        <button class="tab-btn" onclick="mudarAba('historias')">📖 HISTÓRIAS</button>
     </div>
 
     <div class="conteudo-wrapper">
@@ -296,6 +295,19 @@
                     <h2 class="section-title" style="flex-shrink: 0;">MONSTROS SALVOS</h2>
                     <div id="lista-bestiario-container">
                         <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="bestiario-vazio-texto">Nenhum monstro criado ainda.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="tab-historias" class="tab-content">
+                <div style="text-align:center; margin-bottom: 20px; flex-shrink: 0;">
+                    <button class="btn-acao" style="font-size: 1.2rem; padding: 15px 30px; display:inline-block;" onclick="abrirModalHistoria()">+ NOVO CAPÍTULO / HISTÓRIA</button>
+                </div>
+                
+                <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                    <h2 class="section-title" style="flex-shrink: 0;">MEUS CAPÍTULOS E ANOTAÇÕES</h2>
+                    <div id="lista-historias-container">
+                        <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="historias-vazio-texto">Nenhuma história escrita ainda.</p>
                     </div>
                 </div>
             </div>
@@ -396,6 +408,26 @@
     </div>
 </div>
 
+<div id="modal-historia" class="modal-overlay">
+    <div class="modal-content" style="background: #e0d5be; width: 100%; max-width: 1000px; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 8px; border: 4px solid #5c3a21;">
+        
+        <div class="docs-toolbar">
+            <span style="font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem;">Diário do Mestre</span>
+            <div style="display:flex; gap: 10px;">
+                <button class="btn-acao" style="background: #2e7d32; width: auto; padding: 8px 15px;" onclick="salvarHistoria()">💾 SALVAR</button>
+                <button class="btn-acao" style="background: transparent; border: 1px solid #fff; width: auto; padding: 8px 15px;" onclick="fecharModais()">FECHAR</button>
+            </div>
+        </div>
+        
+        <div class="docs-editor-area">
+            <div class="docs-paper">
+                <input type="text" id="hist-title" class="docs-title-input" placeholder="Título do Capítulo...">
+                <textarea id="hist-body" class="docs-body-input" placeholder="Era uma vez... Escreva aqui a sua história, lore ou anotações da campanha."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     // ==========================================
@@ -408,10 +440,13 @@
     let turnoAtualIndex = -1;
     let abaAtual = 'mesa';
 
-    // Bestiário Dados
+    // Bancos de Dados Locais do Mestre
     let dbBestiario = [];
     let tempAtaques = [];
     let tempHabilidades = [];
+    
+    let dbHistorias = [];
+    let historiaAbertaId = null;
 
     window.onload = () => {
         let salaSalva = localStorage.getItem('gmUidSalva');
@@ -419,10 +454,14 @@
 
         // Carrega o Bestiário Salvo
         let bestiarioSalvo = localStorage.getItem('rpgBestiario');
-        if(bestiarioSalvo) {
-            try { dbBestiario = JSON.parse(bestiarioSalvo); } catch(e) {}
-        }
+        if(bestiarioSalvo) { try { dbBestiario = JSON.parse(bestiarioSalvo); } catch(e) {} }
+        
+        // Carrega as Histórias Salvas
+        let historiasSalvas = localStorage.getItem('rpgHistorias');
+        if(historiasSalvas) { try { dbHistorias = JSON.parse(historiasSalvas); } catch(e) {} }
+
         if (abaAtual === 'bestiario') renderizarBestiario();
+        if (abaAtual === 'historias') renderizarHistorias();
     };
 
     function mudarAba(aba) {
@@ -434,6 +473,7 @@
         if(aba === 'mesa') document.getElementById('tab-mesa').classList.add('active');
         else if (aba === 'iniciativa') { document.getElementById('tab-iniciativa').classList.add('active'); renderIniciativa(); }
         else if (aba === 'bestiario') { document.getElementById('tab-bestiario').classList.add('active'); renderizarBestiario(); }
+        else if (aba === 'historias') { document.getElementById('tab-historias').classList.add('active'); renderizarHistorias(); }
     }
 
     function conectarSala(uidAutomatica = null) {
@@ -494,11 +534,7 @@
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
         document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
-        
-        if(chaves.length === 0) { 
-            container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; 
-            return; 
-        }
+        if(chaves.length === 0) { container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; return; }
         
         container.innerHTML = ''; 
         chaves.forEach(key => {
@@ -533,7 +569,7 @@
     }
 
     // ==========================================
-    // INICIATIVA PREMIUM (VISUAL RENOVADO)
+    // INICIATIVA PREMIUM
     // ==========================================
     function addIniciativaManual() {
         let nome = document.getElementById('ini-nome').value.trim();
@@ -737,6 +773,81 @@
                     ${atqSecao}
                     ${habSecao}
                     ${enigmaSecao}
+                </div>
+            `;
+        });
+    }
+
+    // ==========================================
+    // SISTEMA DE HISTÓRIAS (Docs-like)
+    // ==========================================
+    
+    function abrirModalHistoria(id = null) {
+        if (id) {
+            historiaAbertaId = id;
+            let hist = dbHistorias.find(h => h.id === id);
+            document.getElementById('hist-title').value = hist.titulo;
+            document.getElementById('hist-body').value = hist.conteudo;
+        } else {
+            historiaAbertaId = null;
+            document.getElementById('hist-title').value = '';
+            document.getElementById('hist-body').value = '';
+        }
+        document.getElementById('modal-historia').style.display = 'flex';
+    }
+
+    function salvarHistoria() {
+        let titulo = document.getElementById('hist-title').value.trim() || "Capítulo sem Título";
+        let conteudo = document.getElementById('hist-body').value;
+
+        if (historiaAbertaId) {
+            // Atualiza
+            let hist = dbHistorias.find(h => h.id === historiaAbertaId);
+            hist.titulo = titulo;
+            hist.conteudo = conteudo;
+        } else {
+            // Cria nova
+            dbHistorias.push({
+                id: Date.now(),
+                titulo: titulo,
+                conteudo: conteudo
+            });
+        }
+        
+        localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias));
+        fecharModais();
+        renderizarHistorias();
+    }
+
+    function apagarHistoria(event, id) {
+        event.stopPropagation(); // Evita que o clique abra o modal
+        if(confirm("Tem certeza que deseja apagar esta história? Isso não pode ser desfeito.")) {
+            dbHistorias = dbHistorias.filter(h => h.id !== id);
+            localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias));
+            renderizarHistorias();
+        }
+    }
+
+    function renderizarHistorias() {
+        const container = document.getElementById('lista-historias-container');
+        const txtVazio = document.getElementById('historias-vazio-texto');
+        
+        if (dbHistorias.length === 0) {
+            if(txtVazio) txtVazio.style.display = 'block';
+            container.innerHTML = '';
+            if(txtVazio) container.appendChild(txtVazio);
+            return;
+        }
+
+        if(txtVazio) txtVazio.style.display = 'none';
+        container.innerHTML = '';
+
+        dbHistorias.forEach(h => {
+            container.innerHTML += `
+                <div class="historia-card" onclick="abrirModalHistoria(${h.id})">
+                    <button class="btn-kick" onclick="apagarHistoria(event, ${h.id})" title="Apagar Capítulo">&times;</button>
+                    <div class="historia-titulo">${h.titulo}</div>
+                    <div class="historia-resumo">${h.conteudo ? h.conteudo : '<i>Nenhum conteúdo...</i>'}</div>
                 </div>
             `;
         });
