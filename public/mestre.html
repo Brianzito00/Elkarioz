@@ -119,36 +119,52 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    const socket = io();
+ const socket = io();
     let gmUid = "";
     let jogadores = {}; 
     let arrayIniciativa = [];
     let turnoAtualIndex = -1;
     let abaAtual = 'mesa';
 
+    // === INICIALIZAÇÃO E LINK MÁGICO ===
     window.onload = () => {
-        // Pega ou cria a Sala Fixa do Mestre
         let salaSalva = localStorage.getItem('gmUidSalva');
         if (!salaSalva) {
             salaSalva = "MESA-" + Math.random().toString(36).substr(2, 5).toUpperCase();
-            localStorage.setItem('gmUidSalva', salaSalva);
         }
-        gmUid = salaSalva;
+        // Coloca no input e força a conexão
+        document.getElementById('gm-uid').value = salaSalva;
+        conectarSala(salaSalva); 
+    };
+
+    function conectarSala(uidAutomatica = null) {
+        gmUid = uidAutomatica || document.getElementById('gm-uid').value.trim().toUpperCase();
+        if(!gmUid) return alert("Digite um UID de sala!");
         
-        // Gera o link mágico usando a URL atual
+        document.getElementById('gm-uid').value = gmUid;
+        localStorage.setItem('gmUidSalva', gmUid);
+        
+        // Atualiza o link mágico
         let dominioAtual = window.location.origin;
         let linkMagico = `${dominioAtual}/ficha.html?sala=${gmUid}`;
         document.getElementById('link-convite').value = linkMagico;
 
-        // Puxa as fichas do servidor automaticamente
+        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
+        
+        // Pede os dados para o servidor
         socket.emit('solicitarEstadoSala', gmUid);
-    };
+    }
 
     function copiarLink() {
         let inputLink = document.getElementById('link-convite');
         inputLink.select();
         document.execCommand("copy");
         alert("Link de Convite Copiado! Envie aos seus jogadores.");
+    }
+
+    function forcarSincronizacao() {
+        if(!gmUid) return alert("Conecte a uma sala primeiro!");
+        socket.emit('solicitarEstadoSala', gmUid);
     }
 
     function mudarAba(aba) {
@@ -160,11 +176,17 @@
         else if (aba === 'iniciativa') { document.getElementById('tab-iniciativa').classList.add('active'); renderIniciativa(); }
     }
 
-    socket.on('estadoSalaCompleto', function(dadosDaSala) { jogadores = dadosDaSala; if(abaAtual==='mesa') renderizarJogadores(); });
+    // === RECEBIMENTO DE DADOS ===
+    socket.on('estadoSalaCompleto', function(dadosDaSala) { 
+        jogadores = dadosDaSala; 
+        if(abaAtual==='mesa') renderizarJogadores(); 
+    });
 
     socket.on('atualizarDados', function(data) {
         if(gmUid && data.uid && data.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
-        let j = data.dados; let chave = j.idUnico; if (!chave) return; 
+        let j = data.dados; 
+        let chave = j.idUnico; 
+        if (!chave) return; 
         
         j.charName = j.charName || "Personagem sem nome";
         if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
@@ -214,6 +236,7 @@
         });
     }
 
+    // === INICIATIVA INTELIGENTE ===
     function addIniciativaInterna(nome, val, idUnicoFicha = null) {
         if(!nome || isNaN(val)) return;
         let existente;
@@ -223,7 +246,6 @@
         if(existente) { existente.val = parseInt(val); existente.nome = nome; } 
         else { arrayIniciativa.push({ id: Date.now() + Math.random(), idUnico: idUnicoFicha, nome: nome, val: parseInt(val) }); }
         
-        // Limpa form manual
         document.getElementById('ini-nome').value = '';
         document.getElementById('ini-val').value = '';
         ordenarIniciativa();
@@ -252,6 +274,7 @@
         });
     }
 
+    // === LOG DE ROLAGENS ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid && roll.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
 
