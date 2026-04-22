@@ -978,10 +978,29 @@
             sincronizarComMestre();
         }
     });
+    // === OUVINTE DE EXPULSÃO DO MESTRE ===
+    socket.on('player_kicked', function(payload) {
+        if (payload.idUnico === idUnicoFicha) {
+            document.getElementById('uid-input').value = ""; // Limpa a sala
+            localStorage.removeItem('rpgFichaSala'); // Esquece a sala no navegador
+            
+            let btn = document.getElementById('btn-entrar-label');
+            if(btn) {
+                btn.style.backgroundColor = "#b71c1c";
+                btn.innerText = "ENTRAR";
+            }
+            alert("⚠️ Você foi desconectado da mesa pelo Mestre.\nVerifique sua sala ou insira um novo link.");
+        }
+    });
 
     socket.on('connect', () => { setTimeout(sincronizarComMestre, 1500); });
 
     function sincronizarComMestre() {
+        let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
+        
+        // SE NÃO TIVER SALA (Ou tiver sido expulso), ABORTA O ENVIO DE DADOS!
+        if (!uidAtual || uidAtual === "SEM SALA") return; 
+
         let pImg = document.getElementById('portrait-img');
         let defInput = document.getElementById('defesa-personagem');
         let dadosParaMestre = {
@@ -994,9 +1013,8 @@
             defesa: defInput ? defInput.value : 10,
             img: pImg.style.display !== 'none' ? pImg.src : ""
         };
-        let uidAtual = document.getElementById('uid-input').value || meuUID;
-        socket.emit('atualizarDados', { uid: uidAtual.toUpperCase(), dados: dadosParaMestre });
         
+        socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
         salvarFichaLocal();
     }
 
