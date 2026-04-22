@@ -47,7 +47,6 @@
         .stat-badge { padding: 4px 8px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;}
         .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
-        
         .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
         .bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
@@ -55,22 +54,27 @@
         .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
         .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
         
-        /* === BESTIÁRIO BARRAS EDITÁVEIS === */
+        /* === BESTIÁRIO BARRAS EDITÁVEIS E ATRIBUTOS === */
         .monstro-edit-hp { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.6); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; width: 35px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 2px #000; margin: 0 4px; transition: 0.2s;}
         .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
         .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; width: 30px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
         .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
 
-        /* === BESTIÁRIO OUTROS STYLES === */
-        .monstro-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px; text-align: center; }
-        .monstro-stat-box { background: rgba(92, 58, 33, 0.1); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; }
+        .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-bottom: 10px; text-align: center; }
+        .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; cursor: pointer; transition: 0.2s; }
+        .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
         .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.65rem; font-weight: 900; color: #3e2723; display: block; }
         .monstro-stat-val { font-family: 'Roboto'; font-size: 1rem; font-weight: bold; color: #b71c1c; }
+
+        .monstro-skill-btn { background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-radius: 4px; padding: 6px; font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
+        .monstro-skill-btn:hover { background: #eaddc4; color: #b71c1c; border-color: #b71c1c; transform: scale(1.02); }
+
         .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 8px; margin-top: 5px; }
         .monstro-secao-titulo { font-family: 'Cinzel'; font-size: 0.8rem; font-weight: 900; color: #5c3a21; margin-bottom: 5px; display: block; text-transform: uppercase;}
         .btn-atq-monstro { background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px 10px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; margin-right: 5px; margin-bottom: 5px; }
         .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.8rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 6px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid #8b5a2b; }
+        .monstro-input-inline { width: 50px; text-align: center; font-family: 'Roboto'; font-weight: bold; font-size: 0.9rem; border: 1px solid #8b5a2b; border-radius: 4px; background: rgba(255,255,255,0.9); color: #b71c1c;}
 
         /* === INICIATIVA === */
         .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
@@ -305,12 +309,11 @@
         let salaSalva = localStorage.getItem('gmUidSalva');
         conectarSala(salaSalva);
 
-        // Carrega o Bestiário Salvo no Navegador do Mestre
+        // Carrega o Bestiário Salvo
         let bestiarioSalvo = localStorage.getItem('rpgBestiario');
         if(bestiarioSalvo) {
             try { dbBestiario = JSON.parse(bestiarioSalvo); } catch(e) {}
         }
-        // Exibe caso seja a primeira vez que o sistema abra
         if (abaAtual === 'bestiario') renderizarBestiario();
     };
 
@@ -353,7 +356,7 @@
     }
 
     // ==========================================
-    // RENDERIZAR JOGADORES (MESA) E EXPULSÃO
+    // RENDERIZAR JOGADORES (MESA)
     // ==========================================
     socket.on('estadoSalaCompleto', function(dadosDaSala) { 
         jogadores = dadosDaSala; 
@@ -457,7 +460,7 @@
     }
 
     // ==========================================
-    // SISTEMA DO BESTIÁRIO
+    // SISTEMA DO BESTIÁRIO E PERÍCIAS (LUTA, FORT, REFL, VONT)
     // ==========================================
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     
@@ -514,11 +517,7 @@
         
         dbBestiario.push(novoMonstro);
         localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
-        
-        fecharModais(); 
-        
-        // Renderiza e já esconde o texto vazio se ele existisse
-        renderizarBestiario();
+        fecharModais(); renderizarBestiario();
     }
 
     function apagarMonstro(id) {
@@ -534,8 +533,6 @@
         if(monstro) { 
             monstro[campo] = parseInt(valor) || 0; 
             localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); 
-            
-            // Renderiza novamente para atualizar a barra e a porcentagem imediatamente
             renderizarBestiario(); 
         }
     }
@@ -551,7 +548,6 @@
             return;
         }
 
-        // Esconde o texto vazio se existir
         if(txtVazio) txtVazio.style.display = 'none';
         container.innerHTML = '';
 
@@ -569,6 +565,15 @@
             let infoSecao = extraInfos.length > 0 ? `<div style="font-size:0.75rem; font-family:'Roboto'; color:#555; margin-top:5px;">${extraInfos.join(' | ')}</div>` : '';
 
             let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Enigma / Lore</span><div style="font-size:0.75rem; font-style:italic; color:#5c3a21;">${m.enigma}</div></div>` : '';
+
+            // BOTÕES DE ROLAGEM DE PERÍCIAS (Luta, Fortitude, Reflexos, Vontade) baseados nos atributos!
+            let periciasHtml = `
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 10px;">
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Luta)', ${m.attr.for})">⚔️ Luta ${m.attr.for>=0?'+':''}${m.attr.for}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Fortitude)', ${m.attr.con})">🛡️ Fort. ${m.attr.con>=0?'+':''}${m.attr.con}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Reflexos)', ${m.attr.des})">⚡ Refl. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Vontade)', ${m.attr.sab})">🧠 Vont. ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
+            </div>`;
 
             container.innerHTML += `
                 <div class="monstro-card">
@@ -591,14 +596,15 @@
                     </div>
 
                     <div class="monstro-stats-grid">
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div>
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div>
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div>
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div>
-                        <div class="monstro-stat-box"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div>
+                        <div class="monstro-stat-box" title="Rolar FOR" onclick="rolarDadoMonstro('${m.nome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
+                        <div class="monstro-stat-box" title="Rolar DES" onclick="rolarDadoMonstro('${m.nome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div>
+                        <div class="monstro-stat-box" title="Rolar CON" onclick="rolarDadoMonstro('${m.nome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div>
+                        <div class="monstro-stat-box" title="Rolar INT" onclick="rolarDadoMonstro('${m.nome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div>
+                        <div class="monstro-stat-box" title="Rolar SAB" onclick="rolarDadoMonstro('${m.nome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div>
+                        <div class="monstro-stat-box" title="Rolar CAR" onclick="rolarDadoMonstro('${m.nome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div>
                     </div>
                     
+                    ${periciasHtml}
                     ${infoSecao}
                     ${atqSecao}
                     ${habSecao}
@@ -613,6 +619,13 @@
     // ==========================================
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     let diceState = 0; let currentRollData = {}; let animacaoGiro = null;
+
+    // Rola habilidades e atributos do monstro (D20 normal)
+    function rolarDadoMonstro(nome, bonus) {
+        if(diceState !== 0) return; diceState = 1; 
+        currentRollData = { nome: nome, bonus: parseInt(bonus)||0, isDano: false }; 
+        iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c');
+    }
 
     function rolarDanoGM(nome, expressao, bonusExtra = 0) {
         if(diceState !== 0) return; diceState = 1; 
@@ -658,7 +671,26 @@
             if (!document.getElementById(`glow-${categoria}`)) { const style = document.createElement('style'); style.id = `glow-${categoria}`; style.innerHTML = `@keyframes diceGlowPulse${categoria.replace(/\s/g,'')} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria.replace(/\s/g,'')} 2s infinite 0.5s`;
             finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
-        } 
+        } else {
+            // Rolagem Normal de D20 (Atributos e Perícias)
+            let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
+            let categoria = "NORMAL", corCataroria = "#2e7d32"; 
+
+            if (dadoReal === 1) { categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; } 
+            else if (dadoReal === 20) { categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true; } 
+            else {
+                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+            }
+
+            resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
+            box.style.borderColor = corCataroria; let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+        }
         
         socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() });
         text.innerHTML = finalHtml;
