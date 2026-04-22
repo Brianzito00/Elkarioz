@@ -7,14 +7,30 @@
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
+
         * { box-sizing: border-box; }
-        body { font-family: 'Lora', serif; background-color: #170f0a; background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); background-size: cover; background-position: center; background-attachment: fixed; color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden; }
-        .ficha-container { background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative; }
+
+        body {
+            font-family: 'Lora', serif; background-color: #170f0a; 
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
+        }
+
+        /* === FICHA TRANSLÚCIDA === */
+        .ficha-container {
+            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
+        }
+
         .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-align: center; font-weight: 800; }
+
         input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b; }
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { appearance: textfield; -moz-appearance: textfield; }
 
+        /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
         .portrait-slot { width: 140px; height: 180px; border: 6px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative; }
         .portrait-slot:hover { border-color: #b71c1c; outline-color: #ff9100; }
@@ -31,22 +47,26 @@
         .btn-entrar { background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; padding: 0 15px; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; transition: 0.2s; height: 42px; display: flex; align-items: center; justify-content: center; margin-bottom: 0px;}
         .btn-entrar:hover { background-color: #ff9100; color: #3e2723; }
 
+        /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 12px; margin-bottom: 30px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
         .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; }
         .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
         .tab-content { display: none; } .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
+        /* === LAYOUT COLUNAS === */
         .main-layout { display: flex; gap: 25px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 110px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
         .sidebar-direita { flex: 0 0 260px; } 
 
+        /* === ATRIBUTOS === */
         .atributo-box { background-color: rgba(234, 221, 197, 0.9); padding: 10px; border-radius: 45px 12px 45px 12px; text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.15); width: 100%; }
         .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 800; cursor: pointer; color: #5c3a21; font-size: 0.9rem; display: block; margin-bottom: 5px; }
         .atributo-box input { width: 100%; text-align: center; font-size: 1.6rem; font-weight: 900; border: none; background: transparent; color: #000; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
+        /* === STATUS - LADO A LADO === */
         .status-container { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; gap: 20px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
         .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 15px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0; }
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
@@ -64,27 +84,33 @@
         .max-box label { font-size: 0.6rem; font-weight: 900; font-family: 'Roboto'; color: #000; }
         .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; background: rgba(255, 255, 255, 0.9); }
 
+        /* === MEIO: PERÍCIAS E GRIDS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
         .pericia-card { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
         .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.1); box-shadow: 0 0 8px rgba(183, 28, 28, 0.3); }
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
 
+        /* === INVENTÁRIO CARDS === */
         .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
         .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
         .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
+
+        /* === DIREITA E LISTAS === */
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 10px; padding: 15px; text-align: center; width: 100%; margin-bottom: 25px; }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 3px; }
         .defesa-box input { font-size: 2.5rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
+        
         .list-section { padding: 10px 0; border-top: 1px solid rgba(139, 90, 43, 0.4); width: 100%; margin-bottom: 20px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border-left: 5px solid #8b5a2b; border-bottom: 1px solid #ccc; padding: 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: 900; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;}
         .item-btn:hover { background: #fff; }
 
+        /* === ARMAS EQUIPADAS (SIDEBAR) === */
         .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
@@ -96,12 +122,14 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
         .carga-barra-bg { width: 100%; height: 18px; background: #ddd; border: 2px solid #000; border-radius: 10px; margin: 15px 0 0 0; overflow: hidden; }
         .carga-barra-fill { height: 100%; width: 0%; background: #2e7d32; transition: 0.3s; }
         .carga-barra-fill.excedido { background: #b71c1c; }
+        
         .moedas-container { flex: 1 1 30%; min-width: 180px; background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
@@ -109,16 +137,19 @@
         .btn-moeda:hover { background: #ffca28; }
         .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0;}
 
+        /* === GRUPOS DE MAGIAS E ESCOLAS === */
         .btn-subitem { width:100%; display:flex; align-items:center; background:rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b; cursor:pointer; margin-bottom:8px; transition:0.2s; }
         .btn-subitem:hover { background: rgba(183, 28, 28, 0.15); }
         .membro-badge { background: rgba(234, 221, 197, 0.9); border: 1px solid #8b5a2b; padding: 4px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .membro-badge span { color: #b71c1c; cursor: pointer; font-size: 1.1rem; line-height: 1; }
+
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge.active { background: rgba(92, 58, 33, 0.9); color: #f4ebd8; border-color: #3e2723; }
         .magia-circulo-section { margin-bottom: 30px; }
         .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px #fff; }
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
+        /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); }
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; }
         .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
@@ -136,6 +167,7 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
+        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.2); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -153,7 +185,15 @@
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        @media (max-width: 900px) { .main-layout { flex-direction: column; } .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } .status-container { flex-direction: column; align-items: center; } .status-module { max-width: 100%; width: 100%; } .header-rpg-container { flex-direction: column; align-items: center; gap: 15px; } .portrait-slot { width: 120px; height: 140px; } .inv-top-bar { flex-direction: column; align-items: center; } }
+        @media (max-width: 900px) { 
+            .main-layout { flex-direction: column; } 
+            .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } 
+            .status-container { flex-direction: column; align-items: center; }
+            .status-module { max-width: 100%; width: 100%; }
+            .header-rpg-container { flex-direction: column; align-items: center; gap: 15px; }
+            .portrait-slot { width: 120px; height: 140px; }
+            .inv-top-bar { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
@@ -182,7 +222,22 @@
                 </div>
             </div>
             <div class="header-row">
-                <div class="campo-rpg"><input type="text" id="raca-input" oninput="sincronizarComMestre()"><label>Raça</label></div>
+                <div class="campo-rpg">
+                    <select id="raca-input" onchange="sincronizarComMestre()">
+                        <option value="">Selecione...</option>
+                        <option value="Humano">Humano</option>
+                        <option value="Anão">Anão</option>
+                        <option value="Elfo">Elfo</option>
+                        <option value="Goblin">Goblin</option>
+                        <option value="Minotauro">Minotauro</option>
+                        <option value="Golem">Golem</option>
+                        <option value="Hynne">Hynne</option>
+                        <option value="Osteon">Osteon</option>
+                        <option value="Sereia/Tritão">Sereia/Tritão</option>
+                        <option value="Trog">Trog</option>
+                    </select>
+                    <label>Raça</label>
+                </div>
                 <div class="campo-rpg"><input type="text" id="classe-input" oninput="sincronizarComMestre()"><label>Classe / Origem</label></div>
                 <div class="campo-rpg" style="max-width: 80px;">
                     <select id="nivel" onchange="recalcularTudo()">
@@ -229,6 +284,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
                         <div class="bar-wrapper">
@@ -347,90 +403,195 @@
     </div>
 </div>
 
-<div id="modal-inventario" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span>
-    <h3 class="section-title">Novo Item</h3>
-    
-    <div class="modal-tabs">
-        <button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
-        <button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
-        <button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
-        <button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
+<div id="modal-inventario" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title">Novo Item</h3>
+        
+        <div class="modal-tabs">
+            <button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
+            <button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
+            <button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
+            <button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
+        </div>
+        
+        <input type="text" id="mi-nome" placeholder="Nome do Item / Arma / Munição" class="form-input" style="margin-bottom:12px;">
+        
+        <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold;">URL DA IMAGEM (Opcional)</label>
+                <input type="text" id="mi-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
+            </div>
+            <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
+                <img id="mi-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <div id="mi-mun-link-box" style="display:none; margin-bottom:12px; background: rgba(183, 28, 28, 0.1); border: 1px solid #b71c1c; padding: 10px; border-radius: 4px;">
+            <label style="font-size:0.7rem; font-weight:bold; color:#b71c1c;">QUAL MUNIÇÃO ESTA ARMA DISPARA?</label>
+            <input type="text" id="mi-mun-nome" placeholder="Ex: Balas Leves, Flechas..." class="form-input" style="margin-top:5px; margin-bottom:0; border-color:#b71c1c;">
+            <span style="font-size:0.65rem; color:#3e2723; display:block; margin-top:4px;">* O nome precisa ser igual ao do item de munição criado.</span>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:20%;">
+                <label style="font-size:0.7rem; font-weight:bold;">ESPAÇOS</label>
+                <input type="number" id="mi-peso" value="1" step="0.5" class="form-input" style="text-align:center; margin-bottom:0;">
+            </div>
+            <div style="flex:1; min-width: 30%;">
+                <label style="font-size:0.7rem; font-weight:bold;">RARIDADE</label>
+                <select id="mi-raridade" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;">
+                    <option value="Normal">Normal</option><option value="Incomum">Incomum</option><option value="Raro">Raro</option><option value="Único">Único</option><option value="Lendário">Lendário</option>
+                </select>
+            </div>
+            <div class="arma-field" style="flex:1; min-width:35%; display:none;">
+                <label style="font-size:0.7rem; font-weight:bold;">PERÍCIA LIGADA</label>
+                <select id="mi-pericia" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;"></select>
+            </div>
+            <div class="arma-field" style="flex:1; min-width:20%; display:none;">
+                <label style="font-size:0.7rem; font-weight:bold;">DANO</label>
+                <input type="text" id="mi-dano" placeholder="Ex: 1d8" class="form-input" style="text-align:center; margin-bottom:0;">
+            </div>
+            <div class="arma-field" style="flex:1; min-width:20%; display:none;">
+                <label style="font-size:0.7rem; font-weight:bold;">CRÍTICO</label>
+                <input type="text" id="mi-crit" placeholder="Ex: x2, 19" class="form-input" style="text-align:center; margin-bottom:0;">
+            </div>
+            <div id="mi-mun-container" style="flex:1; min-width:20%; display:none;">
+                <label style="font-size:0.7rem; font-weight:bold;" id="lbl-capacidade">CAPACIDADE MÁX</label>
+                <input type="number" id="mi-mun" value="6" class="form-input" style="text-align:center; margin-bottom:0;">
+            </div>
+        </div>
+        
+        <div class="arma-field-row" style="display:none; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+            <div style="flex:1; min-width: 45%;">
+                <label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label>
+                <input type="text" id="mi-alc" placeholder="Curto" class="form-input" style="margin-bottom:0;">
+            </div>
+            <div style="flex:1; min-width: 45%;">
+                <label style="font-size:0.7rem; font-weight:bold;">TIPO DE DANO</label>
+                <input type="text" id="mi-tipo" placeholder="Corte" class="form-input" style="margin-bottom:0;">
+            </div>
+        </div>
+        <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais" class="form-input" style="height:60px; resize:none;"></textarea>
+        <button class="btn-salvar" onclick="salvarItemInv()">ADICIONAR AO INVENTÁRIO</button>
     </div>
-    
-    <input type="text" id="mi-nome" placeholder="Nome do Item / Arma / Munição" class="form-input" style="margin-bottom:12px;">
-    
-    <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
-        <div style="flex:1;">
-            <label style="font-size:0.7rem; font-weight:bold;">URL DA IMAGEM (Opcional)</label>
-            <input type="text" id="mi-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
-        </div>
-        <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
-            <img id="mi-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
+</div>
+
+<div id="modal-pericia" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title" id="mp-nome">Perícia</h3>
+        <div class="form-group"><span style="font-size: 0.9rem;">Treinado:</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
+        <div class="form-group"><span style="font-size: 0.9rem;">Bônus Extra:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0;"></div>
+        <div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem;">TOTAL: <span id="mp-total" style="color:#b71c1c">0</span></div>
     </div>
+</div>
 
-    <div id="mi-mun-link-box" style="display:none; margin-bottom:12px; background: rgba(183, 28, 28, 0.1); border: 1px solid #b71c1c; padding: 10px; border-radius: 4px;">
-        <label style="font-size:0.7rem; font-weight:bold; color:#b71c1c;">QUAL MUNIÇÃO ESTA ARMA DISPARA?</label>
-        <input type="text" id="mi-mun-nome" placeholder="Ex: Balas Leves, Flechas..." class="form-input" style="margin-top:5px; margin-bottom:0; border-color:#b71c1c;">
-        <span style="font-size:0.65rem; color:#3e2723; display:block; margin-top:4px;">* O nome precisa ser igual ao do item de munição criado.</span>
+<div id="modal-hab" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title" id="mh-titulo">Novo</h3>
+        <input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
+        <textarea id="mh-desc" placeholder="Descrição" class="form-input" style="height:100px; resize:none;"></textarea>
+        <button class="btn-salvar" onclick="salvarHab()">SALVAR</button>
     </div>
+</div>
 
-    <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-        <div style="flex:1; min-width:20%;">
-            <label style="font-size:0.7rem; font-weight:bold;">ESPAÇOS</label>
-            <input type="number" id="mi-peso" value="1" step="0.5" class="form-input" style="text-align:center; margin-bottom:0;">
+<div id="modal-magia-add" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title">Aprender Magia</h3>
+        <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:12px;">
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">CÍRCULO</label><select id="mm-circulo" class="form-input" style="padding: 7px; font-size: 0.9rem; text-align:center; margin-bottom:0;"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option><option value="5">5º Círculo</option></select></div>
+            <div style="flex:2;"><label style="font-size:0.7rem; font-weight:bold;">ESCOLA</label><select id="mm-escola" class="form-input" style="padding: 7px; font-size: 0.9rem; margin-bottom:0;"><option value="Abjuração">Abjuração</option><option value="Adivinhação">Adivinhação</option><option value="Convocação">Convocação</option><option value="Encantamento">Encantamento</option><option value="Evocação">Evocação</option><option value="Ilusão">Ilusão</option><option value="Necromancia">Necromancia</option><option value="Transmutação">Transmutação</option></select></div>
         </div>
-        <div style="flex:1; min-width: 30%;">
-            <label style="font-size:0.7rem; font-weight:bold;">RARIDADE</label>
-            <select id="mi-raridade" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;">
-                <option value="Normal">Normal</option><option value="Incomum">Incomum</option><option value="Raro">Raro</option><option value="Único">Único</option><option value="Lendário">Lendário</option>
-            </select>
+        <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">EXECUÇÃO</label><input type="text" id="mm-execucao" placeholder="Padrão" class="form-input" style="margin-bottom:0;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label><input type="text" id="mm-alcance" placeholder="Curto" class="form-input" style="margin-bottom:0;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALVO / ÁREA / EFEITO</label><input type="text" id="mm-alvo" placeholder="1 criatura" class="form-input" style="margin-bottom:0;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">DURAÇÃO</label><input type="text" id="mm-duracao" placeholder="Cena" class="form-input" style="margin-bottom:0;"></div>
+            <div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Fortitude reduz à metade" class="form-input" style="margin-bottom:0;"></div>
         </div>
-        <div class="arma-field" style="flex:1; min-width:35%; display:none;">
-            <label style="font-size:0.7rem; font-weight:bold;">PERÍCIA LIGADA</label>
-            <select id="mi-pericia" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;"></select>
-        </div>
-        <div class="arma-field" style="flex:1; min-width:20%; display:none;">
-            <label style="font-size:0.7rem; font-weight:bold;">DANO</label>
-            <input type="text" id="mi-dano" placeholder="Ex: 1d8" class="form-input" style="text-align:center; margin-bottom:0;">
-        </div>
-        <div class="arma-field" style="flex:1; min-width:20%; display:none;">
-            <label style="font-size:0.7rem; font-weight:bold;">CRÍTICO</label>
-            <input type="text" id="mi-crit" placeholder="Ex: x2, 19" class="form-input" style="text-align:center; margin-bottom:0;">
-        </div>
-        <div id="mi-mun-container" style="flex:1; min-width:20%; display:none;">
-            <label style="font-size:0.7rem; font-weight:bold;" id="lbl-capacidade">CAPACIDADE MÁX</label>
-            <input type="number" id="mi-mun" value="6" class="form-input" style="text-align:center; margin-bottom:0;">
-        </div>
+        <textarea id="mm-desc" placeholder="Efeito da magia e Aprimoramentos..." class="form-input" style="height:100px; resize:none;"></textarea>
+        <button class="btn-salvar" onclick="salvarMagia()">ADICIONAR MAGIA</button>
     </div>
-    
-    <div class="arma-field-row" style="display:none; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-        <div style="flex:1; min-width: 45%;">
-            <label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label>
-            <input type="text" id="mi-alc" placeholder="Curto" class="form-input" style="margin-bottom:0;">
+</div>
+
+<div id="modal-criacao-listas" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title" id="mcl-titulo">Nova Guilda</h3>
+        <input type="text" id="mcl-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
+        <div id="mcl-img-container" style="display:none; margin-bottom:12px;">
+            <label style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:block; margin-bottom:3px;">URL DA FOTO (Opcional)</label>
+            <input type="text" id="mcl-img" placeholder="https://link-da-imagem.com/foto.png" class="form-input" style="margin-bottom:0;">
         </div>
-        <div style="flex:1; min-width: 45%;">
-            <label style="font-size:0.7rem; font-weight:bold;">TIPO DE DANO</label>
-            <input type="text" id="mi-tipo" placeholder="Corte" class="form-input" style="margin-bottom:0;">
+        <div id="mcl-subitems-container" style="margin-bottom:15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <label id="mcl-label-adicionar" style="font-size:0.8rem; font-weight:bold; color:#5c3a21;">ADICIONAR MEMBROS</label>
+            <div style="display:flex; gap:10px; margin-top:5px;">
+                <input type="text" id="mcl-subitem-nome" placeholder="Nome do Personagem/NPC" class="form-input" style="margin-bottom:0;">
+                <button class="btn-salvar" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1;" onclick="addTempLista()">+</button>
+            </div>
+            <div id="mcl-subitems-list" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;"></div>
         </div>
+        <label id="mcl-label-desc" style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:none; margin-bottom:3px;">ANOTAÇÕES</label>
+        <textarea id="mcl-desc" placeholder="Descrição ou Anotações" class="form-input" style="height:80px; resize:vertical;"></textarea>
+        <button class="btn-salvar" onclick="salvarCriacaoLista()">SALVAR</button>
     </div>
-    <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais" class="form-input" style="height:60px; resize:none;"></textarea>
-    <button class="btn-salvar" onclick="salvarItemInv()">ADICIONAR AO INVENTÁRIO</button>
-</div></div>
+</div>
 
-<div id="modal-pericia" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mp-nome">Perícia</h3><div class="form-group"><span style="font-size: 0.9rem;">Treinado:</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div><div class="form-group"><span style="font-size: 0.9rem;">Bônus Extra:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0;"></div><div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem;">TOTAL: <span id="mp-total" style="color:#b71c1c">0</span></div></div></div>
-<div id="modal-hab" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mh-titulo">Novo</h3><input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;"><textarea id="mh-desc" placeholder="Descrição" class="form-input" style="height:100px; resize:none;"></textarea><button class="btn-salvar" onclick="salvarHab()">SALVAR</button></div></div>
+<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
+        <h3 class="section-title">Perfil</h3>
+        <input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px;">
+        <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold;">URL DA FOTO (Opcional)</label>
+                <input type="text" id="ms-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('ms-img', 'ms-img-preview', 'ms-img-preview-container')">
+            </div>
+            <div id="ms-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
+                <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <textarea id="ms-desc" placeholder="História, funções ou anotações..." class="form-input" style="height:100px; resize:none; margin-bottom:12px;"></textarea>
+        <button class="btn-salvar" onclick="salvarSubItem()">SALVAR</button>
+    </div>
+</div>
 
-<div id="modal-magia-add" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title">Aprender Magia</h3><input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:12px;"><div style="display:flex; gap:10px; margin-bottom:12px;"><div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">CÍRCULO</label><select id="mm-circulo" class="form-input" style="padding: 7px; font-size: 0.9rem; text-align:center; margin-bottom:0;"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option><option value="5">5º Círculo</option></select></div><div style="flex:2;"><label style="font-size:0.7rem; font-weight:bold;">ESCOLA</label><select id="mm-escola" class="form-input" style="padding: 7px; font-size: 0.9rem; margin-bottom:0;"><option value="Abjuração">Abjuração</option><option value="Adivinhação">Adivinhação</option><option value="Convocação">Convocação</option><option value="Encantamento">Encantamento</option><option value="Evocação">Evocação</option><option value="Ilusão">Ilusão</option><option value="Necromancia">Necromancia</option><option value="Transmutação">Transmutação</option></select></div></div><div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;"><div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">EXECUÇÃO</label><input type="text" id="mm-execucao" placeholder="Padrão" class="form-input" style="margin-bottom:0;"></div><div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label><input type="text" id="mm-alcance" placeholder="Curto" class="form-input" style="margin-bottom:0;"></div><div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALVO / ÁREA / EFEITO</label><input type="text" id="mm-alvo" placeholder="1 criatura" class="form-input" style="margin-bottom:0;"></div><div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">DURAÇÃO</label><input type="text" id="mm-duracao" placeholder="Cena" class="form-input" style="margin-bottom:0;"></div><div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Fortitude reduz à metade" class="form-input" style="margin-bottom:0;"></div></div><textarea id="mm-desc" placeholder="Efeito da magia e Aprimoramentos..." class="form-input" style="height:100px; resize:none;"></textarea><button class="btn-salvar" onclick="salvarMagia()">ADICIONAR MAGIA</button></div></div>
-
-<div id="modal-criacao-listas" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><h3 class="section-title" id="mcl-titulo">Nova Guilda</h3><input type="text" id="mcl-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;"><div id="mcl-img-container" style="display:none; margin-bottom:12px;"><label style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:block; margin-bottom:3px;">URL DA FOTO (Opcional)</label><input type="text" id="mcl-img" placeholder="https://link-da-imagem.com/foto.png" class="form-input" style="margin-bottom:0;"></div><div id="mcl-subitems-container" style="margin-bottom:15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;"><label id="mcl-label-adicionar" style="font-size:0.8rem; font-weight:bold; color:#5c3a21;">ADICIONAR MEMBROS</label><div style="display:flex; gap:10px; margin-top:5px;"><input type="text" id="mcl-subitem-nome" placeholder="Nome do Personagem/NPC" class="form-input" style="margin-bottom:0;"><button class="btn-salvar" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1;" onclick="addTempLista()">+</button></div><div id="mcl-subitems-list" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;"></div></div><label id="mcl-label-desc" style="font-size:0.7rem; font-weight:bold; color:#5c3a21; display:none; margin-bottom:3px;">ANOTAÇÕES</label><textarea id="mcl-desc" placeholder="Descrição ou Anotações" class="form-input" style="height:80px; resize:vertical;"></textarea><button class="btn-salvar" onclick="salvarCriacaoLista()">SALVAR</button></div></div>
-
-<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;"><div class="modal-content"><span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span><h3 class="section-title">Perfil</h3><input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px;"><div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;"><div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">URL DA FOTO (Opcional)</label><input type="text" id="ms-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('ms-img', 'ms-img-preview', 'ms-img-preview-container')"></div><div id="ms-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;"><img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;"></div></div><textarea id="ms-desc" placeholder="História, funções ou anotações..." class="form-input" style="height:100px; resize:none; margin-bottom:12px;"></textarea><button class="btn-salvar" onclick="salvarSubItem()">SALVAR</button></div></div>
-
-<div id="modal-view" class="modal-overlay"><div class="modal-content"><span class="fechar-modal" onclick="fecharModais()">&times;</span><div style="display:flex; flex-direction:column; align-items:center;"><img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none;"><h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3></div><div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:4px; border:1px solid #8b5a2b;"><div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div><div style="display:flex; gap:10px;"><button class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button><button class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button></div></div><div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;"><span style="font-family:'Cinzel'; font-weight:bold;">QUANTIDADE:</span><button class="btn-status" onclick="alterarMunicaoView(-1)">-</button><span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.2rem;"></span><button class="btn-status" onclick="alterarMunicaoView(1)">+</button></div><p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p><div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div><button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button></div></div>
+<div id="modal-view" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none;">
+            <h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3>
+        </div>
+        
+        <div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:4px; border:1px solid #8b5a2b;">
+            <div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button>
+                <button class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button>
+            </div>
+        </div>
+        
+        <div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;">
+            <span style="font-family:'Cinzel'; font-weight:bold;">QUANTIDADE:</span>
+            <button class="btn-status" onclick="alterarMunicaoView(-1)">-</button>
+            <span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.2rem;"></span>
+            <button class="btn-status" onclick="alterarMunicaoView(1)">+</button>
+        </div>
+        
+        <p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p>
+        
+        <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
+        
+        <button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button>
+    </div>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
     // === SISTEMA DE SALVAMENTO LOCAL ===
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
@@ -447,6 +608,7 @@
         meuUID = uid;
         if (!document.getElementById('uid-input').value) {
             document.getElementById('uid-input').value = uid;
+            sincronizarComMestre();
         }
     });
 
@@ -550,11 +712,11 @@
     }
 
 
-    // === CONEXÃO DO JOGADOR ===
+    // === CONEXÃO DO JOGADOR E SOCKETS ===
     function conectarSalaJogador() {
         let sala = document.getElementById('uid-input').value.trim().toUpperCase();
         if(sala) {
-            document.getElementById('uid-input').value = sala; // Atualiza o input pro uppercase
+            document.getElementById('uid-input').value = sala;
             localStorage.setItem('rpgFichaSala', sala);
             sincronizarComMestre();
             alert("Conectado à sala: " + sala);
@@ -563,7 +725,6 @@
         }
     }
 
-    // === RECEBIMENTO DO MESTRE E SINCRONIZAÇÃO ===
     socket.on('gm_send_item', function(payload) {
         if (payload && payload.item) {
             let meuNome = document.getElementById('char-name-input').value.trim();
@@ -650,7 +811,7 @@
         sincronizarComMestre();
     }
 
-    // === UTILIDADES ===
+    // === UTILIDADES E MODAIS ===
     function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     function mudarAbaPrincipal(idAba, btn) { document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(idAba).classList.add('active'); if(btn) btn.classList.add('active'); }
@@ -764,7 +925,7 @@
         salvarFichaLocal();
     }
 
-    // === MODAIS E INTERAÇÕES ===
+    // === FUNÇÕES DOS MODAIS ===
     function abrirModalPericia(nome) { periciaAbertaNome = nome; let d = dbPericias[nome]; document.getElementById('mp-nome').innerText = nome; document.getElementById('mp-treinado').checked = d.treinado; document.getElementById('mp-bonus').value = d.bonus; document.getElementById('mp-total').innerText = d.total; document.getElementById('modal-pericia').style.display = 'flex'; }
     function salvarPericia() { let d = dbPericias[periciaAbertaNome]; d.treinado = document.getElementById('mp-treinado').checked; d.bonus = parseFloat(document.getElementById('mp-bonus').value) || 0; recalcularTudo(); document.getElementById('mp-total').innerText = d.total; }
 
@@ -774,6 +935,7 @@
         tempImgBase64 = ""; document.getElementById('mi-img').value = ""; document.getElementById('mi-img-preview-container').style.display = 'none';
         document.getElementById('modal-inventario').style.display = 'flex'; 
     }
+    
     function mudarAbaItem(tipo) {
         abaItemAtual = tipo;
         document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-' + tipo).classList.add('active');
@@ -786,6 +948,7 @@
         else if (tipo == 'municao') { munContainer.style.display = 'block'; document.getElementById('lbl-capacidade').innerText = "QUANTIDADE"; } 
         else { munContainer.style.display = 'none'; }
     }
+    
     function salvarItemInv() {
         let nome = document.getElementById('mi-nome').value.trim(), peso = parseFloat(document.getElementById('mi-peso').value) || 0, descBase = document.getElementById('mi-desc').value.trim();
         if(!nome) return alert("Digite o nome!");
@@ -813,6 +976,7 @@
         
         dbInventario.push(newItem); renderizarListas(); fecharModais();
     }
+    
     function toggleEquip(e, id) { e.stopPropagation(); let item = dbInventario.find(x => x.id == id); if(item) { item.equipado = e.target.checked; recalcularTudo(); } }
 
     function dispararArma() { let arma = dbInventario.find(x => x.id == itemAbertoId); if(arma && arma.tipo == 'dist') { if(arma.munAtual > 0) { arma.munAtual--; document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; renderizarListas(); } else alert("Arma descarregada! Clique em RECARREGAR."); } }
@@ -848,9 +1012,11 @@
         else { document.getElementById('mcl-subitems-container').style.display = 'block'; document.getElementById('mcl-img-container').style.display = 'none'; document.getElementById('mcl-label-desc').style.display = 'none'; document.getElementById('mcl-label-adicionar').innerText = tipo == 'guilda' ? 'ADICIONAR MEMBROS' : 'ADICIONAR PONTOS / NPCs'; document.getElementById('mcl-subitem-nome').value = ''; tempSubItemsLista = []; renderizarSubItemsTemp(); }
         document.getElementById('modal-criacao-listas').style.display = 'flex';
     }
+    
     function addTempLista() { let nome = document.getElementById('mcl-subitem-nome').value.trim(); if(nome) { tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' }); document.getElementById('mcl-subitem-nome').value = ''; renderizarSubItemsTemp(); } }
     function removerTempLista(idx) { tempSubItemsLista.splice(idx, 1); renderizarSubItemsTemp(); }
     function renderizarSubItemsTemp() { const container = document.getElementById('mcl-subitems-list'); container.innerHTML = ''; tempSubItemsLista.forEach((sub, idx) => { container.innerHTML += `<span class="membro-badge">${sub.nome} <span onclick="removerTempLista(${idx})">&times;</span></span>`; }); }
+    
     function salvarCriacaoLista() {
         let nome = document.getElementById('mcl-nome').value.trim(), desc = document.getElementById('mcl-desc').value.trim(), img = document.getElementById('mcl-img') ? document.getElementById('mcl-img').value.trim() : "";
         if(!nome) return alert('Digite o nome!');
@@ -860,6 +1026,9 @@
         renderizarListas(); fecharModais();
     }
 
+    // ==========================================
+    // RESTAURAÇÃO DA FUNÇÃO ABRIR VISUALIZAÇÃO
+    // ==========================================
     function abrirVisualizacao(tipoLista, id) { 
         tipoContexto = tipoLista; 
         let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbPessoas : (tipoLista == 'magia' ? dbMagias : dbHabilidades))))); 
@@ -926,7 +1095,7 @@
         renderizarListas(); fecharModais(); 
     }
 
-    // === SISTEMA DE DADOS UNIFICADO ===
+    // === SISTEMA DE DADOS UNIFICADO COM CRÍTICO E DESASTRE ===
     function rolarDado(nome, bonus) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; iniciarGiroDado(nome, bonus, '#b71c1c'); }
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); }
     function rolarDano(nome, expressao, bonusExtra = 0) { if(diceState !== 0) return; diceState = 1; let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true); }
@@ -999,7 +1168,7 @@
         let uidAtual = document.getElementById('uid-input').value || meuUID;
 
         socket.emit('player_dice_roll', { 
-            uid: uidAtual, idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
+            uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
             detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
             isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
         });
