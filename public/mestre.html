@@ -10,6 +10,9 @@
         * { box-sizing: border-box; }
         body { font-family: 'Lora', serif; background-color: #170f0a; background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); background-size: cover; background-position: center; background-attachment: fixed; color: #3e2723; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; margin: 0; min-height: 100vh; }
         
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+
         /* === PAINEL PRINCIPAL === */
         .painel-mestre { background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1300px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; display: flex; flex-direction: column; position: relative;}
         .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #5c3a21; margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-transform: uppercase; }
@@ -44,6 +47,7 @@
         .stat-badge { padding: 4px 8px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;}
         .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
+        
         .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
         .bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
@@ -51,7 +55,13 @@
         .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
         .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
         
-        /* === BESTIÁRIO STYLES === */
+        /* === BESTIÁRIO BARRAS EDITÁVEIS === */
+        .monstro-edit-hp { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.6); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; width: 35px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 2px #000; margin: 0 4px; transition: 0.2s;}
+        .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
+        .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; width: 30px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
+        .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+
+        /* === BESTIÁRIO OUTROS STYLES === */
         .monstro-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px; text-align: center; }
         .monstro-stat-box { background: rgba(92, 58, 33, 0.1); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; }
         .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.65rem; font-weight: 900; color: #3e2723; display: block; }
@@ -61,7 +71,6 @@
         .btn-atq-monstro { background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px 10px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; margin-right: 5px; margin-bottom: 5px; }
         .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.8rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 6px; border-radius: 4px; margin-bottom: 5px; border-left: 3px solid #8b5a2b; }
-        .monstro-input-inline { width: 50px; text-align: center; font-family: 'Roboto'; font-weight: bold; font-size: 0.9rem; border: 1px solid #8b5a2b; border-radius: 4px; background: rgba(255,255,255,0.9); color: #b71c1c;}
 
         /* === INICIATIVA === */
         .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
@@ -301,6 +310,8 @@
         if(bestiarioSalvo) {
             try { dbBestiario = JSON.parse(bestiarioSalvo); } catch(e) {}
         }
+        // Exibe caso seja a primeira vez que o sistema abra
+        if (abaAtual === 'bestiario') renderizarBestiario();
     };
 
     function mudarAba(aba) {
@@ -372,11 +383,7 @@
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
         document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
-        
-        if(chaves.length === 0) { 
-            container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; 
-            return; 
-        }
+        if(chaves.length === 0) { container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; return; }
         
         container.innerHTML = ''; 
         chaves.forEach(key => {
@@ -507,7 +514,11 @@
         
         dbBestiario.push(novoMonstro);
         localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
-        fecharModais(); renderizarBestiario();
+        
+        fecharModais(); 
+        
+        // Renderiza e já esconde o texto vazio se ele existisse
+        renderizarBestiario();
     }
 
     function apagarMonstro(id) {
@@ -520,17 +531,28 @@
 
     function updateMonstroStatus(id, campo, valor) {
         let monstro = dbBestiario.find(m => m.id === id);
-        if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); }
+        if(monstro) { 
+            monstro[campo] = parseInt(valor) || 0; 
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); 
+            
+            // Renderiza novamente para atualizar a barra e a porcentagem imediatamente
+            renderizarBestiario(); 
+        }
     }
 
     function renderizarBestiario() {
         const container = document.getElementById('lista-bestiario-container');
+        const txtVazio = document.getElementById('bestiario-vazio-texto');
         
         if (dbBestiario.length === 0) {
-            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;">Nenhum monstro criado ainda.</p>';
+            if(txtVazio) txtVazio.style.display = 'block';
+            container.innerHTML = '';
+            if(txtVazio) container.appendChild(txtVazio);
             return;
         }
 
+        // Esconde o texto vazio se existir
+        if(txtVazio) txtVazio.style.display = 'none';
         container.innerHTML = '';
 
         dbBestiario.forEach(m => {
@@ -551,20 +573,22 @@
             container.innerHTML += `
                 <div class="monstro-card">
                     <button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button>
-                    <h3 class="player-name" style="font-size:1.3rem;">${m.nome}</h3>
                     
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <span style="font-weight:900; font-family:'Cinzel'; color:#b71c1c;">PV:</span>
-                            <input type="number" class="monstro-input-inline" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}
-                        </div>
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <span style="font-weight:900; font-family:'Cinzel'; color:#455a64;">DEF:</span>
-                            <input type="number" class="monstro-input-inline" value="${m.def}" style="color:#455a64;" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;">
+                        <h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3>
+                        <div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">
+                            🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
                         </div>
                     </div>
 
-                    <div class="bar-bg" style="margin-bottom:10px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div></div>
+                    <div class="barras-container" style="margin-bottom:10px;">
+                        <div class="bar-bg" style="height: 22px;">
+                            <div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div>
+                            <div class="bar-text" style="font-size:0.75rem;">
+                                PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="monstro-stats-grid">
                         <div class="monstro-stat-box"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
