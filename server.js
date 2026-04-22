@@ -25,7 +25,6 @@ io.on('connection', (socket) => {
         if (uidSala && dadosJogador && dadosJogador.idUnico) {
             if (!estadoSalas[uidSala]) estadoSalas[uidSala] = {};
             estadoSalas[uidSala][dadosJogador.idUnico] = dadosJogador;
-            
             payload.uid = uidSala; // Repassa corrigido
         }
         io.emit('atualizarDados', payload);
