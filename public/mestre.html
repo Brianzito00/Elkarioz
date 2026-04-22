@@ -7,48 +7,158 @@
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
-        * { box-sizing: border-box; }
-        body { font-family: 'Lora', serif; background-color: #170f0a; background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); background-size: cover; background-position: center; background-attachment: fixed; color: #3e2723; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; margin: 0; min-height: 100vh; }
-        .painel-mestre { background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; display: flex; flex-direction: column; }
-        .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #5c3a21; margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-transform: uppercase; }
-        .tabs-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
-        .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; font-size: 1rem;}
+
+        * { 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Lora', serif; 
+            background-color: #170f0a; 
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            color: #3e2723; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            padding: 40px 20px; 
+            margin: 0; 
+            min-height: 100vh; 
+        }
+
+        /* === PAINEL PRINCIPAL === */
+        .painel-mestre {
+            background-color: rgba(244, 235, 216, 0.88); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px; 
+            border-radius: 4px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; 
+            max-width: 1200px; 
+            border: 3px solid #8b5a2b; 
+            outline: 5px solid rgba(92, 58, 33, 0.8); 
+            outline-offset: -12px; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        .header-titulo { 
+            text-align: center; 
+            font-family: 'Cinzel', serif; 
+            font-weight: 900; 
+            font-size: 2.2rem; 
+            color: #5c3a21; 
+            margin-top: 0; 
+            margin-bottom: 25px; 
+            letter-spacing: 1px; 
+            border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
+            padding-bottom: 10px; 
+            text-transform: uppercase; 
+        }
+
+        /* === ABAS NAVEGAÇÃO === */
+        .tabs-container { 
+            display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; 
+            border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; 
+        }
+        .tab-btn { 
+            background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; 
+            cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
+            border-radius: 10px 10px 0 0; transition: 0.2s; font-size: 1rem;
+        }
         .tab-btn:hover { background-color: #fff; }
         .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; } 
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* === ESTRUTURA DE COLUNAS === */
         .conteudo-wrapper { display: flex; gap: 25px; align-items: flex-start; width: 100%; }
         .coluna-central { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
         .coluna-log { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; }
-        .section-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #5c3a21; text-align: center; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;}
-        .box-rpg { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;}
-        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap:5px; flex-shrink: 0;}
+
+        .section-title { 
+            font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #5c3a21; 
+            text-align: center; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); 
+            padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;
+        }
+
+        /* === CAIXAS E FORMULÁRIOS === */
+        .box-rpg { 
+            background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; 
+            border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+        }
+        .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;}
+        .form-input { 
+            padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); 
+            font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;
+        }
+        .btn-acao { 
+            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; 
+            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; 
+            display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0;
+        }
         .btn-acao:hover { background-color: #b71c1c; }
-        #dice-log-container { flex: 1; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
-        .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
-        .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
-        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
-        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.1); transform: scale(1.02); box-shadow: 0 4px 10px rgba(183, 28, 28, 0.2); border-width: 3px; }
-        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #3e2723; }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.4rem; color: #b71c1c; background: #fff; padding: 4px 12px; border-radius: 4px; border: 2px solid #b71c1c; }
+
+        /* === LISTA JOGADORES (MESA) === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
-        .player-card { background: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
+        .player-card { 
+            background: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; 
+            padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; 
+        }
+        .player-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
         .player-header { display: flex; gap: 15px; align-items: center; }
-        .player-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.5rem;}
+        .player-img { 
+            width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; 
+            flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.5rem;
+        }
         .player-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #b71c1c; line-height: 1.1; margin-bottom: 2px; }
         .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #5c3a21; font-weight: 900; text-transform: uppercase; }
-        .stat-badge { padding: 4px 8px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
-        .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;}
+        
+        .stat-badge { 
+            padding: 4px 8px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; 
+            font-size: 1rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .player-gm-notes { 
+            width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; 
+            border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;
+        }
+        .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
+        
         .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
         .bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
         .fill-hp { background-color: #b71c1c; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
         .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
         .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
-        .tab-content { display: none; animation: fadeIn 0.3s ease; } .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media (max-width: 900px) { .conteudo-wrapper { flex-direction: column; } .coluna-log, .coluna-central { width: 100%; } }
+
+        /* === INICIATIVA === */
+        .ini-row { 
+            display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); 
+            border: 2px solid #8b5a2b; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; 
+        }
+        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.1); transform: scale(1.02); box-shadow: 0 4px 10px rgba(183, 28, 28, 0.2); border-width: 3px; }
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #3e2723; }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.4rem; color: #b71c1c; background: #fff; padding: 4px 12px; border-radius: 4px; border: 2px solid #b71c1c; }
+
+        /* === LOG DE DADOS === */
+        #dice-log-container { flex: 1; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
+        .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
+        .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
+        
+        ::-webkit-scrollbar { width: 6px; } 
+        ::-webkit-scrollbar-track { background: transparent; } 
+        ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
+        
+        @media (max-width: 900px) { 
+            .conteudo-wrapper { flex-direction: column; } 
+            .coluna-log, .coluna-central { width: 100%; } 
+        }
     </style>
 </head>
 <body>
@@ -65,19 +175,31 @@
         <div class="coluna-central">
             
             <div id="tab-mesa" class="tab-content active">
+                
                 <div class="box-rpg" style="text-align: center; margin-bottom: 20px;">
-                    <h2 class="section-title">🔗 CONVITE PARA JOGADORES</h2>
-                    <p style="font-family: 'Roboto'; font-size: 0.85rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;">Copie o link abaixo e envie aos jogadores. Eles conectarão automaticamente!</p>
-                    <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-                        <input type="text" id="link-convite" class="form-input" style="font-size: 0.95rem; color: #0d47a1;" readonly>
-                        <button class="btn-acao" onclick="copiarLink()">📋 COPIAR</button>
+                    <h2 class="section-title">CONEXÃO DA SESSÃO</h2>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;">
+                        <input type="text" id="gm-uid" class="form-input" style="width: auto;" placeholder="Ex: SALA-RPGTOTAL">
+                        <button class="btn-acao" style="width: auto;" onclick="conectarSala()">CONECTAR</button>
+                        <button class="btn-acao" style="width: auto; background-color: #0d47a1;" onclick="forcarSincronizacao()">🔄 PUXAR FICHAS</button>
                     </div>
+
+                    <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px; border: 1px dashed #8b5a2b;">
+                        <p style="font-family: 'Roboto'; font-size: 0.85rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">🔗 Link de Convite Mágico</p>
+                        <p style="font-size: 0.75rem; color: #555; margin-bottom: 10px;">Envie este link para seus jogadores conectarem instantaneamente à mesa:</p>
+                        <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                            <input type="text" id="link-convite" class="form-input" style="font-size: 0.9rem; color: #0d47a1; background: #fff;" readonly>
+                            <button class="btn-acao" style="padding: 10px;" onclick="copiarLink()">📋 COPIAR</button>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="box-rpg">
                     <h2 class="section-title">JOGADORES CONECTADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
                     <div id="players-container">
-                        <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando jogadores entrarem pelo link...</p>
+                        <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando jogadores conectarem...</p>
                     </div>
                 </div>
             </div>
@@ -86,17 +208,19 @@
                 <div class="box-rpg" style="margin-bottom: 20px;">
                     <h2 class="section-title">CONTROLE DE COMBATE</h2>
                     <p style="text-align:center; font-size:0.85rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold; margin-bottom: 20px;">
-                        A Iniciativa é adicionada e organizada automaticamente quando os jogadores rolam na ficha!
+                        A Iniciativa dos jogadores é adicionada automaticamente ao rolarem o dado na ficha!
                     </p>
-                    <div class="form-row" style="margin-bottom: 15px;">
-                        <div style="flex:2;"><input type="text" id="ini-nome" class="form-input" placeholder="Nome do Monstro/NPC" style="width:100%;"></div>
-                        <div style="flex:1;"><input type="number" id="ini-val" class="form-input" placeholder="D20" style="width:100%;"></div>
-                        <button class="btn-acao" onclick="addIniciativaInterna(document.getElementById('ini-nome').value, document.getElementById('ini-val').value)">+ ADD</button>
-                    </div>
+                    
                     <div class="form-row">
+                        <div style="flex:2;"><input type="text" id="ini-nome" class="form-input" placeholder="Nome do Monstro/NPC" style="width:100%;"></div>
+                        <div style="flex:1;"><input type="number" id="ini-val" class="form-input" placeholder="Valor (D20)" style="width:100%;"></div>
+                        <button class="btn-acao" onclick="addIniciativaManual()">+ ADICIONAR</button>
+                    </div>
+                    
+                    <div class="form-row" style="margin-top: 5px;">
                         <button class="btn-acao" style="background:#0d47a1;" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
                         <button class="btn-acao" style="background:#2e7d32;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
-                        <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR</button>
+                        <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
                     </div>
                 </div>
                 <div class="box-rpg">
@@ -119,7 +243,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
- const socket = io();
+    const socket = io();
     let gmUid = "";
     let jogadores = {}; 
     let arrayIniciativa = [];
@@ -129,29 +253,27 @@
     // === INICIALIZAÇÃO E LINK MÁGICO ===
     window.onload = () => {
         let salaSalva = localStorage.getItem('gmUidSalva');
-        if (!salaSalva) {
-            salaSalva = "MESA-" + Math.random().toString(36).substr(2, 5).toUpperCase();
-        }
-        // Coloca no input e força a conexão
-        document.getElementById('gm-uid').value = salaSalva;
-        conectarSala(salaSalva); 
+        conectarSala(salaSalva); // Se não tiver, a função cria uma.
     };
 
     function conectarSala(uidAutomatica = null) {
-        gmUid = uidAutomatica || document.getElementById('gm-uid').value.trim().toUpperCase();
-        if(!gmUid) return alert("Digite um UID de sala!");
+        let inputEl = document.getElementById('gm-uid');
+        gmUid = uidAutomatica || inputEl.value.trim().toUpperCase();
         
-        document.getElementById('gm-uid').value = gmUid;
+        if(!gmUid) {
+            gmUid = "MESA-" + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+        
+        inputEl.value = gmUid;
         localStorage.setItem('gmUidSalva', gmUid);
         
-        // Atualiza o link mágico
+        // Gera o link mágico usando o domínio atual
         let dominioAtual = window.location.origin;
         let linkMagico = `${dominioAtual}/ficha.html?sala=${gmUid}`;
         document.getElementById('link-convite').value = linkMagico;
 
         document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
         
-        // Pede os dados para o servidor
         socket.emit('solicitarEstadoSala', gmUid);
     }
 
@@ -176,43 +298,58 @@
         else if (aba === 'iniciativa') { document.getElementById('tab-iniciativa').classList.add('active'); renderIniciativa(); }
     }
 
-    // === RECEBIMENTO DE DADOS ===
+    // === RECEBIMENTO DE DADOS DOS JOGADORES ===
     socket.on('estadoSalaCompleto', function(dadosDaSala) { 
         jogadores = dadosDaSala; 
-        if(abaAtual==='mesa') renderizarJogadores(); 
+        if(abaAtual === 'mesa') renderizarJogadores(); 
     });
 
     socket.on('atualizarDados', function(data) {
         if(gmUid && data.uid && data.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
+        
         let j = data.dados; 
         let chave = j.idUnico; 
         if (!chave) return; 
         
         j.charName = j.charName || "Personagem sem nome";
-        if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
+        
+        // Preserva o GM Notes (anotações do mestre)
+        if(jogadores[chave] && jogadores[chave].gmNotes) {
+            j.gmNotes = jogadores[chave].gmNotes;
+        }
         
         jogadores[chave] = j;
         if (gmUid && abaAtual === 'mesa') renderizarJogadores();
     });
 
-    function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
+    function salvarNotaGM(chave, valor) { 
+        if(jogadores[chave]) jogadores[chave].gmNotes = valor; 
+    }
 
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
+        
         document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
 
         if(chaves.length === 0) {
-            container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando os jogadores entrarem pelo link...</p>';
+            container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">A sala está vazia. Aguardando conexões...</p>';
             return;
         }
         
         container.innerHTML = ''; 
         chaves.forEach(key => {
             let p = jogadores[key];
-            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img" style="background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👤</div>`;
-            let hpPerc = Math.max(0, Math.min(100, ((parseFloat(p.hpAtual)||0) / (parseFloat(p.hpMax)||1)) * 100));
-            let mpPerc = Math.max(0, Math.min(100, ((parseFloat(p.mpAtual)||0) / (parseFloat(p.mpMax)||1)) * 100));
+            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
+            
+            let hpMax = parseFloat(p.hpMax) || 1;
+            let hpAtual = parseFloat(p.hpAtual) || 0;
+            let hpPerc = Math.max(0, Math.min(100, (hpAtual / hpMax) * 100));
+
+            let mpMax = parseFloat(p.mpMax) || 1;
+            let mpAtual = parseFloat(p.mpAtual) || 0;
+            let mpPerc = Math.max(0, Math.min(100, (mpAtual / mpMax) * 100));
+            
             let notes = p.gmNotes || '';
             
             container.innerHTML += `
@@ -221,30 +358,47 @@
                         ${imgHtml}
                         <div style="flex:1;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                                <div><div class="player-name">${p.charName}</div><div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div></div>
+                                <div>
+                                    <div class="player-name">${p.charName}</div>
+                                    <div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div>
+                                </div>
                                 <div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${p.defesa || 10}</div>
                             </div>
                         </div>
                     </div>
                     <div class="barras-container">
-                        <div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${p.hpAtual} / ${p.hpMax}</div></div>
-                        <div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${p.mpAtual} / ${p.mpMax}</div></div>
+                        <div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${hpAtual} / ${hpMax}</div></div>
+                        <div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${mpAtual} / ${mpMax}</div></div>
                     </div>
-                    <textarea class="player-gm-notes" placeholder="Anotações Privadas (Ocultas do Jogador)..." onchange="salvarNotaGM('${key}', this.value)">${notes}</textarea>
+                    <textarea class="player-gm-notes" placeholder="Anotações Privadas do Mestre..." onchange="salvarNotaGM('${key}', this.value)">${notes}</textarea>
                 </div>
             `;
         });
     }
 
     // === INICIATIVA INTELIGENTE ===
-    function addIniciativaInterna(nome, val, idUnicoFicha = null) {
-        if(!nome || isNaN(val)) return;
-        let existente;
-        if(idUnicoFicha) { existente = arrayIniciativa.find(i => i.idUnico === idUnicoFicha); } 
-        else { existente = arrayIniciativa.find(i => i.nome.toLowerCase() === nome.toLowerCase()); }
+    function addIniciativaManual() {
+        let nome = document.getElementById('ini-nome').value.trim();
+        let val = document.getElementById('ini-val').value;
+        addIniciativaInterna(nome, val, null);
+    }
 
-        if(existente) { existente.val = parseInt(val); existente.nome = nome; } 
-        else { arrayIniciativa.push({ id: Date.now() + Math.random(), idUnico: idUnicoFicha, nome: nome, val: parseInt(val) }); }
+    function addIniciativaInterna(nome, val, idUnicoFicha = null) {
+        if(!nome || isNaN(parseInt(val))) return;
+        let existente;
+        
+        if(idUnicoFicha) { 
+            existente = arrayIniciativa.find(i => i.idUnico === idUnicoFicha); 
+        } else { 
+            existente = arrayIniciativa.find(i => i.nome.toLowerCase() === nome.toLowerCase()); 
+        }
+
+        if(existente) { 
+            existente.val = parseInt(val); 
+            existente.nome = nome; 
+        } else { 
+            arrayIniciativa.push({ id: Date.now() + Math.random(), idUnico: idUnicoFicha, nome: nome, val: parseInt(val) }); 
+        }
         
         document.getElementById('ini-nome').value = '';
         document.getElementById('ini-val').value = '';
@@ -258,7 +412,10 @@
     
     function renderIniciativa() {
         const container = document.getElementById('lista-iniciativa'); container.innerHTML = '';
-        if(arrayIniciativa.length === 0) { container.innerHTML = '<p style="text-align:center; color:#8b5a2b; font-style:italic; padding-top:10px;">Nenhum combatente no momento.</p>'; return; }
+        if(arrayIniciativa.length === 0) { 
+            container.innerHTML = '<p style="text-align:center; color:#8b5a2b; font-style:italic; padding-top:10px;">Nenhum combatente no momento.</p>'; 
+            return; 
+        }
         
         arrayIniciativa.forEach((item, index) => {
             let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
@@ -276,8 +433,10 @@
 
     // === LOG DE ROLAGENS ===
     socket.on('player_dice_roll', function(roll) {
+        // Ignora dados de outras salas
         if(gmUid && roll.uid && roll.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
 
+        // Se for iniciativa, puxa automático
         if (roll.nomeRolagem && roll.nomeRolagem.toLowerCase() === 'iniciativa') {
             addIniciativaInterna(roll.playerName || 'Jogador', parseInt(roll.resultadoFinal) || 0, roll.idUnico);
         }
@@ -288,7 +447,16 @@
         let color = roll.corCategoria || "#2e7d32";
         let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 10px rgba(0,0,0,0.2); border-color:${color};` : '';
 
-        let entry = `<div class="log-entry" style="${shadow}; border-left: 5px solid ${color};"><div class="log-header"><span><strong>${roll.playerName || 'Jogador'}</strong></span><span style="color:${color}; font-family:'Cinzel';">${roll.categoria}</span></div><div style="font-family:'Cinzel'; font-weight:bold; color:#5c3a21; font-size: 0.9rem;">${roll.nomeRolagem}</div><div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div><div style="font-size:0.75rem; color:#666; text-align:center; margin-top:2px; font-weight:bold;">${roll.detalhes}</div></div>`;
+        let entry = `
+            <div class="log-entry" style="${shadow}; border-left: 5px solid ${color};">
+                <div class="log-header">
+                    <span><strong>${roll.playerName || 'Jogador'}</strong></span>
+                    <span style="color:${color}; font-family:'Cinzel';">${roll.categoria}</span>
+                </div>
+                <div style="font-family:'Cinzel'; font-weight:bold; color:#5c3a21; font-size: 0.9rem;">${roll.nomeRolagem}</div>
+                <div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div>
+                <div style="font-size:0.75rem; color:#666; text-align:center; margin-top:2px; font-weight:bold;">${roll.detalhes}</div>
+            </div>`;
         
         logContainer.innerHTML = entry + logContainer.innerHTML;
         if(logContainer.children.length > 40) logContainer.removeChild(logContainer.lastChild);
