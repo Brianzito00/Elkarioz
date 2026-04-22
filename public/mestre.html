@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor da Mesa - RPG</title>
+    <title>Monitor da Mesa - RPG Total</title>
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
@@ -111,7 +111,6 @@
             display: flex; align-items: center; justify-content: center;
             font-family: 'Roboto', sans-serif; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;
         }
-
     </style>
 </head>
 <body>
@@ -141,37 +140,49 @@
     let gmUid = "";
     let jogadores = {}; 
 
+    // === QUANDO A PÁGINA CARREGAR (F5) ===
+    window.onload = () => {
+        // Verifica se o mestre já tinha uma sala salva no navegador (evita perder tudo no F5)
+        let salaSalva = localStorage.getItem('gmUidSalva');
+        if (salaSalva) {
+            document.getElementById('gm-uid').value = salaSalva;
+            conectarSala(salaSalva); // Reconecta automaticamente!
+        }
+    };
+
     // === CONEXÃO DO MESTRE ===
-    function conectarSala() {
-        gmUid = document.getElementById('gm-uid').value.trim();
+    function conectarSala(uidAutomatica = null) {
+        gmUid = uidAutomatica || document.getElementById('gm-uid').value.trim();
+        
         if(!gmUid) return alert("Por favor, digite um UID de sala para monitorar!");
         
-        alert("Monitor conectado à sala: " + gmUid);
+        // Salva a UID no navegador para sobreviver ao F5
+        localStorage.setItem('gmUidSalva', gmUid);
         
-        let qtdJogadores = Object.keys(jogadores).length;
-        if(qtdJogadores === 0) {
-            document.getElementById('status-texto').innerText = `Conectado à sala ${gmUid}. Peça para o jogador mudar algum status na ficha para sincronizar!`;
-        } else {
-            renderizarJogadores();
-        }
+        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Carregando jogadores...`;
+        
+        // Pede ao servidor para enviar os jogadores que já estão nessa sala na memória dele
+        socket.emit('solicitarEstadoSala', gmUid);
     }
 
-    // === RECEBIMENTO DE DADOS ===
+    // === RECEBENDO O ESTADO COMPLETO DA SALA (Após F5 ou Primeira Conexão) ===
+    socket.on('estadoSalaCompleto', function(dadosDaSala) {
+        jogadores = dadosDaSala;
+        renderizarJogadores();
+    });
+
+    // === RECEBIMENTO DE DADOS EM TEMPO REAL (Quando o jogador mexe na ficha) ===
     socket.on('atualizarDados', function(data) {
+        // Ignora se a atualização for de outra sala
         if(gmUid && data.uid && data.uid.trim() !== gmUid.trim()) return;
 
         let j = data.dados;
+        let chave = j.idUnico; // O RG da Ficha
         
-        // AQUI ESTAVA O ERRO DE DUPLICAÇÃO! 
-        // Agora usamos o idUnico (RG invisível) criado na ficha do jogador para organizar o painel.
-        // Assim, o jogador pode mudar de nome 50x e continuará sendo a mesma caixinha!
-        let chave = j.idUnico;
-        
-        if (!chave) return; // Se for uma ficha muito antiga sem ID, ignora.
+        if (!chave) return; // Fichas sem RG são ignoradas
         
         j.charName = j.charName || "Personagem sem nome";
         
-        // Salva ou atualiza a caixinha certa
         jogadores[chave] = j;
         
         if (gmUid) {
@@ -179,12 +190,15 @@
         }
     });
 
-    // === RENDERIZAR CARDS ===
+    // === RENDERIZAR CARDS DOS JOGADORES ===
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
         
-        if(chaves.length === 0) return;
+        if(chaves.length === 0) {
+            container.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; font-style:italic; color:#8b5a2b; font-size:1rem; padding: 20px;" id="status-texto">A sala ${gmUid} está vazia no momento.</div>`;
+            return;
+        }
 
         container.innerHTML = ''; 
         
