@@ -14,80 +14,89 @@
             font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* === PAINEL PRINCIPAL (Estilo Pergaminho) === */
+        /* === PAINEL PRINCIPAL (Estilo Ficha do Jogador) === */
         .painel-mestre {
-            background-color: #e3d8c1; 
-            background-image: radial-gradient(circle at center, rgba(139,90,43,0.08) 0%, rgba(227, 216, 193, 1) 60%);
-            border: 4px solid #4a2f1d; border-radius: 8px; width: 100%; max-width: 1200px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 50px rgba(139,90,43,0.2);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
+            background-color: rgba(244, 235, 216, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
+            display: flex; flex-direction: column;
         }
 
-        .painel-mestre::before { content: ''; position: absolute; top: 90px; left: 5%; right: 5%; height: 2px; background-color: rgba(74, 47, 29, 0.2); }
-
-        .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #4a2f1d; margin-top: 25px; margin-bottom: 25px; letter-spacing: 1px; }
-
-        /* === ABAS DE NAVEGAÇÃO === */
-        .tabs-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; position: relative; z-index: 10; padding: 0 20px; }
-        .tab-btn {
-            background-color: #f1e8d5; border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px 25px; font-family: 'Cinzel', serif; font-weight: 800; font-size: 1rem;
-            color: #4a2f1d; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 5px;
+        .header-titulo { 
+            text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #5c3a21; 
+            margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-transform: uppercase;
         }
-        .tab-btn:hover { background-color: #eaddc4; transform: translateY(-2px); }
-        .tab-btn.active { background-color: #9c2b2b; color: #f1e8d5; border-color: #4a2f1d; box-shadow: inset 0 3px 5px rgba(0,0,0,0.3); }
+
+        /* === ABAS NAVEGAÇÃO === */
+        .tabs-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
+        .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; font-size: 1rem;}
+        .tab-btn:hover { background-color: #fff; }
+        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
 
         /* === ESTRUTURA DE COLUNAS === */
-        .conteudo-wrapper { display: flex; flex: 1; padding: 15px 25px; gap: 25px; height: calc(100vh - 200px); overflow: hidden; }
-        .coluna-central { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 10px; }
-        .coluna-log { width: 340px; flex-shrink: 0; background: rgba(241, 232, 213, 0.5); border: 2px solid rgba(139, 90, 43, 0.4); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; }
+        .conteudo-wrapper { display: flex; gap: 25px; align-items: flex-start; width: 100%; }
+        .coluna-central { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+        .coluna-log { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; }
 
-        .section-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #4a2f1d; text-align: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;}
+        .section-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #5c3a21; text-align: center; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;}
 
         /* === CAIXAS E FORMULÁRIOS === */
-        .box-pergaminho { background-color: #f1e8d5; border: 2px solid #a68b6c; border-radius: 6px; padding: 20px; box-shadow: 2px 2px 10px rgba(0,0,0,0.05); }
-        .form-group { margin-bottom: 12px; }
-        .form-row { display: flex; gap: 10px; }
-        .form-label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; display: block; margin-bottom: 4px; text-transform: uppercase; }
-        .form-input { width: 100%; padding: 10px; border: 1px solid #a68b6c; border-radius: 4px; background-color: #faf5eb; font-family: 'Lora', serif; font-size: 1rem; color: #3e2723; }
-        .form-input:focus { border-color: #8b5a2b; outline: none; background-color: #fff; }
-        .btn-acao { background-color: #4a2f1d; color: #f1e8d5; border: 2px solid #2d1c11; border-radius: 4px; padding: 10px 15px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; transition: 0.2s; width: 100%; display: flex; justify-content: center; align-items: center; gap:5px;}
-        .btn-acao:hover { background-color: #634028; }
+        .box-rpg { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-align: center; width: 250px;}
+        .form-input:focus { border-color: #b71c1c; outline: none; }
+        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap:5px;}
+        .btn-acao:hover { background-color: #b71c1c; }
 
         /* === LOG E INICIATIVA === */
-        #dice-log-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
-        .log-entry { background: rgba(0,0,0,0.8); border: 1px solid #4a2f1d; border-radius: 6px; padding: 12px; color: #f1e8d5; font-family: 'Roboto', sans-serif; }
-        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-bottom: 5px; }
-        .log-result { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; margin-top: 5px; text-align: center; }
+        #dice-log-container { flex: 1; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
+        .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
+        .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
         
-        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #a68b6c; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
+        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
         .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.1); transform: scale(1.02); box-shadow: 0 4px 10px rgba(183, 28, 28, 0.2); border-width: 3px; }
-        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #4a2f1d; }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.4rem; color: #b71c1c; background: #fff; padding: 4px 12px; border-radius: 4px; border: 1px solid #b71c1c; }
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #3e2723; }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.4rem; color: #b71c1c; background: #fff; padding: 4px 12px; border-radius: 4px; border: 2px solid #b71c1c; }
 
         /* === LISTA JOGADORES (MESA) === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
-        .player-card { background: linear-gradient(145deg, #fdfbf7, #eaddc4); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .player-card { background: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
+        .player-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
         .player-header { display: flex; gap: 15px; align-items: center; }
-        .player-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #4a2f1d; flex-shrink: 0; }
-        .player-gm-notes { width: 100%; border: 1px dashed #a68b6c; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 4px; font-family: 'Lora'; font-size: 0.8rem; color: #5c3a21; resize: vertical; height: 60px; }
-        .barras-container { display: flex; flex-direction: column; gap: 5px; width: 100%; }
-        .bar-bg { width: 100%; height: 16px; background: rgba(0,0,0,0.2); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
+        .player-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.5rem;}
+        .player-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #b71c1c; line-height: 1.1; margin-bottom: 2px; }
+        .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #5c3a21; font-weight: 900; text-transform: uppercase; }
+        
+        .stat-badge { padding: 4px 8px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;}
+        .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
+        
+        /* Barras HP/MP */
+        .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
-        .fill-hp { background-color: #b71c1c; } .fill-mp { background-color: #0d47a1; }
-        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.65rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 1px #000; }
+        .fill-hp { background-color: #b71c1c; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
 
         .tab-content { display: none; animation: fadeIn 0.3s ease; } .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
+        
+        @media (max-width: 900px) { .conteudo-wrapper { flex-direction: column; } .coluna-log, .coluna-central { width: 100%; } }
     </style>
 </head>
 <body>
 
 <div class="painel-mestre">
-    <h1 class="header-titulo">MONITOR DA MESA</h1>
+    <h1 class="header-titulo">PAINEL DO MESTRE</h1>
 
     <div class="tabs-container">
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
@@ -99,15 +108,16 @@
         <div class="coluna-central">
             
             <div id="tab-mesa" class="tab-content active">
-                <div class="box-pergaminho" style="text-align: center; margin-bottom: 20px;">
+                <div class="box-rpg" style="text-align: center; margin-bottom: 20px;">
                     <h2 class="section-title">CONEXÃO DA SESSÃO</h2>
-                    <div style="display: flex; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto;">
-                        <input type="text" id="gm-uid" class="form-input" style="text-align: center; font-weight: bold; font-family: 'Cinzel';" placeholder="Insira o UID da Sala...">
+                    <p style="font-family: 'Roboto'; font-size: 0.85rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;">Insira a UID da Sala para monitorar os jogadores</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <input type="text" id="gm-uid" class="form-input" placeholder="Ex: UID123">
                         <button class="btn-acao" style="width: auto;" onclick="conectarSala()">CONECTAR</button>
                     </div>
                 </div>
 
-                <div class="box-pergaminho">
+                <div class="box-rpg">
                     <h2 class="section-title">JOGADORES CONECTADOS</h2>
                     <div id="players-container">
                         <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando conexão...</p>
@@ -116,21 +126,18 @@
             </div>
 
             <div id="tab-iniciativa" class="tab-content">
-                <div class="box-pergaminho" style="margin-bottom: 20px;">
+                <div class="box-rpg" style="margin-bottom: 20px;">
                     <h2 class="section-title">CONTROLE DE COMBATE</h2>
-                    <p style="text-align:center; font-size:0.8rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold;">A Iniciativa rolada pelos jogadores na ficha é adicionada e organizada automaticamente!</p>
-                    <div class="form-row" style="margin-top:15px;">
-                        <div class="form-group" style="flex:2;"><label class="form-label">Nome do Monstro/NPC</label><input type="text" id="ini-nome" class="form-input" placeholder="Ex: Goblin"></div>
-                        <div class="form-group" style="flex:1;"><label class="form-label">Valor (D20)</label><input type="number" id="ini-val" class="form-input" placeholder="0"></div>
-                        <div class="form-group" style="display:flex; align-items:flex-end;"><button class="btn-acao" onclick="addIniciativaManual()">+ ADICIONAR</button></div>
-                    </div>
-                    <div class="form-row" style="margin-top:15px;">
-                        <button class="btn-acao" style="background:#0d47a1; border-color:#002171;" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
-                        <button class="btn-acao" style="background:#2e7d32; border-color:#1b5e20;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
-                        <button class="btn-acao" style="background:#b71c1c; border-color:#7f0000;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
+                    <p style="text-align:center; font-size:0.85rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold; margin-bottom: 20px;">
+                        A Iniciativa é adicionada e organizada automaticamente quando os jogadores rolam na ficha!
+                    </p>
+                    <div class="form-row">
+                        <button class="btn-acao" style="background:#0d47a1;" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
+                        <button class="btn-acao" style="background:#2e7d32;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                        <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
                     </div>
                 </div>
-                <div class="box-pergaminho">
+                <div class="box-rpg">
                     <h2 class="section-title">ORDEM DE TURNOS</h2>
                     <div id="lista-iniciativa" style="display:flex; flex-direction:column; gap:5px;"></div>
                 </div>
@@ -138,10 +145,10 @@
 
         </div>
 
-        <div class="coluna-log">
-            <h2 class="section-title" style="margin-bottom: 20px;">LOG DE ROLAGENS</h2>
+        <div class="coluna-log box-rpg">
+            <h2 class="section-title" style="margin-bottom: 15px;">LOG DE ROLAGENS</h2>
             <div id="dice-log-container">
-                <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.85rem; margin-top:50%;">Aguardando rolagens...</p>
+                <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.85rem; margin-top:50%;">Aguardando rolagens dos jogadores...</p>
             </div>
         </div>
 
@@ -217,7 +224,7 @@
         
         chaves.forEach(key => {
             let p = jogadores[key];
-            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img" style="background:#e3d8c1; display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👤</div>`;
+            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
             let hpPerc = Math.max(0, Math.min(100, ((parseFloat(p.hpAtual)||0) / (parseFloat(p.hpMax)||1)) * 100));
             let mpPerc = Math.max(0, Math.min(100, ((parseFloat(p.mpAtual)||0) / (parseFloat(p.mpMax)||1)) * 100));
             let notes = p.gmNotes || '';
@@ -237,23 +244,14 @@
                         <div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${p.hpAtual} / ${p.hpMax}</div></div>
                         <div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${p.mpAtual} / ${p.mpMax}</div></div>
                     </div>
-                    <textarea class="player-gm-notes" placeholder="Anotações do Mestre (Secreto)..." onchange="salvarNotaGM('${key}', this.value)">${notes}</textarea>
+                    <textarea class="player-gm-notes" placeholder="Anotações Privadas (Ocultas do Jogador)..." onchange="salvarNotaGM('${key}', this.value)">${notes}</textarea>
                 </div>
             `;
         });
     }
 
-    // === INICIATIVA (Automática e Manual) ===
-    function addIniciativaManual() {
-        let nome = document.getElementById('ini-nome').value.trim();
-        let val = parseInt(document.getElementById('ini-val').value) || 0;
-        if(!nome) return;
-        addIniciativaInterna(nome, val);
-        document.getElementById('ini-nome').value = ''; document.getElementById('ini-val').value = '';
-    }
-
+    // === INICIATIVA ===
     function addIniciativaInterna(nome, val) {
-        // Se o personagem já estiver na lista de iniciativa, atualiza o valor
         let existente = arrayIniciativa.find(i => i.nome.toLowerCase() === nome.toLowerCase());
         if(existente) {
             existente.val = val;
@@ -297,22 +295,22 @@
         });
     }
 
-    // === LOG DE ROLAGENS (Ouve o jogador e capta Iniciativa) ===
+    // === LOG DE ROLAGENS E INICIATIVA AUTOMÁTICA ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid && roll.uid !== gmUid) return;
 
-        // Se for uma rolagem de Iniciativa, cadastra automaticamente!
+        // Captação de Iniciativa
         if (roll.nomeRolagem && roll.nomeRolagem.toLowerCase() === 'iniciativa') {
             addIniciativaInterna(roll.playerName || 'Jogador', parseInt(roll.resultadoFinal) || 0);
         }
 
         const logContainer = document.getElementById('dice-log-container');
-        if (logContainer.querySelector('p')) logContainer.innerHTML = ''; // Remove o "Aguardando"
+        if (logContainer.querySelector('p')) logContainer.innerHTML = ''; 
         
         let color = roll.corCategoria || "#2e7d32";
-        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 10px ${color}, 0 0 5px ${color}; border-color:${color};` : '';
+        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 10px rgba(0,0,0,0.2); border-color:${color};` : '';
 
-        let entry = `<div class="log-entry" style="${shadow}"><div class="log-header"><span><strong>${roll.playerName || 'Jogador'}</strong></span><span style="color:${color}; font-weight:bold; font-family:'Cinzel';">${roll.categoria}</span></div><div style="font-family:'Cinzel'; font-weight:bold; color:#ff9100; font-size: 0.9rem;">${roll.nomeRolagem}</div><div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div><div style="font-size:0.7rem; color:#888; text-align:center; margin-top:2px;">${roll.detalhes}</div></div>`;
+        let entry = `<div class="log-entry" style="${shadow}; border-left: 5px solid ${color};"><div class="log-header"><span><strong>${roll.playerName || 'Jogador'}</strong></span><span style="color:${color}; font-family:'Cinzel';">${roll.categoria}</span></div><div style="font-family:'Cinzel'; font-weight:bold; color:#5c3a21; font-size: 0.9rem;">${roll.nomeRolagem}</div><div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div><div style="font-size:0.75rem; color:#666; text-align:center; margin-top:2px; font-weight:bold;">${roll.detalhes}</div></div>`;
         
         logContainer.innerHTML = entry + logContainer.innerHTML;
         if(logContainer.children.length > 40) logContainer.removeChild(logContainer.lastChild);
