@@ -161,9 +161,17 @@
         if(gmUid && data.uid && data.uid.trim() !== gmUid.trim()) return;
 
         let j = data.dados;
-        let chave = j.charName || data.uid || "Desconhecido";
+        
+        // AQUI ESTAVA O ERRO DE DUPLICAÇÃO! 
+        // Agora usamos o idUnico (RG invisível) criado na ficha do jogador para organizar o painel.
+        // Assim, o jogador pode mudar de nome 50x e continuará sendo a mesma caixinha!
+        let chave = j.idUnico;
+        
+        if (!chave) return; // Se for uma ficha muito antiga sem ID, ignora.
+        
         j.charName = j.charName || "Personagem sem nome";
         
+        // Salva ou atualiza a caixinha certa
         jogadores[chave] = j;
         
         if (gmUid) {
