@@ -14,15 +14,12 @@
             font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh;
-            overflow-x: hidden;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
         }
 
-        /* === PAINEL PRINCIPAL (Estilo Ficha do Jogador) === */
+        /* === PAINEL PRINCIPAL === */
         .painel-mestre {
-            background-color: rgba(244, 235, 216, 0.88);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
             padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
             width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
             display: flex; flex-direction: column;
@@ -65,7 +62,7 @@
         .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #3e2723; }
         .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.4rem; color: #b71c1c; background: #fff; padding: 4px 12px; border-radius: 4px; border: 2px solid #b71c1c; }
 
-        /* === LISTA JOGADORES (MESA) === */
+        /* === LISTA JOGADORES === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
         .player-card { background: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.2s; }
         .player-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
@@ -78,7 +75,6 @@
         .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 10px; border-radius: 4px; font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; resize: vertical; height: 60px; font-weight: bold;}
         .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
         
-        /* Barras HP/MP */
         .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
         .bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
@@ -104,16 +100,16 @@
     </div>
 
     <div class="conteudo-wrapper">
-        
         <div class="coluna-central">
             
             <div id="tab-mesa" class="tab-content active">
                 <div class="box-rpg" style="text-align: center; margin-bottom: 20px;">
                     <h2 class="section-title">CONEXÃO DA SESSÃO</h2>
                     <p style="font-family: 'Roboto'; font-size: 0.85rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 15px; text-transform: uppercase;">Insira a UID da Sala para monitorar os jogadores</p>
-                    <div style="display: flex; gap: 10px; justify-content: center;">
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                         <input type="text" id="gm-uid" class="form-input" placeholder="Ex: UID123">
                         <button class="btn-acao" style="width: auto;" onclick="conectarSala()">CONECTAR</button>
+                        <button class="btn-acao" style="width: auto; background-color: #0d47a1;" onclick="forcarSincronizacao()">🔄 PUXAR FICHAS (SYNC)</button>
                     </div>
                 </div>
 
@@ -170,27 +166,27 @@
         if (salaSalva) { document.getElementById('gm-uid').value = salaSalva; conectarSala(salaSalva); }
     };
 
-    // === NAVEGAÇÃO DE ABAS ===
     function mudarAba(aba) {
         abaAtual = aba;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-        if(aba === 'mesa') {
-            document.getElementById('tab-mesa').classList.add('active');
-        } else if (aba === 'iniciativa') {
-            document.getElementById('tab-iniciativa').classList.add('active');
-            renderIniciativa();
-        }
+        if(aba === 'mesa') { document.getElementById('tab-mesa').classList.add('active'); } 
+        else if (aba === 'iniciativa') { document.getElementById('tab-iniciativa').classList.add('active'); renderIniciativa(); }
     }
 
-    // === CONEXÃO DO MESTRE E JOGADORES ===
     function conectarSala(uidAutomatica = null) {
         gmUid = uidAutomatica || document.getElementById('gm-uid').value.trim();
         if(!gmUid) return alert("Digite um UID de sala!");
         localStorage.setItem('gmUidSalva', gmUid);
-        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Carregando...`;
+        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
+        
+        // Emite para o servidor pedir as fichas ativas
+        socket.emit('solicitarEstadoSala', gmUid);
+    }
+
+    function forcarSincronizacao() {
+        if(!gmUid) return alert("Conecte a uma sala primeiro!");
         socket.emit('solicitarEstadoSala', gmUid);
     }
 
@@ -200,17 +196,13 @@
         if(gmUid && data.uid && data.uid.trim() !== gmUid.trim()) return;
         let j = data.dados; let chave = j.idUnico; if (!chave) return; 
         j.charName = j.charName || "Personagem sem nome";
-        
-        // Preserva anotações do mestre
         if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
         
         jogadores[chave] = j;
         if (gmUid && abaAtual === 'mesa') renderizarJogadores();
     });
 
-    function salvarNotaGM(chave, valor) {
-        if(jogadores[chave]) jogadores[chave].gmNotes = valor;
-    }
+    function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
 
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
@@ -224,7 +216,7 @@
         
         chaves.forEach(key => {
             let p = jogadores[key];
-            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
+            let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img" style="background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👤</div>`;
             let hpPerc = Math.max(0, Math.min(100, ((parseFloat(p.hpAtual)||0) / (parseFloat(p.hpMax)||1)) * 100));
             let mpPerc = Math.max(0, Math.min(100, ((parseFloat(p.mpAtual)||0) / (parseFloat(p.mpMax)||1)) * 100));
             let notes = p.gmNotes || '';
@@ -250,14 +242,9 @@
         });
     }
 
-    // === INICIATIVA ===
     function addIniciativaInterna(nome, val) {
         let existente = arrayIniciativa.find(i => i.nome.toLowerCase() === nome.toLowerCase());
-        if(existente) {
-            existente.val = val;
-        } else {
-            arrayIniciativa.push({ id: Date.now() + Math.random(), nome: nome, val: val });
-        }
+        if(existente) { existente.val = val; } else { arrayIniciativa.push({ id: Date.now() + Math.random(), nome: nome, val: val }); }
         ordenarIniciativa();
     }
 
@@ -295,11 +282,9 @@
         });
     }
 
-    // === LOG DE ROLAGENS E INICIATIVA AUTOMÁTICA ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid && roll.uid !== gmUid) return;
 
-        // Captação de Iniciativa
         if (roll.nomeRolagem && roll.nomeRolagem.toLowerCase() === 'iniciativa') {
             addIniciativaInterna(roll.playerName || 'Jogador', parseInt(roll.resultadoFinal) || 0);
         }
