@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor da Mesa - RPG Total</title>
+    <title>Painel do Mestre - RPG Total</title>
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
@@ -11,125 +11,228 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Lora', serif; 
-            background-color: #170f0a; 
+            font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; margin: 0; min-height: 100vh;
+            color: #3e2723; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh;
         }
 
-        /* === PAINEL PRINCIPAL === */
+        /* === PAINEL PRINCIPAL (Estilo Pergaminho) === */
         .painel-mestre {
-            background-color: #e3d8c1;
+            background-color: #e3d8c1; 
             background-image: radial-gradient(circle at center, rgba(139,90,43,0.08) 0%, rgba(227, 216, 193, 1) 60%);
-            border: 4px solid #4a2f1d;
-            border-radius: 8px;
-            width: 100%; max-width: 900px;
+            border: 4px solid #4a2f1d; border-radius: 8px; width: 100%; max-width: 1500px;
             box-shadow: 0 0 30px rgba(0,0,0,0.9), inset 0 0 50px rgba(139,90,43,0.2);
-            display: flex; flex-direction: column; padding: 30px;
-            position: relative;
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
         }
 
-        .header-titulo {
-            text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #4a2f1d;
-            margin-top: 0; margin-bottom: 25px; letter-spacing: 1px; border-bottom: 2px solid rgba(74, 47, 29, 0.3); padding-bottom: 15px;
-        }
+        .painel-mestre::before { content: ''; position: absolute; top: 90px; left: 5%; right: 5%; height: 2px; background-color: rgba(74, 47, 29, 0.2); }
 
-        /* === CAIXA DE CONEXÃO === */
-        .box-conexao {
-            background-color: #f1e8d5; border: 2px solid #a68b6c; border-radius: 6px; padding: 20px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center;
-        }
+        .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2rem; color: #4a2f1d; margin-top: 25px; margin-bottom: 20px; letter-spacing: 1px; }
 
-        .form-input {
-            padding: 12px; border: 2px solid #a68b6c; border-radius: 4px; background-color: #faf5eb; 
-            font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: bold; color: #b71c1c; text-align: center; width: 250px;
+        /* === ABAS DE NAVEGAÇÃO === */
+        .tabs-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; position: relative; z-index: 10; flex-wrap: wrap; padding: 0 20px; }
+        .tab-btn {
+            background-color: #f1e8d5; border: 2px solid #8b5a2b; border-radius: 6px; padding: 8px 16px; font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem;
+            color: #4a2f1d; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 5px;
         }
+        .tab-btn:hover { background-color: #eaddc4; transform: translateY(-2px); }
+        .tab-btn.active { background-color: #9c2b2b; color: #f1e8d5; border-color: #4a2f1d; box-shadow: inset 0 3px 5px rgba(0,0,0,0.3); }
+
+        /* === ESTRUTURA DE COLUNAS === */
+        .conteudo-wrapper { display: flex; flex: 1; padding: 15px 25px; gap: 25px; height: calc(100vh - 180px); overflow: hidden; }
+        .coluna-central { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; padding-right: 10px; }
+        .coluna-log { width: 340px; flex-shrink: 0; background: rgba(241, 232, 213, 0.5); border: 2px solid rgba(139, 90, 43, 0.4); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; }
+
+        .section-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.1rem; color: #4a2f1d; text-align: center; border-bottom: 1px solid rgba(139, 90, 43, 0.4); padding-bottom: 5px; margin-top: 0; margin-bottom: 15px; }
+
+        /* === CAIXAS E FORMULÁRIOS === */
+        .box-pergaminho { background-color: #f1e8d5; border: 2px solid #a68b6c; border-radius: 6px; padding: 20px; box-shadow: 2px 2px 10px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 12px; }
+        .form-row { display: flex; gap: 10px; }
+        .form-label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .form-input { width: 100%; padding: 10px; border: 1px solid #a68b6c; border-radius: 4px; background-color: #faf5eb; font-family: 'Lora', serif; font-size: 0.95rem; color: #3e2723; }
         .form-input:focus { border-color: #8b5a2b; outline: none; background-color: #fff; }
-
-        .btn-acao {
-            background-color: #4a2f1d; color: #f1e8d5; border: 2px solid #2d1c11; border-radius: 4px;
-            padding: 12px 25px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.2s;
-        }
+        .btn-acao { background-color: #4a2f1d; color: #f1e8d5; border: 2px solid #2d1c11; border-radius: 4px; padding: 10px 15px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; transition: 0.2s; width: 100%; display: flex; justify-content: center; align-items: center; gap:5px;}
         .btn-acao:hover { background-color: #634028; }
 
-        /* === LISTA DE JOGADORES === */
-        .section-title {
-            font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.3rem; color: #4a2f1d;
-            text-align: center; margin-bottom: 20px; text-transform: uppercase;
-        }
+        /* === LISTA DE ENTIDADES === */
+        .lista-entidades { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 400px; overflow-y: auto; padding-right:5px;}
+        .card-entidade { background-color: #fbf8f1; border: 2px solid #cbb89d; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        .card-entidade:hover { border-color: #8b5a2b; background-color: #fff; }
+        .card-entidade.selecionado { border: 2px solid #9c2b2b; background-color: rgba(156, 43, 43, 0.05); }
+        .card-info { display: flex; align-items: center; gap: 10px; }
+        .card-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #a68b6c; background: #e3d8c1; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink: 0;}
+        .card-nome { font-family: 'Cinzel', serif; font-weight: bold; color: #4a2f1d; font-size: 1rem; margin:0;}
+        .card-stats-row { display: flex; gap: 10px; font-family: 'Roboto'; font-size: 0.75rem; font-weight: bold; color: #b71c1c; }
 
-        #players-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;
-        }
+        /* === CAIXA DE ENVIO AO JOGADOR (Estilo Couro) === */
+        .box-couro { background-color: #3b2516; border: 4px solid #1a1009; border-radius: 8px; padding: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5); position: relative; margin-top: 10px; }
+        .box-couro::before { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px dashed rgba(255, 255, 255, 0.2); pointer-events: none; border-radius: 4px; }
+        .box-couro .section-title { color: #f1e8d5; border-bottom-color: rgba(255,255,255,0.2); }
+        .box-couro .form-label { color: #d4c4a8; }
+        .box-couro .form-input { background-color: #523521; border-color: #2d1c11; color: #f1e8d5; font-weight: bold; }
+        .btn-enviar { background: linear-gradient(to bottom, #722c2c, #4a1919); color: #f1e8d5; border: 2px solid #2b0e0e; border-radius: 4px; padding: 15px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; width: 100%; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.4); text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        .btn-enviar:hover { background: linear-gradient(to bottom, #8a3636, #5c1f1f); transform: translateY(-1px); }
 
-        /* === ESTILIZAÇÃO DO CARD DO JOGADOR === */
-        .player-card { 
-            background: linear-gradient(145deg, #fdfbf7, #eaddc4);
-            border: 2px solid #8b5a2b; border-radius: 8px; 
-            padding: 15px; display: flex; gap: 15px; align-items: center; transition: 0.3s;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            position: relative;
-        }
-        /* Borda interna decorativa */
-        .player-card::before {
-            content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
-            border: 1px solid rgba(139, 90, 43, 0.2); border-radius: 4px; pointer-events: none;
-        }
-        .player-card:hover { border-color: #b71c1c; box-shadow: 0 8px 16px rgba(0,0,0,0.25); transform: translateY(-2px); }
+        /* === LOG E INICIATIVA === */
+        #dice-log-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
+        .log-entry { background: rgba(0,0,0,0.8); border: 1px solid #4a2f1d; border-radius: 6px; padding: 12px; color: #f1e8d5; font-family: 'Roboto', sans-serif; }
+        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #aaa; margin-bottom: 5px; }
+        .log-result { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900; margin-top: 5px; text-align: center; }
         
-        .player-img { 
-            width: 75px; height: 75px; border-radius: 50%; object-fit: cover; 
-            border: 3px solid #4a2f1d; flex-shrink: 0; background:#e3d8c1; 
-            display:flex; align-items:center; justify-content:center; font-size:2rem;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); position: relative; z-index: 2;
-        }
-        
-        .player-info { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
-        
-        .player-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.15rem; color: #b71c1c; line-height: 1.1; margin-bottom: 2px; text-shadow: 1px 1px 0px rgba(255,255,255,0.8); }
-        .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #5c3a21; margin-bottom: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;}
-        
-        .stat-badge { 
-            padding: 4px 8px; border-radius: 6px; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); 
-            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem;
-            border: 2px solid #2d1c11; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
+        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); border: 2px solid #a68b6c; padding: 10px; border-radius: 6px; margin-bottom: 8px; transition: 0.3s; }
+        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.1); transform: scale(1.02); box-shadow: 0 4px 10px rgba(183, 28, 28, 0.2); border-width: 3px; }
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #4a2f1d; }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.3rem; color: #b71c1c; background: #fff; padding: 4px 10px; border-radius: 4px; border: 1px solid #b71c1c; }
 
-        /* BARRAS DE VIDA E MANA */
-        .barras-container { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-        .bar-bg { 
-            width: 100%; height: 18px; background: rgba(0,0,0,0.2); 
-            border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .bar-fill { height: 100%; transition: width 0.4s ease-out; }
-        .fill-hp { background-color: #b71c1c; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
-        .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
-        .bar-text { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Roboto', sans-serif; font-size: 0.7rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;
-        }
+        /* === LISTA JOGADORES (MESA) === */
+        #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+        .player-card { background: linear-gradient(145deg, #fdfbf7, #eaddc4); border: 2px solid #8b5a2b; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .player-header { display: flex; gap: 15px; align-items: center; }
+        .player-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #4a2f1d; flex-shrink: 0; }
+        .player-gm-notes { width: 100%; border: 1px dashed #a68b6c; background: rgba(255,255,255,0.5); padding: 8px; border-radius: 4px; font-family: 'Lora'; font-size: 0.8rem; color: #5c3a21; resize: vertical; height: 60px; }
+        .barras-container { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+        .bar-bg { width: 100%; height: 16px; background: rgba(0,0,0,0.2); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; transition: width 0.4s; }
+        .fill-hp { background-color: #b71c1c; } .fill-mp { background-color: #0d47a1; }
+        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.65rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 1px #000; }
+
+        .tab-content { display: none; animation: fadeIn 0.3s ease; } .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
     </style>
 </head>
 <body>
 
 <div class="painel-mestre">
-    <h1 class="header-titulo">MONITOR DA MESA</h1>
+    <h1 class="header-titulo">PAINEL DO MESTRE (ONLINE)</h1>
 
-    <div class="box-conexao">
-        <p style="font-family: 'Roboto'; font-size: 0.95rem; color: #666; font-weight: bold; margin-top: 0; text-transform: uppercase;">Insira a UID da Sala para monitorar os jogadores</p>
-        <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-            <input type="text" id="gm-uid" class="form-input" placeholder="Ex: UID123">
-            <button class="btn-acao" onclick="conectarSala()">CONECTAR</button>
-        </div>
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
+        <button class="tab-btn" onclick="mudarAba('iniciativa')">⏱️ INICIATIVA</button>
+        <button class="tab-btn" onclick="mudarAba('catalogo')">🗡️ CATÁLOGO</button>
+        <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
+        <button class="tab-btn" onclick="mudarAba('historia')">📜 HISTÓRIA</button>
+        <button class="tab-btn" onclick="mudarAba('guilda')">🏰 GUILDA</button>
+        <button class="tab-btn" onclick="mudarAba('local')">📍 LOCAIS</button>
+        <button class="tab-btn" onclick="mudarAba('npc')">🧙 NPCs</button>
     </div>
 
-    <h2 class="section-title">JOGADORES CONECTADOS</h2>
-    <div id="players-container">
-        <div style="grid-column: 1 / -1; text-align:center; font-style:italic; color:#8b5a2b; font-size:1rem; padding: 20px;" id="status-texto">
-            Aguardando conexão com a sala...
+    <div class="conteudo-wrapper">
+        
+        <div class="coluna-central">
+            
+            <div id="tab-mesa" class="tab-content active">
+                <div class="box-pergaminho" style="text-align: center; margin-bottom: 20px;">
+                    <h2 class="section-title">CONEXÃO DA SESSÃO</h2>
+                    <div style="display: flex; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto;">
+                        <input type="text" id="gm-uid" class="form-input" style="text-align: center; font-weight: bold; font-family: 'Cinzel';" placeholder="Insira o UID da Sala...">
+                        <button class="btn-acao" style="width: auto;" onclick="conectarSala()">CONECTAR</button>
+                    </div>
+                </div>
+
+                <div class="box-pergaminho">
+                    <h2 class="section-title">JOGADORES CONECTADOS</h2>
+                    <div id="players-container">
+                        <p style="text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando conexão...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-iniciativa" class="tab-content">
+                <div class="box-pergaminho" style="margin-bottom: 20px;">
+                    <h2 class="section-title">CONTROLE DE COMBATE</h2>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:2;"><label class="form-label">Nome do Combatente</label><input type="text" id="ini-nome" class="form-input" placeholder="Ex: Goblin 1"></div>
+                        <div class="form-group" style="flex:1;"><label class="form-label">Iniciativa</label><input type="number" id="ini-val" class="form-input" placeholder="0"></div>
+                        <div class="form-group" style="display:flex; align-items:flex-end;"><button class="btn-acao" onclick="addIniciativa()">+ ADICIONAR</button></div>
+                    </div>
+                    <div class="form-row" style="margin-top:15px;">
+                        <button class="btn-acao" style="background:#0d47a1; border-color:#002171;" onclick="ordenarIniciativa()">🔄 ORDENAR DO MAIOR PRO MENOR</button>
+                        <button class="btn-acao" style="background:#2e7d32; border-color:#1b5e20;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                        <button class="btn-acao" style="background:#b71c1c; border-color:#7f0000;" onclick="limparIniciativa()">🗑️ LIMPAR</button>
+                    </div>
+                </div>
+                <div class="box-pergaminho">
+                    <h2 class="section-title">ORDEM DE TURNOS</h2>
+                    <div id="lista-iniciativa" style="display:flex; flex-direction:column; gap:5px;"></div>
+                </div>
+            </div>
+
+            <div id="tab-criacao" class="tab-content">
+                <div class="box-pergaminho">
+                    <h2 class="section-title" id="titulo-criacao">ADICIONAR NOVO</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="label-nome">Nome</label>
+                        <input type="text" id="form-nome" class="form-input">
+                    </div>
+                    
+                    <div id="box-item-stats" style="display:none;">
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;"><label class="form-label">Tipo</label><select id="form-item-tipo" class="form-input"><option value="corpo">Arma Corpo a Corpo</option><option value="dist">Arma à Distância</option><option value="comum">Item Comum/Equipamento</option><option value="municao">Munição</option></select></div>
+                            <div class="form-group" style="flex:1;"><label class="form-label">Dano / Efeito</label><input type="text" id="form-item-dano" class="form-input" placeholder="Ex: 1d8 cortante"></div>
+                            <div class="form-group" style="flex:1;"><label class="form-label">Espaços (Peso)</label><input type="number" id="form-item-peso" class="form-input" value="1" step="0.5"></div>
+                        </div>
+                    </div>
+
+                    <div id="box-monster-stats" style="display:none;">
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;"><label class="form-label">PV Máx</label><input type="number" id="form-mon-pv" class="form-input" placeholder="Ex: 50"></div>
+                            <div class="form-group" style="flex:1;"><label class="form-label">Defesa</label><input type="number" id="form-mon-def" class="form-input" placeholder="Ex: 15"></div>
+                            <div class="form-group" style="flex:2;"><label class="form-label">Ataque Básico</label><input type="text" id="form-mon-atq" class="form-input" placeholder="Ex: Garras +5 (1d6+3)"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="box-imagem">
+                        <label class="form-label">URL da Imagem (Opcional)</label>
+                        <input type="text" id="form-img" class="form-input" placeholder="http://link-da-imagem.com/foto.jpg">
+                    </div>
+
+                    <div id="box-subitens" style="display: none; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; margin-bottom:12px; border:1px dashed #8b5a2b;">
+                        <label class="form-label" id="label-subitens">Adicionar Membros / Pontos</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="form-subitem-nome" class="form-input" placeholder="Nome..." style="margin-bottom:0;">
+                            <button class="btn-acao" style="width:auto; margin-top:0;" onclick="addSubItem()">+</button>
+                        </div>
+                        <div id="lista-subitens-temp" style="display:flex; flex-wrap:wrap; gap:5px; margin-top:10px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Descrição / Histórico</label>
+                        <textarea id="form-desc" class="form-input" style="height: 80px; resize: vertical;" placeholder="Detalhes..."></textarea>
+                    </div>
+
+                    <button class="btn-acao" onclick="salvarEntidadeDb()">💾 SALVAR NO BANCO DE DADOS</button>
+                </div>
+
+                <div class="box-pergaminho" style="margin-top: 15px;">
+                    <h2 class="section-title" id="titulo-lista">LISTA DO MUNDO</h2>
+                    <div class="lista-entidades" id="lista-catalogo"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex; flex-direction: column; gap: 15px; width: 340px;">
+            
+            <div class="box-couro" id="painel-envio">
+                <h2 class="section-title">CONTROLES DE ENVIO</h2>
+                <div class="form-group">
+                    <label class="form-label">Nome do Personagem (Alvo):</label>
+                    <input type="text" id="form-target" class="form-input" value="todos" placeholder="Ex: 'todos' ou Nome do Char">
+                </div>
+                <button class="btn-enviar" onclick="enviarParaJogador()">🚀 ENVIAR SELECIONADO</button>
+                <p style="font-family:'Roboto'; font-size:0.7rem; color:rgba(241,232,213,0.6); text-align:center; margin-top:10px; margin-bottom:0;">
+                    Selecione um item no catálogo ao lado e clique em enviar para o diário do jogador.
+                </p>
+            </div>
+
+            <div class="coluna-log" style="flex:1;">
+                <h2 class="section-title" style="margin-bottom: 20px;">LOG DE ROLAGENS</h2>
+                <div id="dice-log-container"></div>
+            </div>
+            
         </div>
     </div>
 </div>
@@ -139,108 +242,276 @@
     const socket = io();
     let gmUid = "";
     let jogadores = {}; 
+    
+    // Bancos de Dados Locais do Mestre
+    let dbCatalogo = [];
+    let dbBestiario = [];
+    let dbHistoria = [];
+    let dbGuildas = [];
+    let dbLocais = [];
+    let dbNPCs = [];
+    
+    let tempSubItems = []; 
+    let arrayIniciativa = [];
+    let turnoAtualIndex = -1;
 
-    // === QUANDO A PÁGINA CARREGAR (F5) ===
+    let abaAtual = 'mesa';
+    let itemSelecionadoParaEnvio = null;
+
     window.onload = () => {
-        // Verifica se o mestre já tinha uma sala salva no navegador (evita perder tudo no F5)
         let salaSalva = localStorage.getItem('gmUidSalva');
-        if (salaSalva) {
-            document.getElementById('gm-uid').value = salaSalva;
-            conectarSala(salaSalva); // Reconecta automaticamente!
-        }
+        if (salaSalva) { document.getElementById('gm-uid').value = salaSalva; conectarSala(salaSalva); }
     };
 
-    // === CONEXÃO DO MESTRE ===
+    // === NAVEGAÇÃO DE ABAS E FORMULÁRIO DINÂMICO ===
+    function mudarAba(aba) {
+        abaAtual = aba;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        if(aba === 'mesa') {
+            document.getElementById('tab-mesa').classList.add('active');
+            document.getElementById('painel-envio').style.display = 'none';
+        } else if (aba === 'iniciativa') {
+            document.getElementById('tab-iniciativa').classList.add('active');
+            document.getElementById('painel-envio').style.display = 'none';
+            renderIniciativa();
+        } else {
+            document.getElementById('tab-criacao').classList.add('active');
+            document.getElementById('painel-envio').style.display = 'block';
+            
+            // Esconde todas as divs específicas
+            document.getElementById('box-imagem').style.display = 'none';
+            document.getElementById('box-item-stats').style.display = 'none';
+            document.getElementById('box-monster-stats').style.display = 'none';
+            document.getElementById('box-subitens').style.display = 'none';
+
+            let tituloStr = '';
+            
+            if (aba === 'catalogo') { tituloStr = 'ITEM/ARMA'; document.getElementById('box-imagem').style.display = 'block'; document.getElementById('box-item-stats').style.display = 'block'; }
+            else if (aba === 'bestiario') { tituloStr = 'MONSTRO'; document.getElementById('box-imagem').style.display = 'block'; document.getElementById('box-monster-stats').style.display = 'block'; }
+            else if (aba === 'historia') { tituloStr = 'LORE/HISTÓRIA'; document.getElementById('box-imagem').style.display = 'block'; }
+            else if (aba === 'guilda') { tituloStr = 'GUILDA'; document.getElementById('box-subitens').style.display = 'block'; document.getElementById('label-subitens').innerText = 'Membros'; }
+            else if (aba === 'local') { tituloStr = 'LOCAL'; document.getElementById('box-subitens').style.display = 'block'; document.getElementById('label-subitens').innerText = 'Pontos de Interesse'; }
+            else if (aba === 'npc') { tituloStr = 'NPC'; document.getElementById('box-imagem').style.display = 'block'; }
+
+            document.getElementById('titulo-criacao').innerText = `CRIAR: ${tituloStr}`;
+            document.getElementById('titulo-lista').innerText = `BANCO DE DADOS: ${tituloStr}S`;
+            
+            itemSelecionadoParaEnvio = null; 
+            renderizarCatalogo();
+        }
+    }
+
+    // === CONEXÃO DO MESTRE E JOGADORES ===
     function conectarSala(uidAutomatica = null) {
         gmUid = uidAutomatica || document.getElementById('gm-uid').value.trim();
-        
-        if(!gmUid) return alert("Por favor, digite um UID de sala para monitorar!");
-        
-        // Salva a UID no navegador para sobreviver ao F5
+        if(!gmUid) return alert("Digite um UID de sala!");
         localStorage.setItem('gmUidSalva', gmUid);
-        
-        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Carregando jogadores...`;
-        
-        // Pede ao servidor para enviar os jogadores que já estão nessa sala na memória dele
+        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}.`;
         socket.emit('solicitarEstadoSala', gmUid);
     }
 
-    // === RECEBENDO O ESTADO COMPLETO DA SALA (Após F5 ou Primeira Conexão) ===
-    socket.on('estadoSalaCompleto', function(dadosDaSala) {
-        jogadores = dadosDaSala;
-        renderizarJogadores();
-    });
+    socket.on('estadoSalaCompleto', function(dadosDaSala) { jogadores = dadosDaSala; if(abaAtual==='mesa') renderizarJogadores(); });
 
-    // === RECEBIMENTO DE DADOS EM TEMPO REAL (Quando o jogador mexe na ficha) ===
     socket.on('atualizarDados', function(data) {
-        // Ignora se a atualização for de outra sala
         if(gmUid && data.uid && data.uid.trim() !== gmUid.trim()) return;
-
-        let j = data.dados;
-        let chave = j.idUnico; // O RG da Ficha
-        
-        if (!chave) return; // Fichas sem RG são ignoradas
-        
+        let j = data.dados; let chave = j.idUnico; if (!chave) return; 
         j.charName = j.charName || "Personagem sem nome";
         
-        jogadores[chave] = j;
+        // Preserva o "log/notas do mestre" se já existir para não apagar quando atualizar a vida
+        if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
         
-        if (gmUid) {
-            renderizarJogadores();
-        }
+        jogadores[chave] = j;
+        if (gmUid && abaAtual === 'mesa') renderizarJogadores();
     });
 
-    // === RENDERIZAR CARDS DOS JOGADORES ===
+    function salvarNotaGM(chave, valor) {
+        if(jogadores[chave]) jogadores[chave].gmNotes = valor;
+    }
+
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
-        
-        if(chaves.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; font-style:italic; color:#8b5a2b; font-size:1rem; padding: 20px;" id="status-texto">A sala ${gmUid} está vazia no momento.</div>`;
-            return;
-        }
-
+        if(chaves.length === 0) return;
         container.innerHTML = ''; 
         
         chaves.forEach(key => {
             let p = jogadores[key];
             let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
-            
-            // Cálculos de Porcentagem para as Barras
-            let hpMax = parseFloat(p.hpMax) || 1;
-            let hpAtual = parseFloat(p.hpAtual) || 0;
-            let hpPerc = Math.max(0, Math.min(100, (hpAtual / hpMax) * 100));
-
-            let mpMax = parseFloat(p.mpMax) || 1;
-            let mpAtual = parseFloat(p.mpAtual) || 0;
-            let mpPerc = Math.max(0, Math.min(100, (mpAtual / mpMax) * 100));
+            let hpPerc = Math.max(0, Math.min(100, ((parseFloat(p.hpAtual)||0) / (parseFloat(p.hpMax)||1)) * 100));
+            let mpPerc = Math.max(0, Math.min(100, ((parseFloat(p.mpAtual)||0) / (parseFloat(p.mpMax)||1)) * 100));
+            let notes = p.gmNotes || '';
             
             container.innerHTML += `
                 <div class="player-card">
-                    ${imgHtml}
-                    <div class="player-info">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div>
-                                <div class="player-name">${p.charName}</div>
-                                <div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div>
-                            </div>
-                            <div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${p.defesa || 10}</div>
-                        </div>
-                        
-                        <div class="barras-container">
-                            <div class="bar-bg" title="Pontos de Vida">
-                                <div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div>
-                                <div class="bar-text">PV: ${hpAtual} / ${hpMax}</div>
-                            </div>
-                            <div class="bar-bg" title="Pontos de Mana">
-                                <div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div>
-                                <div class="bar-text">PM: ${mpAtual} / ${mpMax}</div>
+                    <div class="player-header">
+                        ${imgHtml}
+                        <div style="flex:1;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div><div class="player-name">${p.charName}</div><div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div></div>
+                                <div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${p.defesa || 10}</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="barras-container">
+                        <div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${p.hpAtual} / ${p.hpMax}</div></div>
+                        <div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${p.mpAtual} / ${p.mpMax}</div></div>
+                    </div>
+                    <textarea class="player-gm-notes" placeholder="Anotações do Mestre (Secreto)..." onchange="salvarNotaGM('${key}', this.value)">${notes}</textarea>
+                </div>
+            `;
+        });
+    }
+
+    // === INICIATIVA ===
+    function addIniciativa() {
+        let nome = document.getElementById('ini-nome').value.trim();
+        let val = parseInt(document.getElementById('ini-val').value) || 0;
+        if(!nome) return;
+        arrayIniciativa.push({ id: Date.now(), nome: nome, val: val });
+        document.getElementById('ini-nome').value = ''; document.getElementById('ini-val').value = '';
+        ordenarIniciativa();
+    }
+    function ordenarIniciativa() {
+        arrayIniciativa.sort((a, b) => b.val - a.val);
+        turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
+        renderIniciativa();
+    }
+    function proximoTurno() {
+        if(arrayIniciativa.length === 0) return;
+        turnoAtualIndex++;
+        if(turnoAtualIndex >= arrayIniciativa.length) turnoAtualIndex = 0;
+        renderIniciativa();
+    }
+    function limparIniciativa() { arrayIniciativa = []; turnoAtualIndex = -1; renderIniciativa(); }
+    function removerIni(id) { arrayIniciativa = arrayIniciativa.filter(i => i.id !== id); ordenarIniciativa(); }
+    
+    function renderIniciativa() {
+        const container = document.getElementById('lista-iniciativa'); container.innerHTML = '';
+        if(arrayIniciativa.length === 0) { container.innerHTML = '<p style="text-align:center; color:#8b5a2b; font-style:italic;">Nenhum combatente.</p>'; return; }
+        
+        arrayIniciativa.forEach((item, index) => {
+            let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
+            container.innerHTML += `
+                <div class="ini-row ${isAtivo}">
+                    <div class="ini-name">${index === turnoAtualIndex ? '⚔️ ' : ''}${item.nome}</div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="ini-val">${item.val}</div>
+                        <button onclick="removerIni(${item.id})" style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.2rem;">&times;</button>
                     </div>
                 </div>
             `;
         });
+    }
+
+    // === LOG DE ROLAGENS ===
+    socket.on('player_dice_roll', function(roll) {
+        if(gmUid && roll.uid !== gmUid) return;
+        const logContainer = document.getElementById('dice-log-container');
+        let color = roll.corCategoria || "#2e7d32";
+        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 10px ${color}, 0 0 5px ${color}; border-color:${color};` : '';
+
+        let entry = `<div class="log-entry" style="${shadow}"><div class="log-header"><span><strong>${roll.playerName || 'Jogador'}</strong></span><span style="color:${color}; font-weight:bold; font-family:'Cinzel';">${roll.categoria}</span></div><div style="font-family:'Cinzel'; font-weight:bold; color:#ff9100; font-size: 0.9rem;">${roll.nomeRolagem}</div><div class="log-result" style="color: ${color};">${roll.resultadoFinal}</div><div style="font-size:0.7rem; color:#888; text-align:center; margin-top:2px;">${roll.detalhes}</div></div>`;
+        logContainer.innerHTML = entry + logContainer.innerHTML;
+        if(logContainer.children.length > 40) logContainer.removeChild(logContainer.lastChild);
+    });
+
+    // === CRIAÇÃO E CATÁLOGO ===
+    function addSubItem() { let n = document.getElementById('form-subitem-nome').value.trim(); if(n) { tempSubItems.push({ id: Date.now()+Math.floor(Math.random()*100), nome: n, desc: '', img: '' }); document.getElementById('form-subitem-nome').value = ''; renderSubItems(); } }
+    function removeSubItem(idx) { tempSubItems.splice(idx, 1); renderSubItems(); }
+    function renderSubItems() { const list = document.getElementById('lista-subitens-temp'); list.innerHTML = ''; tempSubItems.forEach((sub, idx) => { list.innerHTML += `<div style="background:#4a2f1d; color:#f1e8d5; padding:4px 8px; border-radius:10px; font-size:0.8rem; display:flex; gap:5px;">${sub.nome} <span style="color:#ff9100; cursor:pointer;" onclick="removeSubItem(${idx})">&times;</span></div>`; }); }
+
+    function salvarEntidadeDb() {
+        let nome = document.getElementById('form-nome').value.trim();
+        if(!nome) return alert("O Nome é obrigatório!");
+
+        let desc = document.getElementById('form-desc').value.trim();
+        let img = document.getElementById('form-img').value.trim();
+        let novoItem = { id: Date.now(), nome: nome, desc: desc, img: img };
+
+        if(abaAtual === 'catalogo') {
+            novoItem.tipo = document.getElementById('form-item-tipo').value;
+            novoItem.dano = document.getElementById('form-item-dano').value;
+            novoItem.peso = parseFloat(document.getElementById('form-item-peso').value) || 1;
+            novoItem.munMax = 20; novoItem.munAtual = 20; // Default pra atirar
+            novoItem.equipado = false;
+            dbCatalogo.push(novoItem);
+        } else if(abaAtual === 'bestiario') {
+            novoItem.hp = document.getElementById('form-mon-pv').value;
+            novoItem.def = document.getElementById('form-mon-def').value;
+            novoItem.atq = document.getElementById('form-mon-atq').value;
+            dbBestiario.push(novoItem);
+            // Salvar no bestiário não envia pro player nativamente, é só banco do mestre.
+        } else if(abaAtual === 'historia') { dbHistoria.push(novoItem); }
+        else if(abaAtual === 'guilda') { novoItem.membros = [...tempSubItems]; dbGuildas.push(novoItem); }
+        else if(abaAtual === 'local') { novoItem.pontos = [...tempSubItems]; dbLocais.push(novoItem); }
+        else if(abaAtual === 'npc') { dbNPCs.push(novoItem); }
+
+        document.getElementById('form-nome').value = ''; document.getElementById('form-desc').value = ''; document.getElementById('form-img').value = '';
+        document.getElementById('form-item-dano').value = ''; tempSubItems = []; renderSubItems();
+        
+        renderizarCatalogo();
+    }
+
+    function obterBancoAtual() {
+        if(abaAtual === 'catalogo') return dbCatalogo;
+        if(abaAtual === 'bestiario') return dbBestiario;
+        if(abaAtual === 'historia') return dbHistoria;
+        if(abaAtual === 'guilda') return dbGuildas;
+        if(abaAtual === 'local') return dbLocais;
+        return dbNPCs;
+    }
+
+    function renderizarCatalogo() {
+        const container = document.getElementById('lista-catalogo'); container.innerHTML = '';
+        let listaAtual = obterBancoAtual();
+        
+        if(listaAtual.length === 0) { container.innerHTML = `<p style="text-align:center; font-size:0.85rem; color:#8b5a2b; font-style:italic;">Nenhum registro criado.</p>`; return; }
+
+        listaAtual.forEach(item => {
+            let isSelected = itemSelecionadoParaEnvio && itemSelecionadoParaEnvio.id === item.id ? 'selecionado' : '';
+            let imgHtml = item.img ? `<img src="${item.img}" class="card-img">` : `<div class="card-img">📜</div>`;
+            
+            let statsHtml = '';
+            if(abaAtual === 'catalogo') statsHtml = `<div class="card-stats-row"><span>${item.tipo.toUpperCase()}</span> <span>⚖️ ${item.peso}</span> <span>💥 ${item.dano || '-'}</span></div>`;
+            else if(abaAtual === 'bestiario') statsHtml = `<div class="card-stats-row"><span>❤️ ${item.hp || '-'}</span> <span>🛡️ ${item.def || '-'}</span></div>`;
+
+            container.innerHTML += `
+                <div class="card-entidade ${isSelected}" onclick="selecionarItem(${item.id})">
+                    <div class="card-info">
+                        ${imgHtml}
+                        <div style="flex:1;">
+                            <h4 class="card-nome">${item.nome}</h4>
+                            ${statsHtml}
+                        </div>
+                    </div>
+                    <div style="color: #9c2b2b; font-size: 1.2rem; font-weight:bold;">${isSelected ? 'SELECIONADO' : ''}</div>
+                </div>
+            `;
+        });
+    }
+
+    function selecionarItem(id) { itemSelecionadoParaEnvio = obterBancoAtual().find(i => i.id === id); renderizarCatalogo(); }
+
+    // === ENVIO PARA O JOGADOR ===
+    function enviarParaJogador() {
+        if(!itemSelecionadoParaEnvio) return alert("Selecione um item da lista primeiro!");
+        if(abaAtual === 'bestiario') return alert("O Bestiário é apenas para consulta do Mestre. Se quiser enviar o monstro como NPC, crie na aba NPCs.");
+
+        let target = document.getElementById('form-target').value.trim() || 'todos';
+
+        if(abaAtual === 'catalogo') {
+            socket.emit('gm_send_item', { target: target, item: itemSelecionadoParaEnvio });
+        } else {
+            let tipoParaFicha = abaAtual === 'npc' ? 'pessoa' : abaAtual; // Mapeia para a ficha do jogador
+            let payload = { target: target, entidade: { tipoLista: tipoParaFicha, dados: itemSelecionadoParaEnvio } };
+            socket.emit('gm_send_entity', payload);
+        }
+
+        alert(`Enviado com sucesso para: ${target.toUpperCase()}!`);
+        itemSelecionadoParaEnvio = null; renderizarCatalogo();
     }
 </script>
 
