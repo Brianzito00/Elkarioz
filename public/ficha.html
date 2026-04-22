@@ -746,13 +746,8 @@
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
-    // ==============================================================
-    // 1. CONFIGURAÇÃO BASE, SAVE LOCAL E SOCKET.IO
-    // ==============================================================
-
-    // RG INVISÍVEL (Impede duplicação de cards no Mestre)
+    // === SALVAMENTO LOCAL ===
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
     if (!idUnicoFicha) {
         idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
@@ -762,59 +757,20 @@
     const socket = io();
     let meuUID = "";
     
-    socket.emit('criarFicha');
-    socket.on('uidGerada', (uid) => {
-        meuUID = uid;
-        if (!document.getElementById('uid-input').value) {
-            document.getElementById('uid-input').value = uid;
-            sincronizarComMestre();
-        }
-    });
-
+    // === DADOS BASE ===
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
-    const listaPericiasBase = [
-        {n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},
-        {n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},
-        {n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},
-        {n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},
-        {n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},
-        {n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},
-        {n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},{n:'Misticismo',a:'intelecto'},
-        {n:'Nobreza',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},
-        {n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},
-        {n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}
-    ];
+    const listaPericiasBase = [{n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},{n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},{n:'Conhecimento',a:'intelecto'},{n:'Cura',a:'sabedoria'},{n:'Diplomacia',a:'carisma'},{n:'Enganação',a:'carisma'},{n:'Fortitude',a:'vigor'},{n:'Furtividade',a:'agilidade'},{n:'Guerra',a:'intelecto'},{n:'Iniciativa',a:'agilidade'},{n:'Intimidação',a:'carisma'},{n:'Intuição',a:'sabedoria'},{n:'Investigação',a:'intelecto'},{n:'Jogatina',a:'carisma'},{n:'Ladinagem',a:'agilidade'},{n:'Luta',a:'forca'},{n:'Misticismo',a:'intelecto'},{n:'Nobreza',a:'intelecto'},{n:'Percepção',a:'sabedoria'},{n:'Pilotagem',a:'agilidade'},{n:'Pontaria',a:'agilidade'},{n:'Reflexos',a:'agilidade'},{n:'Religião',a:'sabedoria'},{n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}];
     
-    // BANCOS DE DADOS GERAIS
-    let dbPericias = {}; 
-    listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
+    let dbPericias = {}; listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
+    let dbInventario = [], dbProficiencias = [], dbHabilidades = [], dbGuildas = [], dbPessoas = [], dbLocais = [], dbMagias = [], dbHistorias = [];
     
-    let dbInventario = [];
-    let dbProficiencias = [];
-    let dbHabilidades = [];
-    let dbGuildas = [];
-    let dbPessoas = [];
-    let dbLocais = [];
-    let dbMagias = [];
-    
-    let tipoContexto = '';
-    let itemAbertoId = null;
-    let periciaAbertaNome = null;
-    let abaItemAtual = 'comum';
-    let tempImgBase64 = "";
-    let tempSubImgBase64 = "";
-    let tempSubItemsLista = []; 
-    let currentParentContext = null;
-    let currentSubItemId = null;
-    let animacaoGiro = null;
-    let diceState = 0;
-    let currentRollData = {};
+    let tipoContexto = '', itemAbertoId = null, periciaAbertaNome = null, abaItemAtual = 'comum';
+    let tempImgBase64 = "", tempSubImgBase64 = "", tempSubItemsLista = []; 
+    let currentParentContext = null, currentSubItemId = null;
+    let animacaoGiro = null, diceState = 0, currentRollData = {};
 
-    // ==============================================================
-    // 2. FUNÇÕES DE INICIALIZAÇÃO, LINK MÁGICO E SAVE LOCAL
-    // ==============================================================
-
+    // === LÓGICA DO LINK MÁGICO (URL) E INICIALIZAÇÃO ===
     function obterSalaDaUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         let sala = urlParams.get('sala');
@@ -828,133 +784,80 @@
 
     window.onload = () => { 
         let salaConectada = obterSalaDaUrl();
-        if (salaConectada) {
-            document.getElementById('uid-input').value = salaConectada;
-            meuUID = salaConectada;
-        } else {
-            document.getElementById('uid-input').value = "SEM SALA";
-        }
-
-        carregarFichaLocal(); 
-        popularSelectPericias(); 
-        recalcularTudo(); 
-        atualizarBarras(); 
-
-        setTimeout(sincronizarComMestre, 1000);
+        if (salaConectada) { document.getElementById('uid-input').value = salaConectada; meuUID = salaConectada; }
+        carregarFichaLocal(); popularSelectPericias(); recalcularTudo(); atualizarBarras(); 
     };
 
     function carregarFichaLocal() {
         let salvo = localStorage.getItem('rpgFichaLocal');
-        let salaSalva = localStorage.getItem('rpgFichaSala');
-        
-        if (salaSalva) {
-            document.getElementById('uid-input').value = salaSalva;
-            let btn = document.getElementById('btn-entrar-label');
-            if(btn) { btn.style.backgroundColor = "#2e7d32"; btn.innerText = "✔️ CONECTADO"; }
-        }
-
         if(salvo) {
             try {
                 let j = JSON.parse(salvo);
-                document.getElementById('char-name-input').value = j.charName || '';
-                document.getElementById('player-name-input').value = j.playerName || '';
-                if(j.uidSala) document.getElementById('uid-input').value = j.uidSala;
-                
-                document.getElementById('raca-input').value = j.raca || '';
-                document.getElementById('classe-input').value = j.classe || '';
-                document.getElementById('divindade-input').value = j.divindade || '';
-                document.getElementById('nivel').value = j.nivel || 1;
-                
+                document.getElementById('char-name-input').value = j.charName || ''; document.getElementById('player-name-input').value = j.playerName || '';
+                document.getElementById('raca-input').value = j.raca || ''; document.getElementById('classe-input').value = j.classe || '';
+                document.getElementById('divindade-input').value = j.divindade || ''; document.getElementById('nivel').value = j.nivel || 1;
                 if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
-                
-                document.getElementById('forca').value = j.forca || 0;
-                document.getElementById('agilidade').value = j.agilidade || 0;
-                document.getElementById('vigor').value = j.vigor || 0;
-                document.getElementById('intelecto').value = j.intelecto || 0;
-                document.getElementById('sabedoria').value = j.sabedoria || 0;
-                document.getElementById('carisma').value = j.carisma || 0;
-                
-                document.getElementById('vida-atual').value = j.hpAtual || 10;
-                document.getElementById('vida-max').value = j.hpMax || 10;
-                document.getElementById('mana-atual').value = j.mpAtual || 10;
-                document.getElementById('mana-max').value = j.mpMax || 10;
+                document.getElementById('forca').value = j.forca || 0; document.getElementById('agilidade').value = j.agilidade || 0;
+                document.getElementById('vigor').value = j.vigor || 0; document.getElementById('intelecto').value = j.intelecto || 0;
+                document.getElementById('sabedoria').value = j.sabedoria || 0; document.getElementById('carisma').value = j.carisma || 0;
+                document.getElementById('vida-atual').value = j.hpAtual || 10; document.getElementById('vida-max').value = j.hpMax || 10;
+                document.getElementById('mana-atual').value = j.mpAtual || 10; document.getElementById('mana-max').value = j.mpMax || 10;
                 document.getElementById('moedas-atual').value = j.moedas || 0;
+                if (j.img && j.img.trim() !== "") { document.getElementById('portrait-img').src = j.img; document.getElementById('portrait-img').style.display = 'block'; document.getElementById('portrait-placeholder').style.display = 'none'; }
 
-                if (j.img && j.img.trim() !== "") {
-                    document.getElementById('portrait-img').src = j.img;
-                    document.getElementById('portrait-img').style.display = 'block';
-                    document.getElementById('portrait-placeholder').style.display = 'none';
-                }
-
-                if (j.dbPericias) dbPericias = j.dbPericias;
-                if (j.dbInventario) dbInventario = j.dbInventario;
-                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias;
-                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
-                if (j.dbGuildas) dbGuildas = j.dbGuildas;
-                if (j.dbPessoas) dbPessoas = j.dbPessoas;
-                if (j.dbLocais) dbLocais = j.dbLocais;
-                if (j.dbMagias) dbMagias = j.dbMagias;
-            } catch (e) {
-                console.error("Erro ao carregar a ficha salva: ", e);
-            }
+                if (j.dbPericias) dbPericias = j.dbPericias; if (j.dbInventario) dbInventario = j.dbInventario;
+                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias; if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
+                if (j.dbGuildas) dbGuildas = j.dbGuildas; if (j.dbPessoas) dbPessoas = j.dbPessoas;
+                if (j.dbLocais) dbLocais = j.dbLocais; if (j.dbMagias) dbMagias = j.dbMagias; if (j.dbHistorias) dbHistorias = j.dbHistorias;
+            } catch (e) { console.error(e); }
         }
     }
 
     function salvarFichaLocal() {
         let pImg = document.getElementById('portrait-img');
         let dadosParaSalvar = {
-            charName: document.getElementById('char-name-input').value,
-            playerName: document.getElementById('player-name-input').value,
-            uidSala: document.getElementById('uid-input').value.toUpperCase(),
-            raca: document.getElementById('raca-input').value,
-            classe: document.getElementById('classe-input').value,
-            divindade: document.getElementById('divindade-input').value,
-            nivel: document.getElementById('nivel').value,
+            charName: document.getElementById('char-name-input').value, playerName: document.getElementById('player-name-input').value,
+            uidSala: document.getElementById('uid-input').value.toUpperCase(), raca: document.getElementById('raca-input').value,
+            classe: document.getElementById('classe-input').value, divindade: document.getElementById('divindade-input').value, nivel: document.getElementById('nivel').value,
             defesa: document.getElementById('defesa-personagem') ? document.getElementById('defesa-personagem').value : 10,
-            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
-            intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
-            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
-            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
+            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
-            dbPericias, dbInventario, dbProficiencias, dbHabilidades, dbGuildas, dbPessoas, dbLocais, dbMagias
+            dbPericias, dbInventario, dbProficiencias, dbHabilidades, dbGuildas, dbPessoas, dbLocais, dbMagias, dbHistorias
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
 
-    // ==============================================================
-    // 3. COMUNICAÇÃO COM O SERVIDOR (SOCKET.IO)
-    // ==============================================================
-
-    let timerAutoConnect;
-    function autoConectarSala() {
-        clearTimeout(timerAutoConnect);
-        let btn = document.getElementById('btn-entrar-label');
-        btn.style.backgroundColor = "#ff9100";
-        btn.innerText = "⏳...";
-        timerAutoConnect = setTimeout(() => { conectarSalaJogador(); }, 1000);
-    }
+    // === CONEXÃO DO JOGADOR E SOCKETS BLINDADOS ===
+    socket.on('connect', () => { conectarSalaJogador(); });
 
     function conectarSalaJogador() {
         let sala = document.getElementById('uid-input').value.trim().toUpperCase();
         let btn = document.getElementById('btn-entrar-label');
-        if(sala) {
-            document.getElementById('uid-input').value = sala;
-            localStorage.setItem('rpgFichaSala', sala);
-            sincronizarComMestre();
-            btn.style.backgroundColor = "#2e7d32";
-            btn.innerText = "✔️ CONECTADO";
-        } else {
-            btn.style.backgroundColor = "#b71c1c";
-            btn.innerText = "ENTRAR";
-        }
+        if(sala && sala !== "SEM SALA") {
+            document.getElementById('uid-input').value = sala; localStorage.setItem('rpgFichaSala', sala);
+            btn.style.backgroundColor = "#2e7d32"; btn.innerText = "✔️ " + sala; sincronizarComMestre();
+        } else { btn.style.backgroundColor = "#b71c1c"; btn.innerText = "ENTRAR"; }
     }
+
+    socket.on('player_kicked', function(payload) {
+        if (payload.idUnico === idUnicoFicha) {
+            document.getElementById('uid-input').value = ""; localStorage.removeItem('rpgFichaSala');
+            let btn = document.getElementById('btn-entrar-label');
+            if(btn) { btn.style.backgroundColor = "#b71c1c"; btn.innerText = "ENTRAR"; }
+            alert("⚠️ Você foi desconectado da mesa pelo Mestre.\nVerifique sua sala ou insira um novo link.");
+        }
+    });
+
+    socket.on('mestre_solicitou_sync', function(uidSalaMestre) {
+        let minhaSala = document.getElementById('uid-input').value;
+        if (minhaSala && uidSalaMestre && minhaSala.trim().toUpperCase() === uidSalaMestre.trim().toUpperCase()) { sincronizarComMestre(); }
+    });
 
     socket.on('gm_send_item', function(payload) {
         if (payload && payload.item) {
             let meuNome = document.getElementById('char-name-input').value.trim();
-            if (payload.target === 'todos' || payload.target === meuNome) {
-                dbInventario.push(payload.item); renderizarListas(); recalcularTudo();
-            }
+            if (payload.target === 'todos' || payload.target === meuNome) { dbInventario.push(payload.item); renderizarListas(); recalcularTudo(); }
         }
     });
 
@@ -962,190 +865,73 @@
         if (payload && payload.entidade) {
             let meuNome = document.getElementById('char-name-input').value.trim();
             if (payload.target === 'todos' || payload.target === meuNome) {
-                let tipo = payload.entidade.tipoLista;
-                let dados = payload.entidade.dados;
+                let tipo = payload.entidade.tipoLista; let dados = payload.entidade.dados;
                 if (tipo === 'guilda') { if(!dbGuildas.find(g => g.id === dados.id)) dbGuildas.push(dados); }
                 else if (tipo === 'local') { if(!dbLocais.find(l => l.id === dados.id)) dbLocais.push(dados); }
                 else if (tipo === 'pessoa') { if(!dbPessoas.find(p => p.id === dados.id)) dbPessoas.push(dados); }
+                else if (tipo === 'historia') { 
+                    if(!dbHistorias.find(h => h.id === dados.id)) dbHistorias.push(dados);
+                    alert("O Mestre enviou uma nova História para a sua aba de Mundo!");
+                }
                 renderizarListas();
             }
         }
     });
 
-    socket.on('mestre_solicitou_sync', function(uidSalaMestre) {
-        let minhaSala = document.getElementById('uid-input').value || meuUID;
-        if (minhaSala && uidSalaMestre && minhaSala.trim().toUpperCase() === uidSalaMestre.trim().toUpperCase()) {
-            sincronizarComMestre();
-        }
-    });
-    // === OUVINTE DE EXPULSÃO DO MESTRE ===
-    socket.on('player_kicked', function(payload) {
-        if (payload.idUnico === idUnicoFicha) {
-            document.getElementById('uid-input').value = ""; // Limpa a sala
-            localStorage.removeItem('rpgFichaSala'); // Esquece a sala no navegador
-            
-            let btn = document.getElementById('btn-entrar-label');
-            if(btn) {
-                btn.style.backgroundColor = "#b71c1c";
-                btn.innerText = "ENTRAR";
-            }
-            alert("⚠️ Você foi desconectado da mesa pelo Mestre.\nVerifique sua sala ou insira um novo link.");
-        }
-    });
-
-    socket.on('connect', () => { setTimeout(sincronizarComMestre, 1500); });
-
     function sincronizarComMestre() {
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
-        
-        // SE NÃO TIVER SALA (Ou tiver sido expulso), ABORTA O ENVIO DE DADOS!
         if (!uidAtual || uidAtual === "SEM SALA") return; 
-
-        let pImg = document.getElementById('portrait-img');
-        let defInput = document.getElementById('defesa-personagem');
-        let dadosParaMestre = {
-            idUnico: idUnicoFicha,
-            charName: document.getElementById('char-name-input').value,
-            playerName: document.getElementById('player-name-input').value,
-            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'),
-            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'),
-            nivel: document.getElementById('nivel').value,
-            defesa: defInput ? defInput.value : 10,
-            img: pImg.style.display !== 'none' ? pImg.src : ""
-        };
-        
+        let pImg = document.getElementById('portrait-img'); let defInput = document.getElementById('defesa-personagem');
+        let dadosParaMestre = { idUnico: idUnicoFicha, charName: document.getElementById('char-name-input').value, playerName: document.getElementById('player-name-input').value, hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), nivel: document.getElementById('nivel').value, defesa: defInput ? defInput.value : 10, img: pImg.style.display !== 'none' ? pImg.src : "" };
         socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
         salvarFichaLocal();
     }
 
-    // ==============================================================
-    // 4. LÓGICA DE STATUS, BARRAS E CÁLCULOS
-    // ==============================================================
-
+    // === CÁLCULOS E STATUS ===
     function recalcularTudo() {
-        const forcaAtual = getValor('forca');
-        const cargaMaxima = Math.max(10, 10 + (forcaAtual * 2)); 
+        const forcaAtual = getValor('forca'); const cargaMaxima = Math.max(10, 10 + (forcaAtual * 2)); 
         document.getElementById('carga-max').innerText = cargaMaxima;
-        
-        let cargaAtual = 0; 
-        dbInventario.forEach(i => { if(i.equipado) cargaAtual += (i.peso || 0); }); 
-        
-        let moedas = getValor('moedas-atual');
-        cargaAtual += Math.floor(moedas / 20);
-
+        let cargaAtual = 0; dbInventario.forEach(i => { if(i.equipado) cargaAtual += (i.peso || 0); }); 
+        let moedas = getValor('moedas-atual'); cargaAtual += Math.floor(moedas / 20);
         document.getElementById('carga-atual').innerText = cargaAtual;
-        const barraCarga = document.getElementById('carga-fill');
-        barraCarga.style.width = Math.min((cargaAtual / cargaMaxima) * 100, 100) + '%';
-        barraCarga.classList.toggle('excedido', cargaAtual > cargaMaxima);
-
+        const barraCarga = document.getElementById('carga-fill'); barraCarga.style.width = Math.min((cargaAtual / cargaMaxima) * 100, 100) + '%'; barraCarga.classList.toggle('excedido', cargaAtual > cargaMaxima);
         const nivel = parseInt(document.getElementById('nivel').value); 
         let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : nivel < 17 ? 5 : 6;
-        
-        listaPericiasBase.forEach(p => { 
-            if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0};
-            let d = dbPericias[p.n]; 
-            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
-        });
-        
-        renderizarPericias();
-        sincronizarComMestre();
+        listaPericiasBase.forEach(p => { if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0}; let d = dbPericias[p.n]; d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); });
+        renderizarPericias(); sincronizarComMestre();
     }
 
     function atualizarBarras() {
         let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
-        document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
-        document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
+        document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%'; document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
         sincronizarComMestre();
     }
 
-    function alterarStatus(id, delta) { 
-        let input = document.getElementById(id); 
-        input.value = (parseInt(input.value) || 0) + delta; 
-        if (id === 'moedas-atual' && parseInt(input.value) < 0) input.value = 0; 
-        atualizarBarras(); 
-        if (id === 'moedas-atual') recalcularTudo(); 
-    }
-
-    // ==============================================================
-    // 5. FUNÇÕES UTILITÁRIAS E IMAGENS
-    // ==============================================================
-
     function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
+    function mudarAbaPrincipal(idAba, btn) { document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(idAba).classList.add('active'); if(btn) btn.classList.add('active'); }
+    function alterarStatus(id, delta) { let input = document.getElementById(id); input.value = (parseInt(input.value) || 0) + delta; if (id === 'moedas-atual' && parseInt(input.value) < 0) input.value = 0; atualizarBarras(); if (id === 'moedas-atual') recalcularTudo(); }
     
-    function mudarAbaPrincipal(idAba, btn) { 
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById(idAba).classList.add('active'); 
-        if(btn) btn.classList.add('active'); 
+    function calcularDanoStr(expressao, mult = 1) {
+        if(!expressao) return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
+        try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
 
-    function pedirUrlRetrato() {
-        let url = prompt("Cole a URL da imagem do seu personagem:");
-        if (url !== null && url.trim() !== "") {
-            document.getElementById('portrait-img').src = url.trim();
-            document.getElementById('portrait-img').style.display = 'block';
-            document.getElementById('portrait-placeholder').style.display = 'none';
-            sincronizarComMestre();
-        }
-    }
+    function pedirUrlRetrato() { let url = prompt("Cole a URL da imagem do seu personagem:"); if (url) { document.getElementById('portrait-img').src = url.trim(); document.getElementById('portrait-img').style.display = 'block'; document.getElementById('portrait-placeholder').style.display = 'none'; sincronizarComMestre(); } }
+    function atualizarPreview(inputId, imgId, containerId) { let url = document.getElementById(inputId).value.trim(); if(url) { document.getElementById(imgId).src = url; document.getElementById(containerId).style.display = 'block'; if(inputId === 'mi-img') tempImgBase64 = url; if(inputId === 'ms-img') tempSubImgBase64 = url; } else { document.getElementById(containerId).style.display = 'none'; if(inputId === 'mi-img') tempImgBase64 = ""; if(inputId === 'ms-img') tempSubImgBase64 = ""; } }
 
-    function atualizarPreview(inputId, imgId, containerId) {
-        let url = document.getElementById(inputId).value.trim();
-        if(url) {
-            document.getElementById(imgId).src = url;
-            document.getElementById(containerId).style.display = 'block';
-            if(inputId === 'mi-img') tempImgBase64 = url; 
-            if(inputId === 'ms-img') tempSubImgBase64 = url;
-        } else {
-            document.getElementById(containerId).style.display = 'none';
-            if(inputId === 'mi-img') tempImgBase64 = "";
-            if(inputId === 'ms-img') tempSubImgBase64 = "";
-        }
-    }
-
-    // ==============================================================
-    // 6. RENDERIZADORES DE LISTAS E GRIDS
-    // ==============================================================
-
-    function popularSelectPericias() {
-        let select = document.getElementById('mi-pericia');
-        if(!select) return;
-        select.innerHTML = '<option value="">Manual / Nenhuma</option>';
-        listaPericiasBase.forEach(p => select.innerHTML += `<option value="${p.n}">${p.n}</option>`);
-    }
-
-    function renderizarPericias() {
-        const grid = document.getElementById('grid-pericias'); grid.innerHTML = '';
-        listaPericiasBase.forEach(p => {
-            const d = dbPericias[p.n];
-            grid.innerHTML += `
-                <div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${p.n}')">
-                    <div class="pericia-header">${p.n}</div>
-                    <div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${p.n}', ${d.total})">
-                        <img src="${DADO_IMG_URL}" class="icone-dado" style="margin-right:5px;"> <span>+${d.total}</span>
-                    </div>
-                </div>`;
-        });
-        renderizarListas(); 
-    }
+    function renderizarPericias() { const grid = document.getElementById('grid-pericias'); grid.innerHTML = ''; listaPericiasBase.forEach(p => { const d = dbPericias[p.n]; grid.innerHTML += `<div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${p.n}')"><div class="pericia-header">${p.n}</div><div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${p.n}', ${d.total})"><img src="${DADO_IMG_URL}" class="icone-dado" style="margin-right:5px;"> <span>+${d.total}</span></div></div>`; }); renderizarListas(); }
+    function popularSelectPericias() { let select = document.getElementById('mi-pericia'); if(!select) return; select.innerHTML = '<option value="">Manual / Nenhuma</option>'; listaPericiasBase.forEach(p => select.innerHTML += `<option value="${p.n}">${p.n}</option>`); }
 
     function renderizarMagias() {
         const container = document.getElementById('magias-container'); container.innerHTML = '';
-        const listPrincipal = document.getElementById('lista-magias-principal'); 
-        if(listPrincipal) listPrincipal.innerHTML = '';
-
-        const circulos = ["1", "2", "3", "4", "5"];
-        circulos.forEach(c => {
+        const listPrincipal = document.getElementById('lista-magias-principal'); if(listPrincipal) listPrincipal.innerHTML = '';
+        ["1", "2", "3", "4", "5"].forEach(c => {
             let filt = dbMagias.filter(m => m.circulo == c);
             if(filt.length > 0) {
                 let html = `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">`;
-                filt.forEach(m => { 
-                    html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; 
-                    if (listPrincipal) {
-                        listPrincipal.innerHTML += `<button class="item-btn" style="border-left-color:#b71c1c; display:flex; justify-content:space-between; align-items:center;" onclick="abrirVisualizacao('magia', ${m.id})"><span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span></button>`;
-                    }
-                });
+                filt.forEach(m => { html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; if (listPrincipal) listPrincipal.innerHTML += `<button class="item-btn" style="border-left-color:#b71c1c; display:flex; justify-content:space-between; align-items:center;" onclick="abrirVisualizacao('magia', ${m.id})"><span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span></button>`; });
                 container.innerHTML += html + `</div></div>`;
             }
         });
@@ -1154,367 +940,124 @@
     function renderizarListas() {
         const gridInv = document.getElementById('grid-inventario'); gridInv.innerHTML = '';
         const listArmas = document.getElementById('lista-armas-equipadas'); if(listArmas) listArmas.innerHTML = '';
-        
         dbInventario.forEach(i => { 
             let icone = i.tipo == 'corpo' ? '⚔️' : (i.tipo == 'dist' ? '🏹' : (i.tipo == 'municao' ? '🎯' : '🎒'));
             let imgHtml = i.img ? `<img src="${i.img}" class="item-img-mini">` : `<div class="item-icon-placeholder">${icone}</div>`;
             let displayMun = i.tipo == 'dist' ? `<div class="ammo-text" style="color:#b71c1c;">Tiros: ${i.munAtual}/${i.munMax}</div>` : (i.tipo == 'municao' ? `<div class="ammo-text" style="color:#0d47a1;">Qtde: ${i.munAtual}</div>` : '');
-            
-            gridInv.innerHTML += `
-                <div class="pericia-card" onclick="abrirVisualizacao('inv', ${i.id})">
-                    ${imgHtml}
-                    <div class="pericia-header" style="margin-top:5px;">${i.nome}</div>
-                    <div class="equip-box" onclick="event.stopPropagation()">
-                        <label class="equip-label">
-                            <input type="checkbox" class="equip-checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(event, ${i.id})"> Equipado
-                        </label>
-                    </div>
-                    ${displayMun}
-                </div>`; 
-
+            gridInv.innerHTML += `<div class="pericia-card" onclick="abrirVisualizacao('inv', ${i.id})">${imgHtml}<div class="pericia-header" style="margin-top:5px;">${i.nome}</div><div class="equip-box" onclick="event.stopPropagation()"><label class="equip-label"><input type="checkbox" class="equip-checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(event, ${i.id})"> Equipado</label></div>${displayMun}</div>`; 
             if(i.equipado && (i.tipo == 'corpo' || i.tipo == 'dist')) {
                 let miniImgSide = i.img ? `<img src="${i.img}" class="arma-equipada-img">` : `<div class="arma-equipada-icon">${icone}</div>`;
                 let ammoSide = i.tipo == 'dist' ? `<div style="font-size:0.65rem; font-weight:bold; color:#b71c1c; text-align:center; margin-top:3px; font-family:'Roboto';">MUNIÇÃO: ${i.munAtual}/${i.munMax}</div>` : '';
                 let bonusAtq = (i.periciaLink && dbPericias[i.periciaLink]) ? dbPericias[i.periciaLink].total : 0;
                 let sinalBonus = bonusAtq >= 0 ? `+${bonusAtq}` : `${bonusAtq}`;
                 let danoDisplay = i.dano ? `${i.dano} (${sinalBonus})` : '-';
-                
                 let btnAtqHtml = `<button class="btn-atq" onclick="rolarAtaqueArma('${i.nome}', ${bonusAtq}, '${i.dano || ''}', '${i.crit || ''}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
                 let danoSide = i.dano ? `<button class="box-dano" onclick="rolarDano('Dano: ${i.nome}', '${i.dano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
-
-                if(listArmas) {
-                    listArmas.innerHTML += `
-                    <div class="arma-equipada-card">
-                        <div class="arma-equipada-header">
-                            ${miniImgSide}
-                            <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
-                                <span class="arma-equipada-nome">${i.nome}</span>
-                                <div class="arma-equipada-botoes">${btnAtqHtml}${danoSide}</div>
-                            </div>
-                        </div>
-                        ${ammoSide}
-                    </div>`;
-                }
+                if(listArmas) listArmas.innerHTML += `<div class="arma-equipada-card"><div class="arma-equipada-header">${miniImgSide}<div style="flex:1; display:flex; flex-direction:column; justify-content:center;"><span class="arma-equipada-nome">${i.nome}</span><div class="arma-equipada-botoes">${btnAtqHtml}${danoSide}</div></div></div>${ammoSide}</div>`;
             }
         });
-
         document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
         document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => `<button class="item-btn" onclick="abrirVisualizacao('guilda', ${g.id})">${g.nome}</button>`).join('');
         document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `<button class="item-btn" onclick="abrirVisualizacao('pessoa', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-locais').innerHTML = dbLocais.map(l => `<button class="item-btn" onclick="abrirVisualizacao('local', ${l.id})">${l.nome}</button>`).join('');
         
-        renderizarMagias(); 
-        salvarFichaLocal();
-    }
-
-    // ==============================================================
-    // 7. LÓGICA DE ITENS, MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
-    // ==============================================================
-
-    function abrirModalPericia(nome) { 
-        periciaAbertaNome = nome; let d = dbPericias[nome]; 
-        document.getElementById('mp-nome').innerText = nome; 
-        document.getElementById('mp-treinado').checked = d.treinado; 
-        document.getElementById('mp-bonus').value = d.bonus; 
-        document.getElementById('mp-total').innerText = d.total; 
-        document.getElementById('modal-pericia').style.display = 'flex'; 
-    }
-    function salvarPericia() { 
-        let d = dbPericias[periciaAbertaNome]; 
-        d.treinado = document.getElementById('mp-treinado').checked; 
-        d.bonus = parseFloat(document.getElementById('mp-bonus').value) || 0; 
-        recalcularTudo(); 
-        document.getElementById('mp-total').innerText = d.total; 
-    }
-
-    function abrirModalInv() { 
-        tipoContexto = 'inv'; mudarAbaItem('comum'); 
-        document.getElementById('mi-nome').value = ''; document.getElementById('mi-peso').value = '1'; document.getElementById('mi-desc').value = ''; document.getElementById('mi-dano').value = ''; document.getElementById('mi-crit').value = ''; document.getElementById('mi-alc').value = ''; document.getElementById('mi-tipo').value = ''; document.getElementById('mi-raridade').value = 'Normal'; document.getElementById('mi-mun').value = '20'; document.getElementById('mi-mun-nome').value = ''; document.getElementById('mi-pericia').value = '';
-        tempImgBase64 = ""; document.getElementById('mi-img').value = ""; document.getElementById('mi-img-preview-container').style.display = 'none';
-        document.getElementById('modal-inventario').style.display = 'flex'; 
-    }
-    
-    function mudarAbaItem(tipo) {
-        abaItemAtual = tipo;
-        document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById('tab-' + tipo).classList.add('active');
-        
-        let isArma = (tipo == 'corpo' || tipo == 'dist');
-        document.querySelectorAll('.arma-field').forEach(el => el.style.display = isArma ? 'block' : 'none');
-        document.querySelectorAll('.arma-field-row').forEach(el => el.style.display = isArma ? 'flex' : 'none');
-        document.getElementById('mi-mun-link-box').style.display = (tipo == 'dist') ? 'block' : 'none';
-        const munContainer = document.getElementById('mi-mun-container');
-        if(tipo == 'dist') { munContainer.style.display = 'block'; document.getElementById('lbl-capacidade').innerText = "CAPACIDADE MÁX"; } 
-        else if (tipo == 'municao') { munContainer.style.display = 'block'; document.getElementById('lbl-capacidade').innerText = "QUANTIDADE"; } 
-        else { munContainer.style.display = 'none'; }
-    }
-
-    function salvarItemInv() {
-        let nome = document.getElementById('mi-nome').value.trim(), peso = parseFloat(document.getElementById('mi-peso').value) || 0, descBase = document.getElementById('mi-desc').value.trim();
-        if(!nome) return alert("Digite o nome!");
-        
-        let extraText = "", munMax = parseInt(document.getElementById('mi-mun').value) || 0, munNomeLink = document.getElementById('mi-mun-nome').value.trim();
-        let periciaLink = document.getElementById('mi-pericia').value;
-        let r = document.getElementById('mi-raridade').value;
-
-        if(r !== 'Normal') { extraText += `\n[ ${r.toUpperCase()} ]`; }
-        if(abaItemAtual == 'corpo' || abaItemAtual == 'dist') {
-            let a = document.getElementById('mi-alc').value, t = document.getElementById('mi-tipo').value;
-            extraText += ` | Tipo: ${t || '-'}`;
-            if(abaItemAtual == 'dist') extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`;
-            if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink) extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value || '-'}`;
+        // Verifica se existe o container de histórias na ficha do jogador para renderizá-las
+        let containerHist = document.getElementById('lista-historias-jogador');
+        if(containerHist) {
+            containerHist.innerHTML = dbHistorias.map(h => `<button class="item-btn" onclick="abrirVisualizacao('historia', ${h.id})">📖 ${h.titulo}</button>`).join('');
         }
 
-        let newItem = { 
-            id: Date.now(), nome: nome, peso: peso, desc: descBase + extraText, 
-            tipo: abaItemAtual, img: tempImgBase64, equipado: false,
-            periciaLink: periciaLink, dano: document.getElementById('mi-dano').value, crit: document.getElementById('mi-crit').value
-        };
-        
-        if(abaItemAtual == 'dist') { newItem.munMax = munMax; newItem.munAtual = munMax; newItem.munNomeReq = munNomeLink; } 
-        else if (abaItemAtual == 'municao') { newItem.munAtual = munMax; }
-        
-        dbInventario.push(newItem); renderizarListas(); fecharModais();
+        renderizarMagias(); salvarFichaLocal();
     }
 
+    function abrirModalPericia(nome) { periciaAbertaNome = nome; let d = dbPericias[nome]; document.getElementById('mp-nome').innerText = nome; document.getElementById('mp-treinado').checked = d.treinado; document.getElementById('mp-bonus').value = d.bonus; document.getElementById('mp-total').innerText = d.total; document.getElementById('modal-pericia').style.display = 'flex'; }
+    function salvarPericia() { let d = dbPericias[periciaAbertaNome]; d.treinado = document.getElementById('mp-treinado').checked; d.bonus = parseFloat(document.getElementById('mp-bonus').value) || 0; recalcularTudo(); document.getElementById('mp-total').innerText = d.total; }
+
+    function abrirModalInv() { tipoContexto = 'inv'; mudarAbaItem('comum'); document.getElementById('mi-nome').value = ''; document.getElementById('mi-peso').value = '1'; document.getElementById('mi-desc').value = ''; document.getElementById('mi-dano').value = ''; document.getElementById('mi-crit').value = ''; document.getElementById('mi-alc').value = ''; document.getElementById('mi-tipo').value = ''; document.getElementById('mi-raridade').value = 'Normal'; document.getElementById('mi-mun').value = '20'; document.getElementById('mi-mun-nome').value = ''; document.getElementById('mi-pericia').value = ''; tempImgBase64 = ""; document.getElementById('mi-img').value = ""; document.getElementById('mi-img-preview-container').style.display = 'none'; document.getElementById('modal-inventario').style.display = 'flex'; }
+    function mudarAbaItem(tipo) { abaItemAtual = tipo; document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active')); document.getElementById('tab-' + tipo).classList.add('active'); let isArma = (tipo == 'corpo' || tipo == 'dist'); document.querySelectorAll('.arma-field').forEach(el => el.style.display = isArma ? 'block' : 'none'); document.querySelectorAll('.arma-field-row').forEach(el => el.style.display = isArma ? 'flex' : 'none'); document.getElementById('mi-mun-link-box').style.display = (tipo == 'dist') ? 'block' : 'none'; const munContainer = document.getElementById('mi-mun-container'); if(tipo == 'dist') { munContainer.style.display = 'block'; document.getElementById('lbl-capacidade').innerText = "CAPACIDADE MÁX"; } else if (tipo == 'municao') { munContainer.style.display = 'block'; document.getElementById('lbl-capacidade').innerText = "QUANTIDADE"; } else { munContainer.style.display = 'none'; } }
+    function salvarItemInv() { let nome = document.getElementById('mi-nome').value.trim(), peso = parseFloat(document.getElementById('mi-peso').value) || 0, descBase = document.getElementById('mi-desc').value.trim(); if(!nome) return alert("Digite o nome!"); let extraText = "", munMax = parseInt(document.getElementById('mi-mun').value) || 0, munNomeLink = document.getElementById('mi-mun-nome').value.trim(); let periciaLink = document.getElementById('mi-pericia').value; let r = document.getElementById('mi-raridade').value; if(r !== 'Normal') { extraText += `\n[ ${r.toUpperCase()} ]`; } if(abaItemAtual == 'corpo' || abaItemAtual == 'dist') { let a = document.getElementById('mi-alc').value, t = document.getElementById('mi-tipo').value; extraText += ` | Tipo: ${t || '-'}`; if(abaItemAtual == 'dist') extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`; if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink) extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value || '-'}`; } let newItem = { id: Date.now(), nome: nome, peso: peso, desc: descBase + extraText, tipo: abaItemAtual, img: tempImgBase64, equipado: false, periciaLink: periciaLink, dano: document.getElementById('mi-dano').value, crit: document.getElementById('mi-crit').value }; if(abaItemAtual == 'dist') { newItem.munMax = munMax; newItem.munAtual = munMax; newItem.munNomeReq = munNomeLink; } else if (abaItemAtual == 'municao') { newItem.munAtual = munMax; } dbInventario.push(newItem); renderizarListas(); fecharModais(); }
     function toggleEquip(e, id) { e.stopPropagation(); let item = dbInventario.find(x => x.id == id); if(item) { item.equipado = e.target.checked; recalcularTudo(); } }
-
-    function dispararArma() { 
-        let arma = dbInventario.find(x => x.id == itemAbertoId); 
-        if(arma && arma.tipo == 'dist') { 
-            if(arma.munAtual > 0) { 
-                arma.munAtual--; document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; renderizarListas(); 
-            } else alert("Arma descarregada! Clique em RECARREGAR."); 
-        } 
-    }
-    
-    function recarregarArma() { 
-        let arma = dbInventario.find(x => x.id == itemAbertoId); if(!arma || arma.tipo != 'dist') return; 
-        let needed = arma.munMax - arma.munAtual; if(needed <= 0) return alert("Arma cheia!"); 
-        let munInv = dbInventario.find(x => x.tipo == 'municao' && x.nome.toLowerCase() == (arma.munNomeReq || '').toLowerCase()); 
-        if(!munInv || munInv.munAtual <= 0) return alert(`Sem munição ('${arma.munNomeReq}')!`); 
-        if(munInv.munAtual >= needed) { munInv.munAtual -= needed; arma.munAtual += needed; } 
-        else { arma.munAtual += munInv.munAtual; munInv.munAtual = 0; } 
-        document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; renderizarListas(); alert(`Recarregada!`); 
-    }
-    
-    function alterarMunicaoView(delta) { 
-        let item = dbInventario.find(x => x.id == itemAbertoId); 
-        if(item && item.tipo == 'municao') { 
-            item.munAtual += delta; if(item.munAtual < 0) item.munAtual = 0; 
-            document.getElementById('mv-ammo-text').innerText = item.munAtual; renderizarListas(); 
-        } 
-    }
+    function dispararArma() { let arma = dbInventario.find(x => x.id == itemAbertoId); if(arma && arma.tipo == 'dist') { if(arma.munAtual > 0) { arma.munAtual--; document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; renderizarListas(); } else alert("Arma descarregada! Clique em RECARREGAR."); } }
+    function recarregarArma() { let arma = dbInventario.find(x => x.id == itemAbertoId); if(!arma || arma.tipo != 'dist') return; let needed = arma.munMax - arma.munAtual; if(needed <= 0) return alert("Arma cheia!"); let munInv = dbInventario.find(x => x.tipo == 'municao' && x.nome.toLowerCase() == (arma.munNomeReq || '').toLowerCase()); if(!munInv || munInv.munAtual <= 0) return alert(`Sem munição ('${arma.munNomeReq}')!`); if(munInv.munAtual >= needed) { munInv.munAtual -= needed; arma.munAtual += needed; } else { arma.munAtual += munInv.munAtual; munInv.munAtual = 0; } document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; renderizarListas(); alert(`Recarregada!`); }
+    function alterarMunicaoView(delta) { let item = dbInventario.find(x => x.id == itemAbertoId); if(item && item.tipo == 'municao') { item.munAtual += delta; if(item.munAtual < 0) item.munAtual = 0; document.getElementById('mv-ammo-text').innerText = item.munAtual; renderizarListas(); } }
 
     function abrirModalHab(tipo) { tipoContexto = tipo; document.getElementById('mh-titulo').innerText = tipo == 'prof' ? 'Nova Proficiência' : 'Nova Habilidade'; document.getElementById('mh-nome').value = ''; document.getElementById('mh-desc').value = ''; document.getElementById('modal-hab').style.display = 'flex'; }
     function salvarHab() { let nome = document.getElementById('mh-nome').value.trim(), desc = document.getElementById('mh-desc').value.trim(); if(!nome) return; if(tipoContexto == 'prof') dbProficiencias.push({ id: Date.now(), nome: nome, desc: desc }); else dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc }); renderizarListas(); fecharModais(); }
 
     function abrirModalMagia() { tipoContexto = 'magia'; document.getElementById('mm-nome').value = ''; document.getElementById('mm-circulo').value = '1'; document.getElementById('mm-escola').value = 'Abjuração'; document.getElementById('mm-execucao').value = ''; document.getElementById('mm-alcance').value = ''; document.getElementById('mm-alvo').value = ''; document.getElementById('mm-duracao').value = ''; document.getElementById('mm-resistencia').value = ''; document.getElementById('mm-desc').value = ''; document.getElementById('modal-magia-add').style.display = 'flex'; }
-    function salvarMagia() { 
-        let n = document.getElementById('mm-nome').value.trim(); if(!n) return alert("Digite o nome da magia!"); 
-        dbMagias.push({ 
-            id: Date.now(), nome: n, circulo: document.getElementById('mm-circulo').value, escola: document.getElementById('mm-escola').value, 
-            execucao: document.getElementById('mm-execucao').value, alcance: document.getElementById('mm-alcance').value, 
-            alvo: document.getElementById('mm-alvo').value, duracao: document.getElementById('mm-duracao').value, 
-            resistencia: document.getElementById('mm-resistencia').value, desc: document.getElementById('mm-desc').value 
-        }); 
-        renderizarListas(); fecharModais(); 
-    }
+    function salvarMagia() { let n = document.getElementById('mm-nome').value.trim(); if(!n) return alert("Digite o nome da magia!"); dbMagias.push({ id: Date.now(), nome: n, circulo: document.getElementById('mm-circulo').value, escola: document.getElementById('mm-escola').value, execucao: document.getElementById('mm-execucao').value, alcance: document.getElementById('mm-alcance').value, alvo: document.getElementById('mm-alvo').value, duracao: document.getElementById('mm-duracao').value, resistencia: document.getElementById('mm-resistencia').value, desc: document.getElementById('mm-desc').value }); renderizarListas(); fecharModais(); }
 
-    function abrirModalCriacaoListas(tipo) {
-        tipoContexto = tipo; 
-        document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); 
-        document.getElementById('mcl-nome').value = ''; document.getElementById('mcl-desc').value = ''; 
-        if (tipo === 'pessoa') { document.getElementById('mcl-subitems-container').style.display = 'none'; document.getElementById('mcl-img-container').style.display = 'block'; document.getElementById('mcl-label-desc').style.display = 'block'; document.getElementById('mcl-img').value = ''; } 
-        else { document.getElementById('mcl-subitems-container').style.display = 'block'; document.getElementById('mcl-img-container').style.display = 'none'; document.getElementById('mcl-label-desc').style.display = 'none'; document.getElementById('mcl-label-adicionar').innerText = tipo == 'guilda' ? 'ADICIONAR MEMBROS' : 'ADICIONAR PONTOS / NPCs'; document.getElementById('mcl-subitem-nome').value = ''; tempSubItemsLista = []; renderizarSubItemsTemp(); }
-        document.getElementById('modal-criacao-listas').style.display = 'flex';
-    }
-    
+    function abrirModalCriacaoListas(tipo) { tipoContexto = tipo; document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); document.getElementById('mcl-nome').value = ''; document.getElementById('mcl-desc').value = ''; if (tipo === 'pessoa') { document.getElementById('mcl-subitems-container').style.display = 'none'; document.getElementById('mcl-img-container').style.display = 'block'; document.getElementById('mcl-label-desc').style.display = 'block'; document.getElementById('mcl-img').value = ''; } else { document.getElementById('mcl-subitems-container').style.display = 'block'; document.getElementById('mcl-img-container').style.display = 'none'; document.getElementById('mcl-label-desc').style.display = 'none'; document.getElementById('mcl-label-adicionar').innerText = tipo == 'guilda' ? 'ADICIONAR MEMBROS' : 'ADICIONAR PONTOS / NPCs'; document.getElementById('mcl-subitem-nome').value = ''; tempSubItemsLista = []; renderizarSubItemsTemp(); } document.getElementById('modal-criacao-listas').style.display = 'flex'; }
     function addTempLista() { let nome = document.getElementById('mcl-subitem-nome').value.trim(); if(nome) { tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' }); document.getElementById('mcl-subitem-nome').value = ''; renderizarSubItemsTemp(); } }
     function removerTempLista(idx) { tempSubItemsLista.splice(idx, 1); renderizarSubItemsTemp(); }
     function renderizarSubItemsTemp() { const container = document.getElementById('mcl-subitems-list'); container.innerHTML = ''; tempSubItemsLista.forEach((sub, idx) => { container.innerHTML += `<span class="membro-badge">${sub.nome} <span onclick="removerTempLista(${idx})">&times;</span></span>`; }); }
-    
-    function salvarCriacaoLista() {
-        let nome = document.getElementById('mcl-nome').value.trim(), desc = document.getElementById('mcl-desc').value.trim(), img = document.getElementById('mcl-img') ? document.getElementById('mcl-img').value.trim() : "";
-        if(!nome) return alert('Digite o nome!');
-        if(tipoContexto == 'guilda') dbGuildas.push({ id: Date.now(), nome: nome, desc: desc, membros: [...tempSubItemsLista] });
-        else if(tipoContexto == 'local') dbLocais.push({ id: Date.now(), nome: nome, desc: desc, pontos: [...tempSubItemsLista] });
-        else if(tipoContexto == 'pessoa') dbPessoas.push({ id: Date.now(), nome: nome, desc: desc, img: img });
-        renderizarListas(); fecharModais();
-    }
+    function salvarCriacaoLista() { let nome = document.getElementById('mcl-nome').value.trim(), desc = document.getElementById('mcl-desc').value.trim(), img = document.getElementById('mcl-img') ? document.getElementById('mcl-img').value.trim() : ""; if(!nome) return alert('Digite o nome!'); if(tipoContexto == 'guilda') dbGuildas.push({ id: Date.now(), nome: nome, desc: desc, membros: [...tempSubItemsLista] }); else if(tipoContexto == 'local') dbLocais.push({ id: Date.now(), nome: nome, desc: desc, pontos: [...tempSubItemsLista] }); else if(tipoContexto == 'pessoa') dbPessoas.push({ id: Date.now(), nome: nome, desc: desc, img: img }); renderizarListas(); fecharModais(); }
 
     function abrirVisualizacao(tipoLista, id) { 
-        tipoContexto = tipoLista; 
-        let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbPessoas : (tipoLista == 'magia' ? dbMagias : dbHabilidades))))); 
+        tipoContexto = tipoLista; let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbPessoas : (tipoLista == 'magia' ? dbMagias : (tipoLista == 'historia' ? dbHistorias : dbHabilidades)))))); 
         let item = lista.find(x => x.id == id); if(!item) return;
-
-        itemAbertoId = id; document.getElementById('mv-nome').innerText = item.nome; 
-        let textoFormatado = "";
         
-        if (tipoLista == 'magia') {
-            textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º  |  <strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}  |  <strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}  |  <strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
-        } else {
-            let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : "";
-            textoFormatado = (item.desc || "Sem descrição.") + extras; 
-            textoFormatado = textoFormatado.replace(/\n/g, '<br>'); 
-        }
-
-        document.getElementById('mv-desc').innerHTML = textoFormatado; 
-        const imgEl = document.getElementById('mv-img');
-        if(item.img) { imgEl.src = item.img; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
-
+        itemAbertoId = id; document.getElementById('mv-nome').innerText = item.nome || item.titulo; let textoFormatado = "";
+        
+        if (tipoLista == 'magia') { textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º  |  <strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}  |  <strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}  |  <strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>'); } 
+        else if (tipoLista == 'historia') { textoFormatado = (item.conteudo || "Sem anotações."); textoFormatado = textoFormatado.replace(/\n/g, '<br>');}
+        else { let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : ""; textoFormatado = (item.desc || "Sem descrição.") + extras; textoFormatado = textoFormatado.replace(/\n/g, '<br>'); }
+        
+        document.getElementById('mv-desc').innerHTML = textoFormatado; const imgEl = document.getElementById('mv-img'); if(item.img) { imgEl.src = item.img; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
         const subListContainer = document.getElementById('mv-subitems-list'); subListContainer.innerHTML = ''; subListContainer.style.display = 'none';
         
-        if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) {
-            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>';
-            item.membros.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
-        } else if (tipoLista == 'local' && item.pontos && item.pontos.length > 0) {
-            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>';
-            item.pontos.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
-        }
-
-        const boxArma = document.getElementById('mv-actions-dist'); const boxMun = document.getElementById('mv-ammo-container');
-        boxArma.style.display = 'none'; boxMun.style.display = 'none';
-        if(item.tipo == 'dist') { boxArma.style.display = 'flex'; document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; } 
-        else if (item.tipo == 'municao') { boxMun.style.display = 'flex'; document.getElementById('mv-ammo-text').innerText = item.munAtual; }
-
+        if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) { subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>'; item.membros.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; }); } else if (tipoLista == 'local' && item.pontos && item.pontos.length > 0) { subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>'; item.pontos.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; }); }
+        
+        const boxArma = document.getElementById('mv-actions-dist'); const boxMun = document.getElementById('mv-ammo-container'); boxArma.style.display = 'none'; boxMun.style.display = 'none';
+        if(item.tipo == 'dist') { boxArma.style.display = 'flex'; document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; } else if (item.tipo == 'municao') { boxMun.style.display = 'flex'; document.getElementById('mv-ammo-text').innerText = item.munAtual; }
+        
         document.getElementById('modal-view').style.display = 'flex'; 
     }
 
     function abrirSubItem(tipoParent, parentId, subId) {
         currentParentContext = { tipo: tipoParent, id: parentId }; currentSubItemId = subId;
-        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
-        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
-        document.getElementById('ms-nome').value = subObj.nome; document.getElementById('ms-desc').value = subObj.desc || '';
-        tempSubImgBase64 = subObj.img || '';
+        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId); let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        document.getElementById('ms-nome').value = subObj.nome; document.getElementById('ms-desc').value = subObj.desc || ''; tempSubImgBase64 = subObj.img || '';
         if(tempSubImgBase64) { document.getElementById('ms-img-preview').src = tempSubImgBase64; document.getElementById('ms-img-preview-container').style.display = 'block'; } else { document.getElementById('ms-img-preview-container').style.display = 'none'; }
-        document.getElementById('ms-img').value = tempSubImgBase64; 
-        document.getElementById('modal-personagem').style.display = 'flex';
+        document.getElementById('ms-img').value = tempSubImgBase64; document.getElementById('modal-personagem').style.display = 'flex';
     }
 
     function salvarSubItem() {
-        let parentObj = (currentParentContext.tipo == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == currentParentContext.id);
-        let subObj = (currentParentContext.tipo == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == currentSubItemId);
+        let parentObj = (currentParentContext.tipo == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == currentParentContext.id); let subObj = (currentParentContext.tipo == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == currentSubItemId);
         subObj.nome = document.getElementById('ms-nome').value.trim(); subObj.desc = document.getElementById('ms-desc').value.trim(); subObj.img = tempSubImgBase64;
         document.getElementById('modal-personagem').style.display = 'none'; abrirVisualizacao(currentParentContext.tipo, currentParentContext.id);
     }
 
     function apagarItemAberto() { 
-        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'guilda') dbGuildas = dbGuildas.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'local') dbLocais = dbLocais.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'pessoa') dbPessoas = dbPessoas.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
-        else dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
+        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'guilda') dbGuildas = dbGuildas.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'local') dbLocais = dbLocais.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'pessoa') dbPessoas = dbPessoas.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); else if(tipoContexto == 'historia') dbHistorias = dbHistorias.filter(x => x.id != itemAbertoId); else dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
         renderizarListas(); fecharModais(); 
     }
-
-    // ==============================================================
-    // 8. SISTEMA DE DADOS UNIFICADO (COM CRÍTICO E DESASTRE)
-    // ==============================================================
 
     function rolarDado(nome, bonus) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; iniciarGiroDado(nome, bonus, '#b71c1c'); }
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); }
     function rolarDano(nome, expressao, bonusExtra = 0) { if(diceState !== 0) return; diceState = 1; let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true); }
-
-    function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
-        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
-        box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
-        box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
-
-        let frames = 0;
-        animacaoGiro = setInterval(() => {
-            let tempDado = Math.floor(Math.random() * 20) + 1;
-            let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
-
-            if (++frames >= 12) { 
-                clearInterval(animacaoGiro);
-                mostrarResultadoFinal();
-            }
-        }, 50);
-        
-        overlay.onclick = handleDiceClick; box.onclick = handleDiceClick;
-    }
-
-    function calcularDanoStr(expressao, mult = 1) {
-        if(!expressao) return 0;
-        let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str;
-        let diceRegex = /(\d*)d(\d+)/g; let match;
-        while((match = diceRegex.exec(str)) !== null) {
-            let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1;
-            let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1;
-            parsedStr = parsedStr.replace(match[0], soma);
-        }
-        try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
-    }
-
+    function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) { const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click'); box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards'; let frames = 0; animacaoGiro = setInterval(() => { let tempDado = Math.floor(Math.random() * 20) + 1; let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay; let hint = isCalcDano ? "Calculando Dano..." : "Sorteando..."; text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`; if (++frames >= 12) { clearInterval(animacaoGiro); mostrarResultadoFinal(); } }, 50); overlay.onclick = closeDiceRoll; box.onclick = closeDiceRoll; }
     function mostrarResultadoFinal() {
-        diceState = 2; 
-        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); 
-        let nome = currentRollData.nome; let finalHtml = "";
-        let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
-
+        diceState = 2; const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); let nome = currentRollData.nome; let finalHtml = ""; let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
         if (currentRollData.isDano) {
-            let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO";
-            resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
-
-            box.style.borderColor = corCataroria;
+            let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO"; resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria; box.style.borderColor = corCataroria;
             if (!document.getElementById(`glow-${categoria}`)) { const style = document.createElement('style'); style.id = `glow-${categoria}`; style.innerHTML = `@keyframes diceGlowPulse${categoria} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria} 2s infinite 0.5s`;
             finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         } else {
-            let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
-            let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
-
-            if (dadoReal === 1) { 
-                categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
-            } 
-            else if (dadoReal === 20) {
-                categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
-                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); let mult = multMatch ? parseInt(multMatch[1]) : 2; 
-                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; let sinal = bonus >= 0 ? '+' : '';
-                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
-                }
-            } else {
-                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
-                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
-                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
-            }
-
-            resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
-            box.style.borderColor = corCataroria;
-            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus; let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
+            if (dadoReal === 1) { categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; } else if (dadoReal === 20) { categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true; if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') { let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); let mult = multMatch ? parseInt(multMatch[1]) : 2; let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; let sinal = bonus >= 0 ? '+' : ''; extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`; } } else { if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } }
+            resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria; box.style.borderColor = corCataroria; let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
             if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
             finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
-
-        let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
-        let uidAtual = document.getElementById('uid-input').value || meuUID;
-
-        socket.emit('player_dice_roll', { 
-            uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
-            detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
-            isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
-        });
-
-        text.innerHTML = finalHtml;
-        const overlay = document.getElementById('dice-overlay-click'); overlay.onclick = closeDiceRoll; box.onclick = closeDiceRoll;
+        let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido'; let uidAtual = document.getElementById('uid-input').value || meuUID;
+        socket.emit('player_dice_roll', { uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); text.innerHTML = finalHtml; const overlay = document.getElementById('dice-overlay-click'); overlay.onclick = closeDiceRoll; box.onclick = closeDiceRoll;
     }
-
     function handleDiceClick() { if (diceState === 2) { closeDiceRoll(); } }
-    function closeDiceRoll() {
-        if(diceState === 0) return;
-        const box = document.getElementById('dice-result-container'); const overlay = document.getElementById('dice-overlay-click');
-        box.classList.add('dice-pop-out');
-        setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300);
-    }
+    function closeDiceRoll() { if(diceState === 0) return; const box = document.getElementById('dice-result-container'); const overlay = document.getElementById('dice-overlay-click'); box.classList.add('dice-pop-out'); setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300); }
 
 </script>
 
