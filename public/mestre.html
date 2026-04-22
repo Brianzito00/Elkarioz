@@ -342,7 +342,7 @@
     }
 
     // ==========================================
-    // RENDERIZAR JOGADORES (MESA)
+    // RENDERIZAR JOGADORES (MESA) E EXPULSÃO
     // ==========================================
     socket.on('estadoSalaCompleto', function(dadosDaSala) { 
         jogadores = dadosDaSala; 
@@ -372,7 +372,11 @@
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores);
         document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
-        if(chaves.length === 0) { container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; return; }
+        
+        if(chaves.length === 0) { 
+            container.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; 
+            return; 
+        }
         
         container.innerHTML = ''; 
         chaves.forEach(key => {
@@ -521,7 +525,12 @@
 
     function renderizarBestiario() {
         const container = document.getElementById('lista-bestiario-container');
-        document.getElementById('bestiario-vazio-texto').style.display = dbBestiario.length === 0 ? 'block' : 'none';
+        
+        if (dbBestiario.length === 0) {
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;">Nenhum monstro criado ainda.</p>';
+            return;
+        }
+
         container.innerHTML = '';
 
         dbBestiario.forEach(m => {
@@ -581,7 +590,6 @@
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     let diceState = 0; let currentRollData = {}; let animacaoGiro = null;
 
-    // Função de dano exclusiva do GM para usar na tela
     function rolarDanoGM(nome, expressao, bonusExtra = 0) {
         if(diceState !== 0) return; diceState = 1; 
         let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } 
@@ -628,7 +636,6 @@
             finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         } 
         
-        // Emite o dado do mestre para a sala!
         socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() });
         text.innerHTML = finalHtml;
     }
