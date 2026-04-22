@@ -6,7 +6,6 @@ const path = require('path');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// O "Caderninho" do Servidor: Guarda o estado atual de cada sala
 const estadoSalas = {};
 
 io.on('connection', (socket) => {
@@ -18,14 +17,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('atualizarDados', (payload) => {
-        // Força a sala a ser sempre MAIÚSCULA
         const uidSala = payload.uid ? payload.uid.trim().toUpperCase() : null;
         const dadosJogador = payload.dados;
 
         if (uidSala && dadosJogador && dadosJogador.idUnico) {
             if (!estadoSalas[uidSala]) estadoSalas[uidSala] = {};
             estadoSalas[uidSala][dadosJogador.idUnico] = dadosJogador;
-            payload.uid = uidSala; // Repassa corrigido
+            payload.uid = uidSala;
         }
         io.emit('atualizarDados', payload);
     });
@@ -37,8 +35,18 @@ io.on('connection', (socket) => {
         if (estadoSalas[uidUpper]) {
             socket.emit('estadoSalaCompleto', estadoSalas[uidUpper]);
         }
-        // Grito do Mestre para forçar os jogadores a sincronizarem
         io.emit('mestre_solicitou_sync', uidUpper);
+    });
+
+    // === NOVO: COMANDO DE EXPULSÃO ===
+    socket.on('kick_player', (payload) => {
+        const uidUpper = payload.uidSala ? payload.uidSala.trim().toUpperCase() : null;
+        // Remove da memória do servidor para não voltar no F5 do mestre
+        if (uidUpper && estadoSalas[uidUpper] && estadoSalas[uidUpper][payload.idUnico]) {
+            delete estadoSalas[uidUpper][payload.idUnico];
+        }
+        // Avisa a ficha específica para se desconectar
+        io.emit('player_kicked', payload);
     });
 
     socket.on('player_dice_roll', (logData) => { 
