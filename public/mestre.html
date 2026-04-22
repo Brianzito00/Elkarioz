@@ -14,9 +14,16 @@
             font-family: 'Lora', serif; 
             background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); 
-            background-size: cover; background-position: center; background-attachment: fixed; 
-            color: #3e2723; display: flex; justify-content: center; align-items: flex-start; 
-            padding: 30px 20px; margin: 0; min-height: 100vh; 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
+            color: #3e2723; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            padding: 30px 20px; 
+            margin: 0; 
+            min-height: 100vh; 
         }
         
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
@@ -42,7 +49,6 @@
         .tab-btn:hover { background-color: #fff; }
         .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
         
-        /* === ESTRUTURA DE COLUNAS === */
         .conteudo-wrapper { display: flex; gap: 25px; align-items: stretch; width: 100%; height: calc(100vh - 220px); min-height: 600px;}
         .coluna-central { flex: 1; display: flex; flex-direction: column; min-width: 0; }
         .coluna-log { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; }
@@ -56,29 +62,22 @@
         .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%;}
         .btn-acao:hover { background-color: #b71c1c; }
 
+        /* === BOTOES E PLACEHOLDERS DO MUNDO === */
         .btn-dashed { width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; }
         .btn-dashed:hover { background: rgba(139, 90, 43, 0.1); }
         .placeholder-dashed { border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; }
 
-        /* === LAYOUT MESA E INICIATIVA === */
+        /* === LAYOUT DA ABA MESA E INICIATIVA === */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
         .mesa-sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
+        /* === LISTAS GERAIS (Grade) === */
         #players-container { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
         #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
         #lista-historias-container { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
-        /* NOVO DESIGN: CARDS LATERAIS DO MUNDO (IGUAL IMAGEM) */
-        .mundo-item-btn {
-            background-color: #eaddc4; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b;
-            padding: 10px 15px; border-radius: 2px; cursor: pointer; width: 100%; text-align: left;
-            font-family: 'Lora', serif; color: #170f0a; display: flex; justify-content: space-between;
-            align-items: center; transition: 0.2s;
-        }
-        .mundo-item-btn:hover { background-color: #f4ebd8; border-color: #8b5a2b; transform: translateX(3px); box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-        .mundo-item-nome { font-weight: 900; font-size: 1.05rem; }
-
+        /* === CARDS JOGADOR / MONSTRO / HISTORIA === */
         .player-card, .monstro-card, .historia-card { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; position: relative; }
         .player-card:hover, .monstro-card:hover, .historia-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
         .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
@@ -90,6 +89,7 @@
         .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #5c3a21; font-weight: 900; text-transform: uppercase; }
         .stat-badge { padding: 2px 6px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 4px; font-family: 'Lora'; font-size: 0.8rem; color: #3e2723; resize: vertical; height: 50px; font-weight: bold;}
+        .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
         .barras-container { display: flex; flex-direction: column; gap: 4px; width: 100%; }
         .bar-bg { width: 100%; height: 16px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
         .bar-fill { height: 100%; transition: width 0.4s; }
@@ -97,15 +97,36 @@
         .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
         .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.65rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
         
+        /* === NOVO DESIGN: CARDS DO MUNDO (NPCs, Guildas, Locais) === */
+        .mundo-profile-card {
+            background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; border-left: 6px solid #8b5a2b; border-radius: 8px;
+            padding: 15px; display: flex; align-items: center; gap: 15px; transition: 0.2s; position: relative; margin-bottom: 10px;
+        }
+        .mundo-profile-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.15); transform: translateY(-2px); border-color: #b71c1c; }
+        .mundo-img {
+            width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 2px solid #5c3a21; flex-shrink: 0;
+            background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-enviar-card { 
+            background: #0d47a1; color: #fff; border: 1px solid #000; border-radius: 4px; padding: 6px 12px; font-family: 'Roboto'; 
+            font-weight: 900; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; 
+        }
+        .btn-enviar-card:hover { background: #1565c0; }
+        .btn-kick-mundo { background: transparent; border: 1px solid #b71c1c; color: #b71c1c; font-size: 1rem; cursor: pointer; border-radius: 4px; padding: 4px 8px; transition: 0.2s; }
+        .btn-kick-mundo:hover { background: #b71c1c; color: #fff; }
+
+        /* === BESTIÁRIO BARRAS EDITÁVEIS E ATRIBUTOS === */
         .monstro-edit-hp { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.6); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; width: 35px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 2px #000; margin: 0 4px; transition: 0.2s;}
         .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
         .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
         .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+
         .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
         .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
         .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
         .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.6rem; font-weight: 900; color: #3e2723; display: block; }
         .monstro-stat-val { font-family: 'Roboto'; font-size: 0.9rem; font-weight: bold; color: #b71c1c; }
+
         .monstro-skill-btn { background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; transition: 0.2s; }
         .monstro-skill-btn:hover { background: #eaddc4; color: #b71c1c; border-color: #b71c1c; transform: scale(1.02); }
         .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 6px; margin-top: 4px; }
@@ -114,7 +135,7 @@
         .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; }
 
-        /* === INICIATIVA === */
+        /* === INICIATIVA PREMIUM === */
         #lista-iniciativa { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
         .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; padding: 12px 20px; border-radius: 8px; transition: 0.3s; position: relative; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .ini-row:hover { background: #fff; transform: translateX(5px); }
@@ -130,12 +151,9 @@
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
 
-        /* === HISTÓRIAS E LORE === */
+        /* === HISTÓRIAS (ESTILO GOOGLE DOCS) === */
         .historia-titulo { font-family: 'Cinzel', serif; font-weight: bold; font-size: 1.1rem; color: #b71c1c; margin-bottom: 8px; padding-right: 20px;}
         .historia-resumo { font-family: 'Lora', serif; font-size: 0.85rem; color: #555; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; flex: 1;}
-        .btn-enviar-card { background: #0d47a1; color: #fff; border: 1px solid #000; border-radius: 4px; padding: 6px; font-family: 'Roboto'; font-weight: 900; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 10px; transition: 0.2s; }
-        .btn-enviar-card:hover { background: #1565c0; }
-
         #modal-historia .modal-content { background: #e0d5be; width: 100%; max-width: 1000px; height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 8px; border: 4px solid #5c3a21;}
         .docs-toolbar { background: #5c3a21; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; color: #fff;}
         .docs-editor-area { flex: 1; padding: 40px; background: #cfc2a9; overflow-y: auto; display: flex; flex-direction: column; align-items: center;}
@@ -149,11 +167,10 @@
         .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
         .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
         
-        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} 
-        .tab-content.active { display: flex; flex-direction: column;}
+        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} .tab-content.active { display: flex; flex-direction: column;}
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === MODAIS GERAIS E EFEITO 3D === */
+        /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 700px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto;}
         .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
@@ -161,9 +178,10 @@
         .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
 
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; cursor: pointer; display: none; background: rgba(0,0,0,0.2); }
-        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; }
-        #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        /* === DADOS POPUP (EFEITO 3D) === */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; cursor: pointer; display: none; background: rgba(0,0,0,0.5); }
+        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none;}
+        #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
         @keyframes diceSpreadEffect { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } }
         .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
@@ -174,7 +192,6 @@
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
         ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
-        
         @media (max-width: 1100px) { #players-container, #lista-bestiario-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 800px) { .conteudo-wrapper { flex-direction: column; height: auto;} .coluna-log, .coluna-central, .mesa-sidebar { width: 100%; flex: none; } .mesa-layout { flex-direction: column; } #players-container, #lista-bestiario-container { grid-template-columns: 1fr; overflow-y: visible;} .grid-6 { grid-template-columns: repeat(3, 1fr); } }
     </style>
@@ -271,7 +288,6 @@
                             <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
                             <button class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="abrirModalHistoria()">+ NOVO CAPÍTULO</button>
                         </div>
-                        
                         <div id="lista-historias-container">
                             <div class="placeholder-dashed">Crie um novo capítulo para começar a escrever sua história.</div>
                         </div>
@@ -341,7 +357,7 @@
         <div class="docs-editor-area">
             <div class="docs-paper">
                 <input type="text" id="hist-title" class="docs-title-input" placeholder="Título do Capítulo / Lore...">
-                <textarea id="hist-body" class="docs-body-input" placeholder="Escreva aqui a sua história, lore ou anotações da campanha. Ao salvar, você poderá enviá-la aos jogadores!"></textarea>
+                <textarea id="hist-body" class="docs-body-input" placeholder="Escreva aqui a sua história, lore ou anotações da campanha."></textarea>
             </div>
         </div>
     </div>
@@ -351,14 +367,11 @@
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mcl-titulo">Nova Guilda</h3>
-        
         <input type="text" id="mcl-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
-        
         <div id="mcl-img-container" style="display:block; margin-bottom:12px;">
             <label class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">URL DA FOTO/SÍMBOLO GERAL (Opcional)</label>
             <input type="text" id="mcl-img" placeholder="http://..." class="form-input" style="margin-bottom:0;">
         </div>
-        
         <div id="mcl-subitems-container" style="margin-bottom:15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
             <label id="mcl-label-adicionar" class="form-label-modal" style="color:#5c3a21;">ADICIONAR MEMBROS</label>
             <div style="display:flex; gap:10px; margin-top:5px;">
@@ -368,10 +381,8 @@
             <p style="font-size:0.7rem; color:#555; margin-top:10px; font-weight:bold;">Clique em um membro adicionado abaixo para configurar detalhes (Foto, Lore):</p>
             <div id="mcl-subitems-list" style="margin-top:5px; display:flex; flex-wrap:wrap; gap:5px;"></div>
         </div>
-        
         <label id="mcl-label-desc" class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">ANOTAÇÕES GERAIS</label>
         <textarea id="mcl-desc" placeholder="Descrição da Guilda / Local..." class="form-input" style="height:80px; resize:vertical;"></textarea>
-        
         <button class="btn-acao" onclick="salvarCriacaoMundo()">SALVAR</button>
     </div>
 </div>
@@ -379,23 +390,10 @@
 <div id="modal-edicao-temp" class="modal-overlay" style="z-index: 3020;">
     <div class="modal-content" style="max-width: 400px;">
         <span class="fechar-modal" onclick="document.getElementById('modal-edicao-temp').style.display='none'">&times;</span>
-        <h3 class="section-title">DETALHES DO MEMBRO</h3>
-        
-        <div class="form-group-modal">
-            <label class="form-label-modal">Nome</label>
-            <input type="text" id="mets-nome" class="form-input" style="margin-bottom:10px;">
-        </div>
-        
-        <div class="form-group-modal">
-            <label class="form-label-modal">URL da Foto</label>
-            <input type="text" id="mets-img" class="form-input" style="margin-bottom:10px;" placeholder="http://...">
-        </div>
-        
-        <div class="form-group-modal">
-            <label class="form-label-modal">Descrição / Função</label>
-            <textarea id="mets-desc" class="form-input" style="height:80px; resize:vertical; margin-bottom:15px;"></textarea>
-        </div>
-        
+        <h3 class="section-title">DETALHES DO ITEM</h3>
+        <div class="form-group-modal"><label class="form-label-modal">Nome</label><input type="text" id="mets-nome" class="form-input" style="margin-bottom:10px;"></div>
+        <div class="form-group-modal"><label class="form-label-modal">URL da Foto</label><input type="text" id="mets-img" class="form-input" style="margin-bottom:10px;" placeholder="http://..."></div>
+        <div class="form-group-modal"><label class="form-label-modal">Descrição / Função</label><textarea id="mets-desc" class="form-input" style="height:80px; resize:vertical; margin-bottom:15px;"></textarea></div>
         <button class="btn-acao" onclick="salvarEdicaoTempSubitem()">SALVAR DETALHES</button>
     </div>
 </div>
@@ -405,9 +403,7 @@
         <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
         <h3 class="section-title">COMPARTILHAR COM...</h3>
         <p style="font-family:'Roboto'; font-size:0.85rem; color:#5c3a21; margin-bottom:15px;">Escolha quem receberá esta informação na aba de Mundo deles:</p>
-        <div class="form-group-modal">
-            <select id="select-alvo" class="form-input"></select>
-        </div>
+        <div class="form-group-modal"><select id="select-alvo" class="form-input"></select></div>
         <button class="btn-acao" style="width: 100%; margin-top: 15px; background-color: #0d47a1;" onclick="confirmarEnvioAlvo()">📤 CONFIRMAR ENVIO</button>
     </div>
 </div>
@@ -457,6 +453,9 @@
         else if (aba === 'mundo') { document.getElementById('tab-mundo').classList.add('active'); renderizarMundo(); }
     }
 
+    // ==========================================
+    // SISTEMA DE CONEXÃO E JOGADORES
+    // ==========================================
     function conectarSala(uidAutomatica = null) {
         let inputEl = document.getElementById('gm-uid');
         gmUid = uidAutomatica || inputEl.value.trim().toUpperCase();
@@ -468,10 +467,10 @@
         document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
         socket.emit('solicitarEstadoSala', gmUid);
     }
+    
     function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
     function forcarSincronizacao() { if(!gmUid) return alert("Conecte a uma sala primeiro!"); socket.emit('solicitarEstadoSala', gmUid); }
 
-    // === JOGADORES (MESA) E EXPULSÃO ===
     socket.on('estadoSalaCompleto', function(dados) { jogadores = dados; if(abaAtual === 'mesa') renderizarJogadores(); });
     socket.on('atualizarDados', function(data) {
         if(gmUid && data.uid && data.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
@@ -508,7 +507,9 @@
         });
     }
 
-    // === INICIATIVA ===
+    // ==========================================
+    // SISTEMA DE INICIATIVA
+    // ==========================================
     function addIniciativaManual() { addIniciativaInterna(document.getElementById('ini-nome').value.trim(), document.getElementById('ini-val').value, null); }
     function addIniciativaInterna(nome, val, idUnicoFicha = null) {
         if(!nome || isNaN(parseInt(val))) return; let existente;
@@ -529,7 +530,9 @@
         });
     }
 
-    // === BESTIÁRIO ===
+    // ==========================================
+    // SISTEMA DO BESTIÁRIO
+    // ==========================================
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     function abrirModalMonstro() {
         tempAtaques = []; tempHabilidades = [];
@@ -552,7 +555,6 @@
     }
     function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
-    
     function renderizarBestiario() {
         const container = document.getElementById('lista-bestiario-container'); const txtVazio = document.getElementById('bestiario-vazio-texto');
         if (dbBestiario.length === 0) { if(txtVazio) txtVazio.style.display = 'block'; container.innerHTML = ''; if(txtVazio) container.appendChild(txtVazio); return; }
@@ -571,33 +573,25 @@
     }
 
     // ==========================================
-    // SISTEMA MUNDO E LORE (Histórias, Guildas)
+    // SISTEMA MUNDO E LORE (Layout Novo Clicável)
     // ==========================================
     function abrirModalHistoria(id = null) {
-        if (id) {
-            historiaAbertaId = id; let hist = dbHistorias.find(h => h.id === id);
-            document.getElementById('hist-title').value = hist.titulo; document.getElementById('hist-body').value = hist.conteudo;
-        } else {
-            historiaAbertaId = null; document.getElementById('hist-title').value = ''; document.getElementById('hist-body').value = '';
-        }
+        if (id) { historiaAbertaId = id; let hist = dbHistorias.find(h => h.id === id); document.getElementById('hist-title').value = hist.titulo; document.getElementById('hist-body').value = hist.conteudo; } 
+        else { historiaAbertaId = null; document.getElementById('hist-title').value = ''; document.getElementById('hist-body').value = ''; }
         document.getElementById('modal-historia').style.display = 'flex';
     }
 
     function salvarHistoria() {
-        let titulo = document.getElementById('hist-title').value.trim() || "Capítulo sem Título";
-        let conteudo = document.getElementById('hist-body').value;
-        if (historiaAbertaId) { let hist = dbHistorias.find(h => h.id === historiaAbertaId); hist.titulo = titulo; hist.conteudo = conteudo; } 
-        else { dbHistorias.push({ id: Date.now(), titulo: titulo, conteudo: conteudo }); }
+        let titulo = document.getElementById('hist-title').value.trim() || "Capítulo sem Título"; let conteudo = document.getElementById('hist-body').value;
+        if (historiaAbertaId) { let hist = dbHistorias.find(h => h.id === historiaAbertaId); hist.titulo = titulo; hist.conteudo = conteudo; } else { dbHistorias.push({ id: Date.now(), titulo: titulo, conteudo: conteudo }); }
         localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias)); fecharModais(); renderizarMundo();
     }
 
     function abrirModalCriacaoListas(tipo) {
         tipoContexto = tipo; 
         document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); 
-        document.getElementById('mcl-nome').value = ''; document.getElementById('mcl-desc').value = ''; 
-        document.getElementById('mcl-img').value = '';
+        document.getElementById('mcl-nome').value = ''; document.getElementById('mcl-desc').value = ''; document.getElementById('mcl-img').value = '';
         
-        // A Foto agora sempre aparece
         document.getElementById('mcl-img-container').style.display = 'block'; 
         
         if (tipo === 'pessoa') { 
@@ -612,14 +606,7 @@
         document.getElementById('modal-criacao-listas').style.display = 'flex';
     }
     
-    function addTempMundo() { 
-        let nome = document.getElementById('mcl-subitem-nome').value.trim(); 
-        if(nome) { 
-            tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' }); 
-            document.getElementById('mcl-subitem-nome').value = ''; renderizarSubItemsTemp(); 
-        } 
-    }
-    
+    function addTempMundo() { let nome = document.getElementById('mcl-subitem-nome').value.trim(); if(nome) { tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' }); document.getElementById('mcl-subitem-nome').value = ''; renderizarSubItemsTemp(); } }
     function removerTempLista(idx) { tempSubItemsLista.splice(idx, 1); renderizarSubItemsTemp(); }
     
     function renderizarSubItemsTemp() { 
@@ -629,37 +616,26 @@
         }); 
     }
 
-    // ==== NOVO: EDIÇÃO DOS MEMBROS TEMPORÁRIOS ====
     let currentEditTempIndex = -1;
     function abrirEdicaoTempSubitem(idx) {
-        currentEditTempIndex = idx;
-        let sub = tempSubItemsLista[idx];
-        document.getElementById('mets-nome').value = sub.nome;
-        document.getElementById('mets-img').value = sub.img || '';
-        document.getElementById('mets-desc').value = sub.desc || '';
+        currentEditTempIndex = idx; let sub = tempSubItemsLista[idx];
+        document.getElementById('mets-nome').value = sub.nome; document.getElementById('mets-img').value = sub.img || ''; document.getElementById('mets-desc').value = sub.desc || '';
         document.getElementById('modal-edicao-temp').style.display = 'flex';
     }
 
     function salvarEdicaoTempSubitem() {
-        if(currentEditTempIndex === -1) return;
-        let sub = tempSubItemsLista[currentEditTempIndex];
-        sub.nome = document.getElementById('mets-nome').value.trim();
-        sub.img = document.getElementById('mets-img').value.trim();
-        sub.desc = document.getElementById('mets-desc').value.trim();
-        document.getElementById('modal-edicao-temp').style.display = 'none';
-        renderizarSubItemsTemp();
+        if(currentEditTempIndex === -1) return; let sub = tempSubItemsLista[currentEditTempIndex];
+        sub.nome = document.getElementById('mets-nome').value.trim(); sub.img = document.getElementById('mets-img').value.trim(); sub.desc = document.getElementById('mets-desc').value.trim();
+        document.getElementById('modal-edicao-temp').style.display = 'none'; renderizarSubItemsTemp();
     }
     
     function salvarCriacaoMundo() {
-        let nome = document.getElementById('mcl-nome').value.trim();
-        let desc = document.getElementById('mcl-desc').value.trim();
-        let img = document.getElementById('mcl-img').value.trim();
+        let nome = document.getElementById('mcl-nome').value.trim(); let desc = document.getElementById('mcl-desc').value.trim(); let img = document.getElementById('mcl-img').value.trim();
         if(!nome) return alert('Digite o nome!');
         
         if(tipoContexto == 'guilda') { dbGuildas.push({ id: Date.now(), nome: nome, desc: desc, img: img, membros: [...tempSubItemsLista] }); localStorage.setItem('rpgGuildas', JSON.stringify(dbGuildas)); }
         else if(tipoContexto == 'local') { dbLocais.push({ id: Date.now(), nome: nome, desc: desc, img: img, pontos: [...tempSubItemsLista] }); localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); }
         else if(tipoContexto == 'pessoa') { dbPessoas.push({ id: Date.now(), nome: nome, desc: desc, img: img }); localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); }
-        
         fecharModais(); renderizarMundo();
     }
 
@@ -694,13 +670,11 @@
 
     function confirmarEnvioAlvo() {
         if(!itemPendenteEnvio) return;
-        let { tipo, id } = itemPendenteEnvio;
-        let alvoSelecionado = document.getElementById('select-alvo').value;
+        let { tipo, id } = itemPendenteEnvio; let alvoSelecionado = document.getElementById('select-alvo').value;
         let db = tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : dbHistorias));
         let item = db.find(x => x.id === id);
         
         if(!item) return;
-
         socket.emit('gm_send_entity', { uidSala: gmUid, target: alvoSelecionado, entidade: { tipoLista: tipo, dados: item } });
         
         let alvoNome = alvoSelecionado === 'todos' ? 'Todos os Jogadores' : alvoSelecionado;
@@ -708,12 +682,9 @@
         fecharModais();
     }
 
-    // === RENDERIZAR O LORE NAS LATERAIS (ESTILO IMAGEM) ===
     function renderizarMundo() {
         const contHistorias = document.getElementById('lista-historias-container'); 
-        if (dbHistorias.length === 0) {
-            contHistorias.innerHTML = '<div class="placeholder-dashed">Crie um novo capítulo para começar a escrever sua história.</div>';
-        } else {
+        if (dbHistorias.length === 0) { contHistorias.innerHTML = '<div class="placeholder-dashed">Crie um novo capítulo para começar a escrever sua história.</div>'; } else {
             contHistorias.innerHTML = '';
             dbHistorias.forEach(h => {
                 contHistorias.innerHTML += `
@@ -743,9 +714,7 @@
             let img = p.img ? `<img src="${p.img}" style="width:28px;height:28px;border-radius:50%;object-fit:cover; border:1px solid #8b5a2b; margin-right:8px;">` : `<div style="width:28px;height:28px;border-radius:50%;background:#e0d5be;display:flex;align-items:center;justify-content:center;font-size:0.8rem;border:1px solid #8b5a2b;margin-right:8px;">👤</div>`;
             contPessoas.innerHTML += `
                 <div class="mundo-item-btn">
-                    <div style="display:flex; align-items:center;">
-                        ${img} <span class="mundo-item-nome">${p.nome}</span>
-                    </div>
+                    <div style="display:flex; align-items:center;">${img} <span class="mundo-item-nome">${p.nome}</span></div>
                     <div style="display:flex; gap:8px;">
                         <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
                         <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
@@ -772,14 +741,14 @@
     let diceState = 0; let currentRollData = {}; let animacaoGiro = null;
 
     function rolarDadoMonstro(nome, bonus, isIniciativa = false) {
-        if(diceState !== 0) return; diceState = 1; 
+        diceState = 1; clearInterval(animacaoGiro);
         let baseName = nome.replace(/\s*\(\s*iniciativa\s*\)/i, '').trim();
         currentRollData = { nome: nome, bonus: parseInt(bonus)||0, isDano: false, isIniciativa: isIniciativa, entityName: baseName }; 
         iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c');
     }
     
     function rolarDanoGM(nome, expressao, bonusExtra = 0) {
-        if(diceState !== 0) return; diceState = 1; 
+        diceState = 1; clearInterval(animacaoGiro);
         let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } 
         currentRollData = { nome, expressao: expFinal, isDano: true }; 
         iniciarGiroDado(nome, 0, '#8b0000', true);
@@ -793,8 +762,7 @@
         let frames = 0;
         animacaoGiro = setInterval(() => {
             let tempDado = Math.floor(Math.random() * 20) + 1; let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">Sorteando...</small>`;
             if (++frames >= 12) { clearInterval(animacaoGiro); mostrarResultadoFinal(); }
         }, 50);
         
@@ -840,7 +808,7 @@
     }
     
     function closeDiceRoll() { 
-        if(diceState === 0) return; 
+        clearInterval(animacaoGiro);
         const box = document.getElementById('dice-result-container'); const overlay = document.getElementById('dice-overlay-click'); 
         box.classList.add('dice-pop-out'); 
         setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300); 
