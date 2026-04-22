@@ -492,7 +492,6 @@
     socket.emit('criarFicha');
     socket.on('uidGerada', (uid) => {
         meuUID = uid;
-        // Só preenche se o jogador não tiver digitado nada ainda
         if (!document.getElementById('uid-input').value) {
             document.getElementById('uid-input').value = uid;
         }
@@ -541,7 +540,6 @@
         }
     });
 
-    // Quando o Mestre dá F5, ele pede a ficha
     socket.on('mestre_solicitou_sync', function(uidSalaMestre) {
         let minhaSala = document.getElementById('uid-input').value || meuUID;
         if (minhaSala && uidSalaMestre && minhaSala.trim() === uidSalaMestre.trim()) {
@@ -549,7 +547,6 @@
         }
     });
 
-    // Envia a ficha automaticamente ao conectar
     socket.on('connect', () => { setTimeout(sincronizarComMestre, 1500); });
 
     // === CÁLCULOS E EMISSÃO DE DADOS ===
@@ -922,7 +919,9 @@
             let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
             let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
 
-            if (dadoReal === 1) { categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; } 
+            if (dadoReal === 1) { 
+                categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
+            } 
             else if (dadoReal === 20) {
                 categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
                 if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
@@ -931,8 +930,10 @@
                     extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
                 }
             } else {
-                if (totalSoma <= 8) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                else if (totalSoma >= 20) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
             }
 
             resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
