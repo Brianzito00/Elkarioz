@@ -13,13 +13,18 @@
         body {
             font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* === FICHA TRANSLÚCIDA === */
         .ficha-container {
-            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(244, 235, 216, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9);
             width: 100%; max-width: 1200px; border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
         }
@@ -32,7 +37,11 @@
 
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
-        .portrait-slot { width: 140px; height: 180px; border: 6px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative; }
+        .portrait-slot {
+            width: 140px; height: 180px; border: 6px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px;
+            background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative;
+        }
         .portrait-slot:hover { border-color: #b71c1c; outline-color: #ff9100; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
@@ -48,7 +57,8 @@
         .tabs-nav { display: flex; gap: 12px; margin-bottom: 30px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
         .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; }
         .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
-        .tab-content { display: none; } .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
         /* === LAYOUT COLUNAS === */
@@ -88,20 +98,26 @@
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
 
-        /* === INVENTÁRIO CARDS E DIREITA === */
+        /* === INVENTÁRIO CARDS === */
         .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
         .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
         .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
+
+        /* === DIREITA E LISTAS === */
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 10px; padding: 15px; text-align: center; width: 100%; margin-bottom: 25px; }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 3px; }
         .defesa-box input { font-size: 2.5rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
+        
         .list-section { padding: 10px 0; border-top: 1px solid rgba(139, 90, 43, 0.4); width: 100%; margin-bottom: 20px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
+        .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border-left: 5px solid #8b5a2b; border-bottom: 1px solid #ccc; padding: 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: 900; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;}
+        .item-btn:hover { background: #fff; }
 
+        /* === ARMAS EQUIPADAS (SIDEBAR) === */
         .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
@@ -109,21 +125,31 @@
         .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; color: #3e2723; flex: 1; line-height: 1.1; }
         .arma-equipada-botoes { display: flex; gap: 5px; margin-top: 5px; }
         .btn-atq { flex: 1; background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Cinzel'; cursor: pointer; display:flex; justify-content:center; align-items:center; gap:5px; transition:0.2s;}
+        .btn-atq:hover { background: #b71c1c; }
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
+        .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
         .carga-barra-bg { width: 100%; height: 18px; background: #ddd; border: 2px solid #000; border-radius: 10px; margin: 15px 0 0 0; overflow: hidden; }
         .carga-barra-fill { height: 100%; width: 0%; background: #2e7d32; transition: 0.3s; }
         .carga-barra-fill.excedido { background: #b71c1c; }
+        
         .moedas-container { flex: 1 1 30%; min-width: 180px; background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
         .btn-moeda { flex-shrink: 0; background: #ffb300; color: #3e2723; border: 2px solid #5c3a21; width: 35px; height: 35px; border-radius: 6px; font-weight: 900; font-size: 1.4rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;}
+        .btn-moeda:hover { background: #ffca28; }
         .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0;}
 
-        /* === GRUPOS DE MAGIAS === */
+        .btn-subitem { width:100%; display:flex; align-items:center; background:rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b; cursor:pointer; margin-bottom:8px; transition:0.2s; }
+        .btn-subitem:hover { background: rgba(183, 28, 28, 0.15); }
+        .membro-badge { background: rgba(234, 221, 197, 0.9); border: 1px solid #8b5a2b; padding: 4px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .membro-badge span { color: #b71c1c; cursor: pointer; font-size: 1.1rem; line-height: 1; }
+
+        /* === GRUPOS DE MAGIAS E ESCOLAS === */
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge.active { background: rgba(92, 58, 33, 0.9); color: #f4ebd8; border-color: #3e2723; }
         .magia-circulo-section { margin-bottom: 30px; }
@@ -142,20 +168,49 @@
         .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; transition: 0.2s; }
         .btn-salvar:hover { background: #b71c1c; }
         .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
+        .btn-apagar:hover { background: #7f0000; }
+        .btn-disparar { background: rgba(230, 81, 0, 0.9); flex: 1; margin-top: 0; }
+        .btn-disparar:hover { background: #bf360c; }
+        .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
+        .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS === */
+        /* ========================================= */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
+        /* ========================================= */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.2); }
-        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 2000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; }
+        #dice-result-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
+            background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px;
+            z-index: 2000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px;
+        }
+
         #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
-        @keyframes diceSpreadEffect { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } }
+
+        @keyframes diceSpreadEffect {
+            0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); }
+            30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); }
+            100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); }
+        }
+
         .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
         .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
+        
         .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
-        
-        @media (max-width: 900px) { .main-layout { flex-direction: column; } .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } .status-container { flex-direction: column; align-items: center; } .header-rpg-container { flex-direction: column; align-items: center; gap: 15px; } .portrait-slot { width: 120px; height: 140px; } }
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
+
+        @media (max-width: 900px) { 
+            .main-layout { flex-direction: column; } 
+            .sidebar-direita, .sidebar-atributos { width: 100%; flex: none; } 
+            .status-container { flex-direction: column; align-items: center; }
+            .status-module { max-width: 100%; width: 100%; }
+            .header-rpg-container { flex-direction: column; align-items: center; gap: 15px; }
+            .portrait-slot { width: 120px; height: 140px; }
+            .inv-top-bar { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
@@ -224,6 +279,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
                         <div class="bar-wrapper">
@@ -436,7 +492,10 @@
     socket.emit('criarFicha');
     socket.on('uidGerada', (uid) => {
         meuUID = uid;
-        document.getElementById('uid-input').value = uid;
+        // Só preenche se o jogador não tiver digitado nada ainda
+        if (!document.getElementById('uid-input').value) {
+            document.getElementById('uid-input').value = uid;
+        }
     });
 
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
@@ -458,7 +517,7 @@
     let currentParentContext = null, currentSubItemId = null;
     let animacaoGiro = null, diceState = 0, currentRollData = {};
 
-    // === RECEBIMENTO DO MESTRE ===
+    // === RECEBIMENTO DO MESTRE E SINCRONIZAÇÃO ===
     socket.on('gm_send_item', function(payload) {
         if (payload && payload.item) {
             let meuNome = document.getElementById('char-name-input').value.trim();
@@ -482,21 +541,31 @@
         }
     });
 
-    // === SINCRONIZAÇÃO E CÁLCULOS GERAIS ===
+    // Quando o Mestre dá F5, ele pede a ficha
+    socket.on('mestre_solicitou_sync', function(uidSalaMestre) {
+        let minhaSala = document.getElementById('uid-input').value || meuUID;
+        if (minhaSala && uidSalaMestre && minhaSala.trim() === uidSalaMestre.trim()) {
+            sincronizarComMestre();
+        }
+    });
+
+    // Envia a ficha automaticamente ao conectar
+    socket.on('connect', () => { setTimeout(sincronizarComMestre, 1500); });
+
+    // === CÁLCULOS E EMISSÃO DE DADOS ===
     function sincronizarComMestre() {
         let pImg = document.getElementById('portrait-img');
-        
+        let defInput = document.getElementById('defesa-personagem');
         let dadosParaMestre = {
-            idUnico: idUnicoFicha, // O RG da ficha
+            idUnico: idUnicoFicha,
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'),
             mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'),
             nivel: document.getElementById('nivel').value,
-            defesa: document.getElementById('defesa-personagem').value,
+            defesa: defInput ? defInput.value : 10,
             img: pImg.style.display !== 'none' ? pImg.src : ""
         };
-        
         let uidAtual = document.getElementById('uid-input').value || meuUID;
         socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
     }
