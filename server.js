@@ -19,11 +19,10 @@ io.on('connection', (socket) => {
     socket.on('atualizarDados', (payload) => {
         const uidSala = payload.uid ? payload.uid.trim().toUpperCase() : null;
         const dadosJogador = payload.dados;
-
         if (uidSala && dadosJogador && dadosJogador.idUnico) {
             if (!estadoSalas[uidSala]) estadoSalas[uidSala] = {};
             estadoSalas[uidSala][dadosJogador.idUnico] = dadosJogador;
-            payload.uid = uidSala;
+            payload.uid = uidSala; 
         }
         io.emit('atualizarDados', payload);
     });
@@ -31,22 +30,21 @@ io.on('connection', (socket) => {
     socket.on('solicitarEstadoSala', (uidSala) => {
         if(!uidSala) return;
         const uidUpper = uidSala.trim().toUpperCase();
-        
-        if (estadoSalas[uidUpper]) {
-            socket.emit('estadoSalaCompleto', estadoSalas[uidUpper]);
-        }
+        if (estadoSalas[uidUpper]) socket.emit('estadoSalaCompleto', estadoSalas[uidUpper]);
         io.emit('mestre_solicitou_sync', uidUpper);
     });
 
-    // === NOVO: COMANDO DE EXPULSÃO ===
     socket.on('kick_player', (payload) => {
         const uidUpper = payload.uidSala ? payload.uidSala.trim().toUpperCase() : null;
-        // Remove da memória do servidor para não voltar no F5 do mestre
         if (uidUpper && estadoSalas[uidUpper] && estadoSalas[uidUpper][payload.idUnico]) {
             delete estadoSalas[uidUpper][payload.idUnico];
         }
-        // Avisa a ficha específica para se desconectar
         io.emit('player_kicked', payload);
+    });
+
+    // === NOVO: PONTE PARA O MESTRE ENVIAR HISTÓRIAS E NPCS ===
+    socket.on('gm_send_entity', (payload) => {
+        io.emit('gm_send_entity', payload);
     });
 
     socket.on('player_dice_roll', (logData) => { 
@@ -54,12 +52,8 @@ io.on('connection', (socket) => {
         io.emit('player_dice_roll', logData); 
     });
 
-    socket.on('disconnect', () => {
-        console.log('Usuário desconectou:', socket.id);
-    });
+    socket.on('disconnect', () => { console.log('Usuário desconectou:', socket.id); });
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}!`);
-});
+http.listen(PORT, () => { console.log(`Servidor rodando na porta ${PORT}!`); });
