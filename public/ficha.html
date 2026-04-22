@@ -98,26 +98,23 @@
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
 
-        /* === INVENTÁRIO CARDS === */
+        /* === INVENTÁRIO CARDS E DIREITA === */
         .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
         .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
         .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
-
-        /* === DIREITA E LISTAS === */
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 10px; padding: 15px; text-align: center; width: 100%; margin-bottom: 25px; }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 3px; }
         .defesa-box input { font-size: 2.5rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
-        
         .list-section { padding: 10px 0; border-top: 1px solid rgba(139, 90, 43, 0.4); width: 100%; margin-bottom: 20px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Lora', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border-left: 5px solid #8b5a2b; border-bottom: 1px solid #ccc; padding: 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: 900; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;}
         .item-btn:hover { background: #fff; }
 
-        /* === ARMAS EQUIPADAS (SIDEBAR) === */
+        /* === ARMAS EQUIPADAS === */
         .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
@@ -136,7 +133,6 @@
         .carga-barra-bg { width: 100%; height: 18px; background: #ddd; border: 2px solid #000; border-radius: 10px; margin: 15px 0 0 0; overflow: hidden; }
         .carga-barra-fill { height: 100%; width: 0%; background: #2e7d32; transition: 0.3s; }
         .carga-barra-fill.excedido { background: #b71c1c; }
-        
         .moedas-container { flex: 1 1 30%; min-width: 180px; background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
@@ -144,12 +140,11 @@
         .btn-moeda:hover { background: #ffca28; }
         .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0;}
 
+        /* === GRUPOS E BADGES === */
         .btn-subitem { width:100%; display:flex; align-items:center; background:rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b; cursor:pointer; margin-bottom:8px; transition:0.2s; }
         .btn-subitem:hover { background: rgba(183, 28, 28, 0.15); }
         .membro-badge { background: rgba(234, 221, 197, 0.9); border: 1px solid #8b5a2b; padding: 4px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         .membro-badge span { color: #b71c1c; cursor: pointer; font-size: 1.1rem; line-height: 1; }
-
-        /* === GRUPOS DE MAGIAS E ESCOLAS === */
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge.active { background: rgba(92, 58, 33, 0.9); color: #f4ebd8; border-color: #3e2723; }
         .magia-circulo-section { margin-bottom: 30px; }
@@ -174,9 +169,7 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* ========================================= */
         /* === SISTEMA DE DADOS - POP UP ANIMADO === */
-        /* ========================================= */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.2); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -196,7 +189,6 @@
 
         .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
         .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
-        
         .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
@@ -232,15 +224,15 @@
                 <div class="campo-rpg campo-uid" style="flex: 1;"><input type="text" id="uid-input" placeholder="Digite a Sala..." oninput="sincronizarComMestre()"><label>Sala / UID</label></div>
             </div>
             <div class="header-row">
-                <div class="campo-rpg"><input type="text"><label>Raça</label></div>
-                <div class="campo-rpg"><input type="text"><label>Classe / Origem</label></div>
+                <div class="campo-rpg"><input type="text" id="raca-input" oninput="sincronizarComMestre()"><label>Raça</label></div>
+                <div class="campo-rpg"><input type="text" id="classe-input" oninput="sincronizarComMestre()"><label>Classe / Origem</label></div>
                 <div class="campo-rpg" style="max-width: 80px;">
                     <select id="nivel" onchange="recalcularTudo()">
                         <script>for(let i=1; i<=20; i++) document.write(`<option value="${i}">${i}</option>`);</script>
                     </select>
                     <label>Nível</label>
                 </div>
-                <div class="campo-rpg"><input type="text"><label>Divindade</label></div>
+                <div class="campo-rpg"><input type="text" id="divindade-input" oninput="sincronizarComMestre()"><label>Divindade</label></div>
             </div>
         </div>
     </div>
@@ -483,8 +475,12 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    // O "RG INVISÍVEL" DA FICHA PARA O MESTRE NÃO DUPLICAR CARDS NO SOCKET
-    const idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    // === SISTEMA DE SALVAMENTO LOCAL (Evita perder dados no F5) ===
+    let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
+    if (!idUnicoFicha) {
+        idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        localStorage.setItem('rpg_id_ficha', idUnicoFicha);
+    }
 
     const socket = io();
     let meuUID = "";
@@ -494,6 +490,7 @@
         meuUID = uid;
         if (!document.getElementById('uid-input').value) {
             document.getElementById('uid-input').value = uid;
+            sincronizarComMestre();
         }
     });
 
@@ -515,6 +512,83 @@
     let tempImgBase64 = "", tempSubImgBase64 = "", tempSubItemsLista = []; 
     let currentParentContext = null, currentSubItemId = null;
     let animacaoGiro = null, diceState = 0, currentRollData = {};
+
+    // === CARREGAR FICHA SALVA ===
+    function carregarFichaLocal() {
+        let salvo = localStorage.getItem('rpgFichaLocal');
+        if(salvo) {
+            try {
+                let j = JSON.parse(salvo);
+                document.getElementById('char-name-input').value = j.charName || '';
+                document.getElementById('player-name-input').value = j.playerName || '';
+                document.getElementById('uid-input').value = j.uidSala || '';
+                document.getElementById('raca-input').value = j.raca || '';
+                document.getElementById('classe-input').value = j.classe || '';
+                document.getElementById('divindade-input').value = j.divindade || '';
+                document.getElementById('nivel').value = j.nivel || 1;
+                
+                if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
+                
+                document.getElementById('forca').value = j.forca || 0;
+                document.getElementById('agilidade').value = j.agilidade || 0;
+                document.getElementById('vigor').value = j.vigor || 0;
+                document.getElementById('intelecto').value = j.intelecto || 0;
+                document.getElementById('sabedoria').value = j.sabedoria || 0;
+                document.getElementById('carisma').value = j.carisma || 0;
+                
+                document.getElementById('vida-atual').value = j.hpAtual || 10;
+                document.getElementById('vida-max').value = j.hpMax || 10;
+                document.getElementById('mana-atual').value = j.mpAtual || 10;
+                document.getElementById('mana-max').value = j.mpMax || 10;
+                document.getElementById('moedas-atual').value = j.moedas || 0;
+
+                if (j.img && j.img.trim() !== "") {
+                    document.getElementById('portrait-img').src = j.img;
+                    document.getElementById('portrait-img').style.display = 'block';
+                    document.getElementById('portrait-placeholder').style.display = 'none';
+                }
+
+                if (j.dbPericias) dbPericias = j.dbPericias;
+                if (j.dbInventario) dbInventario = j.dbInventario;
+                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias;
+                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
+                if (j.dbGuildas) dbGuildas = j.dbGuildas;
+                if (j.dbPessoas) dbPessoas = j.dbPessoas;
+                if (j.dbLocais) dbLocais = j.dbLocais;
+                if (j.dbMagias) dbMagias = j.dbMagias;
+            } catch (e) {
+                console.error("Erro ao carregar a ficha salva: ", e);
+            }
+        }
+    }
+
+    // === SALVAR FICHA LOCAL ===
+    function salvarFichaLocal() {
+        let pImg = document.getElementById('portrait-img');
+        let dadosParaSalvar = {
+            charName: document.getElementById('char-name-input').value,
+            playerName: document.getElementById('player-name-input').value,
+            uidSala: document.getElementById('uid-input').value,
+            raca: document.getElementById('raca-input').value,
+            classe: document.getElementById('classe-input').value,
+            divindade: document.getElementById('divindade-input').value,
+            nivel: document.getElementById('nivel').value,
+            defesa: document.getElementById('defesa-personagem') ? document.getElementById('defesa-personagem').value : 10,
+            forca: getValor('forca'),
+            agilidade: getValor('agilidade'),
+            vigor: getValor('vigor'),
+            intelecto: getValor('intelecto'),
+            sabedoria: getValor('sabedoria'),
+            carisma: getValor('carisma'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'),
+            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'),
+            moedas: getValor('moedas-atual'),
+            img: pImg.style.display !== 'none' ? pImg.src : "",
+            dbPericias, dbInventario, dbProficiencias, dbHabilidades, dbGuildas, dbPessoas, dbLocais, dbMagias
+        };
+        localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
+    }
+
 
     // === RECEBIMENTO DO MESTRE E SINCRONIZAÇÃO ===
     socket.on('gm_send_item', function(payload) {
@@ -565,6 +639,9 @@
         };
         let uidAtual = document.getElementById('uid-input').value || meuUID;
         socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
+        
+        // Salva localmente sempre que enviar para o mestre
+        salvarFichaLocal();
     }
 
     function recalcularTudo() {
@@ -586,8 +663,9 @@
         let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : nivel < 17 ? 5 : 6;
         
         listaPericiasBase.forEach(p => { 
+            if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.n]; 
-            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + d.bonus; 
+            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
         });
         renderizarPericias();
         sincronizarComMestre();
@@ -711,6 +789,7 @@
         document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `<button class="item-btn" onclick="abrirVisualizacao('pessoa', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-locais').innerHTML = dbLocais.map(l => `<button class="item-btn" onclick="abrirVisualizacao('local', ${l.id})">${l.nome}</button>`).join('');
         renderizarMagias();
+        salvarFichaLocal();
     }
 
     // === MODAIS E INTERAÇÕES ===
@@ -875,7 +954,7 @@
         renderizarListas(); fecharModais(); 
     }
 
-    // === SISTEMA DE DADOS UNIFICADO (COM CATEGORIAS E DANO) ===
+    // === SISTEMA DE DADOS UNIFICADO ===
     function rolarDado(nome, bonus) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; iniciarGiroDado(nome, bonus, '#b71c1c'); }
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); }
     function rolarDano(nome, expressao, bonusExtra = 0) { if(diceState !== 0) return; diceState = 1; let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true); }
@@ -965,8 +1044,13 @@
         setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300);
     }
 
-    // Inicializa a ficha na inicialização da página
-    window.onload = () => { popularSelectPericias(); recalcularTudo(); atualizarBarras(); };
+    // Inicialização da Ficha: Primeiro carrega do LocalStorage, depois calcula tudo
+    window.onload = () => { 
+        carregarFichaLocal();
+        popularSelectPericias(); 
+        recalcularTudo(); 
+        atualizarBarras(); 
+    };
 </script>
 
 </body>
