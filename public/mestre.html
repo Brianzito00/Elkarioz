@@ -98,32 +98,13 @@
             font-size: 1rem;
         }
 
-        .tab-btn:hover { 
-            background-color: #fff; 
-        }
-
-        .tab-btn.active { 
-            background: #b71c1c; 
-            color: #fff; 
-            border-bottom: 3px solid #b71c1c; 
-        }
-
-        .tab-content { 
-            display: none; 
-            animation: fadeIn 0.3s ease; 
-            height: 100%;
-        } 
-
-        .tab-content.active { 
-            display: flex; 
-            flex-direction: column;
-        }
-
-        @keyframes fadeIn { 
-            from { opacity: 0; } 
-            to { opacity: 1; } 
-        }
+        .tab-btn:hover { background-color: #fff; }
+        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
         
+        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} 
+        .tab-content.active { display: flex; flex-direction: column;}
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         /* === COLUNAS GERAIS === */
         .conteudo-wrapper { 
             display: flex; 
@@ -172,565 +153,97 @@
             flex-direction: column;
         }
 
-        .form-row { 
-            display: flex; 
-            gap: 15px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-            margin-bottom: 15px;
-        }
-
-        .form-input { 
-            padding: 12px; 
-            border: 2px solid #5c3a21; 
-            border-radius: 4px; 
-            background-color: rgba(255,255,255,0.9); 
-            font-family: 'Lora', serif; 
-            font-weight: bold; 
-            font-size: 1rem; 
-            color: #3e2723; 
-            text-align: center; 
-            width: 100%;
-        }
-
+        .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;}
+        .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;}
+        
         .btn-acao { 
-            background-color: #5c3a21; 
-            color: #fff; 
-            border: none; 
-            border-radius: 4px; 
-            padding: 12px 20px; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 5px; 
-            flex-shrink: 0; 
-            width: 100%;
+            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
+            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
+            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; 
+            justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%;
         }
-
-        .btn-acao:hover { 
-            background-color: #b71c1c; 
-        }
+        .btn-acao:hover { background-color: #b71c1c; }
 
         .btn-dashed { 
-            width: 100%; 
-            background: transparent; 
-            border: 2px dashed #8b5a2b; 
-            color: #5c3a21; 
-            padding: 10px; 
-            font-family: 'Cinzel', serif; 
-            font-weight: bold; 
-            font-size: 0.85rem; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            text-transform: uppercase; 
-            border-radius: 4px; 
-            margin-bottom: 10px; 
+            width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; 
+            padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; 
+            cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; 
         }
-
-        .btn-dashed:hover { 
-            background: rgba(139, 90, 43, 0.1); 
-        }
-
+        .btn-dashed:hover { background: rgba(139, 90, 43, 0.1); }
         .placeholder-dashed { 
-            border: 2px dashed rgba(139, 90, 43, 0.4); 
-            padding: 30px; 
-            text-align: center; 
-            font-weight: bold; 
-            color: #8b5a2b; 
-            font-size: 0.95rem; 
-            background: rgba(255,255,255,0.2); 
-            border-radius: 6px; 
+            border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; 
+            font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; 
         }
 
         /* =========================================
            LAYOUTS ESPECÍFICOS DAS ABAS
         ========================================= */
-        
-        .mesa-layout { 
-            display: flex; 
-            gap: 20px; 
-            height: 100%; 
-            align-items: stretch; 
-        }
-
-        .mesa-sidebar { 
-            flex: 0 0 280px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-        }
-
-        .mesa-jogadores { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-        }
+        .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
+        .mesa-sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
+        .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         /* === GRIDS === */
-        #players-container { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            grid-auto-rows: min-content; 
-            gap: 15px; 
-            flex: 1; 
-            overflow-y: auto; 
-            padding-right: 5px; 
-            align-content: start; 
-        }
-
-        #lista-bestiario-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 15px; 
-            overflow-y: auto; 
-            flex: 1; 
-            padding-right: 5px; 
-            align-content: start;
-        }
-
-        #lista-historias-container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            overflow-y: auto; 
-            flex: 1; 
-            padding-right: 5px; 
-            align-content: start;
-        }
+        #players-container { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
            CARDS DOS JOGADORES E MONSTROS
         ========================================= */
-        .player-card, .monstro-card { 
-            background: rgba(255,255,255,0.6); 
-            border: 2px solid #8b5a2b; 
-            border-radius: 8px; 
-            padding: 12px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-            transition: 0.2s; 
-            position: relative; 
-        }
-
-        .player-card:hover, .monstro-card:hover { 
-            border-color: #b71c1c; 
-            box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); 
-        }
-
-        .btn-kick { 
-            position: absolute; 
-            top: 5px; 
-            right: 8px; 
-            background: transparent; 
-            border: none; 
-            color: #b71c1c; 
-            font-size: 1.4rem; 
-            cursor: pointer; 
-            line-height: 1; 
-            font-weight: bold; 
-            transition: 0.2s; 
-            z-index: 10;
-        }
-
-        .btn-kick:hover { 
-            transform: scale(1.3); 
-            color: #7f0000; 
-        }
+        .player-card, .monstro-card { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; position: relative; }
+        .player-card:hover, .monstro-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
+        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
+        .btn-kick:hover { transform: scale(1.3); color: #7f0000; }
         
-        .player-header { 
-            display: flex; 
-            gap: 10px; 
-            align-items: center; 
-            padding-right: 15px;
-        }
-
-        .player-img { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 2px solid #3e2723; 
-            flex-shrink: 0; 
-            background:rgba(234, 221, 197, 0.9); 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            font-size:1.2rem;
-        }
-
-        .player-name { 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            font-size: 1rem; 
-            color: #b71c1c; 
-            line-height: 1.1; 
-            margin-bottom: 2px; 
-        }
-
-        .player-realname { 
-            font-family: 'Roboto', sans-serif; 
-            font-size: 0.7rem; 
-            color: #5c3a21; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-        }
-
-        .stat-badge { 
-            padding: 2px 6px; 
-            border-radius: 6px; 
-            color: #fff; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            font-size: 0.9rem; 
-            border: 2px solid #2d1c11; 
-            text-shadow: 1px 1px 1px #000; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .player-gm-notes { 
-            width: 100%; 
-            border: 1px dashed #8b5a2b; 
-            background: rgba(255,255,255,0.7); 
-            padding: 8px; 
-            border-radius: 4px; 
-            font-family: 'Lora'; 
-            font-size: 0.8rem; 
-            color: #3e2723; 
-            resize: vertical; 
-            height: 50px; 
-            font-weight: bold;
-        }
-
-        .player-gm-notes:focus { 
-            outline: none; 
-            border-color: #b71c1c; 
-            background: #fff;
-        }
-
-        /* === BARRAS DE VIDA === */
-        .barras-container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 4px; 
-            width: 100%; 
-        }
-
-        .bar-bg { 
-            width: 100%; 
-            height: 16px; 
-            background: rgba(0,0,0,0.15); 
-            border: 2px solid #3e2723; 
-            border-radius: 10px; 
-            position: relative; 
-            overflow: hidden; 
-        }
-
-        .bar-fill { 
-            height: 100%; 
-            transition: width 0.4s; 
-        }
-
-        .fill-hp { 
-            background-color: #b71c1c; 
-            background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); 
-        }
-
-        .fill-mp { 
-            background-color: #0d47a1; 
-            background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); 
-        }
-
-        .bar-text { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-family: 'Roboto'; 
-            font-size: 0.65rem; 
-            font-weight: 900; 
-            color: #fff; 
-            text-shadow: 1px 1px 2px #000; 
-        }
+        .player-header { display: flex; gap: 10px; align-items: center; padding-right: 15px;}
+        .player-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.2rem;}
+        .player-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; color: #b71c1c; line-height: 1.1; margin-bottom: 2px; }
+        .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #5c3a21; font-weight: 900; text-transform: uppercase; }
+        .stat-badge { padding: 2px 6px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 4px; font-family: 'Lora'; font-size: 0.8rem; color: #3e2723; resize: vertical; height: 50px; font-weight: bold;}
+        .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
+        .barras-container { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+        .bar-bg { width: 100%; height: 16px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; transition: width 0.4s; }
+        .fill-hp { background-color: #b71c1c; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.65rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
         
         /* =========================================
            BESTIÁRIO ESPECÍFICOS
         ========================================= */
-        .monstro-edit-hp { 
-            background: transparent; 
-            border: none; 
-            border-bottom: 1px solid rgba(255,255,255,0.6); 
-            color: #fff; 
-            font-family: 'Roboto', sans-serif; 
-            font-weight: 900; 
-            font-size: 0.75rem; 
-            width: 35px; 
-            text-align: center; 
-            outline: none; 
-            padding: 0; 
-            text-shadow: 1px 1px 2px #000; 
-            margin: 0 4px; 
-            transition: 0.2s;
-        }
-
-        .monstro-edit-hp:focus { 
-            background: rgba(255,255,255,0.2); 
-            border-color: #fff; 
-        }
-
-        .monstro-edit-def { 
-            background: transparent; 
-            border: none; 
-            color: #fff; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            font-size: 0.9rem; 
-            width: 25px; 
-            text-align: center; 
-            outline: none; 
-            padding: 0; 
-            text-shadow: 1px 1px 1px #000; 
-            transition: 0.2s;
-        }
-
-        .monstro-edit-def:focus { 
-            background: rgba(0,0,0,0.3); 
-            border-radius: 4px; 
-        }
-
-        .monstro-stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 4px; 
-            margin-bottom: 8px; 
-            text-align: center; 
-        }
-
-        .monstro-stat-box { 
-            background: rgba(255, 255, 255, 0.6); 
-            border: 1px solid #8b5a2b; 
-            border-radius: 4px; 
-            padding: 2px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
-
-        .monstro-stat-box:hover { 
-            background: #eaddc4; 
-            border-color: #b71c1c; 
-            transform: scale(1.05); 
-        }
-
-        .monstro-stat-label { 
-            font-family: 'Cinzel'; 
-            font-size: 0.6rem; 
-            font-weight: 900; 
-            color: #3e2723; 
-            display: block; 
-        }
-
-        .monstro-stat-val { 
-            font-family: 'Roboto'; 
-            font-size: 0.9rem; 
-            font-weight: bold; 
-            color: #b71c1c; 
-        }
-
-        .monstro-skill-btn { 
-            background: rgba(255,255,255,0.7); 
-            border: 1px solid #8b5a2b; 
-            border-radius: 4px; 
-            padding: 4px; 
-            font-family: 'Cinzel', serif; 
-            font-size: 0.7rem; 
-            font-weight: 900; 
-            color: #3e2723; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 3px; 
-            transition: 0.2s; 
-        }
-
-        .monstro-skill-btn:hover { 
-            background: #eaddc4; 
-            color: #b71c1c; 
-            border-color: #b71c1c; 
-            transform: scale(1.02); 
-        }
-
-        .monstro-secao { 
-            border-top: 1px dashed rgba(139, 90, 43, 0.5); 
-            padding-top: 6px; 
-            margin-top: 4px; 
-        }
-
-        .monstro-secao-titulo { 
-            font-family: 'Cinzel'; 
-            font-size: 0.75rem; 
-            font-weight: 900; 
-            color: #5c3a21; 
-            margin-bottom: 5px; 
-            display: block; 
-            text-transform: uppercase;
-        }
-
-        .btn-atq-monstro { 
-            background: rgba(183, 28, 28, 0.9); 
-            color: #fff; 
-            border: 1px solid #3e2723; 
-            border-radius: 4px; 
-            padding: 4px 8px; 
-            font-weight: bold; 
-            font-size: 0.7rem; 
-            font-family: 'Roboto'; 
-            cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 4px; 
-            transition: 0.2s; 
-            margin-right: 4px; 
-            margin-bottom: 4px; 
-        }
-
-        .btn-atq-monstro:hover { 
-            background: #b71c1c; 
-            transform: scale(1.05); 
-        }
-
-        .monstro-hab-item { 
-            font-family: 'Lora'; 
-            font-size: 0.75rem; 
-            color: #3e2723; 
-            background: rgba(255,255,255,0.6); 
-            padding: 5px; 
-            border-radius: 4px; 
-            margin-bottom: 4px; 
-            border-left: 3px solid #8b5a2b; 
-        }
+        .monstro-edit-hp { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.6); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; width: 35px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 2px #000; margin: 0 4px; transition: 0.2s;}
+        .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
+        .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
+        .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+        .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
+        .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
+        .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
+        .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.6rem; font-weight: 900; color: #3e2723; display: block; }
+        .monstro-stat-val { font-family: 'Roboto'; font-size: 0.9rem; font-weight: bold; color: #b71c1c; }
+        .monstro-skill-btn { background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; transition: 0.2s; }
+        .monstro-skill-btn:hover { background: #eaddc4; color: #b71c1c; border-color: #b71c1c; transform: scale(1.02); }
+        .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 6px; margin-top: 4px; }
+        .monstro-secao-titulo { font-family: 'Cinzel'; font-size: 0.75rem; font-weight: 900; color: #5c3a21; margin-bottom: 5px; display: block; text-transform: uppercase;}
+        .btn-atq-monstro { background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px 8px; font-weight: bold; font-size: 0.7rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: 0.2s; margin-right: 4px; margin-bottom: 4px; }
+        .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
+        .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; }
 
         /* =========================================
            INICIATIVA E COMBATE
         ========================================= */
-        #lista-iniciativa { 
-            overflow-y: auto; 
-            flex: 1; 
-            padding: 10px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px;
-        }
-
-        .ini-row { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: rgba(255,255,255,0.8); 
-            border: 2px solid #8b5a2b; 
-            padding: 12px 20px; 
-            border-radius: 8px; 
-            transition: 0.3s; 
-            position: relative; 
-            overflow: hidden; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-        }
-
-        .ini-row:hover { 
-            background: #fff; 
-            transform: translateX(5px); 
-        }
-
-        .ini-row.ativo { 
-            border-color: #b71c1c; 
-            background: rgba(183, 28, 28, 0.05); 
-            transform: scale(1.02) translateX(10px); 
-            box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); 
-            border-width: 3px; 
-            animation: pulseIni 2s infinite; 
-        }
-
-        @keyframes pulseIni { 
-            0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 
-            70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 
-            100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } 
-        }
-
-        .ini-row.ativo::before { 
-            content: ''; 
-            position: absolute; 
-            left: 0; 
-            top: 0; 
-            height: 100%; 
-            width: 8px; 
-            background: #b71c1c; 
-        }
-
-        .ini-name { 
-            font-family: 'Cinzel'; 
-            font-weight: bold; 
-            font-size: 1.4rem; 
-            color: #3e2723; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            z-index: 2;
-        }
-
-        .ini-name .turn-marker { 
-            font-size: 1.2rem; 
-            opacity: 0; 
-            transition: 0.3s; 
-            color: #b71c1c; 
-        }
-
-        .ini-row.ativo .ini-name .turn-marker { 
-            opacity: 1; 
-        }
-
-        .ini-val { 
-            font-family: 'Roboto'; 
-            font-weight: 900; 
-            font-size: 1.5rem; 
-            color: #fff; 
-            background: #5c3a21; 
-            padding: 6px 16px; 
-            border-radius: 6px; 
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); 
-            border: 2px solid #3e2723; 
-            z-index: 2; 
-        }
-
-        .ini-row.ativo .ini-val { 
-            background: #b71c1c; 
-            border-color: #7f0000; 
-        }
-
-        .btn-kick-ini { 
-            background: transparent; 
-            border: none; 
-            color: #b71c1c; 
-            font-size: 1.8rem; 
-            cursor: pointer; 
-            line-height: 1; 
-            font-weight: bold; 
-            transition: 0.2s; 
-            padding: 0; 
-            opacity: 0.5; 
-            z-index: 2; 
-            margin-left: 10px; 
-        }
-
+        #lista-iniciativa { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
+        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; padding: 12px 20px; border-radius: 8px; transition: 0.3s; position: relative; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .ini-row:hover { background: #fff; transform: translateX(5px); }
+        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); transform: scale(1.02) translateX(10px); box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); border-width: 3px; animation: pulseIni 2s infinite; }
+        @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
+        .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; }
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.4rem; color: #3e2723; display: flex; align-items: center; gap: 10px; z-index: 2;}
+        .ini-name .turn-marker { font-size: 1.2rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
+        .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; background: #5c3a21; padding: 6px 16px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
+        .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
+        .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
 
@@ -738,419 +251,85 @@
            MUNDO, HISTÓRIAS E LORE (BOTÕES)
         ========================================= */
         .mundo-item-rpg {
-            background-color: #eaddc4; 
-            border: 1px solid #c8b99e; 
-            border-left: 6px solid #8b5a2b;
-            padding: 8px 15px; 
-            cursor: pointer; 
-            width: 100%; 
-            display: flex; 
-            justify-content: space-between;
-            align-items: center; 
-            transition: 0.2s; 
-            margin-bottom: 8px; 
-            border-radius: 2px;
+            background-color: #eaddc4; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b;
+            padding: 8px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.2s; margin-bottom: 8px; border-radius: 2px;
         }
-
-        .mundo-item-rpg:hover { 
-            background-color: #f4ebd8; 
-            border-color: #8b5a2b; 
-            transform: translateX(3px); 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        }
-
-        .mundo-item-nome { 
-            font-weight: 900; 
-            font-size: 1.05rem; 
-            font-family: 'Lora', serif; 
-            color: #170f0a; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px;
-        }
+        .mundo-item-rpg:hover { background-color: #f4ebd8; border-color: #8b5a2b; transform: translateX(3px); box-shadow: 0 2px 5px rgba(0,0,0,0.15);}
+        .mundo-item-nome { font-weight: 900; font-size: 1.05rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 10px;}
         
         .mini-img-moldura {
-            width: 30px; 
-            height: 30px; 
-            border: 1px solid #8b5a2b; 
-            object-fit: cover; 
-            background: #fff; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 0.9rem; 
-            border-radius: 2px;
-            flex-shrink: 0;
+            width: 30px; height: 30px; border: 1px solid #8b5a2b; object-fit: cover; background: #fff; 
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border-radius: 2px; flex-shrink: 0;
         }
-
+        
         .btn-enviar-card { 
-            background: #0d47a1; 
-            color: #fff; 
-            border: 1px solid #000; 
-            border-radius: 4px; 
-            padding: 4px 8px; 
-            font-family: 'Roboto'; 
-            font-weight: 900; 
-            font-size: 0.75rem; 
-            cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 5px; 
-            transition: 0.2s; 
-            margin: 0;
+            background: #0d47a1; color: #fff; border: 1px solid #000; border-radius: 4px; padding: 4px 8px; 
+            font-family: 'Roboto'; font-weight: 900; font-size: 0.75rem; cursor: pointer; display: inline-flex; 
+            align-items: center; justify-content: center; gap: 5px; transition: 0.2s; margin: 0;
         }
-
-        .btn-enviar-card:hover { 
-            background: #1565c0; 
-        }
-
-        .btn-kick-mundo { 
-            background: transparent; 
-            border: 1px solid #b71c1c; 
-            color: #b71c1c; 
-            font-size: 0.8rem; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border-radius: 4px; 
-            padding: 4px 8px; 
-            transition: 0.2s; 
-        }
-
-        .btn-kick-mundo:hover { 
-            background: #b71c1c; 
-            color: #fff; 
-        }
+        .btn-enviar-card:hover { background: #1565c0; }
+        .btn-kick-mundo { background: transparent; border: 1px solid #b71c1c; color: #b71c1c; font-size: 0.8rem; font-weight: bold; cursor: pointer; border-radius: 4px; padding: 4px 8px; transition: 0.2s; }
+        .btn-kick-mundo:hover { background: #b71c1c; color: #fff; }
 
         /* === EDITOR DE HISTÓRIA (ESTILO PERGAMINHO) === */
-        #lista-capitulos { 
-            display: flex; 
-            gap: 10px; 
-            overflow-x: auto; 
-            padding-bottom: 10px; 
-            margin-bottom: 10px; 
-        }
-
+        #lista-capitulos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
         #lista-capitulos::-webkit-scrollbar { height: 6px; }
         
         .capitulo-btn {
-            background: rgba(234, 221, 197, 0.9); 
-            border: 2px solid #8b5a2b; 
-            color: #5c3a21; 
-            padding: 8px 15px;
-            font-family: 'Cinzel', serif; 
-            font-weight: bold; 
-            font-size: 0.9rem; 
-            cursor: pointer; 
-            border-radius: 4px;
-            white-space: nowrap; 
-            transition: 0.2s; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-            flex-shrink: 0;
+            background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px;
+            font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; border-radius: 4px;
+            white-space: nowrap; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
         }
-
         .capitulo-btn:hover { background: #fff; }
         .capitulo-btn.active { background: #5c3a21; color: #fff; border-color: #3e2723;}
         
-        .story-paper {
-            background-color: #f4ebd8; 
-            border: 2px solid #8b5a2b; 
-            padding: 30px;
-            display: flex; 
-            flex-direction: column; 
-            flex: 1; 
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05); 
-            border-radius: 4px;
-        }
-
-        .story-header-inline { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 10px; 
-            width: 100%; 
-            gap: 15px; 
-        }
-
-        .story-title-input {
-            font-family: 'Cinzel', serif; 
-            font-size: 1.8rem; 
-            font-weight: 900; 
-            color: #5c3a21;
-            background: transparent; 
-            border: none; 
-            outline: none; 
-            flex: 1; 
-            text-transform: uppercase;
-        }
-
+        .story-paper { background-color: #f4ebd8; border: 2px solid #8b5a2b; padding: 30px; display: flex; flex-direction: column; flex: 1; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); border-radius: 4px;}
+        .story-header-inline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%; gap: 15px; }
+        .story-title-input { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900; color: #5c3a21; background: transparent; border: none; outline: none; flex: 1; text-transform: uppercase;}
         .story-title-input::placeholder { color: rgba(92, 58, 33, 0.4); }
-        
-        .story-divider { 
-            border-bottom: 2px dashed rgba(139, 90, 43, 0.4); 
-            margin-bottom: 20px; 
-            width: 100%; 
-        }
-        
-        .story-body-input {
-            font-family: 'Lora', serif; 
-            font-size: 1.05rem; 
-            line-height: 1.6; 
-            color: #3e2723;
-            background: transparent; 
-            border: none; 
-            outline: none; 
-            width: 100%; 
-            flex: 1; 
-            resize: vertical;
-        }
-
+        .story-divider { border-bottom: 2px dashed rgba(139, 90, 43, 0.4); margin-bottom: 20px; width: 100%; }
+        .story-body-input { font-family: 'Lora', serif; font-size: 1.05rem; line-height: 1.6; color: #3e2723; background: transparent; border: none; outline: none; width: 100%; flex: 1; resize: vertical;}
         .story-body-input::placeholder { color: rgba(62, 39, 35, 0.4); }
 
         /* =========================================
            LOG DE ROLAGENS LATERAL
         ========================================= */
-        #dice-log-container { 
-            flex: 1; 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-            padding-right: 5px; 
-        }
-
-        .log-entry { 
-            background: rgba(255,255,255,0.8); 
-            border: 2px solid #5c3a21; 
-            border-radius: 6px; 
-            padding: 12px; 
-            color: #3e2723; 
-            font-family: 'Roboto', sans-serif; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .log-header { 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 0.75rem; 
-            color: #555; 
-            margin-bottom: 5px; 
-            font-weight: bold;
-        }
-
-        .log-result { 
-            font-family: 'Cinzel', serif; 
-            font-size: 1.6rem; 
-            font-weight: 900; 
-            margin-top: 5px; 
-            text-align: center; 
-        }
+        #dice-log-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
+        .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+        .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
+        .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
 
         /* =========================================
            MODAIS (POPUPS) GERAIS
         ========================================= */
-        .modal-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.7); 
-            display: none; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 3000; 
-            backdrop-filter: blur(5px); 
-            overflow-y: auto; 
-            padding: 20px;
-        }
-
-        .modal-content { 
-            background-color: #f4ebd8; 
-            border: 3px solid #8b5a2b; 
-            padding: 30px; 
-            width: 95%; 
-            max-width: 700px; 
-            border-radius: 6px; 
-            position: relative; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
-            margin: auto;
-        }
-
-        .fechar-modal { 
-            position: absolute; 
-            top: 12px; 
-            right: 18px; 
-            font-size: 2.2rem; 
-            cursor: pointer; 
-            color: #8b5a2b; 
-            font-weight: bold; 
-        }
-
-        .form-group-modal { 
-            margin-bottom: 12px; 
-            display: flex; 
-            flex-direction: column; 
-        }
-
-        .form-label-modal { 
-            font-family: 'Roboto', sans-serif; 
-            font-size: 0.75rem; 
-            font-weight: 900; 
-            color: #4a2f1d; 
-            margin-bottom: 4px; 
-            text-transform: uppercase; 
-        }
-
-        .grid-6 { 
-            display: grid; 
-            grid-template-columns: repeat(6, 1fr); 
-            gap: 10px; 
-            margin-bottom: 15px; 
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
+        .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 700px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto;}
+        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .form-group-modal { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
 
         /* =========================================
-           POP UP DE DADOS 3D (BLINDADO - SÓ LEITURA)
+           POP UP DE DADOS 3D (BLINDADO)
         ========================================= */
-        #dice-overlay-click { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            z-index: 3999; 
-            display: none; 
-            background: rgba(0,0,0,0.6); 
-        }
-
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container { 
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%) scale(0.6); 
-            opacity: 0; 
-            background: #fff; 
-            border: 5px solid #b71c1c; 
-            padding: 30px 50px; 
-            border-radius: 20px; 
-            z-index: 4000; 
-            text-align: center; 
-            pointer-events: none; 
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8); 
-            min-width: 300px; 
-            display: none; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 250px;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
+        #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
+        @keyframes diceSpreadEffect { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } }
+        .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
+        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
+        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        #dice-result-container.dice-pop-active { 
-            display: flex !important; 
-            opacity: 1; 
-            transform: translate(-50%, -50%) scale(1); 
-            pointer-events: auto; 
-        }
-
-        #dice-result-container.dice-pop-out { 
-            opacity: 0; 
-            transform: translate(-50%, -50%) scale(0.8); 
-            pointer-events: none; 
-        }
-
-        @keyframes diceSpreadEffect { 
-            0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 
-            30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 
-            100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } 
-        }
-
-        .pop-dado-img { 
-            width: 55px; 
-            height: 55px; 
-            margin-bottom: 10px; 
-            object-fit: contain; 
-        }
-
-        .pop-pericia-nome { 
-            font-family: 'Cinzel'; 
-            font-weight: bold; 
-            font-size: 1.1rem; 
-            color: #3e2723; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            margin-bottom: 2px; 
-            display: block;
-        }
-
-        .pop-total { 
-            font-size: 5rem; 
-            font-weight: 900; 
-            line-height: 1; 
-            font-family: 'Cinzel', serif; 
-            margin-bottom: 10px; 
-            display: block; 
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1); 
-        }
-
-        .pop-categoria-badge { 
-            color: #fff; 
-            padding: 6px 18px; 
-            border-radius: 8px; 
-            font-weight: 900; 
-            font-size: 1.1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            display: inline-block; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
-            margin-bottom: 8px; 
-        }
-
-        .pop-detalhes { 
-            color: #555; 
-            font-weight: bold; 
-            font-size: 0.9rem; 
-            font-family: 'Lora'; 
-            display: block;
-        }
-
-        .pop-hint { 
-            color: #999; 
-            font-weight: bold; 
-            font-size: 0.75rem; 
-            font-family: 'Roboto'; 
-            margin-top: 10px; 
-            display: block; 
-            text-transform: uppercase; 
-        }
-
-        /* =========================================
-           SCROLLBARS E MEDIA QUERIES
-        ========================================= */
-        ::-webkit-scrollbar { 
-            width: 6px; 
-        } 
-        
-        ::-webkit-scrollbar-track { 
-            background: transparent; 
-        } 
-        
-        ::-webkit-scrollbar-thumb { 
-            background: rgba(139, 90, 43, 0.5); 
-            border-radius: 3px; 
-        }
-
-        @media (max-width: 1100px) { 
-            #players-container { grid-template-columns: repeat(2, 1fr); } 
-        }
-
-        @media (max-width: 800px) { 
-            .conteudo-wrapper { flex-direction: column; height: auto;} 
-            .coluna-log, .coluna-central, .mesa-sidebar { width: 100%; flex: none; } 
-            .mesa-layout { flex-direction: column; } 
-            #players-container { grid-template-columns: 1fr; overflow-y: visible;} 
-            .grid-6 { grid-template-columns: repeat(3, 1fr); } 
-        }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
+        @media (max-width: 1100px) { #players-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 800px) { .conteudo-wrapper { flex-direction: column; height: auto;} .coluna-log, .coluna-central, .mesa-sidebar { width: 100%; flex: none; } .mesa-layout { flex-direction: column; } #players-container { grid-template-columns: 1fr; overflow-y: visible;} .grid-6 { grid-template-columns: repeat(3, 1fr); } }
     </style>
 </head>
 <body>
@@ -1242,8 +421,8 @@
             <div id="tab-mundo" class="tab-content">
                 <div class="mesa-layout">
                     
-                    <div class="mesa-jogadores box-rpg" style="background: transparent; border: none; box-shadow: none; padding: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 15px;">
+                    <div class="mesa-jogadores box-rpg" style="background: transparent; border: none; box-shadow: none; padding: 0; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 20px;">
                             <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
                             <button class="btn-acao" id="btn-novo-capitulo" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="document.getElementById('modal-criar-capitulo').style.display='flex'">+ NOVO CAPÍTULO</button>
                         </div>
@@ -1258,10 +437,8 @@
                                     <button class="btn-acao" style="width: auto; padding: 6px 12px; background: transparent; border: 2px solid #b71c1c; color: #b71c1c; font-size: 0.8rem;" onclick="apagarCapituloAtivo()">🗑️ APAGAR</button>
                                 </div>
                             </div>
-                            
                             <div class="story-divider"></div>
-                            
-                            <textarea id="gm-capitulo-texto" class="story-body-input" placeholder="Era uma vez... Escreva a lore da campanha aqui..." oninput="salvarTextoCapituloAtivo()"></textarea>
+                            <textarea id="gm-capitulo-texto" class="story-body-input" placeholder="Escreva a lore da campanha aqui..." oninput="salvarTextoCapituloAtivo()"></textarea>
                         </div>
 
                         <div id="msg-sem-capitulo" class="placeholder-dashed">
@@ -1310,67 +487,14 @@
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">CRIAR MONSTRO</h3>
-        
-        <div class="form-group-modal">
-            <label class="form-label-modal">Nome do Monstro</label>
-            <input type="text" id="mon-nome" class="form-input" style="margin-bottom:0;" placeholder="Ex: Dragão Vermelho">
-        </div>
-
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div>
-            <div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div>
-            <div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="15"></div>
-        </div>
-
-        <label class="form-label-modal">Atributos Base</label>
-        <div class="grid-6">
-            <div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-            <div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-            <div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-            <div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-            <div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-            <div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div>
-        </div>
-
-        <div class="form-group-modal">
-            <label class="form-label-modal">Deslocamento (MOV)</label>
-            <input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m">
-        </div>
-
-        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-            <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div>
-                <div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Ex: 2d6+4)"></div>
-                <div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crítico (Ex: x2)"></div>
-                <button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button>
-            </div>
-            <div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
-        </div>
-
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <div style="flex:1;"><label class="form-label-modal">Imunidades</label><input type="text" id="mon-imun" class="form-input" style="margin-bottom:0;" placeholder="Ex: Fogo"></div>
-            <div style="flex:1;"><label class="form-label-modal">Vulnerabilidades</label><input type="text" id="mon-vuln" class="form-input" style="margin-bottom:0;" placeholder="Ex: Gelo"></div>
-        </div>
-
-        <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-            <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div>
-                <div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div>
-            </div>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea>
-                <button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button>
-            </div>
-            <div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div>
-        </div>
-
-        <div class="form-group-modal">
-            <label class="form-label-modal">Enigma de Batalha (LORE)</label>
-            <textarea id="mon-enigma" class="form-input" style="margin-bottom:15px; height:60px; resize:vertical;" placeholder="Condições secretas para derrotar..."></textarea>
-        </div>
-
+        <div class="form-group-modal"><label class="form-label-modal">Nome do Monstro</label><input type="text" id="mon-nome" class="form-input" style="margin-bottom:0;" placeholder="Ex: Dragão Vermelho"></div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="15"></div></div>
+        <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
+        <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
+        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div><div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Ex: 2d6+4)"></div><div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crítico (Ex: x2)"></div><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button></div><div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div></div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Imunidades</label><input type="text" id="mon-imun" class="form-input" style="margin-bottom:0;" placeholder="Ex: Fogo"></div><div style="flex:1;"><label class="form-label-modal">Vulnerabilidades</label><input type="text" id="mon-vuln" class="form-input" style="margin-bottom:0;" placeholder="Ex: Gelo"></div></div>
+        <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div><div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div></div><div style="display:flex; gap:10px; margin-bottom:10px;"><textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button></div><div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div></div>
+        <div class="form-group-modal"><label class="form-label-modal">Enigma de Batalha (LORE)</label><textarea id="mon-enigma" class="form-input" style="margin-bottom:15px; height:60px; resize:vertical;" placeholder="Condições secretas para derrotar..."></textarea></div>
         <button class="btn-acao" style="font-size:1.2rem; padding:15px;" onclick="salvarMonstro()">💾 SALVAR MONSTRO</button>
     </div>
 </div>
@@ -1441,6 +565,20 @@
     </div>
 </div>
 
+<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
+    <div class="modal-content" style="max-width: 400px;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
+        <h3 class="section-title">Perfil</h3>
+        <input type="text" id="ms-nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
+        <div style="display:flex; justify-content:center; margin-bottom:15px;">
+            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none;">
+                <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: justify; padding: 0 15px;" readonly></textarea>
+    </div>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
@@ -1450,7 +588,6 @@
     let turnoAtualIndex = -1;
     let abaAtual = 'mesa';
 
-    // Bancos de Dados Locais do Mestre
     let dbBestiario = []; 
     let tempAtaques = []; 
     let tempHabilidades = [];
@@ -1466,25 +603,15 @@
     let tempSubItemsLista = [];
     let itemPendenteEnvio = null;
 
-    // === INICIALIZAÇÃO ===
     window.onload = () => {
         let salaSalva = localStorage.getItem('gmUidSalva');
         conectarSala(salaSalva);
 
-        let bSalvo = localStorage.getItem('rpgBestiario'); 
-        if(bSalvo) { try { dbBestiario = JSON.parse(bSalvo); } catch(e){} }
-        
-        let hSalvo = localStorage.getItem('gm_capitulos_campanha'); 
-        if(hSalvo) { try { gmCapitulos = JSON.parse(hSalvo); } catch(e){} }
-        
-        let pSalvo = localStorage.getItem('rpgPessoas'); 
-        if(pSalvo) { try { dbPessoas = JSON.parse(pSalvo); } catch(e){} }
-        
-        let gSalvo = localStorage.getItem('rpgGuildas'); 
-        if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
-        
-        let lSalvo = localStorage.getItem('rpgLocais'); 
-        if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
+        let bSalvo = localStorage.getItem('rpgBestiario'); if(bSalvo) { try { dbBestiario = JSON.parse(bSalvo); } catch(e){} }
+        let hSalvo = localStorage.getItem('gm_capitulos_campanha'); if(hSalvo) { try { gmCapitulos = JSON.parse(hSalvo); } catch(e){} }
+        let pSalvo = localStorage.getItem('rpgPessoas'); if(pSalvo) { try { dbPessoas = JSON.parse(pSalvo); } catch(e){} }
+        let gSalvo = localStorage.getItem('rpgGuildas'); if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
+        let lSalvo = localStorage.getItem('rpgLocais'); if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
 
         if (abaAtual === 'bestiario') renderizarBestiario();
         if (abaAtual === 'mundo') inicializarHistoriaGM();
@@ -1502,7 +629,6 @@
         else if (aba === 'mundo') { document.getElementById('tab-mundo').classList.add('active'); inicializarHistoriaGM(); }
     }
 
-    // === CONEXÃO COM A SALA E JOGADORES ===
     function conectarSala(uidAutomatica = null) {
         let inputEl = document.getElementById('gm-uid');
         gmUid = uidAutomatica || inputEl.value.trim().toUpperCase();
@@ -1514,6 +640,7 @@
         document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
         socket.emit('solicitarEstadoSala', gmUid);
     }
+    
     function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
     function forcarSincronizacao() { if(!gmUid) return alert("Conecte a uma sala primeiro!"); socket.emit('solicitarEstadoSala', gmUid); }
 
@@ -1526,13 +653,16 @@
         jogadores[chave] = j;
         if (gmUid && abaAtual === 'mesa') renderizarJogadores();
     });
+    
     function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
+    
     function expulsarJogador(chave) {
         if(confirm("Deseja desconectar este jogador da mesa?")) {
             delete jogadores[chave]; renderizarJogadores();
             socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
         }
     }
+    
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
         let chaves = Object.keys(jogadores); document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
@@ -1553,7 +683,6 @@
         });
     }
 
-    // === INICIATIVA ===
     function addIniciativaManual() { addIniciativaInterna(document.getElementById('ini-nome').value.trim(), document.getElementById('ini-val').value, null); }
     function addIniciativaInterna(nome, val, idUnicoFicha = null) {
         if(!nome || isNaN(parseInt(val))) return; let existente;
@@ -1561,10 +690,12 @@
         if(existente) { existente.val = parseInt(val); existente.nome = nome; } else { arrayIniciativa.push({ id: Date.now() + Math.random(), idUnico: idUnicoFicha, nome: nome, val: parseInt(val) }); }
         document.getElementById('ini-nome').value = ''; document.getElementById('ini-val').value = ''; ordenarIniciativa();
     }
+    
     function ordenarIniciativa() { arrayIniciativa.sort((a, b) => b.val - a.val); turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1; if(abaAtual === 'iniciativa') renderIniciativa(); }
     function proximoTurno() { if(arrayIniciativa.length === 0) return; turnoAtualIndex++; if(turnoAtualIndex >= arrayIniciativa.length) turnoAtualIndex = 0; renderIniciativa(); }
     function limparIniciativa() { arrayIniciativa = []; turnoAtualIndex = -1; renderIniciativa(); }
     function removerIni(id) { arrayIniciativa = arrayIniciativa.filter(i => i.id !== id); ordenarIniciativa(); }
+    
     function renderIniciativa() {
         const container = document.getElementById('lista-iniciativa'); container.innerHTML = '';
         if(arrayIniciativa.length === 0) { container.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#8b5a2b; opacity:0.7; margin-top:40px;"><div style="font-size:4rem; margin-bottom:15px;">⏱️</div><p style="font-style:italic; font-size:1.1rem;">Nenhum combatente no momento.</p></div>`; return; }
@@ -1574,8 +705,8 @@
         });
     }
 
-    // === BESTIÁRIO ===
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
+    
     function abrirModalMonstro() {
         tempAtaques = []; tempHabilidades = [];
         document.getElementById('mon-nome').value = ''; document.getElementById('mon-hp-atual').value = '50'; document.getElementById('mon-hp-max').value = '50'; document.getElementById('mon-def').value = '15';
@@ -1583,6 +714,7 @@
         document.getElementById('mon-mov').value = ''; document.getElementById('mon-imun').value = ''; document.getElementById('mon-vuln').value = ''; document.getElementById('mon-enigma').value = '';
         renderTempAtqHab(); document.getElementById('modal-monstro').style.display = 'flex';
     }
+    
     function addMonstroAtaque() { let n = document.getElementById('mon-atq-nome').value.trim(); let d = document.getElementById('mon-atq-dano').value.trim(); let c = document.getElementById('mon-atq-crit').value.trim(); if(n && d) { tempAtaques.push({id: Date.now(), nome: n, dano: d, crit: c}); document.getElementById('mon-atq-nome').value = ''; document.getElementById('mon-atq-dano').value = ''; document.getElementById('mon-atq-crit').value = ''; renderTempAtqHab(); } }
     function addMonstroHab() { let n = document.getElementById('mon-hab-nome').value.trim(); let d = document.getElementById('mon-hab-dano').value.trim(); let desc = document.getElementById('mon-hab-desc').value.trim(); if(n && desc) { tempHabilidades.push({id: Date.now(), nome: n, dano: d, desc: desc}); document.getElementById('mon-hab-nome').value = ''; document.getElementById('mon-hab-dano').value = ''; document.getElementById('mon-hab-desc').value = ''; renderTempAtqHab(); } }
     function removerTempObj(tipo, id) { if(tipo === 'atq') tempAtaques = tempAtaques.filter(a => a.id !== id); else tempHabilidades = tempHabilidades.filter(h => h.id !== id); renderTempAtqHab(); }
@@ -1597,6 +729,7 @@
     }
     function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
+    
     function renderizarBestiario() {
         const container = document.getElementById('lista-bestiario-container'); const txtVazio = document.getElementById('bestiario-vazio-texto');
         if (dbBestiario.length === 0) { if(txtVazio) txtVazio.style.display = 'block'; container.innerHTML = ''; if(txtVazio) container.appendChild(txtVazio); return; }
@@ -1614,9 +747,6 @@
         });
     }
 
-    // ==========================================
-    // SISTEMA MUNDO E LORE (Master-Detail Dinâmico)
-    // ==========================================
     function inicializarHistoriaGM() {
         renderizarMundo();
         renderizarCapitulosGM();
@@ -1628,11 +758,9 @@
     function criarNovoCapitulo() {
         let nome = document.getElementById('gm-capitulo-nome').value.trim();
         if(!nome) return alert("Digite o nome do capítulo!");
-        
         let novoCapitulo = { id: Date.now(), nome: nome, texto: "" };
         gmCapitulos.push(novoCapitulo);
         localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
-        
         document.getElementById('modal-criar-capitulo').style.display = 'none';
         renderizarCapitulosGM();
         abrirCapituloGM(novoCapitulo.id);
@@ -1641,12 +769,10 @@
     function renderizarCapitulosGM() {
         const container = document.getElementById('lista-capitulos');
         container.innerHTML = '';
-        
         gmCapitulos.forEach(cap => {
             let btnClass = (cap.id === capituloAtivoId) ? 'capitulo-btn active' : 'capitulo-btn';
             container.innerHTML += `<button class="${btnClass}" onclick="abrirCapituloGM(${cap.id})">${cap.nome}</button>`;
         });
-        
         if(gmCapitulos.length === 0) {
             document.getElementById('area-edicao-capitulo').style.display = 'none';
             document.getElementById('msg-sem-capitulo').style.display = 'block';
@@ -1657,10 +783,8 @@
         capituloAtivoId = id;
         let cap = gmCapitulos.find(c => c.id === id);
         if(!cap) return;
-        
         document.getElementById('titulo-capitulo-ativo').value = cap.nome;
         document.getElementById('gm-capitulo-texto').value = cap.texto;
-        
         document.getElementById('area-edicao-capitulo').style.display = 'flex';
         document.getElementById('msg-sem-capitulo').style.display = 'none';
         renderizarCapitulosGM();
@@ -1686,10 +810,7 @@
             document.getElementById('area-edicao-capitulo').style.display = 'none';
             document.getElementById('msg-sem-capitulo').style.display = 'block';
             renderizarCapitulosGM();
-            
-            if(gmCapitulos.length > 0) {
-                abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id);
-            }
+            if(gmCapitulos.length > 0) { abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id); }
         }
     }
 
@@ -1698,7 +819,7 @@
         abrirModalEnvio(event, 'historia', capituloAtivoId);
     }
 
-    // == SISTEMA DE VÍNCULO NPC -> LOCAL ==
+    // === CRIAÇÃO E VÍNCULO COM O LOCAL ===
     function abrirModalCriacaoListas(tipo) {
         tipoContexto = tipo; 
         document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); 
@@ -1714,7 +835,7 @@
             
             // Popula o Dropdown de Locais
             let selectLocal = document.getElementById('mcl-local-link');
-            selectLocal.innerHTML = '<option value="">Nenhum Local (Fica solto)</option>';
+            selectLocal.innerHTML = '<option value="">Nenhum Local (Fica solto na lista)</option>';
             dbLocais.forEach(l => {
                 selectLocal.innerHTML += `<option value="${l.id}">${l.nome}</option>`;
             });
@@ -1743,7 +864,10 @@
         } 
     }
     
-    function removerTempLista(idx) { tempSubItemsLista.splice(idx, 1); renderizarSubItemsTemp(); }
+    function removerTempLista(idx) { 
+        tempSubItemsLista.splice(idx, 1); 
+        renderizarSubItemsTemp(); 
+    }
     
     function renderizarSubItemsTemp() { 
         const container = document.getElementById('mcl-subitems-list'); container.innerHTML = ''; 
@@ -1780,22 +904,25 @@
             dbLocais.push({ id: novoId, nome: nome, desc: desc, img: img, pontos: [...tempSubItemsLista] }); 
             localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
         } else if(tipoContexto == 'pessoa') { 
-            dbPessoas.push({ id: novoId, nome: nome, desc: desc, img: img }); 
-            localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); 
             
-            // Vincula ao Local se escolhido
+            // Verifica se o NPC foi vinculado a um Local
             let localId = document.getElementById('mcl-local-link').value;
+            
             if(localId) {
                 let localObj = dbLocais.find(l => l.id == localId);
                 if(localObj) {
+                    if(!localObj.pontos) localObj.pontos = [];
                     localObj.pontos.push({
-                        id: novoId + Math.floor(Math.random()*1000), 
+                        id: novoId, 
                         nome: nome,
                         desc: desc,
                         img: img
                     });
-                    localStorage.setItem('rpgLocais', JSON.stringify(dbLocais));
+                    localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
                 }
+            } else {
+                dbPessoas.push({ id: novoId, nome: nome, desc: desc, img: img }); 
+                localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); 
             }
         }
         
@@ -1841,6 +968,8 @@
         if(!item) return;
 
         let dadosEnviados = { ...item };
+        
+        // Formata os campos do Capítulo antes de enviar (pois a ficha espera 'titulo' e 'conteudo')
         if(tipo === 'historia') {
             dadosEnviados.titulo = item.nome;
             dadosEnviados.conteudo = item.texto;
@@ -1854,263 +983,190 @@
     }
 
     function renderizarMundo() {
-        const contGuildas = document.getElementById('lista-guildas-container'); contGuildas.innerHTML = '';
+        
+        const contGuildas = document.getElementById('lista-guildas-container');
+        contGuildas.innerHTML = '';
         dbGuildas.forEach(g => {
             let img = g.img ? `<img src="${g.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">🛡️</div>`;
-            contGuildas.innerHTML += `<div class="mundo-item-rpg"><span class="mundo-item-nome">${img} ${g.nome}</span><div style="display:flex; gap:8px;"><button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button><button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button></div></div>`;
+            
+            let membrosHtml = (g.membros || []).map(m => `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding: 5px 10px; margin-left: 20px; border-left: 2px solid #8b5a2b; background: rgba(255,255,255,0.3); margin-top: 2px;">
+                    <span style="font-size:0.9rem; font-weight:bold; color:#3e2723; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</span>
+                </div>
+            `).join('');
+
+            contGuildas.innerHTML += `
+                <div class="mundo-item-rpg" style="flex-direction:column; align-items:stretch;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                        <span class="mundo-item-nome">${img} ${g.nome}</span>
+                        <div style="display:flex; gap:8px;">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
+                        </div>
+                    </div>
+                    ${membrosHtml}
+                </div>`;
         });
 
-        const contPessoas = document.getElementById('lista-pessoas-container'); contPessoas.innerHTML = '';
-        dbPessoas.forEach(p => {
-            let img = p.img ? `<img src="${p.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">👤</div>`;
-            contPessoas.innerHTML += `<div class="mundo-item-rpg"><span class="mundo-item-nome">${img} ${p.nome}</span><div style="display:flex; gap:8px;"><button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button><button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button></div></div>`;
-        });
-
-        const contLocais = document.getElementById('lista-locais-container'); contLocais.innerHTML = '';
+        const contLocais = document.getElementById('lista-locais-container');
+        contLocais.innerHTML = '';
         dbLocais.forEach(l => {
             let img = l.img ? `<img src="${l.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">📍</div>`;
-            contLocais.innerHTML += `<div class="mundo-item-rpg"><span class="mundo-item-nome">${img} ${l.nome}</span><div style="display:flex; gap:8px;"><button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button><button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button></div></div>`;
+            
+            let pontosHtml = (l.pontos || []).map(p => `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding: 5px 10px; margin-left: 20px; border-left: 2px solid #8b5a2b; background: rgba(255,255,255,0.3); margin-top: 2px;">
+                    <span style="font-size:0.9rem; font-weight:bold; color:#3e2723; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">👤 ${p.nome}</span>
+                </div>
+            `).join('');
+
+            contLocais.innerHTML += `
+                <div class="mundo-item-rpg" style="flex-direction:column; align-items:stretch;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                        <span class="mundo-item-nome">${img} ${l.nome}</span>
+                        <div style="display:flex; gap:8px;">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
+                        </div>
+                    </div>
+                    ${pontosHtml}
+                </div>`;
         });
-        
-        renderizarCapitulosGM(); 
+
+        const contPessoas = document.getElementById('lista-pessoas-container');
+        contPessoas.innerHTML = '';
+        dbPessoas.forEach(p => {
+            let img = p.img ? `<img src="${p.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">👤</div>`;
+            contPessoas.innerHTML += `
+                <div class="mundo-item-rpg">
+                    <span class="mundo-item-nome">${img} ${p.nome}</span>
+                    <div style="display:flex; gap:8px;">
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                    </div>
+                </div>`;
+        });
     }
 
-    // ==========================================
-    // SISTEMA DE DADOS (ROLAGENS DO MESTRE) - BLINDADO
-    // ==========================================
-    let diceState = 0; 
-    let currentRollData = {}; 
-    let animacaoGiro = null;
+    // === VISUALIZAR DETALHES RÁPIDOS NO MESTRE ===
+    function abrirSubItem(tipoParent, parentId, subId) {
+        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
+        if(!parentObj) return;
+        
+        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        if(!subObj) return;
+        
+        document.getElementById('ms-nome').value = subObj.nome; 
+        document.getElementById('ms-desc').value = subObj.desc || '';
+        
+        let tempSubImgBase64 = subObj.img || '';
+        if(tempSubImgBase64) { 
+            document.getElementById('ms-img-preview').src = tempSubImgBase64; 
+            document.getElementById('ms-img-preview-container').style.display = 'block'; 
+        } else { 
+            document.getElementById('ms-img-preview-container').style.display = 'none'; 
+        }
+        
+        document.getElementById('modal-personagem').style.display = 'flex';
+    }
+
+    // ==============================================================
+    // 9. SISTEMA DE DADOS (CRÍTICO EXATO E FALHA/BOM)
+    // ==============================================================
 
     function rolarDadoMonstro(nome, bonus, isIniciativa = false) {
-        if(diceState !== 0) return; 
-        diceState = 1; 
-        clearInterval(animacaoGiro);
-        
+        if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
         let baseName = nome.replace(/\s*\(\s*iniciativa\s*\)/i, '').trim();
         currentRollData = { nome: nome, bonus: parseInt(bonus)||0, isDano: false, isIniciativa: isIniciativa, entityName: baseName }; 
         iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c');
     }
 
     function rolarDanoGM(nome, expressao, bonusExtra = 0) {
-        if(diceState !== 0) return; 
-        diceState = 1; 
-        clearInterval(animacaoGiro);
-        
-        let expFinal = expressao; 
-        if(bonusExtra !== 0) { 
-            expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; 
-        } 
-        
-        currentRollData = { nome, expressao: expFinal, isDano: true }; 
-        iniciarGiroDado(nome, 0, '#8b0000', true);
+        if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
+        let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } 
+        currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true);
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
-        try {
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
-            
-            box.style.display = 'flex'; 
-            overlay.style.display = 'block'; 
-            box.classList.remove('dice-pop-out'); 
-            void box.offsetWidth; 
-            
-            box.classList.add('dice-pop-active'); 
-            box.style.borderColor = borderColor; 
-            
-            box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
-            
-            // Segurança: Insere imediatamente
-            text.innerHTML = `
-                <img src="${DADO_IMG_URL}" class="pop-dado-img"><br>
-                <span class="pop-pericia-nome">${nomeDisplay}</span>
-                <span class="pop-total" style="color: #bbb;">...</span>
-                <small class="pop-hint">Sorteando...</small>
-            `;
-            
-            // Trava cliques durante o giro
-            overlay.onclick = null; 
-            box.onclick = null;
+        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
+        box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
+        box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
-            let frames = 0;
-            animacaoGiro = setInterval(() => {
-                try {
-                    let tempDado = Math.floor(Math.random() * 20) + 1; 
-                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-                    
-                    text.innerHTML = `
-                        <img src="${DADO_IMG_URL}" class="pop-dado-img"><br>
-                        <span class="pop-pericia-nome">${nomeDisplay}</span>
-                        <span class="pop-total" style="color: #bbb;">${displayNum}</span>
-                        <small class="pop-hint">Sorteando...</small>
-                    `;
-                    
-                    if (++frames >= 12) { 
-                        clearInterval(animacaoGiro); 
-                        mostrarResultadoFinal(); 
-                    }
-                } catch(e) { 
-                    clearInterval(animacaoGiro); console.error(e); closeDiceRoll(); 
-                }
-            }, 50);
-        } catch(e) { console.error(e); closeDiceRoll(); }
+        let frames = 0;
+        animacaoGiro = setInterval(() => {
+            let tempDado = Math.floor(Math.random() * 20) + 1;
+            let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+
+            if (++frames >= 12) { 
+                clearInterval(animacaoGiro);
+                mostrarResultadoFinal();
+            }
+        }, 50);
+        
+        overlay.onclick = handleDiceClick; box.onclick = handleDiceClick;
     }
 
     function calcularDanoStr(expressao, mult = 1) {
-        if(!expressao) return 0;
-        let str = expressao.toLowerCase().replace(/\s+/g, ''); 
-        let parsedStr = str;
-        let diceRegex = /(\d*)d(\d+)/g; 
-        let match;
-        
-        while((match = diceRegex.exec(str)) !== null) {
-            let qtd = (parseInt(match[1]) || 1) * mult; 
-            let faces = parseInt(match[2]) || 1;
-            let soma = 0; 
-            for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1;
-            parsedStr = parsedStr.replace(match[0], soma);
-        }
-        
-        try { 
-            let parts = parsedStr.match(/[+-]?\d+/g); 
-            return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; 
-        } catch(e) { return 0; }
+        if(!expressao) return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
+        try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
 
     function mostrarResultadoFinal() {
-        try {
-            diceState = 2; 
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
-            
-            let nome = currentRollData.nome; 
-            let finalHtml = ""; 
-            let resultadoLog = 0; 
-            let detalhesLog = ""; 
-            let isCrit = false; 
-            let isDesastre = false; 
-            let tipoCategoriaLog = ""; 
-            let corCategoriaLog = "";
+        diceState = 2; 
+        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); 
+        let nome = currentRollData.nome; let finalHtml = "";
+        let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
 
-            if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); 
-                let corCataroria = "#8b0000"; 
-                let categoria = "DANO (MESTRE)";
-                
-                resultadoLog = totalDano; 
-                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
-                tipoCategoriaLog = categoria; 
-                corCategoriaLog = corCataroria;
-                
-                box.style.borderColor = corCataroria;
-                
-                if (!document.getElementById(`glow-${categoria}`)) { 
-                    const style = document.createElement('style'); 
-                    style.id = `glow-${categoria}`; 
-                    style.innerHTML = `@keyframes diceGlowPulse${categoria.replace(/\s/g,'')} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                    document.head.appendChild(style); 
-                }
-                
-                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria.replace(/\s/g,'')} 2s infinite 0.5s`;
-                
-                finalHtml = `
-                    <img src="${DADO_IMG_URL}" class="pop-dado-img"><br>
-                    <span class="pop-pericia-nome">${nome}</span>
-                    <span class="pop-total" style="color: ${corCataroria};">${totalDano}</span>
-                    <div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br>
-                    <span class="pop-detalhes">${detalhesLog}</span><br>
-                    <small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>
-                `;
+        if (currentRollData.isDano) {
+            let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO (MESTRE)";
+            resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
+
+            box.style.borderColor = corCataroria;
+            if (!document.getElementById(`glow-${categoria}`)) { const style = document.createElement('style'); style.id = `glow-${categoria}`; style.innerHTML = `@keyframes diceGlowPulse${categoria.replace(/\s/g,'')} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria.replace(/\s/g,'')} 2s infinite 0.5s`;
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+        } else {
+            let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
+            let categoria = "NORMAL", corCataroria = "#2e7d32"; 
+
+            if (dadoReal === 1) { 
+                categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
+            } 
+            else if (dadoReal === 20) {
+                categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
             } else {
-                let dadoReal = Math.floor(Math.random() * 20) + 1; 
-                let bonus = currentRollData.bonus; 
-                let totalSoma = dadoReal + bonus; 
-                let categoria = "NORMAL", corCataroria = "#2e7d32"; 
-
-                if (dadoReal === 1) { 
-                    categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
-                } else if (dadoReal === 20) { 
-                    categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true; 
-                } else {
-                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                    else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
-                    else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
-                    else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
-                }
-
-                resultadoLog = totalSoma; 
-                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
-                tipoCategoriaLog = categoria; 
-                corCategoriaLog = corCataroria;
-                
-                if(currentRollData.isIniciativa) { 
-                    addIniciativaInterna(currentRollData.entityName, totalSoma, null); 
-                }
-
-                box.style.borderColor = corCataroria; 
-                let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
-                
-                if (!document.getElementById(`glow-${safeCat}`)) { 
-                    const style = document.createElement('style'); 
-                    style.id = `glow-${safeCat}`; 
-                    style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                    document.head.appendChild(style); 
-                }
-                
-                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-                
-                finalHtml = `
-                    <img src="${DADO_IMG_URL}" class="pop-dado-img"><br>
-                    <span class="pop-pericia-nome">${nome}</span>
-                    <span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span>
-                    <div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br>
-                    <span class="pop-detalhes">${detalhesLog}</span><br>
-                    <small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>
-                `;
+                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
             }
+
+            resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
             
-            // Emite para a rede
-            socket.emit('player_dice_roll', { 
-                uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, 
-                resultadoFinal: resultadoLog, detalhes: detalhesLog, 
-                categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
-                isDano: currentRollData.isDano, isCritico: isCrit, 
-                isDesastre: isDesastre, _trigger: Math.random() 
-            });
-            
-            text.innerHTML = finalHtml;
-            
-            // Destrava o clique apenas quando o resultado for mostrado
-            overlay.onclick = closeDiceRoll; 
-            box.onclick = closeDiceRoll;
-            
-        } catch (e) { 
-            console.error(e); 
-            closeDiceRoll(); 
+            if(currentRollData.isIniciativa) { addIniciativaInterna(currentRollData.entityName, totalSoma, null); }
+
+            box.style.borderColor = corCataroria;
+            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
+
+        socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); 
+        text.innerHTML = finalHtml;
+        const overlay = document.getElementById('dice-overlay-click'); overlay.onclick = closeDiceRoll; box.onclick = closeDiceRoll;
     }
 
-    function closeDiceRoll() { 
-        if(diceState === 0) return; 
-        clearInterval(animacaoGiro);
-        
-        const box = document.getElementById('dice-result-container'); 
-        const overlay = document.getElementById('dice-overlay-click'); 
-        
-        box.classList.add('dice-pop-out'); 
-        setTimeout(() => { 
-            box.style.display = 'none'; 
-            overlay.style.display = 'none'; 
-            box.classList.remove('dice-pop-active', 'dice-pop-out'); 
-            box.style.animation = ''; 
-            diceState = 0; 
-        }, 300); 
+    function handleDiceClick() { if (diceState === 2) { closeDiceRoll(); } }
+    function closeDiceRoll() {
+        if(diceState === 0) return;
+        const box = document.getElementById('dice-result-container'); const overlay = document.getElementById('dice-overlay-click');
+        box.classList.add('dice-pop-out');
+        setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300);
     }
 
-    // === RECEBIMENTO NO LOG ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid && roll.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
 
