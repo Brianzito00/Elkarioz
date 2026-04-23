@@ -45,33 +45,17 @@
         }
 
         .section-title { 
-            font-family: 'Cinzel', serif; 
-            color: #5c3a21; 
-            font-size: 1.4rem; 
-            margin-bottom: 25px; 
-            text-transform: uppercase; 
-            border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
-            padding-bottom: 10px; 
-            text-align: center; 
-            font-weight: 800; 
-        }
-
-        input, select, textarea, button { 
-            font-family: 'Lora', serif; 
-            outline: none; 
-            border: 1px solid #8b5a2b; 
+            font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; 
+            margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
+            padding-bottom: 10px; text-align: center; font-weight: 800; 
         }
         
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; margin: 0; 
-        }
-        
-        input[type=number] { 
-            appearance: textfield; 
-            -moz-appearance: textfield; 
+        .section-separator {
+            border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%;
         }
 
+        input, select, textarea, button { font-family: 'Lora', serif; outline: none; }
+        
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
         
@@ -81,7 +65,6 @@
             align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); 
             transition: 0.3s; position: relative;
         }
-        
         .portrait-slot:hover { border-color: #b71c1c; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
@@ -111,7 +94,6 @@
 
         /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0; }
-        
         .tab-btn { 
             background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; 
             cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
@@ -122,7 +104,7 @@
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === LAYOUT COLUNAS === */
+        /* === LAYOUT COLUNAS PRINCIPAIS === */
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
@@ -135,24 +117,30 @@
             display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
         .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0; }
-        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; }
+        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; -moz-appearance: textfield;}
+        .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS CENTRAL (VIDA E MANA) === */
+        /* === STATUS CENTRAL (VIDA E MANA) CORRIGIDO === */
         .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px; }
         .status-module { display: flex; align-items: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1;}
         .circle-icon { width: 55px; height: 55px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.3rem; }
         .status-controls { display: flex; flex-direction: column; flex: 1; align-items: center; gap: 5px;}
         .status-label { font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; color: #3e2723; text-transform: uppercase;}
         .status-row { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;}
+        
         .btn-status { background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
         .btn-status:hover { background-color: #b71c1c; }
-        .status-pill { width: 70px; height: 35px; border: 2px solid #000; border-radius: 20px; text-align: center; font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;}
+        
+        .status-pill { width: 70px; height: 35px; border: 2px solid #000; border-radius: 20px; text-align: center; font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; -moz-appearance: textfield;}
+        .status-pill::-webkit-outer-spin-button, .status-pill::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .vida-color { background-color: #b71c1c; }
         .mana-color { background-color: #0d47a1; }
+        
         .max-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px; }
         .max-box label { font-size: 0.65rem; font-weight: 900; font-family: 'Roboto'; color: #000; margin-bottom: 2px;}
-        .max-circle { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000;}
+        .max-circle { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000; -moz-appearance: textfield;}
+        .max-circle::-webkit-outer-spin-button, .max-circle::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         /* === PERÍCIAS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
@@ -171,15 +159,13 @@
         
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
-        .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
+        .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; -moz-appearance: textfield;}
+        .defesa-box input::-webkit-outer-spin-button, .defesa-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         
-        .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
-        .item-btn:hover { background: #fff; transform: translateX(3px);}
-
         /* === ARMAS EQUIPADAS === */
         .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
@@ -205,7 +191,8 @@
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
         .btn-moeda { flex-shrink: 0; background: #ffb300; color: #3e2723; border: 2px solid #5c3a21; width: 35px; height: 35px; border-radius: 6px; font-weight: 900; font-size: 1.4rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;}
         .btn-moeda:hover { background: #ffca28; }
-        .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0;}
+        .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0; -moz-appearance: textfield;}
+        .input-moeda::-webkit-outer-spin-button, .input-moeda::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         /* === MAGIAS === */
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
@@ -215,8 +202,8 @@
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
         /* === MODAIS GERAIS === */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); }
-        .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
+        .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto; }
         .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
         .modal-tabs { display: flex; justify-content: space-around; margin-bottom: 15px; border-bottom: 1px solid #8b5a2b; }
         .modal-tab-btn { padding: 8px 4px; cursor: pointer; font-family: 'Cinzel'; font-weight: bold; font-size: 0.8rem; border: none; background: transparent; color: #8b5a2b; transition: 0.2s; }
@@ -232,12 +219,12 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1999; cursor: pointer; display: none; background: rgba(0,0,0,0.6); }
+        /* === SISTEMA DE DADOS - POP UP ANIMADO (BLINDADO) === */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
             background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px;
-            z-index: 2000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
 
@@ -458,6 +445,7 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                    
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -654,10 +642,6 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    // ==============================================================
-    // 1. CONFIGURAÇÃO BASE E SOCKET.IO
-    // ==============================================================
-
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
     if (!idUnicoFicha) {
         idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
@@ -763,11 +747,10 @@
                 if (j.dbInventario) dbInventario = j.dbInventario;
                 if (j.dbProficiencias) dbProficiencias = j.dbProficiencias;
                 if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
-                
-                if (j.dbGuildas) dbGuildas = j.dbGuildas; else dbGuildas = [];
-                if (j.dbPessoas) dbPessoas = j.dbPessoas; else dbPessoas = [];
-                if (j.dbLocais) dbLocais = j.dbLocais; else dbLocais = [];
-                if (j.dbMagias) dbMagias = j.dbMagias; else dbMagias = [];
+                if (j.dbGuildas) dbGuildas = j.dbGuildas;
+                if (j.dbPessoas) dbPessoas = j.dbPessoas;
+                if (j.dbLocais) dbLocais = j.dbLocais;
+                if (j.dbMagias) dbMagias = j.dbMagias;
             } catch (e) { console.error(e); }
         }
     }
@@ -819,6 +802,7 @@
         }
     });
 
+    // MÁGICA DA CASCATA INTELIGENTE!
     socket.on('gm_send_entity', function(payload) {
         if (payload && payload.entidade) {
             let meuNome = document.getElementById('char-name-input').value.trim();
@@ -953,27 +937,37 @@
         document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
         
-        // MUNDO (Cascata na Ficha)
+        // MUNDO (Cascata com design atualizado)
         document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => {
             let membros = (g.membros || []).map(m => `
-                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; background: #f4ebd8; border: 1px solid #c8b99e; border-left: 4px solid #0d47a1; padding: 10px 12px; margin-left: 20px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">
+                    <span style="font-family:'Lora', serif; font-weight:bold; font-size:1rem; color:#3e2723;">👤 ${m.nome}</span>
                 </div>`).join('');
-            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('guilda', ${g.id})">&times;</button></div>` + membros;
+            return `
+                <div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('guilda', ${g.id})">
+                    <span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">🛡️ ${g.nome}</span>
+                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="event.stopPropagation(); apagarItemMundo('guilda', ${g.id})">&times;</button>
+                </div>
+                ${membros}`;
         }).join('');
 
         document.getElementById('lista-locais').innerHTML = dbLocais.map(l => {
             let pontos = (l.pontos || []).map(p => `
-                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; background: #f4ebd8; border: 1px solid #c8b99e; border-left: 4px solid #2e7d32; padding: 10px 12px; margin-left: 20px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">
+                    <span style="font-family:'Lora', serif; font-weight:bold; font-size:1rem; color:#3e2723;">📍/👤 ${p.nome}</span>
                 </div>`).join('');
-            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('local', ${l.id})">&times;</button></div>` + pontos;
+            return `
+                <div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('local', ${l.id})">
+                    <span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">📍 ${l.nome}</span>
+                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="event.stopPropagation(); apagarItemMundo('local', ${l.id})">&times;</button>
+                </div>
+                ${pontos}`;
         }).join('');
 
         document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `
-            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('pessoa', ${p.id})">&times;</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('pessoa', ${p.id})">
+                <span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">👤 ${p.nome}</span>
+                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="event.stopPropagation(); apagarItemMundo('pessoa', ${p.id})">&times;</button>
             </div>`).join('');
         
         renderizarMagias(); salvarFichaLocal();
@@ -1031,13 +1025,23 @@
         if(item.tipo == 'dist') { boxArma.style.display = 'flex'; document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; } 
         else if (item.tipo == 'municao') { boxMun.style.display = 'flex'; document.getElementById('mv-ammo-text').innerText = item.munAtual; }
 
+        // Ocultar botão apagar se for Mundo (agora é apagado na lista)
+        const btnApagar = document.querySelector('#modal-view .btn-apagar');
+        if (['guilda', 'local', 'pessoa'].includes(tipoLista)) {
+            if(btnApagar) btnApagar.style.display = 'none';
+        } else {
+            if(btnApagar) btnApagar.style.display = 'block';
+        }
+
         document.getElementById('modal-view').style.display = 'flex'; 
     }
 
     function abrirSubItem(tipoParent, parentId, subId) {
         currentParentContext = { tipo: tipoParent, id: parentId }; currentSubItemId = subId;
         let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
+        if(!parentObj) return;
         let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        if(!subObj) return;
         
         document.getElementById('ms-nome').value = subObj.nome; 
         document.getElementById('ms-desc').value = subObj.desc || '';
