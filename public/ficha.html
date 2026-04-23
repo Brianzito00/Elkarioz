@@ -75,7 +75,7 @@
             -moz-appearance: textfield; 
         }
 
-        /* === CABEÇALHO DA FICHA (NOVO DESIGN IGUAL A IMAGEM) === */
+        /* === CABEÇALHO DA FICHA === */
         .header-rpg-container { 
             display: flex; 
             gap: 25px; 
@@ -159,7 +159,7 @@
         .conteudo-principal { flex: 1; min-width: 0; } 
         .sidebar-direita { flex: 0 0 260px; display: flex; flex-direction: column; gap: 20px;} 
 
-        /* === ATRIBUTOS (FORMATO PÍLULA QUADRADA) === */
+        /* === ATRIBUTOS === */
         .atributo-box { 
             background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; 
             text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; 
@@ -234,7 +234,7 @@
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
 
-        /* === INVENTÁRIO CARDS === */
+        /* === INVENTÁRIO CARDS E DIREITA === */
         .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
         .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
@@ -242,31 +242,16 @@
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
         
-        /* === SIDEBAR DIREITA (DEFESA E LISTAS) === */
-        .defesa-box { 
-            background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; 
-            text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        
+        .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
         .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
         
-        .list-section-title {
-            font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px;
-        }
+        .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
 
-        .btn-add { 
-            background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; 
-            cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; 
-            transition: 0.2s; font-size: 0.8rem; margin-top:5px; 
-        }
+        .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
         
-        .item-btn { 
-            background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; 
-            padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; 
-            font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;
-        }
+        .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
         .item-btn:hover { background: #fff; transform: translateX(3px);}
 
         /* === ARMAS EQUIPADAS === */
@@ -372,7 +357,6 @@
 <div class="ficha-container">
     
     <div class="header-rpg-container">
-        
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
             <div id="portrait-placeholder">📷</div>
@@ -388,6 +372,7 @@
                     <input type="text" id="player-name-input" oninput="sincronizarComMestre()">
                     <label>Jogador(a)</label>
                 </div>
+                
                 <div class="campo-uid-container">
                     <div class="campo-rpg campo-uid" style="flex: 1;">
                         <input type="text" id="uid-input" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
@@ -447,7 +432,6 @@
                 <div class="section-separator" style="margin-top:0;"></div>
                 
                 <div class="status-container">
-                    
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
                         <div class="status-controls">
@@ -546,13 +530,10 @@
                 </div>
 
                 <div style="margin-top:25px;">
-                    <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">PESSOAS / NPCs</div>
-                    <div id="lista-pessoas"></div>
-                </div>
-
-                <div style="margin-top:25px;">
-                    <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS CHAVE</div>
+                    <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                    
                     <div id="lista-locais"></div>
+                    <div id="lista-pessoas"></div>
                 </div>
 
             </div>
@@ -745,7 +726,6 @@
 </div>
 
 <script>
-    // === CONFIGURAÇÕES E BANCOS ===
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
     if (!idUnicoFicha) {
         idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
@@ -754,7 +734,6 @@
 
     const socket = io();
     let meuUID = "";
-    
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
     const listaPericiasBase = [
@@ -790,6 +769,7 @@
     let tempSubItemsLista = []; 
     let currentParentContext = null;
     let currentSubItemId = null;
+    
     let animacaoGiro = null;
     let diceState = 0;
     let currentRollData = {};
@@ -813,7 +793,6 @@
         } else {
             document.getElementById('uid-input').value = "SEM SALA";
         }
-
         carregarFichaLocal(); 
         popularSelectPericias(); 
         recalcularTudo(); 
@@ -870,6 +849,8 @@
                 if (j.dbGuildas) dbGuildas = j.dbGuildas;
                 if (j.dbPessoas) dbPessoas = j.dbPessoas;
                 if (j.dbLocais) dbLocais = j.dbLocais;
+                if (j.dbMagias) dbMagias = j.dbMagias;
+
             } catch (e) {
                 console.error("Erro ao carregar a ficha salva: ", e);
             }
@@ -892,13 +873,21 @@
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
             mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
-            dbPericias, dbInventario, dbProficiencias, dbHabilidades, dbGuildas, dbPessoas, dbLocais, dbMagias
+            dbPericias: dbPericias, 
+            dbInventario: dbInventario, 
+            dbProficiencias: dbProficiencias, 
+            dbHabilidades: dbHabilidades, 
+            dbGuildas: dbGuildas, 
+            dbPessoas: dbPessoas, 
+            dbLocais: dbLocais, 
+            dbMagias: dbMagias
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
 
-    // === SOCKET.IO ===
-    socket.on('connect', () => { conectarSalaJogador(); });
+    socket.on('connect', () => { 
+        conectarSalaJogador();
+    });
 
     function conectarSalaJogador() {
         let sala = document.getElementById('uid-input').value.trim().toUpperCase();
@@ -920,8 +909,12 @@
         if (payload.idUnico === idUnicoFicha) {
             document.getElementById('uid-input').value = ""; 
             localStorage.removeItem('rpgFichaSala');
+            
             let btn = document.getElementById('btn-entrar-label');
-            if(btn) { btn.style.backgroundColor = "#b71c1c"; btn.innerText = "ENTRAR"; }
+            if(btn) {
+                btn.style.backgroundColor = "#b71c1c";
+                btn.innerText = "ENTRAR";
+            }
             alert("⚠️ Você foi desconectado da mesa pelo Mestre.\nVerifique sua sala ou insira um novo link.");
         }
     });
@@ -980,7 +973,6 @@
         salvarFichaLocal();
     }
 
-    // === CÁLCULOS ===
     function recalcularTudo() {
         const forcaAtual = getValor('forca');
         const cargaMaxima = Math.max(10, 10 + (forcaAtual * 2)); 
@@ -1026,7 +1018,12 @@
     }
 
     function getValor(id) { return parseFloat(document.getElementById(id).value) || 0; }
-    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
+    
+    function fecharModais() { 
+        document.querySelectorAll('.modal-overlay').forEach(m => { 
+            if(m.id !== 'dice-overlay-click') m.style.display = 'none'; 
+        }); 
+    }
     
     function mudarAbaPrincipal(idAba, btn) { 
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
@@ -1057,7 +1054,6 @@
         }
     }
 
-    // === RENDERIZADORES ===
     function popularSelectPericias() {
         let select = document.getElementById('mi-pericia');
         if(!select) return;
@@ -1066,7 +1062,8 @@
     }
 
     function renderizarPericias() {
-        const grid = document.getElementById('grid-pericias'); grid.innerHTML = '';
+        const grid = document.getElementById('grid-pericias'); 
+        grid.innerHTML = '';
         listaPericiasBase.forEach(p => {
             const d = dbPericias[p.n];
             grid.innerHTML += `
@@ -1081,7 +1078,8 @@
     }
 
     function renderizarMagias() {
-        const container = document.getElementById('magias-container'); container.innerHTML = '';
+        const container = document.getElementById('magias-container'); 
+        container.innerHTML = '';
         const listPrincipal = document.getElementById('lista-magias-principal'); 
         if(listPrincipal) listPrincipal.innerHTML = '';
 
@@ -1161,7 +1159,7 @@
         document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
         document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
         
-        // MUNDO (Cascata na Ficha)
+        // === MUNDO (Cascata na Ficha) ===
         document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => {
             let membros = (g.membros || []).map(m => `
                 <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
@@ -1170,24 +1168,26 @@
             return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('guilda', ${g.id})">&times;</button></div>` + membros;
         }).join('');
 
+        // Montando Locais e também verificando NPCs soltos
         document.getElementById('lista-locais').innerHTML = dbLocais.map(l => {
             let pontos = (l.pontos || []).map(p => `
                 <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍 ${p.nome}</button>
+                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
                 </div>`).join('');
             return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('local', ${l.id})">&times;</button></div>` + pontos;
         }).join('');
 
+        // Pessoas soltas (sem local)
         document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `
             <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
                 <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
                 <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('pessoa', ${p.id})">&times;</button>
             </div>`).join('');
         
-        renderizarMagias(); salvarFichaLocal();
+        renderizarMagias(); 
+        salvarFichaLocal();
     }
 
-    // === MODAIS ===
     function abrirModalPericia(nome) { 
         periciaAbertaNome = nome; let d = dbPericias[nome]; 
         document.getElementById('mp-nome').innerText = nome; 
@@ -1196,6 +1196,7 @@
         document.getElementById('mp-total').innerText = d.total; 
         document.getElementById('modal-pericia').style.display = 'flex'; 
     }
+    
     function salvarPericia() { 
         let d = dbPericias[periciaAbertaNome]; 
         d.treinado = document.getElementById('mp-treinado').checked; 
@@ -1301,10 +1302,13 @@
 
     function abrirVisualizacao(tipoLista, id) { 
         tipoContexto = tipoLista; 
+        
         let lista = tipoLista == 'inv' ? dbInventario : (tipoLista == 'prof' ? dbProficiencias : (tipoLista == 'guilda' ? dbGuildas : (tipoLista == 'local' ? dbLocais : (tipoLista == 'pessoa' ? dbPessoas : (tipoLista == 'magia' ? dbMagias : dbHabilidades))))); 
-        let item = lista.find(x => x.id == id); if(!item) return;
+        let item = lista.find(x => x.id == id); 
+        if(!item) return;
 
-        itemAbertoId = id; document.getElementById('mv-nome').innerText = item.nome || item.titulo; 
+        itemAbertoId = id; 
+        document.getElementById('mv-nome').innerText = item.nome || item.titulo; 
         let textoFormatado = "";
         
         if (tipoLista == 'magia') {
@@ -1319,24 +1323,42 @@
         const imgEl = document.getElementById('mv-img');
         if(item.img) { imgEl.src = item.img; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
 
-        const subListContainer = document.getElementById('mv-subitems-list'); subListContainer.innerHTML = ''; subListContainer.style.display = 'none';
+        const subListContainer = document.getElementById('mv-subitems-list'); 
+        subListContainer.innerHTML = ''; 
+        subListContainer.style.display = 'none';
         
         if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) {
-            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>';
-            item.membros.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
+            subListContainer.style.display = 'flex'; 
+            subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>';
+            item.membros.forEach(sub => { 
+                let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; 
+                subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; 
+            });
         } else if (tipoLista == 'local' && item.pontos && item.pontos.length > 0) {
-            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>';
-            item.pontos.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
+            subListContainer.style.display = 'flex'; 
+            subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>';
+            item.pontos.forEach(sub => { 
+                let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; 
+                subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; 
+            });
         }
 
-        const boxArma = document.getElementById('mv-actions-dist'); const boxMun = document.getElementById('mv-ammo-container');
-        boxArma.style.display = 'none'; boxMun.style.display = 'none';
-        if(item.tipo == 'dist') { boxArma.style.display = 'flex'; document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; } 
-        else if (item.tipo == 'municao') { boxMun.style.display = 'flex'; document.getElementById('mv-ammo-text').innerText = item.munAtual; }
+        const boxArma = document.getElementById('mv-actions-dist'); 
+        const boxMun = document.getElementById('mv-ammo-container');
+        
+        boxArma.style.display = 'none'; 
+        boxMun.style.display = 'none';
+        
+        if(item.tipo == 'dist') { 
+            boxArma.style.display = 'flex'; 
+            document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; 
+        } else if (item.tipo == 'municao') { 
+            boxMun.style.display = 'flex'; 
+            document.getElementById('mv-ammo-text').innerText = item.munAtual; 
+        }
 
-        // TRAVA O BOTAO APAGAR PRO JOGADOR SE FOR MUNDO/LORE
         const btnApagar = document.querySelector('#modal-view .btn-apagar');
-        if (['guilda', 'local', 'pessoa', 'historia'].includes(tipoLista)) {
+        if (['guilda', 'local', 'pessoa'].includes(tipoLista)) {
             if(btnApagar) btnApagar.style.display = 'none';
         } else {
             if(btnApagar) btnApagar.style.display = 'block';
@@ -1369,6 +1391,7 @@
         else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
         else dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
+        
         renderizarListas(); fecharModais(); 
     }
 
@@ -1387,9 +1410,8 @@
             box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.zIndex = "9999"; overlay.style.zIndex = "9998";
             box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
-            // Segurança: Injeta o texto na hora
             text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">Sorteando...</small>`;
-            overlay.onclick = null; box.onclick = null; // Trava o clique durante o giro
+            overlay.onclick = null; box.onclick = null; 
 
             let frames = 0;
             animacaoGiro = setInterval(() => {
