@@ -209,51 +209,39 @@
         #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
         #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
-        /* === NOVO DESIGN: CARDS LATERAIS DO MUNDO (IGUAL IMAGEM) === */
+        /* === DESIGN ANTIGO (MUNDO ITEM BTN) - COM FOTO MAIOR === */
         .mundo-item-rpg {
             background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b;
-            padding: 8px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
-            align-items: center; transition: 0.2s; margin-bottom: 8px; border-radius: 4px;
+            padding: 10px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.2s; margin-bottom: 10px; border-radius: 4px;
         }
-        .mundo-item-rpg:hover { background-color: #f4ebd8; transform: translateX(3px); box-shadow: 0 2px 5px rgba(0,0,0,0.15);}
-        .mundo-item-nome { font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 10px;}
+        .mundo-item-rpg:hover { background-color: #f4ebd8; transform: translateX(3px); box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
+        .mundo-item-nome { font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 15px;}
         
         .mini-img-moldura {
-            width: 32px; height: 32px; border: 1px solid #5c3a21; object-fit: cover; background: #fff; 
-            display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border-radius: 2px;
+            width: 50px; height: 50px; border: 2px solid #5c3a21; object-fit: cover; background: #fff; 
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* === NOVO DESIGN: JANELAS DE HISTÓRIA (ACCORDION) === */
-        .historia-window { 
-            background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; 
-            border-radius: 4px; display: flex; flex-direction: column; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        /* === DESIGN EDITOR DE HISTÓRIA - ESTILO PERGAMINHO === */
+        .story-paper {
+            background-color: #f4ebd8; border: 2px solid #8b5a2b; padding: 30px 40px;
+            display: flex; flex-direction: column; flex: 1; box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
         }
+        .story-header-inline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%; }
+        .story-title-input {
+            font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900; color: #5c3a21;
+            background: transparent; border: none; outline: none; flex: 1; text-transform: uppercase;
+        }
+        .story-title-input::placeholder { color: rgba(92, 58, 33, 0.4); }
+        .story-divider { border-bottom: 2px dashed rgba(139, 90, 43, 0.4); margin-bottom: 20px; width: 100%; }
         
-        .historia-window-header { 
-            display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; 
-            background: #eaddc4; cursor: pointer; border-radius: 4px 4px 0 0; 
+        .story-body-input {
+            font-family: 'Lora', serif; font-size: 1.05rem; line-height: 1.6; color: #3e2723;
+            background: transparent; border: none; outline: none; width: 100%; flex: 1; resize: vertical;
         }
-        
-        .historia-window-header:hover { background: #f4ebd8; }
-        
-        .historia-title-input { 
-            background: transparent; border: none; border-bottom: 1px dashed transparent; font-family: 'Cinzel', serif; 
-            font-weight: 900; font-size: 1.2rem; color: #b71c1c; outline: none; width: 80%; text-transform: uppercase; transition: 0.2s;
-        }
-        .historia-title-input:focus { border-color: rgba(183, 28, 28, 0.5); background: rgba(255,255,255,0.3); }
-        .historia-title-input::placeholder { color: rgba(183, 28, 28, 0.4); }
-
-        .historia-window-body { 
-            padding: 15px; background: rgba(244, 235, 216, 0.6); border-top: 1px dashed rgba(139, 90, 43, 0.4); 
-            display: flex; flex-direction: column; gap: 10px; border-radius: 0 0 4px 4px;
-        }
-        
-        .historia-textarea { 
-            width: 100%; height: 180px; resize: vertical; font-family: 'Lora', serif; font-size: 1.05rem; 
-            line-height: 1.6; color: #3e2723; padding: 15px; border: 1px solid rgba(139, 90, 43, 0.3); 
-            border-radius: 4px; background: #fdfbf7; outline: none; 
-        }
-        .historia-textarea:focus { border-color: #b71c1c; }
+        .story-body-input::placeholder { color: rgba(62, 39, 35, 0.4); }
 
         /* === CARDS JOGADOR / MONSTRO === */
         .player-card, .monstro-card { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; position: relative; }
@@ -310,14 +298,15 @@
         .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
-        
+
         /* === LOG DE ROLAGENS === */
         #dice-log-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 5px; }
         .log-entry { background: rgba(255,255,255,0.8); border: 2px solid #5c3a21; border-radius: 6px; padding: 12px; color: #3e2723; font-family: 'Roboto', sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
         .log-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 5px; font-weight: bold;}
         .log-result { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; margin-top: 5px; text-align: center; }
         
-        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} .tab-content.active { display: flex; flex-direction: column;}
+        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} 
+        .tab-content.active { display: flex; flex-direction: column;}
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* === MODAIS GERAIS === */
@@ -328,8 +317,8 @@
         .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
 
-        /* === DADOS POPUP (EFEITO 3D) === */
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; cursor: pointer; display: none; background: rgba(0,0,0,0.5); }
+        /* === DADOS POPUP (EFEITO 3D) CORRIGIDO === */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.5); }
         #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none;}
         #dice-result-container.dice-pop-active { display: block !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
@@ -437,11 +426,24 @@
                         
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 20px;">
                             <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
-                            <button class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="criarNovoCapitulo()">+ NOVO CAPÍTULO</button>
+                            <button class="btn-acao" id="btn-novo-capitulo" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="abrirEditorHistoria()">+ NOVO CAPÍTULO</button>
                         </div>
                         
                         <div id="lista-historias-container">
                             <div class="placeholder-dashed">Crie um novo capítulo para começar a escrever sua história.</div>
+                        </div>
+
+                        <div id="editor-historia-inline" style="display: none;" class="story-paper">
+                            <div class="story-header-inline">
+                                <input type="text" id="hist-title-inline" placeholder="Título do Capítulo / Lore..." class="story-title-input">
+                            </div>
+                            <div class="story-divider"></div>
+                            <textarea id="hist-body-inline" placeholder="Era uma vez... Escreva aqui a sua história, lore ou anotações da campanha..." class="story-body-input"></textarea>
+                            
+                            <div style="display: flex; gap: 15px; margin-top: 15px; border-top: 2px dashed rgba(139, 90, 43, 0.4); padding-top: 15px;">
+                                <button class="btn-acao" style="background: #2e7d32;" onclick="salvarHistoria()">💾 SALVAR CAPÍTULO</button>
+                                <button class="btn-acao" style="background: transparent; border: 2px solid #8b5a2b; color: #8b5a2b;" onclick="fecharEditorHistoria()">CANCELAR</button>
+                            </div>
                         </div>
 
                     </div>
@@ -571,7 +573,7 @@
     let tempHabilidades = [];
     
     let dbHistorias = []; 
-    let historiaAbertaId = null; // Guarda qual janela de historia está expandida
+    let historiaAbertaId = null;
     
     let dbPessoas = []; 
     let dbGuildas = []; 
@@ -626,9 +628,10 @@
     }
     
     function copiarLink() { 
-        document.getElementById('link-convite').select(); 
+        let inputLink = document.getElementById('link-convite');
+        inputLink.select(); 
         document.execCommand("copy"); 
-        alert("Link Copiado! Envie aos seus jogadores."); 
+        alert("Link de Convite Copiado! Envie aos seus jogadores."); 
     }
     
     function forcarSincronizacao() { 
@@ -998,49 +1001,49 @@
     }
 
     // ==========================================
-    // SISTEMA MUNDO E LORE (Janelas Sanfonadas)
+    // SISTEMA MUNDO E LORE (Layout Refeito e Imagens 50px)
     // ==========================================
     
-    function criarNovoCapitulo() {
-        let novoId = Date.now();
-        // Coloca no começo da lista
-        dbHistorias.unshift({ id: novoId, titulo: "Novo Capítulo", conteudo: "" });
-        historiaAbertaId = novoId; 
-        localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias));
-        renderizarMundo();
-    }
+    function abrirEditorHistoria(id = null) {
+        document.getElementById('lista-historias-container').style.display = 'none';
+        document.getElementById('btn-novo-capitulo').style.display = 'none';
+        document.getElementById('editor-historia-inline').style.display = 'flex';
 
-    function toggleHistoria(id) {
-        if (historiaAbertaId === id) {
-            historiaAbertaId = null; // Fecha se clicar na que já está aberta
+        if (id) {
+            historiaAbertaId = id; 
+            let hist = dbHistorias.find(h => h.id === id);
+            document.getElementById('hist-title-inline').value = hist.titulo; 
+            document.getElementById('hist-body-inline').value = hist.conteudo;
         } else {
-            historiaAbertaId = id; // Abre a nova
+            historiaAbertaId = null; 
+            document.getElementById('hist-title-inline').value = ''; 
+            document.getElementById('hist-body-inline').value = '';
         }
+    }
+
+    function fecharEditorHistoria() {
+        document.getElementById('lista-historias-container').style.display = 'flex';
+        document.getElementById('btn-novo-capitulo').style.display = 'block';
+        document.getElementById('editor-historia-inline').style.display = 'none';
+    }
+
+    function salvarHistoria() {
+        let titulo = document.getElementById('hist-title-inline').value.trim() || "Capítulo sem Título";
+        let conteudo = document.getElementById('hist-body-inline').value;
+        
+        if (historiaAbertaId) { 
+            let hist = dbHistorias.find(h => h.id === historiaAbertaId); 
+            hist.titulo = titulo; 
+            hist.conteudo = conteudo; 
+        } else { 
+            dbHistorias.push({ id: Date.now(), titulo: titulo, conteudo: conteudo }); 
+        }
+        
+        localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias)); 
+        fecharEditorHistoria(); 
         renderizarMundo();
     }
 
-    function salvarHistoriaEspecifica(id) {
-        let hist = dbHistorias.find(h => h.id === id);
-        if(hist) {
-            hist.titulo = document.getElementById('hist-title-' + id).value || "Capítulo sem Título";
-            hist.conteudo = document.getElementById('hist-body-' + id).value;
-            localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias));
-            // Fecha a janela ao salvar para confirmar que salvou
-            historiaAbertaId = null;
-            renderizarMundo();
-        }
-    }
-    
-    function salvarHistoriaSilencioso(id) {
-        let hist = dbHistorias.find(h => h.id === id);
-        if(hist) {
-            hist.titulo = document.getElementById('hist-title-' + id).value || "Capítulo sem Título";
-            hist.conteudo = document.getElementById('hist-body-' + id).value;
-            localStorage.setItem('rpgHistorias', JSON.stringify(dbHistorias));
-        }
-    }
-
-    // MODAL PARA GUILDAS, NPCS, LOCAIS
     function abrirModalCriacaoListas(tipo) {
         tipoContexto = tipo; 
         document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); 
@@ -1142,7 +1145,7 @@
         }
     }
 
-    // === SELEÇÃO E ENVIO DE ITENS ===
+    // === SELEÇÃO E ENVIO DE ITENS (O ALVO) ===
     function abrirModalEnvio(event, tipo, id) {
         event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
@@ -1183,37 +1186,30 @@
     }
 
     function renderizarMundo() {
-        // Atualiza a grade de Histórias (Janelas Sanfonadas)
+        // Atualiza a grade de Histórias (Esquerda)
         const contHistorias = document.getElementById('lista-historias-container');
         if (dbHistorias.length === 0) {
             contHistorias.innerHTML = '<div class="placeholder-dashed">Crie um novo capítulo para começar a escrever sua história.</div>';
         } else {
             contHistorias.innerHTML = '';
             dbHistorias.forEach(h => {
-                let isOpen = historiaAbertaId === h.id ? 'flex' : 'none';
-                let marker = historiaAbertaId === h.id ? '📂' : '📁';
-                
                 contHistorias.innerHTML += `
-                    <div class="historia-window">
-                        <div class="historia-window-header" onclick="toggleHistoria(${h.id})">
-                            <div style="display:flex; align-items:center; gap:10px; flex:1;">
-                                <span style="font-size:1.2rem;">${marker}</span>
-                                <input type="text" id="hist-title-${h.id}" class="historia-title-input" value="${h.titulo}" onclick="event.stopPropagation()" onchange="salvarHistoriaSilencioso(${h.id})" placeholder="Título do Capítulo...">
-                            </div>
-                            <div style="display:flex; gap: 8px;">
-                                <button style="background:transparent; border:none; cursor:pointer; font-size:1.2rem;" onclick="event.stopPropagation(); abrirModalEnvio(event, 'historia', ${h.id})" title="Enviar para Jogadores">📤</button>
-                                <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.5rem; line-height: 0.8; font-weight:bold;" onclick="event.stopPropagation(); apagarItemMundo(event, 'historia', ${h.id})" title="Apagar">&times;</button>
+                    <div class="mundo-item-rpg" style="flex-direction: column; align-items: stretch; cursor: pointer;" onclick="abrirEditorHistoria(${h.id})">
+                        <div style="display:flex; justify-content:space-between; align-items:center; width: 100%; border-bottom: 1px dashed rgba(139, 90, 43, 0.4); padding-bottom: 5px; margin-bottom: 5px;">
+                            <span class="mundo-item-nome">📖 ${h.titulo}</span>
+                            <div style="display:flex; gap:8px;">
+                                <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="event.stopPropagation(); abrirModalEnvio(event, 'historia', ${h.id})" title="Enviar para Jogadores">📤</button>
+                                <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="event.stopPropagation(); apagarItemMundo(event, 'historia', ${h.id})" title="Apagar">&times;</button>
                             </div>
                         </div>
-                        <div class="historia-window-body" id="hist-body-container-${h.id}" style="display: ${isOpen};">
-                            <textarea id="hist-body-${h.id}" class="historia-textarea" placeholder="Escreva a lore da campanha aqui..." onchange="salvarHistoriaSilencioso(${h.id})">${h.conteudo}</textarea>
-                            <button class="btn-acao" style="background:#2e7d32; padding: 10px;" onclick="salvarHistoriaEspecifica(${h.id})">💾 SALVAR CAPÍTULO</button>
+                        <div style="font-family:'Lora', serif; font-size:0.85rem; color:#5c3a21; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                            ${h.conteudo ? h.conteudo : '<i>Nenhum conteúdo...</i>'}
                         </div>
                     </div>`;
             });
         }
 
-        // Atualiza as listas da Sidebar (Direita) - Estilo Imagem
+        // Atualiza as listas da Sidebar (Direita) - Estilo Reto com Borda Marrom e Foto Maior
         const contGuildas = document.getElementById('lista-guildas-container');
         contGuildas.innerHTML = '';
         dbGuildas.forEach(g => {
@@ -1258,7 +1254,7 @@
     }
 
     // ==========================================
-    // SISTEMA DE DADOS (ROLAGENS DO MESTRE)
+    // SISTEMA DE DADOS (ROLAGENS DO MESTRE CORRIGIDA)
     // ==========================================
     let diceState = 0; 
     let currentRollData = {}; 
@@ -1305,6 +1301,18 @@
         
         box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
         
+        // NOVO: Preenche imediatamente para não ficar em branco
+        text.innerHTML = `
+            <img src="${DADO_IMG_URL}" class="pop-dado-img"><br>
+            <span class="pop-pericia-nome">${nomeDisplay}</span>
+            <span class="pop-total" style="color: #bbb;">...</span>
+            <small class="pop-hint">Sorteando...</small>
+        `;
+
+        // NOVO: Desativa cliques enquanto roda para não quebrar a animação
+        overlay.onclick = null; 
+        box.onclick = null;
+
         let frames = 0;
         animacaoGiro = setInterval(() => {
             let tempDado = Math.floor(Math.random() * 20) + 1; 
@@ -1322,9 +1330,6 @@
                 mostrarResultadoFinal(); 
             }
         }, 50);
-        
-        overlay.onclick = closeDiceRoll; 
-        box.onclick = closeDiceRoll;
     }
 
     function calcularDanoStr(expressao, mult = 1) {
@@ -1352,6 +1357,7 @@
         diceState = 2; 
         const box = document.getElementById('dice-result-container'); 
         const text = document.getElementById('dice-text'); 
+        const overlay = document.getElementById('dice-overlay-click');
         
         let nome = currentRollData.nome; 
         let finalHtml = ""; 
@@ -1449,6 +1455,10 @@
         });
         
         text.innerHTML = finalHtml;
+        
+        // Reativa os cliques para fechar apenas quando terminar
+        overlay.onclick = closeDiceRoll; 
+        box.onclick = closeDiceRoll;
     }
 
     function closeDiceRoll() { 
