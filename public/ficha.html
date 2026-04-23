@@ -8,91 +8,224 @@
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
 
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+        }
 
         body {
             font-family: 'Lora', serif; 
             background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #3e2723; 
+            display: flex; 
+            justify-content: center; 
+            padding: 30px 15px; 
+            margin: 0; 
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* === FICHA TRANSLÚCIDA === */
         .ficha-container {
-            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1200px; 
-            border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
+            background-color: rgba(244, 235, 216, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px; 
+            border-radius: 4px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; 
+            max-width: 1200px; 
+            border: 3px solid #8b5a2b; 
+            outline: 5px solid rgba(92, 58, 33, 0.8); 
+            outline-offset: -12px; 
+            position: relative;
         }
 
         .section-title { 
-            font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; margin-bottom: 25px; 
-            text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-align: center; font-weight: 800; 
+            font-family: 'Cinzel', serif; 
+            color: #5c3a21; 
+            font-size: 1.4rem; 
+            margin-bottom: 25px; 
+            text-transform: uppercase; 
+            text-align: center; 
+            font-weight: 900; 
         }
         
-        .section-separator { border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%; }
-        input, select, textarea, button { font-family: 'Lora', serif; outline: none; }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+        .section-separator {
+            border-bottom: 2px dashed rgba(139, 90, 43, 0.5);
+            margin: 25px 0;
+            width: 100%;
+        }
+
+        input, select, textarea, button { 
+            font-family: 'Lora', serif; 
+            outline: none; 
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; margin: 0; 
+        }
+        
+        input[type=number] { 
+            appearance: textfield; 
+            -moz-appearance: textfield; 
+        }
 
         /* === CABEÇALHO DA FICHA === */
-        .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
+        .header-rpg-container { 
+            display: flex; 
+            gap: 25px; 
+            align-items: flex-start; 
+            margin-bottom: 35px; 
+            width: 100%; 
+        }
         
         .portrait-slot {
             width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; 
-            background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; 
-            flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative;
+            background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; 
+            align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); 
+            transition: 0.3s; position: relative;
         }
+        
         .portrait-slot:hover { border-color: #b71c1c; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
         
-        .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-start; }
-        .campo-rpg { display: flex; flex-direction: column; flex: 1; }
-        .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;}
-        .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; text-transform: uppercase; margin-top: 4px; margin-left: 2px; }
+        .header-info-grid { 
+            flex: 1; display: flex; flex-direction: column; gap: 10px; 
+        }
         
-        .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
-        .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; }
-        .btn-entrar { background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; height: 42px; display: flex; align-items: center; justify-content: center;}
+        .header-row { 
+            display: flex; gap: 15px; width: 100%; align-items: flex-start;
+        }
+        
+        .campo-rpg { 
+            display: flex; flex-direction: column; flex: 1; 
+        }
+        
+        .campo-rpg input, .campo-rpg select { 
+            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
+            height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
+        }
+        
+        .campo-rpg label { 
+            font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; 
+            text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
+        }
+        
+        /* SALA UID E BOTÃO ENTRAR */
+        .campo-uid-container {
+            display: flex; gap: 10px; flex: 1.2; align-items: flex-start;
+        }
+        
+        .campo-uid input { 
+            background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; 
+        }
+        
+        .btn-entrar { 
+            background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; 
+            padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; 
+            height: 42px; display: flex; align-items: center; justify-content: center;
+        }
+        
         .btn-entrar:hover { background-color: #ff9100; color: #3e2723; }
 
         /* === ABAS NAVEGAÇÃO === */
-        .tabs-nav { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0; }
-        .tab-btn { background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;}
-        .tab-btn.active { background: #b71c1c; color: #fff; border-color: #b71c1c; }
+        .tabs-nav { 
+            display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0;
+        }
+        
+        .tab-btn { 
+            background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; 
+            cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
+            border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;
+        }
+        
+        .tab-btn.active { 
+            background: #b71c1c; color: #fff; border-color: #b71c1c; 
+        }
+        
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === LAYOUT COLUNAS === */
+        /* === LAYOUT COLUNAS PRINCIPAIS === */
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
         .sidebar-direita { flex: 0 0 260px; display: flex; flex-direction: column; gap: 20px;} 
 
         /* === ATRIBUTOS === */
-        .atributo-box { background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; gap: 5px;}
-        .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0;}
-        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0;}
+        .atributo-box { 
+            background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; 
+            text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; 
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
+        
+        .atributo-box label { 
+            display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; 
+            font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0;
+        }
+        
+        .atributo-box input { 
+            width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; 
+            background: transparent; color: #000; font-family: 'Lora', serif; padding: 0;
+        }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
         /* === STATUS CENTRAL (VIDA E MANA) === */
-        .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px;}
-        .status-module { display: flex; align-items: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1;}
-        .circle-icon { width: 55px; height: 55px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.3rem; }
-        .status-controls { display: flex; flex-direction: column; flex: 1; align-items: center; gap: 5px;}
-        .status-label { font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; color: #3e2723; text-transform: uppercase;}
-        .status-row { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;}
-        .btn-status { background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
+        .status-container { 
+            display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px;
+        }
+        
+        .status-module { 
+            display: flex; align-items: center; gap: 15px; background: #eaddc4; 
+            padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1;
+        }
+        
+        .circle-icon { 
+            width: 55px; height: 55px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; 
+            border: 3px solid #000; flex-shrink: 0; font-size: 1.3rem; 
+        }
+        
+        .status-controls {
+            display: flex; flex-direction: column; flex: 1; align-items: center; gap: 5px;
+        }
+        
+        .status-label {
+            font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; color: #3e2723; text-transform: uppercase;
+        }
+        
+        .status-row {
+            display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;
+        }
+        
+        .btn-status { 
+            background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; 
+            border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;
+        }
+        
         .btn-status:hover { background-color: #b71c1c; }
-        .status-pill { width: 70px; height: 35px; border: 2px solid #000; border-radius: 20px; text-align: center; font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;}
+        
+        .status-pill {
+            width: 70px; height: 35px; border: 2px solid #000; border-radius: 20px; text-align: center;
+            font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;
+        }
         .vida-color { background-color: #b71c1c; }
         .mana-color { background-color: #0d47a1; }
+        
         .max-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px; }
         .max-box label { font-size: 0.65rem; font-weight: 900; font-family: 'Roboto'; color: #000; margin-bottom: 2px;}
-        .max-circle { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000;}
+        .max-circle { 
+            width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; 
+            font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000;
+        }
 
         /* === PERÍCIAS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
@@ -116,6 +249,7 @@
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
+        
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
         .item-btn:hover { background: #fff; transform: translateX(3px);}
 
@@ -131,13 +265,14 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
-        /* === ABA INVENTÁRIO === */
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
         .carga-barra-bg { width: 100%; height: 18px; background: #ddd; border: 2px solid #000; border-radius: 10px; margin: 15px 0 0 0; overflow: hidden; }
         .carga-barra-fill { height: 100%; width: 0%; background: #2e7d32; transition: 0.3s; }
         .carga-barra-fill.excedido { background: #b71c1c; }
+        
         .moedas-container { flex: 1 1 30%; min-width: 180px; background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
@@ -170,7 +305,7 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS - POP UP ANIMADO (BLINDADO) === */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -602,11 +737,12 @@
     let socket;
     let meuUID = "";
     
-    try {
+    // Verifica se o socket.io foi carregado no navegador antes de conectar
+    if (typeof io !== 'undefined') {
         socket = io();
-    } catch(e) {
+    } else {
         console.warn("Servidor offline ou arquivo aberto localmente. Rodando modo offline.");
-        // Cria um socket "fantasma" para não quebrar o código
+        // Cria um socket "fantasma" que não faz nada, para os scripts não quebrarem
         socket = { 
             on: function(){}, 
             emit: function(){} 
@@ -664,32 +800,26 @@
     }
 
     window.onload = () => { 
-        let salaConectada = obterSalaDaUrl();
-        if (salaConectada) {
-            document.getElementById('uid-input').value = salaConectada;
-            meuUID = salaConectada;
-        } else {
-            document.getElementById('uid-input').value = "SEM SALA";
-        }
-
         carregarFichaLocal(); 
         popularSelectPericias(); 
+        
+        let urlSala = obterSalaDaUrl();
+        let salvaSala = localStorage.getItem('rpgFichaSala');
+        let salaFinal = urlSala || salvaSala;
+        
+        if (salaFinal) {
+            document.getElementById('uid-input').value = salaFinal;
+            conectarSalaJogador(); // Conecta e sinaliza visualmente
+        } else {
+            document.getElementById('uid-input').value = "";
+        }
+
         recalcularTudo(); 
         atualizarBarras(); 
-        
-        // Tenta conectar se houver servidor rodando
-        if(salaConectada) conectarSalaJogador();
     };
 
     function carregarFichaLocal() {
         let salvo = localStorage.getItem('rpgFichaLocal');
-        let salaSalva = localStorage.getItem('rpgFichaSala');
-        
-        if (salaSalva) {
-            document.getElementById('uid-input').value = salaSalva;
-            let btn = document.getElementById('btn-entrar-label');
-            if(btn) { btn.style.backgroundColor = "#2e7d32"; btn.innerText = "✔️ " + salaSalva; }
-        }
 
         if(salvo) {
             try {
@@ -723,15 +853,16 @@
                     document.getElementById('portrait-placeholder').style.display = 'none';
                 }
 
-                // BLINDAGEM DE VAZIOS (Evita falhas no .map())
                 if (j.dbPericias) dbPericias = j.dbPericias;
-                if (j.dbInventario) dbInventario = j.dbInventario || [];
-                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias || [];
-                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades || [];
-                if (j.dbGuildas) dbGuildas = j.dbGuildas || [];
-                if (j.dbPessoas) dbPessoas = j.dbPessoas || [];
-                if (j.dbLocais) dbLocais = j.dbLocais || [];
-                if (j.dbMagias) dbMagias = j.dbMagias || [];
+                if (j.dbInventario) dbInventario = j.dbInventario;
+                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias;
+                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
+                
+                // Trata as Arrays caso venham nulas/corrompidas do cache
+                if (j.dbGuildas) dbGuildas = j.dbGuildas; else dbGuildas = [];
+                if (j.dbPessoas) dbPessoas = j.dbPessoas; else dbPessoas = [];
+                if (j.dbLocais) dbLocais = j.dbLocais; else dbLocais = [];
+                if (j.dbMagias) dbMagias = j.dbMagias; else dbMagias = [];
                 
             } catch (e) {
                 console.error("Erro ao carregar a ficha salva: ", e);
@@ -741,6 +872,8 @@
 
     function salvarFichaLocal() {
         let pImg = document.getElementById('portrait-img');
+        let defInput = document.getElementById('defesa-personagem');
+        
         let dadosParaSalvar = {
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
@@ -749,20 +882,20 @@
             classe: document.getElementById('classe-input').value,
             divindade: document.getElementById('divindade-input').value,
             nivel: document.getElementById('nivel').value,
-            defesa: document.getElementById('defesa-personagem') ? document.getElementById('defesa-personagem').value : 10,
+            defesa: defInput ? defInput.value : 10,
             forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
             mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
-            dbPericias: dbPericias || {}, 
-            dbInventario: dbInventario || [], 
-            dbProficiencias: dbProficiencias || [], 
-            dbHabilidades: dbHabilidades || [], 
-            dbGuildas: dbGuildas || [], 
-            dbPessoas: dbPessoas || [], 
-            dbLocais: dbLocais || [], 
-            dbMagias: dbMagias || []
+            dbPericias: dbPericias, 
+            dbInventario: dbInventario, 
+            dbProficiencias: dbProficiencias, 
+            dbHabilidades: dbHabilidades, 
+            dbGuildas: dbGuildas, 
+            dbPessoas: dbPessoas, 
+            dbLocais: dbLocais, 
+            dbMagias: dbMagias
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
@@ -1061,33 +1194,45 @@
             }
         });
 
-        document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
-        document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
+        const profList = document.getElementById('lista-proficiencias');
+        if(profList) profList.innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
         
-        // === MUNDO E LORE ===
-        document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => {
-            let membros = (g.membros || []).map(m => `
-                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
-                </div>`).join('');
-            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('guilda', ${g.id})">&times;</button></div>` + membros;
-        }).join('');
+        const habList = document.getElementById('lista-habilidades');
+        if(habList) habList.innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
+        
+        // === MUNDO (Cascata na Ficha) ===
+        const guildaList = document.getElementById('lista-guildas');
+        if(guildaList) {
+            guildaList.innerHTML = dbGuildas.map(g => {
+                let membros = (g.membros || []).map(m => `
+                    <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
+                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
+                    </div>`).join('');
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('guilda', ${g.id})">&times;</button></div>` + membros;
+            }).join('');
+        }
 
         // CASCATA DE LOCAIS E NPCS (VINCULADOS)
-        document.getElementById('lista-locais').innerHTML = dbLocais.map(l => {
-            let pontos = (l.pontos || []).map(p => `
-                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
-                </div>`).join('');
-            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('local', ${l.id})">&times;</button></div>` + pontos;
-        }).join('');
+        const locaisList = document.getElementById('lista-locais');
+        if(locaisList) {
+            locaisList.innerHTML = dbLocais.map(l => {
+                let pontos = (l.pontos || []).map(p => `
+                    <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
+                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
+                    </div>`).join('');
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('local', ${l.id})">&times;</button></div>` + pontos;
+            }).join('');
+        }
 
-        // PESSOAS SOLTAS (Que não tem vínculo com um local)
-        document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `
-            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('pessoa', ${p.id})">&times;</button>
-            </div>`).join('');
+        // PESSOAS SOLTAS
+        const pessoasList = document.getElementById('lista-pessoas');
+        if(pessoasList) {
+            pessoasList.innerHTML = dbPessoas.map(p => `
+                <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
+                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
+                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo('pessoa', ${p.id})">&times;</button>
+                </div>`).join('');
+        }
         
         renderizarMagias(); 
         salvarFichaLocal();
