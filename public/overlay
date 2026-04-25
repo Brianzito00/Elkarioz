@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay de Stream - RPG Total</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Lora:ital,wght@0,600;1,400&family=Roboto:wght@700;900&display=swap');
+
+        /* Fundo transparente essencial para o OBS */
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: transparent; 
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        /* Container Principal */
+        .widget-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.5));
+        }
+
+        /* Avatar do Personagem */
+        .avatar-box {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 6px solid #000;
+            background-color: #c24d45; /* Fundo avermelhado igual à imagem */
+            overflow: hidden;
+            position: relative;
+            z-index: 10; /* Fica por cima das barras */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Container das 3 Barras */
+        .bars-container {
+            display: flex;
+            flex-direction: column;
+            margin-left: -20px; /* Puxa as barras para debaixo do avatar */
+            z-index: 5;
+            width: 320px;
+        }
+
+        /* Estilo base de todas as barras */
+        .bar-row {
+            border: 4px solid #000;
+            border-left: none; /* A borda esquerda fica escondida no avatar */
+            position: relative;
+            display: flex;
+            align-items: center;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Barra do Topo (Nome e Nível) */
+        .top-bar {
+            background-color: #fdfbf7;
+            height: 45px;
+            justify-content: space-between;
+            padding: 0 20px 0 35px;
+            border-bottom: none; /* Junta com a barra de baixo */
+            border-radius: 0 8px 0 0;
+            /* Efeito de papel rasgado na direita (opcional, simulado com clip-path) */
+            clip-path: polygon(0 0, 98% 0, 100% 20%, 99% 40%, 100% 60%, 98% 80%, 100% 100%, 0 100%);
+        }
+
+        .char-name {
+            font-family: 'Lora', serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #170f0a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .char-level {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #b69d2f; /* Amarelo/Dourado */
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+        }
+
+        /* Barras de HP e MP (Fundo vazio) */
+        .hp-bar, .mp-bar {
+            height: 32px;
+            background-color: #2a0b0b; /* Fundo vermelho escuro quando vazio */
+            border-bottom: none;
+            overflow: hidden;
+        }
+        
+        .mp-bar {
+            background-color: #0b1c3a; /* Fundo azul escuro quando vazio */
+            border-bottom: 4px solid #000; /* Última barra tem borda embaixo */
+            border-radius: 0 0 8px 0;
+        }
+
+        /* O preenchimento líquido animado */
+        .fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%; /* Começa cheio */
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .fill-hp { background-color: #b82326; }
+        .fill-mp { background-color: #143d8d; }
+
+        /* Textos "9/9" e "8/8" */
+        .bar-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6); /* Branco translúcido */
+            z-index: 2;
+            padding-left: 20px; /* Compensa o espaço do avatar */
+            letter-spacing: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="widget-container" id="widget" style="display: none;">
+        
+        <div class="avatar-box">
+            <img id="o-img" src="https://via.placeholder.com/150" alt="Avatar">
+        </div>
+
+        <div class="bars-container">
+            
+            <div class="bar-row top-bar">
+                <span class="char-name" id="o-nome">Carregando...</span>
+                <span class="char-level" id="o-nivel">1</span>
+            </div>
+
+            <div class="bar-row hp-bar">
+                <div class="fill fill-hp" id="o-hp-fill"></div>
+                <span class="bar-text" id="o-hp-text">0/0</span>
+            </div>
+
+            <div class="bar-row mp-bar">
+                <div class="fill fill-mp" id="o-mp-fill"></div>
+                <span class="bar-text" id="o-mp-text">0/0</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        // Pega as informações da URL do OBS
+        const urlParams = new URLSearchParams(window.location.search);
+        const salaConfig = urlParams.get('sala');
+        const nomeConfig = urlParams.get('nome');
+
+        // Se não tiver os parâmetros na URL, mostra uma mensagem na tela do OBS
+        if (!salaConfig || !nomeConfig) {
+            document.body.innerHTML = `
+                <div style="background: rgba(0,0,0,0.8); color: white; padding: 20px; font-family: sans-serif; border-radius: 8px;">
+                    <h3>Overlay não configurado!</h3>
+                    <p>Adicione os parâmetros no link do OBS.</p>
+                    <p>Exemplo:<br> <b>http://localhost:3000/overlay.html?sala=SUASALA&nome=NomedoPersonagem</b></p>
+                </div>
+            `;
+        } else {
+            document.getElementById('widget').style.display = 'flex';
+        }
+
+        // Quando o overlay liga, ele pede pro servidor a situação atual da mesa
+        socket.on('connect', () => {
+            if (salaConfig) {
+                socket.emit('solicitarEstadoSala', salaConfig.toUpperCase());
+            }
+        });
+
+        // Quando o mestre/servidor envia a lista completa de jogadores
+        socket.on('estadoSalaCompleto', function(jogadores) {
+            atualizarPersonagemNaTela(jogadores);
+        });
+
+        // Quando um jogador atualiza a vida ou mana, ele atualiza na hora
+        socket.on('atualizarDados', function(data) {
+            if(data.uid && data.uid.toUpperCase() === salaConfig.toUpperCase()) {
+                // Montamos um mini-objeto de jogadores falsos só com quem atualizou, para reaproveitar a função
+                let tempObj = {};
+                tempObj[data.dados.idUnico] = data.dados;
+                atualizarPersonagemNaTela(tempObj);
+            }
+        });
+
+        // Função que lê os dados e desenha as barras
+        function atualizarPersonagemNaTela(listaJogadores) {
+            const chaves = Object.keys(listaJogadores);
+            
+            // Procura na lista quem tem o mesmo nome que configuramos no OBS
+            for (let i = 0; i < chaves.length; i++) {
+                let p = listaJogadores[chaves[i]];
+                
+                if (p.charName && p.charName.toLowerCase() === nomeConfig.toLowerCase()) {
+                    
+                    // Atualiza Imagem e Textos
+                    if(p.img) document.getElementById('o-img').src = p.img;
+                    document.getElementById('o-nome').innerText = p.charName;
+                    document.getElementById('o-nivel').innerText = p.nivel || 1;
+
+                    // Cálculos de HP e MP
+                    let hpA = parseFloat(p.hpAtual) || 0;
+                    let hpM = parseFloat(p.hpMax) || 1;
+                    let mpA = parseFloat(p.mpAtual) || 0;
+                    let mpM = parseFloat(p.mpMax) || 1;
+
+                    // Textos das barras
+                    document.getElementById('o-hp-text').innerText = `${hpA}/${hpM}`;
+                    document.getElementById('o-mp-text').innerText = `${mpA}/${mpM}`;
+
+                    // Largura do líquido (com limites entre 0% e 100%)
+                    let hpPerc = Math.max(0, Math.min(100, (hpA / hpM) * 100));
+                    let mpPerc = Math.max(0, Math.min(100, (mpA / mpM) * 100));
+
+                    document.getElementById('o-hp-fill').style.width = hpPerc + '%';
+                    document.getElementById('o-mp-fill').style.width = mpPerc + '%';
+                    
+                    break; // Achou o jogador, não precisa olhar os outros
+                }
+            }
+        }
+    </script>
+</body>
+</html>
