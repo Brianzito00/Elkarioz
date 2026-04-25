@@ -8,171 +8,83 @@
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
 
-        * { 
-            box-sizing: border-box; 
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Lora', serif; 
-            background-color: #170f0a; 
+            font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #3e2723; 
-            display: flex; 
-            justify-content: center; 
-            padding: 30px 15px; 
-            margin: 0; 
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
         }
 
-        /* === FICHA TRANSLÚCIDA === */
         .ficha-container {
-            background-color: rgba(244, 235, 216, 0.88);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 40px; 
-            border-radius: 4px; 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
-            width: 100%; 
-            max-width: 1200px; 
-            border: 3px solid #8b5a2b; 
-            outline: 5px solid rgba(92, 58, 33, 0.8); 
-            outline-offset: -12px; 
-            position: relative;
+            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1200px; 
+            border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
         }
 
-        .section-title { 
-            font-family: 'Cinzel', serif; 
-            color: #5c3a21; 
-            font-size: 1.4rem; 
-            margin-bottom: 25px; 
-            text-transform: uppercase; 
-            border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
-            padding-bottom: 10px; 
-            text-align: center; 
-            font-weight: 800; 
-        }
+        .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-align: center; font-weight: 800; }
+        .section-separator { border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%; }
         
-        .section-separator {
-            border-bottom: 2px dashed rgba(139, 90, 43, 0.5);
-            margin: 25px 0;
-            width: 100%;
-        }
+        input, select, textarea, button { font-family: 'Lora', serif; outline: none; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
 
-        input, select, textarea, button { 
-            font-family: 'Lora', serif; 
-            outline: none; 
-            border: 1px solid #8b5a2b; 
-        }
-        
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; margin: 0; 
-        }
-        
-        input[type=number] { 
-            appearance: textfield; 
-            -moz-appearance: textfield; 
-        }
-
-        /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
-        
-        .portrait-slot {
-            width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; 
-            border-radius: 4px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; 
-            align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); 
-            transition: 0.3s; position: relative;
-        }
-        
+        .portrait-slot { width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative;}
         .portrait-slot:hover { border-color: #b71c1c; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
         
         .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 10px; }
         .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-start; }
-        
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
-        .campo-rpg input, .campo-rpg select { 
-            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
-            height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
-        }
-        .campo-rpg label { 
-            font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; 
-            text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
-        }
+        .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;}
+        .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; text-transform: uppercase; margin-top: 4px; margin-left: 2px; }
         
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
         .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; }
-        
-        .btn-entrar { 
-            background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; 
-            padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; 
-            height: 42px; display: flex; align-items: center; justify-content: center;
-        }
+        .btn-entrar { background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; height: 42px; display: flex; align-items: center; justify-content: center;}
         .btn-entrar:hover { background-color: #ff9100; color: #3e2723; }
 
-        /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0; }
-        .tab-btn { 
-            background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; 
-            cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
-            border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;
-        }
+        .tab-btn { background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;}
         .tab-btn.active { background: #b71c1c; color: #fff; border-color: #b71c1c; }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === LAYOUT COLUNAS PRINCIPAIS === */
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
         .sidebar-direita { flex: 0 0 260px; display: flex; flex-direction: column; gap: 20px;} 
 
-        /* === ATRIBUTOS === */
-        .atributo-box { 
-            background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; 
-            text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; 
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
-        }
-        .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0; }
-        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; }
+        .atributo-box { background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; gap: 5px;}
+        .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0;}
+        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0;}
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS CENTRAL (VIDA E MANA LÍQUIDOS) === */
-        .status-container { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; gap: 20px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
-        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 15px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0; }
-        .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
-        
-        .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; flex: 1;}
-        .bar-title { font-family: 'Roboto'; font-weight: 900; font-size: 0.7rem; color: #3e2723; margin-bottom: 3px; margin-left: 38px; }
-        .bar-capsule { display: flex; align-items: center; gap: 10px; width: 100%; }
-        
-        .btn-status { background-color: rgba(92, 58, 33, 0.9); color: #fff; border: 2px solid #3e2723; width: 28px; height: 28px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
+        .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px;}
+        .status-module { display: flex; align-items: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1;}
+        .circle-icon { width: 55px; height: 55px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.3rem; }
+        .status-controls { display: flex; flex-direction: column; flex: 1; align-items: center; gap: 5px;}
+        .status-label { font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; color: #3e2723; text-transform: uppercase;}
+        .status-row { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;}
+        .btn-status { background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
         .btn-status:hover { background-color: #b71c1c; }
-        
-        .glass-track { flex: 1; min-width: 80px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
-        .liquid-fill { height: 100%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .vida-color { background-color: #b71c1c; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
-        .mana-color { background-color: #0d47a1; box-shadow: inset 0 0 15px rgba(255,255,255,0.3); }
-        .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1.3rem; font-weight: 900; text-shadow: 1px 1px 2px #000; z-index: 5; }
-        
-        .max-box { display: flex; flex-direction: column; align-items: center; }
-        .max-box label { font-size: 0.6rem; font-weight: 900; font-family: 'Roboto'; color: #000; }
-        .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; background: rgba(255, 255, 255, 0.9); }
+        .status-pill { width: 70px; height: 35px; border: 2px solid #000; border-radius: 20px; text-align: center; font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000;}
+        .vida-color { background-color: #b71c1c; }
+        .mana-color { background-color: #0d47a1; }
+        .max-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px; }
+        .max-box label { font-size: 0.65rem; font-weight: 900; font-family: 'Roboto'; color: #000; margin-bottom: 2px;}
+        .max-circle { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000;}
 
-        /* === PERÍCIAS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
         .pericia-card { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
         .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.1); box-shadow: 0 0 8px rgba(183, 28, 28, 0.3); }
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
         .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
 
-        /* === INVENTÁRIO CARDS E DIREITA === */
         .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
         .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
@@ -191,7 +103,6 @@
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
         .item-btn:hover { background: #fff; transform: translateX(3px);}
 
-        /* === ARMAS EQUIPADAS === */
         .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
@@ -203,7 +114,6 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
-        /* === ABA INVENTÁRIO === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
@@ -218,14 +128,12 @@
         .btn-moeda:hover { background: #ffca28; }
         .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0;}
 
-        /* === MAGIAS === */
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge.active { background: rgba(92, 58, 33, 0.9); color: #f4ebd8; border-color: #3e2723; }
         .magia-circulo-section { margin-bottom: 30px; }
         .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px #fff; }
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
-        /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto; }
         .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
@@ -243,7 +151,6 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS - POP UP ANIMADO (BLINDADO) === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -251,6 +158,7 @@
             z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
+
         #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
 
@@ -286,9 +194,7 @@
 <body>
 
 <div id="dice-overlay-click"></div>
-<div id="dice-result-container">
-    <div id="dice-text" style="width: 100%;"></div>
-</div>
+<div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
 
 <div class="ficha-container">
     
@@ -373,9 +279,9 @@
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
-                        <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE VIDA</span>
-                            <div class="bar-capsule">
+                        <div class="status-controls">
+                            <span class="status-label">PONTOS DE VIDA</span>
+                            <div class="status-row">
                                 <button class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="vida-fill" class="liquid-fill vida-color"></div>
@@ -389,9 +295,9 @@
 
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
-                        <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE MANA</span>
-                            <div class="bar-capsule">
+                        <div class="status-controls">
+                            <span class="status-label">PONTOS DE MANA</span>
+                            <div class="status-row">
                                 <button class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="mana-fill" class="liquid-fill mana-color"></div>
@@ -408,7 +314,7 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <button class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.85rem;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
+                    <button class="btn-acao" style="background:#5c3a21; color:#fff; border:none; padding:8px 15px; border-radius:4px; font-family:'Cinzel'; font-weight:bold; cursor:pointer;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
                 </div>
                 
                 <div class="pericias-grid" id="grid-pericias"></div>
@@ -710,15 +616,8 @@
         localStorage.setItem('rpg_id_ficha', idUnicoFicha);
     }
 
-    let socket;
+    const socket = io();
     let meuUID = "";
-    
-    if (typeof io !== 'undefined') {
-        socket = io();
-    } else {
-        console.warn("Modo Offline");
-        socket = { on: function(){}, emit: function(){} };
-    }
     
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
@@ -773,21 +672,20 @@
 
     window.onload = () => { 
         let salaConectada = obterSalaDaUrl();
-        let salvaSala = localStorage.getItem('rpgFichaSala');
-        let salaFinal = salaConectada || salvaSala;
-
-        if (salaFinal) { document.getElementById('uid-input').value = salaFinal; }
-        
-        carregarFichaLocal(); 
-        popularSelectPericias(); 
-        recalcularTudo(); 
-        atualizarBarras(); 
-        
-        if (salaFinal && typeof io !== 'undefined') { conectarSalaJogador(); }
+        if (salaConectada) { document.getElementById('uid-input').value = salaConectada; meuUID = salaConectada; }
+        carregarFichaLocal(); popularSelectPericias(); recalcularTudo(); atualizarBarras(); 
     };
 
     function carregarFichaLocal() {
         let salvo = localStorage.getItem('rpgFichaLocal');
+        let salaSalva = localStorage.getItem('rpgFichaSala');
+        
+        if (salaSalva) {
+            document.getElementById('uid-input').value = salaSalva;
+            let btn = document.getElementById('btn-entrar-label');
+            if(btn) { btn.style.backgroundColor = "#2e7d32"; btn.innerText = "✔️ " + salaSalva; }
+        }
+
         if(salvo) {
             try {
                 let j = JSON.parse(salvo);
@@ -817,13 +715,13 @@
                 if (j.dbPericias) dbPericias = j.dbPericias;
                 if (j.dbPericiasCustom) dbPericiasCustom = j.dbPericiasCustom; else dbPericiasCustom = [];
                 
-                if (j.dbInventario) dbInventario = j.dbInventario; else dbInventario = [];
-                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias; else dbProficiencias = [];
-                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades; else dbHabilidades = [];
-                if (j.dbGuildas) dbGuildas = j.dbGuildas; else dbGuildas = [];
-                if (j.dbPessoas) dbPessoas = j.dbPessoas; else dbPessoas = [];
-                if (j.dbLocais) dbLocais = j.dbLocais; else dbLocais = [];
-                if (j.dbMagias) dbMagias = j.dbMagias; else dbMagias = [];
+                if (j.dbInventario) dbInventario = j.dbInventario;
+                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias;
+                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades;
+                if (j.dbGuildas) dbGuildas = j.dbGuildas;
+                if (j.dbPessoas) dbPessoas = j.dbPessoas;
+                if (j.dbLocais) dbLocais = j.dbLocais;
+                if (j.dbMagias) dbMagias = j.dbMagias;
             } catch (e) { console.error(e); }
         }
     }
@@ -840,8 +738,7 @@
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
             dbPericias: dbPericias, dbPericiasCustom: dbPericiasCustom, 
-            dbInventario: dbInventario, dbProficiencias: dbProficiencias, dbHabilidades: dbHabilidades, 
-            dbGuildas: dbGuildas, dbPessoas: dbPessoas, dbLocais: dbLocais, dbMagias: dbMagias
+            dbInventario, dbProficiencias, dbHabilidades, dbGuildas, dbPessoas, dbLocais, dbMagias
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
@@ -853,7 +750,6 @@
         let btn = document.getElementById('btn-entrar-label');
         if(sala && sala !== "SEM SALA") {
             document.getElementById('uid-input').value = sala; localStorage.setItem('rpgFichaSala', sala);
-            meuUID = sala;
             btn.style.backgroundColor = "#2e7d32"; btn.innerText = "✔️ " + sala; sincronizarComMestre();
         } else { btn.style.backgroundColor = "#b71c1c"; btn.innerText = "ENTRAR"; }
     }
@@ -884,30 +780,9 @@
             let meuNome = document.getElementById('char-name-input').value.trim();
             if (payload.target === 'todos' || payload.target === meuNome) {
                 let tipo = payload.entidade.tipoLista; let dados = payload.entidade.dados;
-                
-                if (tipo === 'guilda') { 
-                    let idx = dbGuildas.findIndex(g => g.id === dados.id);
-                    if(idx === -1) dbGuildas.push(dados); else dbGuildas[idx] = dados;
-                }
-                else if (tipo === 'local') { 
-                    let idx = dbLocais.findIndex(l => l.id === dados.id);
-                    if(idx === -1) dbLocais.push(dados); else dbLocais[idx] = dados;
-                    if(dados.pontos && dados.pontos.length > 0) {
-                        dados.pontos.forEach(pt => { dbPessoas = dbPessoas.filter(p => p.id !== pt.id); });
-                    }
-                }
-                else if (tipo === 'pessoa') { 
-                    let localConhecido = dados.localId ? dbLocais.find(l => l.id == dados.localId) : null;
-                    if (localConhecido) {
-                        if(!localConhecido.pontos) localConhecido.pontos = [];
-                        let pIdx = localConhecido.pontos.findIndex(p => p.id === dados.id);
-                        if(pIdx === -1) localConhecido.pontos.push(dados); else localConhecido.pontos[pIdx] = dados;
-                        dbPessoas = dbPessoas.filter(p => p.id !== dados.id);
-                    } else {
-                        let pIdx = dbPessoas.findIndex(p => p.id === dados.id);
-                        if(pIdx === -1) dbPessoas.push(dados); else dbPessoas[pIdx] = dados;
-                    }
-                }
+                if (tipo === 'guilda') { if(!dbGuildas.find(g => g.id === dados.id)) dbGuildas.push(dados); }
+                else if (tipo === 'local') { if(!dbLocais.find(l => l.id === dados.id)) dbLocais.push(dados); }
+                else if (tipo === 'pessoa') { if(!dbPessoas.find(p => p.id === dados.id)) dbPessoas.push(dados); }
                 renderizarListas();
             }
         }
@@ -929,12 +804,22 @@
         let moedas = getValor('moedas-atual'); cargaAtual += Math.floor(moedas / 20);
         document.getElementById('carga-atual').innerText = cargaAtual;
         const barraCarga = document.getElementById('carga-fill'); barraCarga.style.width = Math.min((cargaAtual / cargaMaxima) * 100, 100) + '%'; barraCarga.classList.toggle('excedido', cargaAtual > cargaMaxima);
+        
         const nivel = parseInt(document.getElementById('nivel').value); 
         let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : nivel < 17 ? 5 : 6;
         
-        listaPericiasBase.forEach(p => { if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0}; let d = dbPericias[p.n]; d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); });
-        dbPericiasCustom.forEach(p => { if(!dbPericias[p.nome]) dbPericias[p.nome] = {treinado: false, bonus: 0, total: 0}; let d = dbPericias[p.nome]; d.total = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); });
-        
+        listaPericiasBase.forEach(p => { 
+            if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0}; 
+            let d = dbPericias[p.n]; 
+            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
+        });
+
+        dbPericiasCustom.forEach(p => {
+            if(!dbPericias[p.nome]) dbPericias[p.nome] = {treinado: false, bonus: 0, total: 0};
+            let d = dbPericias[p.nome];
+            d.total = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0);
+        });
+
         renderizarPericias(); sincronizarComMestre();
     }
 
@@ -985,7 +870,18 @@
             let filt = dbMagias.filter(m => m.circulo == c);
             if(filt.length > 0) {
                 let html = `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">`;
-                filt.forEach(m => { html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; if (listPrincipal) listPrincipal.innerHTML += `<button class="item-btn" style="border-left-color:#b71c1c; display:flex; justify-content:space-between; align-items:center;" onclick="abrirVisualizacao('magia', ${m.id})"><span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span></button>`; });
+                filt.forEach(m => { 
+                    html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; 
+                    if (listPrincipal) {
+                        listPrincipal.innerHTML += `
+                        <div class="item-btn" style="border-left-color:#b71c1c; padding:0; display:flex; margin-bottom:4px;">
+                            <button style="flex:1; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('magia', ${m.id})">
+                                <span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span>
+                            </button>
+                            <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'magia', ${m.id})">&times;</button>
+                        </div>`;
+                    }
+                });
                 container.innerHTML += html + `</div></div>`;
             }
         });
@@ -997,6 +893,17 @@
             if(tipo === 'guilda') dbGuildas = dbGuildas.filter(x => x.id !== id);
             if(tipo === 'pessoa') dbPessoas = dbPessoas.filter(x => x.id !== id);
             if(tipo === 'local') dbLocais = dbLocais.filter(x => x.id !== id);
+            renderizarListas();
+        }
+    }
+
+    // === NOVA FUNÇÃO PARA APAGAR DA LISTA PRINCIPAL (SEM PRECISAR ABRIR O MODAL) ===
+    function apagarItemList(event, tipo, id) {
+        event.stopPropagation();
+        if(confirm("Tem certeza que deseja remover este item?")) {
+            if(tipo === 'prof') dbProficiencias = dbProficiencias.filter(x => x.id !== id);
+            else if(tipo === 'hab') dbHabilidades = dbHabilidades.filter(x => x.id !== id);
+            else if(tipo === 'magia') dbMagias = dbMagias.filter(x => x.id !== id);
             renderizarListas();
         }
     }
@@ -1021,20 +928,40 @@
             }
         });
 
-        document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `<button class="item-btn" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>`).join('');
-        document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `<button class="item-btn" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>`).join('');
+        document.getElementById('lista-proficiencias').innerHTML = dbProficiencias.map(p => `
+            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
+                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>
+                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
+            </div>`).join('');
+            
+        document.getElementById('lista-habilidades').innerHTML = dbHabilidades.map(h => `
+            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
+                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>
+                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
+            </div>`).join('');
         
+        // MUNDO (Cascata na Ficha)
         document.getElementById('lista-guildas').innerHTML = dbGuildas.map(g => {
-            let membros = (g.membros || []).map(m => `<div style="display:flex; justify-content:space-between; align-items:center; background: #f4ebd8; border: 1px solid #c8b99e; border-left: 4px solid #0d47a1; padding: 10px 12px; margin-left: 20px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})"><span style="font-family:'Lora', serif; font-weight:bold; font-size:1rem; color:#3e2723;">👤 ${m.nome}</span></div>`).join('');
-            return `<div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('guilda', ${g.id})"><span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">🛡️ ${g.nome}</span><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
+            let membros = (g.membros || []).map(m => `
+                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
+                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
+                </div>`).join('');
+            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
         }).join('');
 
         document.getElementById('lista-locais').innerHTML = dbLocais.map(l => {
-            let pontos = (l.pontos || []).map(p => `<div style="display:flex; justify-content:space-between; align-items:center; background: #f4ebd8; border: 1px solid #c8b99e; border-left: 4px solid #2e7d32; padding: 10px 12px; margin-left: 20px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirSubItem('local', ${l.id}, ${p.id})"><span style="font-family:'Lora', serif; font-weight:bold; font-size:1rem; color:#3e2723;">📍/👤 ${p.nome}</span></div>`).join('');
-            return `<div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('local', ${l.id})"><span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">📍 ${l.nome}</span><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
+            let pontos = (l.pontos || []).map(p => `
+                <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
+                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
+                </div>`).join('');
+            return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
         }).join('');
 
-        document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `<div style="display:flex; justify-content:space-between; align-items:center; background: #fdfbf7; border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; padding: 10px 12px; margin-bottom: 4px; border-radius: 2px; cursor:pointer; transition:0.2s;" onclick="abrirVisualizacao('pessoa', ${p.id})"><span style="font-family:'Lora', serif; font-weight:900; font-size:1.1rem; color:#3e2723;">👤 ${p.nome}</span><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 5px; line-height:1;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button></div>`).join('');
+        document.getElementById('lista-pessoas').innerHTML = dbPessoas.map(p => `
+            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
+                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
+                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
+            </div>`).join('');
         
         renderizarMagias(); salvarFichaLocal();
     }
@@ -1097,14 +1024,23 @@
         if(item.img) { imgEl.src = item.img; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
 
         const subListContainer = document.getElementById('mv-subitems-list'); subListContainer.innerHTML = ''; subListContainer.style.display = 'none';
+        
+        if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) {
+            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>';
+            item.membros.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
+        } else if (tipoLista == 'local' && item.pontos && item.pontos.length > 0) {
+            subListContainer.style.display = 'flex'; subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>';
+            item.pontos.forEach(sub => { let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; });
+        }
 
         const boxArma = document.getElementById('mv-actions-dist'); const boxMun = document.getElementById('mv-ammo-container');
         boxArma.style.display = 'none'; boxMun.style.display = 'none';
         if(item.tipo == 'dist') { boxArma.style.display = 'flex'; document.getElementById('mv-loaded-ammo').innerText = `${item.munAtual} / ${item.munMax}`; } 
         else if (item.tipo == 'municao') { boxMun.style.display = 'flex'; document.getElementById('mv-ammo-text').innerText = item.munAtual; }
 
+        // Ocultar botão apagar do modal se for Mundo (agora é apagado na lista diretamente)
         const btnApagar = document.querySelector('#modal-view .btn-apagar');
-        if (['guilda', 'local', 'pessoa'].includes(tipoLista)) {
+        if (['guilda', 'local', 'pessoa', 'prof', 'hab', 'magia'].includes(tipoLista)) {
             if(btnApagar) btnApagar.style.display = 'none';
         } else {
             if(btnApagar) btnApagar.style.display = 'block';
@@ -1132,35 +1068,43 @@
         document.getElementById('modal-personagem').style.display = 'flex';
     }
 
+    function apagarItemAberto() { 
+        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); 
+        renderizarListas(); fecharModais(); 
+    }
+
+    // ==============================================================
+    // 9. SISTEMA DE DADOS (CRÍTICO EXATO E FALHA/BOM)
+    // ==============================================================
+
     function rolarDado(nome, bonus) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; iniciarGiroDado(nome, bonus, '#b71c1c'); }
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { if(diceState !== 0) return; diceState = 1; currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); }
     function rolarDano(nome, expressao, bonusExtra = 0) { if(diceState !== 0) return; diceState = 1; let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true); }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
         const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
-        box.style.display = 'flex'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
-        box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.zIndex = "9999"; overlay.style.zIndex = "9998";
-        box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
-
-        text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">Sorteando...</small>`;
-        overlay.onclick = null; box.onclick = null; 
+        box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
+        box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
         let frames = 0;
         animacaoGiro = setInterval(() => {
             let tempDado = Math.floor(Math.random() * 20) + 1;
             let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">Sorteando...</small>`;
+            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
 
             if (++frames >= 12) { 
                 clearInterval(animacaoGiro);
                 mostrarResultadoFinal();
             }
         }, 50);
+        
+        overlay.onclick = handleDiceClick; box.onclick = handleDiceClick;
     }
 
     function mostrarResultadoFinal() {
         diceState = 2; 
-        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
+        const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); 
         let nome = currentRollData.nome; let finalHtml = "";
         let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
 
