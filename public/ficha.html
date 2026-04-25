@@ -54,7 +54,7 @@
             border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%;
         }
 
-        input, select, textarea, button { font-family: 'Lora', serif; outline: none; }
+        input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b; }
         
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
@@ -83,7 +83,6 @@
             text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
         }
         
-        /* SALA UID */
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
         .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; }
         
@@ -119,13 +118,13 @@
             display: flex; flex-direction: column; align-items: center; gap: 5px;
         }
         .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0; }
-        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; }
+        .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; -moz-appearance: textfield;}
         .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS CENTRAL (BARRAS LÍQUIDAS CLÁSSICAS) === */
-        .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px; }
-        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0;}
+        /* === STATUS CENTRAL (BARRAS LÍQUIDAS) === */
+        .status-container { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; gap: 20px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
+        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 15px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0; }
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
         
         .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; flex: 1; width: 100%;}
@@ -140,12 +139,12 @@
         .vida-color { background-color: #b71c1c; box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
         .mana-color { background-color: #0d47a1; box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
         
-        .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1.3rem; font-weight: 900; text-shadow: 1px 1px 2px #000; z-index: 5; }
+        .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1.3rem; font-weight: 900; text-shadow: 1px 1px 2px #000; z-index: 5; -moz-appearance: textfield;}
         .atual-input::-webkit-outer-spin-button, .atual-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         .max-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px; }
         .max-box label { font-size: 0.65rem; font-weight: 900; font-family: 'Roboto'; color: #000; margin-bottom: 2px;}
-        .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000;}
+        .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000; -moz-appearance: textfield;}
         .max-input::-webkit-outer-spin-button, .max-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
         /* === PERÍCIAS === */
@@ -165,7 +164,7 @@
         
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
-        .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; }
+        .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; -moz-appearance: textfield;}
         .defesa-box input::-webkit-outer-spin-button, .defesa-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
@@ -228,7 +227,7 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO (BLINDADO) === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -271,9 +270,7 @@
 <body>
 
 <div id="dice-overlay-click"></div>
-<div id="dice-result-container">
-    <div id="dice-text" style="width: 100%;"></div>
-</div>
+<div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
 
 <div class="ficha-container">
     
@@ -465,7 +462,6 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
-                    
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -683,28 +679,21 @@
     </div>
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
+
 <script>
+    // ==============================================================
+    // 1. CONFIGURAÇÃO BASE E SOCKET.IO
+    // ==============================================================
+
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
     if (!idUnicoFicha) {
         idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
         localStorage.setItem('rpg_id_ficha', idUnicoFicha);
     }
 
-    // ==== BLINDAGEM DO SOCKET ====
-    let socket;
+    const socket = io();
     let meuUID = "";
-    
-    // Verifica se o socket.io foi carregado no navegador antes de conectar
-    if (typeof io !== 'undefined') {
-        socket = io();
-    } else {
-        console.warn("Servidor offline ou arquivo aberto localmente. Rodando modo offline.");
-        // Cria um socket "fantasma" que não faz nada, para os scripts não quebrarem
-        socket = { 
-            on: function(){}, 
-            emit: function(){} 
-        };
-    }
     
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
@@ -765,13 +754,14 @@
         if (salaFinal) { 
             document.getElementById('uid-input').value = salaFinal; 
             meuUID = salaFinal;
-            conectarSalaJogador(); 
         }
 
         carregarFichaLocal(); 
         popularSelectPericias(); 
         recalcularTudo(); 
         atualizarBarras(); 
+        
+        conectarSalaJogador(); 
     };
 
     function carregarFichaLocal() {
@@ -887,13 +877,9 @@
         if (payload.idUnico === idUnicoFicha) {
             document.getElementById('uid-input').value = ""; 
             localStorage.removeItem('rpgFichaSala');
-            
             let btn = document.getElementById('btn-entrar-label');
-            if(btn) {
-                btn.style.backgroundColor = "#b71c1c";
-                btn.innerText = "ENTRAR";
-            }
-            alert("⚠️ Você foi desconectado da mesa pelo Mestre.\nVerifique sua sala ou insira um novo link.");
+            if(btn) { btn.style.backgroundColor = "#b71c1c"; btn.innerText = "ENTRAR"; }
+            alert("⚠️ Você foi desconectado da mesa pelo Mestre.");
         }
     });
 
@@ -972,10 +958,7 @@
             img: pImg.style.display !== 'none' ? pImg.src : ""
         };
         
-        if (socket.emit) {
-            socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
-        }
-        
+        socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
         salvarFichaLocal();
     }
 
@@ -1244,7 +1227,7 @@
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
                         <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
             }).join('');
         }
 
@@ -1255,7 +1238,7 @@
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
                         <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">👤 ${p.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
             }).join('');
         }
 
@@ -1264,7 +1247,7 @@
             pessoasList.innerHTML = dbPessoas.map(p => `
                 <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
                     <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
+                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
                 </div>`).join('');
         }
         
@@ -1615,7 +1598,7 @@
             document.getElementById('mv-ammo-text').innerText = item.munAtual; 
         }
 
-        // Oculta o botão de apagar no Modal se o item for desses tipos
+        // Oculta o botão de apagar no Modal se o item for desses tipos (já tem o X na lista)
         const btnApagar = document.querySelector('#modal-view .btn-apagar');
         if (['guilda', 'local', 'pessoa', 'prof', 'hab', 'magia'].includes(tipoLista)) {
             if(btnApagar) btnApagar.style.display = 'none';
@@ -1686,154 +1669,139 @@
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
-        try {
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
-            
-            box.style.display = 'flex'; 
-            overlay.style.display = 'block'; 
-            box.classList.remove('dice-pop-out'); 
-            void box.offsetWidth; 
-            
-            box.classList.add('dice-pop-active'); 
-            box.style.borderColor = borderColor; 
-            box.style.zIndex = "9999"; 
-            overlay.style.zIndex = "9998";
-            box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
+        const box = document.getElementById('dice-result-container'); 
+        const text = document.getElementById('dice-text'); 
+        const overlay = document.getElementById('dice-overlay-click');
+        
+        box.style.display = 'flex'; 
+        overlay.style.display = 'block'; 
+        box.classList.remove('dice-pop-out'); 
+        void box.offsetWidth; 
+        
+        box.classList.add('dice-pop-active'); 
+        box.style.borderColor = borderColor; 
+        box.style.zIndex = "9999"; 
+        overlay.style.zIndex = "9998";
+        box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">Sorteando...</small>`;
-            
-            overlay.onclick = null; 
-            box.onclick = null; 
+        text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">Sorteando...</small>`;
+        
+        overlay.onclick = null; 
+        box.onclick = null; 
 
-            let frames = 0;
-            animacaoGiro = setInterval(() => {
-                try {
-                    let tempDado = Math.floor(Math.random() * 20) + 1;
-                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">Sorteando...</small>`;
+        let frames = 0;
+        animacaoGiro = setInterval(() => {
+            let tempDado = Math.floor(Math.random() * 20) + 1;
+            let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">Sorteando...</small>`;
 
-                    if (++frames >= 12) { 
-                        clearInterval(animacaoGiro);
-                        mostrarResultadoFinal();
-                    }
-                } catch(e) { 
-                    clearInterval(animacaoGiro); 
-                    closeDiceRoll(); 
-                }
-            }, 50);
-        } catch(e) { 
-            closeDiceRoll(); 
-        }
+            if (++frames >= 12) { 
+                clearInterval(animacaoGiro);
+                mostrarResultadoFinal();
+            }
+        }, 50);
     }
 
     function mostrarResultadoFinal() {
-        try {
-            diceState = 2; 
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
+        diceState = 2; 
+        const box = document.getElementById('dice-result-container'); 
+        const text = document.getElementById('dice-text'); 
+        const overlay = document.getElementById('dice-overlay-click');
+        
+        let nome = currentRollData.nome; 
+        let finalHtml = "";
+        let resultadoLog = 0; 
+        let detalhesLog = ""; 
+        let isCrit = false; 
+        let isDesastre = false; 
+        let tipoCategoriaLog = ""; 
+        let corCategoriaLog = "";
+
+        if (currentRollData.isDano) {
+            let totalDano = calcularDanoStr(currentRollData.expressao); 
+            let corCataroria = "#8b0000"; 
+            let categoria = "DANO";
             
-            let nome = currentRollData.nome; 
-            let finalHtml = "";
-            let resultadoLog = 0; 
-            let detalhesLog = ""; 
-            let isCrit = false; 
-            let isDesastre = false; 
-            let tipoCategoriaLog = ""; 
-            let corCategoriaLog = "";
+            resultadoLog = totalDano; 
+            detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
+            tipoCategoriaLog = categoria; 
+            corCategoriaLog = corCataroria;
 
-            if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); 
-                let corCataroria = "#8b0000"; 
-                let categoria = "DANO";
-                
-                resultadoLog = totalDano; 
-                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
-                tipoCategoriaLog = categoria; 
-                corCategoriaLog = corCataroria;
+            box.style.borderColor = corCataroria;
+            
+            if (!document.getElementById(`glow-${categoria}`)) { 
+                const style = document.createElement('style'); 
+                style.id = `glow-${categoria}`; 
+                style.innerHTML = `@keyframes diceGlowPulse${categoria} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
+                document.head.appendChild(style); 
+            }
+            
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria} 2s infinite 0.5s`;
+            
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+        
+        } else {
+            
+            let dadoReal = Math.floor(Math.random() * 20) + 1; 
+            let bonus = currentRollData.bonus; 
+            let totalSoma = dadoReal + bonus;
+            let categoria = "NORMAL", corCataroria = "#2e7d32"; 
+            let extraCritHtml = ""; 
 
-                box.style.borderColor = corCataroria;
-                
-                if (!document.getElementById(`glow-${categoria}`)) { 
-                    const style = document.createElement('style'); 
-                    style.id = `glow-${categoria}`; 
-                    style.innerHTML = `@keyframes diceGlowPulse${categoria} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                    document.head.appendChild(style); 
+            if (dadoReal === 1) { 
+                categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
+            } 
+            else if (dadoReal === 20) {
+                categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
+                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
+                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
+                    let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
+                    let sinal = bonus >= 0 ? '+' : '';
+                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
                 }
-                
-                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria} 2s infinite 0.5s`;
-                
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
-            
             } else {
-                
-                let dadoReal = Math.floor(Math.random() * 20) + 1; 
-                let bonus = currentRollData.bonus; 
-                let totalSoma = dadoReal + bonus;
-                let categoria = "NORMAL", corCataroria = "#2e7d32"; 
-                let extraCritHtml = ""; 
-
-                if (dadoReal === 1) { 
-                    categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
-                } 
-                else if (dadoReal === 20) {
-                    categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
-                    if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                        let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
-                        let mult = multMatch ? parseInt(multMatch[1]) : 2; 
-                        let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
-                        let sinal = bonus >= 0 ? '+' : '';
-                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
-                    }
-                } else {
-                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                    else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
-                    else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
-                    else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
-                }
-
-                resultadoLog = totalSoma; 
-                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
-                tipoCategoriaLog = categoria; 
-                corCategoriaLog = corCataroria;
-                
-                box.style.borderColor = corCataroria;
-                
-                let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
-                if (!document.getElementById(`glow-${safeCat}`)) { 
-                    const style = document.createElement('style'); 
-                    style.id = `glow-${safeCat}`; 
-                    style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                    document.head.appendChild(style); 
-                }
-                
-                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-                
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
             }
 
-            let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
-            let uidAtual = document.getElementById('uid-input').value || meuUID;
-
-            if (typeof socket !== 'undefined' && socket.emit) {
-                socket.emit('player_dice_roll', { 
-                    uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
-                    detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
-                    isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
-                });
+            resultadoLog = totalSoma; 
+            detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
+            tipoCategoriaLog = categoria; 
+            corCategoriaLog = corCataroria;
+            
+            box.style.borderColor = corCataroria;
+            
+            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            if (!document.getElementById(`glow-${safeCat}`)) { 
+                const style = document.createElement('style'); 
+                style.id = `glow-${safeCat}`; 
+                style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
+                document.head.appendChild(style); 
             }
-
-            text.innerHTML = finalHtml;
             
-            overlay.onclick = handleDiceClick; 
-            box.onclick = handleDiceClick;
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
             
-        } catch (e) { 
-            console.error(e); 
-            closeDiceRoll(); 
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
+
+        let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
+        let uidAtual = document.getElementById('uid-input').value || meuUID;
+
+        if (typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('player_dice_roll', { 
+                uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
+                detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
+                isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
+            });
+        }
+
+        text.innerHTML = finalHtml;
+        
+        overlay.onclick = handleDiceClick; 
+        box.onclick = handleDiceClick;
     }
 
     function handleDiceClick() { 
