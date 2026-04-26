@@ -54,7 +54,7 @@
             border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%;
         }
 
-        input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b; }
+        input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b;}
         
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
@@ -75,7 +75,7 @@
         
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
         .campo-rpg input, .campo-rpg select { 
-            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
+            border: 2px solid #000; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
             height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
         }
         .campo-rpg label { 
@@ -83,6 +83,7 @@
             text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
         }
         
+        /* SALA UID */
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
         .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; }
         
@@ -105,7 +106,7 @@
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === LAYOUT COLUNAS PRINCIPAIS === */
+        /* === LAYOUT COLUNAS === */
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
@@ -122,9 +123,9 @@
         .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS CENTRAL (BARRAS LÍQUIDAS) === */
-        .status-container { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between; gap: 20px; margin-bottom: 35px; padding: 20px; border-top: 2px dashed #8b5a2b; border-bottom: 2px dashed #8b5a2b; }
-        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(234, 221, 197, 0.6); padding: 15px 15px; border-radius: 15px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0; }
+        /* === STATUS BARRAS LÍQUIDAS === */
+        .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px; }
+        .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0;}
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
         
         .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; flex: 1; width: 100%;}
@@ -186,7 +187,7 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
-        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
+        /* === ABA INVENTÁRIO === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
@@ -227,7 +228,7 @@
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
 
-        /* === SISTEMA DE DADOS - POP UP ANIMADO (BLINDADO) === */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -270,7 +271,9 @@
 <body>
 
 <div id="dice-overlay-click"></div>
-<div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
+<div id="dice-result-container">
+    <div id="dice-text" style="width: 100%;"></div>
+</div>
 
 <div class="ficha-container">
     
@@ -462,6 +465,7 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                    
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -692,8 +696,16 @@
         localStorage.setItem('rpg_id_ficha', idUnicoFicha);
     }
 
-    const socket = io();
+    let socket;
     let meuUID = "";
+    
+    // Conexão Segura
+    if (typeof io !== 'undefined') {
+        socket = io();
+    } else {
+        console.warn("Modo Offline");
+        socket = { on: function(){}, emit: function(){} };
+    }
     
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
@@ -711,7 +723,7 @@
     ];
     
     let dbPericias = {}; 
-    listaPericiasBase.forEach(p => { dbPericias[p.n] = {treinado: false, bonus: 0, total: 0} });
+    listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
     
     let dbPericiasCustom = []; 
     let dbInventario = [];
@@ -754,14 +766,13 @@
         if (salaFinal) { 
             document.getElementById('uid-input').value = salaFinal; 
             meuUID = salaFinal;
+            conectarSalaJogador(); 
         }
 
         carregarFichaLocal(); 
         popularSelectPericias(); 
         recalcularTudo(); 
         atualizarBarras(); 
-        
-        conectarSalaJogador(); 
     };
 
     function carregarFichaLocal() {
@@ -772,7 +783,6 @@
                 let j = JSON.parse(salvo);
                 document.getElementById('char-name-input').value = j.charName || '';
                 document.getElementById('player-name-input').value = j.playerName || '';
-                
                 document.getElementById('raca-input').value = j.raca || '';
                 document.getElementById('classe-input').value = j.classe || '';
                 document.getElementById('divindade-input').value = j.divindade || '';
@@ -780,17 +790,12 @@
                 
                 if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
                 
-                document.getElementById('forca').value = j.forca || 0;
-                document.getElementById('agilidade').value = j.agilidade || 0;
-                document.getElementById('vigor').value = j.vigor || 0;
-                document.getElementById('intelecto').value = j.intelecto || 0;
-                document.getElementById('sabedoria').value = j.sabedoria || 0;
-                document.getElementById('carisma').value = j.carisma || 0;
+                document.getElementById('forca').value = j.forca || 0; document.getElementById('agilidade').value = j.agilidade || 0;
+                document.getElementById('vigor').value = j.vigor || 0; document.getElementById('intelecto').value = j.intelecto || 0;
+                document.getElementById('sabedoria').value = j.sabedoria || 0; document.getElementById('carisma').value = j.carisma || 0;
                 
-                document.getElementById('vida-atual').value = j.hpAtual || 10;
-                document.getElementById('vida-max').value = j.hpMax || 10;
-                document.getElementById('mana-atual').value = j.mpAtual || 10;
-                document.getElementById('mana-max').value = j.mpMax || 10;
+                document.getElementById('vida-atual').value = j.hpAtual || 10; document.getElementById('vida-max').value = j.hpMax || 10;
+                document.getElementById('mana-atual').value = j.mpAtual || 10; document.getElementById('mana-max').value = j.mpMax || 10;
                 document.getElementById('moedas-atual').value = j.moedas || 0;
 
                 if (j.img && j.img.trim() !== "") {
@@ -821,33 +826,20 @@
         let defInput = document.getElementById('defesa-personagem');
         
         let dadosParaSalvar = {
-            charName: document.getElementById('char-name-input').value,
-            playerName: document.getElementById('player-name-input').value,
-            uidSala: document.getElementById('uid-input').value.toUpperCase(),
-            raca: document.getElementById('raca-input').value,
-            classe: document.getElementById('classe-input').value,
-            divindade: document.getElementById('divindade-input').value,
-            nivel: document.getElementById('nivel').value,
+            charName: document.getElementById('char-name-input').value, playerName: document.getElementById('player-name-input').value,
+            uidSala: document.getElementById('uid-input').value.toUpperCase(), raca: document.getElementById('raca-input').value,
+            classe: document.getElementById('classe-input').value, divindade: document.getElementById('divindade-input').value, nivel: document.getElementById('nivel').value,
             defesa: defInput ? defInput.value : 10,
-            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
-            intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
-            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
-            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
+            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
-            dbPericias: dbPericias || {}, 
-            dbPericiasCustom: dbPericiasCustom || [], 
-            dbInventario: dbInventario || [], 
-            dbProficiencias: dbProficiencias || [], 
-            dbHabilidades: dbHabilidades || [], 
-            dbGuildas: dbGuildas || [], 
-            dbPessoas: dbPessoas || [], 
-            dbLocais: dbLocais || [], 
-            dbMagias: dbMagias || []
+            dbPericias: dbPericias || {}, dbPericiasCustom: dbPericiasCustom || [], 
+            dbInventario: dbInventario || [], dbProficiencias: dbProficiencias || [], dbHabilidades: dbHabilidades || [], 
+            dbGuildas: dbGuildas || [], dbPessoas: dbPessoas || [], dbLocais: dbLocais || [], dbMagias: dbMagias || []
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
 
-    // === SOCKET.IO EVENTOS ===
     socket.on('connect', () => { 
         conectarSalaJogador(); 
     });
@@ -894,9 +886,7 @@
         if (payload && payload.item) {
             let meuNome = document.getElementById('char-name-input').value.trim();
             if (payload.target === 'todos' || payload.target === meuNome) {
-                dbInventario.push(payload.item); 
-                renderizarListas(); 
-                recalcularTudo();
+                dbInventario.push(payload.item); renderizarListas(); recalcularTudo();
             }
         }
     });
@@ -958,7 +948,10 @@
             img: pImg.style.display !== 'none' ? pImg.src : ""
         };
         
-        socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
+        if (socket.emit) {
+            socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
+        }
+        
         salvarFichaLocal();
     }
 
@@ -1086,12 +1079,13 @@
             const d = dbPericias[p.n];
             if(!d) return;
             
+            let safePN = p.n.replace(/'/g, "\\'");
             let attrTag = p.isCustom ? `<div style="font-family:'Roboto'; font-size:0.55rem; color:#888; margin-top:2px;">(${p.a.substring(0,3).toUpperCase()})</div>` : '';
 
             grid.innerHTML += `
-                <div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${p.n}', ${p.isCustom})">
+                <div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${safePN}', ${p.isCustom})">
                     <div class="pericia-header">${p.n} ${attrTag}</div>
-                    <div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${p.n}', ${d.total})">
+                    <div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${safePN}', ${d.total})">
                         <img src="${DADO_IMG_URL}" class="icone-dado" style="margin-right:5px;"> <span>+${d.total}</span>
                     </div>
                 </div>`;
@@ -1182,8 +1176,12 @@
                 let sinalBonus = bonusAtq >= 0 ? `+${bonusAtq}` : `${bonusAtq}`;
                 let danoDisplay = i.dano ? `${i.dano} (${sinalBonus})` : '-';
                 
-                let btnAtqHtml = `<button class="btn-atq" onclick="rolarAtaqueArma('${i.nome}', ${bonusAtq}, '${i.dano || ''}', '${i.crit || ''}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
-                let danoSide = i.dano ? `<button class="box-dano" onclick="rolarDano('Dano: ${i.nome}', '${i.dano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
+                let safeNome = i.nome.replace(/'/g, "\\'");
+                let safeDano = (i.dano || '').replace(/'/g, "\\'");
+                let safeCrit = (i.crit || '').replace(/'/g, "\\'");
+
+                let btnAtqHtml = `<button class="btn-atq" onclick="rolarAtaqueArma('${safeNome}', ${bonusAtq}, '${safeDano}', '${safeCrit}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
+                let danoSide = i.dano ? `<button class="box-dano" onclick="rolarDano('Dano: ${safeNome}', '${safeDano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
 
                 if(listArmas) {
                     listArmas.innerHTML += `
@@ -1219,7 +1217,7 @@
             </div>`).join('');
         }
         
-        // MUNDO
+        // MUNDO (Cascata na Ficha)
         const guildaList = document.getElementById('lista-guildas');
         if(guildaList) {
             guildaList.innerHTML = dbGuildas.map(g => {
@@ -1227,7 +1225,7 @@
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
                         <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
             }).join('');
         }
 
@@ -1236,9 +1234,9 @@
             locaisList.innerHTML = dbLocais.map(l => {
                 let pontos = (l.pontos || []).map(p => `
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">👤 ${p.nome}</button>
+                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
             }).join('');
         }
 
@@ -1247,12 +1245,11 @@
             pessoasList.innerHTML = dbPessoas.map(p => `
                 <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
                     <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
+                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
                 </div>`).join('');
         }
         
-        renderizarMagias(); 
-        salvarFichaLocal();
+        renderizarMagias(); salvarFichaLocal();
     }
 
     function abrirModalAddPericia() { 
@@ -1669,139 +1666,180 @@
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
-        const box = document.getElementById('dice-result-container'); 
-        const text = document.getElementById('dice-text'); 
-        const overlay = document.getElementById('dice-overlay-click');
-        
-        box.style.display = 'flex'; 
-        overlay.style.display = 'block'; 
-        box.classList.remove('dice-pop-out'); 
-        void box.offsetWidth; 
-        
-        box.classList.add('dice-pop-active'); 
-        box.style.borderColor = borderColor; 
-        box.style.zIndex = "9999"; 
-        overlay.style.zIndex = "9998";
-        box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
+        try {
+            const box = document.getElementById('dice-result-container'); 
+            const text = document.getElementById('dice-text'); 
+            const overlay = document.getElementById('dice-overlay-click');
+            
+            box.style.display = 'flex'; 
+            overlay.style.display = 'block'; 
+            box.classList.remove('dice-pop-out'); 
+            
+            // Força reflow
+            void box.offsetWidth; 
+            
+            box.classList.add('dice-pop-active'); 
+            box.style.borderColor = borderColor; 
+            box.style.zIndex = "9999"; 
+            overlay.style.zIndex = "9998";
+            box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
-        text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">Sorteando...</small>`;
-        
-        overlay.onclick = null; 
-        box.onclick = null; 
+            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">${hint}</small>`;
+            
+            overlay.onclick = null; 
+            box.onclick = null; 
 
-        let frames = 0;
-        animacaoGiro = setInterval(() => {
-            let tempDado = Math.floor(Math.random() * 20) + 1;
-            let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">Sorteando...</small>`;
+            let frames = 0;
+            animacaoGiro = setInterval(() => {
+                try {
+                    let tempDado = Math.floor(Math.random() * 20) + 1;
+                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
 
-            if (++frames >= 12) { 
-                clearInterval(animacaoGiro);
-                mostrarResultadoFinal();
+                    if (++frames >= 12) { 
+                        clearInterval(animacaoGiro);
+                        mostrarResultadoFinal();
+                    }
+                } catch(e) { 
+                    clearInterval(animacaoGiro); 
+                    closeDiceRoll(); 
+                }
+            }, 50);
+        } catch(e) { 
+            closeDiceRoll(); 
+        }
+    }
+
+    function calcularDanoStr(expressao, mult = 1) {
+        try {
+            if(!expressao || expressao === '-') return 0; 
+            let str = String(expressao).toLowerCase().replace(/\s+/g, ''); 
+            let parsedStr = str; 
+            let diceRegex = /(\d*)d(\d+)/g; 
+            let match;
+            while((match = diceRegex.exec(str)) !== null) { 
+                let qtd = (parseInt(match[1]) || 1) * mult; 
+                let faces = parseInt(match[2]) || 1; 
+                let soma = 0; 
+                for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; 
+                parsedStr = parsedStr.replace(match[0], soma); 
             }
-        }, 50);
+            let parts = parsedStr.match(/[+-]?\d+/g); 
+            return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; 
+        } catch(e) {
+            console.error("Erro calcular dano:", e);
+            return 0;
+        }
     }
 
     function mostrarResultadoFinal() {
-        diceState = 2; 
-        const box = document.getElementById('dice-result-container'); 
-        const text = document.getElementById('dice-text'); 
-        const overlay = document.getElementById('dice-overlay-click');
-        
-        let nome = currentRollData.nome; 
-        let finalHtml = "";
-        let resultadoLog = 0; 
-        let detalhesLog = ""; 
-        let isCrit = false; 
-        let isDesastre = false; 
-        let tipoCategoriaLog = ""; 
-        let corCategoriaLog = "";
+        try {
+            diceState = 2; 
+            const box = document.getElementById('dice-result-container'); 
+            const text = document.getElementById('dice-text'); 
+            const overlay = document.getElementById('dice-overlay-click');
+            
+            let nome = currentRollData.nome; 
+            let finalHtml = "";
+            let resultadoLog = 0; 
+            let detalhesLog = ""; 
+            let isCrit = false; 
+            let isDesastre = false; 
+            let tipoCategoriaLog = ""; 
+            let corCategoriaLog = "";
 
-        if (currentRollData.isDano) {
-            let totalDano = calcularDanoStr(currentRollData.expressao); 
-            let corCataroria = "#8b0000"; 
-            let categoria = "DANO";
-            
-            resultadoLog = totalDano; 
-            detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
-            tipoCategoriaLog = categoria; 
-            corCategoriaLog = corCataroria;
+            if (currentRollData.isDano) {
+                let totalDano = calcularDanoStr(currentRollData.expressao); 
+                let corCataroria = "#8b0000"; 
+                let categoria = "DANO";
+                
+                resultadoLog = totalDano; 
+                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
+                tipoCategoriaLog = categoria; 
+                corCategoriaLog = corCataroria;
 
-            box.style.borderColor = corCataroria;
-            
-            if (!document.getElementById(`glow-${categoria}`)) { 
-                const style = document.createElement('style'); 
-                style.id = `glow-${categoria}`; 
-                style.innerHTML = `@keyframes diceGlowPulse${categoria} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                document.head.appendChild(style); 
-            }
-            
-            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria} 2s infinite 0.5s`;
-            
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
-        
-        } else {
-            
-            let dadoReal = Math.floor(Math.random() * 20) + 1; 
-            let bonus = currentRollData.bonus; 
-            let totalSoma = dadoReal + bonus;
-            let categoria = "NORMAL", corCataroria = "#2e7d32"; 
-            let extraCritHtml = ""; 
-
-            if (dadoReal === 1) { 
-                categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
-            } 
-            else if (dadoReal === 20) {
-                categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
-                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
-                    let mult = multMatch ? parseInt(multMatch[1]) : 2; 
-                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
-                    let sinal = bonus >= 0 ? '+' : '';
-                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                box.style.borderColor = corCataroria;
+                
+                let safeCat = "DANO";
+                if (!document.getElementById(`glow-${safeCat}`)) { 
+                    const style = document.createElement('style'); 
+                    style.id = `glow-${safeCat}`; 
+                    style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
+                    document.head.appendChild(style); 
                 }
+                
+                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+                
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            
             } else {
-                if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
-                else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
-                else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+                
+                let dadoReal = Math.floor(Math.random() * 20) + 1; 
+                let bonus = currentRollData.bonus; 
+                let totalSoma = dadoReal + bonus;
+                let categoria = "NORMAL", corCataroria = "#2e7d32"; 
+                let extraCritHtml = ""; 
+
+                if (dadoReal === 1) { 
+                    categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
+                } 
+                else if (dadoReal === 20) {
+                    categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
+                    if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
+                        let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
+                        let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                        let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
+                        let sinal = bonus >= 0 ? '+' : '';
+                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                    }
+                } else {
+                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                    else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                    else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                    else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+                }
+
+                resultadoLog = totalSoma; 
+                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
+                tipoCategoriaLog = categoria; 
+                corCategoriaLog = corCataroria;
+                
+                box.style.borderColor = corCataroria;
+                
+                let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+                if (!document.getElementById(`glow-${safeCat}`)) { 
+                    const style = document.createElement('style'); 
+                    style.id = `glow-${safeCat}`; 
+                    style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
+                    document.head.appendChild(style); 
+                }
+                
+                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+                
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
             }
 
-            resultadoLog = totalSoma; 
-            detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
-            tipoCategoriaLog = categoria; 
-            corCategoriaLog = corCataroria;
-            
-            box.style.borderColor = corCataroria;
-            
-            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
-            if (!document.getElementById(`glow-${safeCat}`)) { 
-                const style = document.createElement('style'); 
-                style.id = `glow-${safeCat}`; 
-                style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
-                document.head.appendChild(style); 
+            let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
+            let uidAtual = document.getElementById('uid-input').value || meuUID;
+
+            if (typeof socket !== 'undefined' && socket.emit) {
+                socket.emit('player_dice_roll', { 
+                    uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
+                    detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
+                    isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
+                });
             }
+
+            text.innerHTML = finalHtml;
             
-            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+            overlay.onclick = handleDiceClick; 
+            box.onclick = handleDiceClick;
             
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+        } catch (e) { 
+            console.error("DICE ERROR:", e); 
+            closeDiceRoll(); 
         }
-
-        let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
-        let uidAtual = document.getElementById('uid-input').value || meuUID;
-
-        if (typeof socket !== 'undefined' && socket.emit) {
-            socket.emit('player_dice_roll', { 
-                uid: uidAtual.toUpperCase(), idUnico: idUnicoFicha, playerName: meuNome, nomeRolagem: nome, resultadoFinal: resultadoLog, 
-                detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, 
-                isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() 
-            });
-        }
-
-        text.innerHTML = finalHtml;
-        
-        overlay.onclick = handleDiceClick; 
-        box.onclick = handleDiceClick;
     }
 
     function handleDiceClick() { 
