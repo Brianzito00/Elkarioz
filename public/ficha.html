@@ -75,7 +75,7 @@
         
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
         .campo-rpg input, .campo-rpg select { 
-            border: 2px solid #000; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
+            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
             height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
         }
         .campo-rpg label { 
@@ -106,7 +106,7 @@
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
         @keyframes fadeInTabs { from { opacity: 0; } to { opacity: 1; } }
 
-        /* === LAYOUT COLUNAS === */
+        /* === LAYOUT COLUNAS PRINCIPAIS === */
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
@@ -123,7 +123,7 @@
         .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .icone-dado { width: 16px; height: 16px; object-fit: contain; }
 
-        /* === STATUS BARRAS LÍQUIDAS === */
+        /* === STATUS CENTRAL (BARRAS LÍQUIDAS CLÁSSICAS) === */
         .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px; }
         .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0;}
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
@@ -187,7 +187,7 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
-        /* === ABA INVENTÁRIO === */
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
@@ -271,9 +271,7 @@
 <body>
 
 <div id="dice-overlay-click"></div>
-<div id="dice-result-container">
-    <div id="dice-text" style="width: 100%;"></div>
-</div>
+<div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
 
 <div class="ficha-container">
     
@@ -723,7 +721,7 @@
     ];
     
     let dbPericias = {}; 
-    listaPericiasBase.forEach(p => dbPericias[p.n] = {treinado: false, bonus: 0, total: 0});
+    listaPericiasBase.forEach(p => { dbPericias[p.n] = {treinado: false, bonus: 0, total: 0} });
     
     let dbPericiasCustom = []; 
     let dbInventario = [];
@@ -766,13 +764,17 @@
         if (salaFinal) { 
             document.getElementById('uid-input').value = salaFinal; 
             meuUID = salaFinal;
-            conectarSalaJogador(); 
         }
 
         carregarFichaLocal(); 
         popularSelectPericias(); 
         recalcularTudo(); 
         atualizarBarras(); 
+        
+        // Tenta conectar logo de cara, se houver sala
+        if (salaFinal && typeof io !== 'undefined') {
+            conectarSalaJogador(); 
+        }
     };
 
     function carregarFichaLocal() {
@@ -783,6 +785,7 @@
                 let j = JSON.parse(salvo);
                 document.getElementById('char-name-input').value = j.charName || '';
                 document.getElementById('player-name-input').value = j.playerName || '';
+                
                 document.getElementById('raca-input').value = j.raca || '';
                 document.getElementById('classe-input').value = j.classe || '';
                 document.getElementById('divindade-input').value = j.divindade || '';
@@ -790,12 +793,17 @@
                 
                 if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
                 
-                document.getElementById('forca').value = j.forca || 0; document.getElementById('agilidade').value = j.agilidade || 0;
-                document.getElementById('vigor').value = j.vigor || 0; document.getElementById('intelecto').value = j.intelecto || 0;
-                document.getElementById('sabedoria').value = j.sabedoria || 0; document.getElementById('carisma').value = j.carisma || 0;
+                document.getElementById('forca').value = j.forca || 0;
+                document.getElementById('agilidade').value = j.agilidade || 0;
+                document.getElementById('vigor').value = j.vigor || 0;
+                document.getElementById('intelecto').value = j.intelecto || 0;
+                document.getElementById('sabedoria').value = j.sabedoria || 0;
+                document.getElementById('carisma').value = j.carisma || 0;
                 
-                document.getElementById('vida-atual').value = j.hpAtual || 10; document.getElementById('vida-max').value = j.hpMax || 10;
-                document.getElementById('mana-atual').value = j.mpAtual || 10; document.getElementById('mana-max').value = j.mpMax || 10;
+                document.getElementById('vida-atual').value = j.hpAtual || 10;
+                document.getElementById('vida-max').value = j.hpMax || 10;
+                document.getElementById('mana-atual').value = j.mpAtual || 10;
+                document.getElementById('mana-max').value = j.mpMax || 10;
                 document.getElementById('moedas-atual').value = j.moedas || 0;
 
                 if (j.img && j.img.trim() !== "") {
@@ -826,20 +834,33 @@
         let defInput = document.getElementById('defesa-personagem');
         
         let dadosParaSalvar = {
-            charName: document.getElementById('char-name-input').value, playerName: document.getElementById('player-name-input').value,
-            uidSala: document.getElementById('uid-input').value.toUpperCase(), raca: document.getElementById('raca-input').value,
-            classe: document.getElementById('classe-input').value, divindade: document.getElementById('divindade-input').value, nivel: document.getElementById('nivel').value,
+            charName: document.getElementById('char-name-input').value,
+            playerName: document.getElementById('player-name-input').value,
+            uidSala: document.getElementById('uid-input').value.toUpperCase(),
+            raca: document.getElementById('raca-input').value,
+            classe: document.getElementById('classe-input').value,
+            divindade: document.getElementById('divindade-input').value,
+            nivel: document.getElementById('nivel').value,
             defesa: defInput ? defInput.value : 10,
-            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
-            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
+            forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
+            intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
+            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
             img: pImg.style.display !== 'none' ? pImg.src : "",
-            dbPericias: dbPericias || {}, dbPericiasCustom: dbPericiasCustom || [], 
-            dbInventario: dbInventario || [], dbProficiencias: dbProficiencias || [], dbHabilidades: dbHabilidades || [], 
-            dbGuildas: dbGuildas || [], dbPessoas: dbPessoas || [], dbLocais: dbLocais || [], dbMagias: dbMagias || []
+            dbPericias: dbPericias || {}, 
+            dbPericiasCustom: dbPericiasCustom || [], 
+            dbInventario: dbInventario || [], 
+            dbProficiencias: dbProficiencias || [], 
+            dbHabilidades: dbHabilidades || [], 
+            dbGuildas: dbGuildas || [], 
+            dbPessoas: dbPessoas || [], 
+            dbLocais: dbLocais || [], 
+            dbMagias: dbMagias || []
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
     }
 
+    // === SOCKET.IO EVENTOS ===
     socket.on('connect', () => { 
         conectarSalaJogador(); 
     });
@@ -931,6 +952,10 @@
     });
 
     function sincronizarComMestre() {
+        // 1. SEMPRE salva os dados no telemóvel/PC do jogador (mesmo offline)
+        salvarFichaLocal();
+
+        // 2. Tenta enviar para o mestre (se tiver sala conectada)
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if (!uidAtual || uidAtual === "SEM SALA") return; 
 
@@ -948,11 +973,9 @@
             img: pImg.style.display !== 'none' ? pImg.src : ""
         };
         
-        if (socket.emit) {
+        if (typeof socket !== 'undefined' && socket.emit) {
             socket.emit('atualizarDados', { uid: uidAtual, dados: dadosParaMestre });
         }
-        
-        salvarFichaLocal();
     }
 
     // === CÁLCULOS ===
@@ -1249,7 +1272,8 @@
                 </div>`).join('');
         }
         
-        renderizarMagias(); salvarFichaLocal();
+        // Garante que salve as listas novas (mas o 'sincronizarComMestre' já salva no inicio)
+        salvarFichaLocal();
     }
 
     function abrirModalAddPericia() { 
