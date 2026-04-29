@@ -223,19 +223,43 @@
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; }
 
         /* =========================================
-           INICIATIVA E COMBATE
+           INICIATIVA (AGORA EM FORMATO DE CARDS)
         ========================================= */
         #lista-iniciativa { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
-        .ini-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.8); border: 2px solid #8b5a2b; padding: 12px 20px; border-radius: 8px; transition: 0.3s; position: relative; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .ini-row:hover { background: #fff; transform: translateX(5px); }
-        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); transform: scale(1.02) translateX(10px); box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); border-width: 3px; animation: pulseIni 2s infinite; }
+        .ini-row { 
+            background: rgba(255,255,255,0.6); 
+            border: 2px solid #8b5a2b; 
+            border-radius: 8px; 
+            padding: 10px 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            transition: 0.3s; 
+            position: relative; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }
+        .ini-row:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); transform: translateX(5px); }
+        
+        /* Efeito de Turno Ativo (Pulsante e Destacado) */
+        .ini-row.ativo { 
+            border-color: #b71c1c; 
+            background: rgba(183, 28, 28, 0.08); 
+            transform: scale(1.02) translateX(10px); 
+            box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); 
+            border-width: 3px; 
+            animation: pulseIni 2s infinite; 
+        }
         @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
-        .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; }
-        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.4rem; color: #3e2723; display: flex; align-items: center; gap: 10px; z-index: 2;}
-        .ini-name .turn-marker { font-size: 1.2rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
+        
+        .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; border-radius: 4px 0 0 4px; }
+        
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; display: flex; align-items: center; gap: 5px; z-index: 2; line-height: 1;}
+        .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; background: #5c3a21; padding: 6px 16px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
+        
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.8rem; color: #fff; background: #5c3a21; padding: 4px 15px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
         .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
+        
         .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
@@ -376,7 +400,8 @@
             .grid-6 { grid-template-columns: repeat(2, 1fr); }
             
             /* Ajustes Iniciativa */
-            .ini-row { flex-direction: column; text-align: center; padding: 15px; }
+            .ini-row { flex-direction: column; text-align: center; padding: 15px; gap: 10px;}
+            .ini-row > div { justify-content: center; }
             
             /* Ajustes Modais */
             .modal-content { padding: 20px; width: 95%; margin: 10px auto; }
@@ -845,10 +870,38 @@
     
     function renderIniciativa() {
         const container = document.getElementById('lista-iniciativa'); container.innerHTML = '';
-        if(arrayIniciativa.length === 0) { container.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#8b5a2b; opacity:0.7; margin-top:40px;"><div style="font-size:4rem; margin-bottom:15px;">⏱️</div><p style="font-style:italic; font-size:1.1rem;">Nenhum combatente no momento.</p></div>`; return; }
+        if(arrayIniciativa.length === 0) { 
+            container.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#8b5a2b; opacity:0.7; margin-top:40px;"><div style="font-size:4rem; margin-bottom:15px;">⏱️</div><p style="font-style:italic; font-size:1.1rem;">Nenhum combatente no momento.</p></div>`; 
+            return; 
+        }
+        
         arrayIniciativa.forEach((item, index) => {
             let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
-            container.innerHTML += `<div class="ini-row ${isAtivo}"><div class="ini-name"><span class="turn-marker">▶</span> ${item.nome}</div><div style="display:flex; align-items:center; gap:10px;"><div class="ini-val">${item.val}</div><button class="btn-kick-ini" onclick="removerIni(${item.id})" title="Remover da Iniciativa">&times;</button></div></div>`;
+            
+            // Tenta pegar a imagem se for um jogador conectado
+            let p = jogadores[item.idUnico];
+            let imgHtml = `<div class="player-img" style="width: 45px; height: 45px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21;">⚔️</div>`;
+            let subNome = "NPC / Monstro";
+
+            if (p) {
+                imgHtml = p.img ? `<img src="${p.img}" class="player-img" style="width: 45px; height: 45px; border-color: #5c3a21;">` : `<div class="player-img" style="width: 45px; height: 45px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21;">👤</div>`;
+                subNome = p.playerName || 'Jogador';
+            }
+
+            container.innerHTML += `
+                <div class="ini-row ${isAtivo}">
+                    <div style="display:flex; align-items:center; gap: 12px;">
+                        ${imgHtml}
+                        <div style="display:flex; flex-direction:column;">
+                            <span class="ini-name"><span class="turn-marker">▶</span> ${item.nome}</span>
+                            <span class="player-realname" style="text-align:left; color:#5c3a21;">${subNome}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap: 10px;">
+                        <div class="ini-val">${item.val}</div>
+                        <button class="btn-kick-ini" onclick="removerIni(${item.id})" title="Remover da Iniciativa">&times;</button>
+                    </div>
+                </div>`;
         });
     }
 
@@ -1064,7 +1117,7 @@
                         nome: nome,
                         desc: desc,
                         img: img,
-                        localId: localId
+                        localId: localId // Envia o vínculo pro BD da ficha!
                     });
                     localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
                 }
@@ -1236,7 +1289,7 @@
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
         const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
-        box.style.display = 'flex'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
+        box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
         box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
         let frames = 0;
@@ -1256,25 +1309,9 @@
     }
 
     function calcularDanoStr(expressao, mult = 1) {
-        try {
-            if(!expressao || expressao === '-') return 0; 
-            let str = String(expressao).toLowerCase().replace(/\s+/g, ''); 
-            let parsedStr = str; 
-            let diceRegex = /(\d*)d(\d+)/g; 
-            let match;
-            while((match = diceRegex.exec(str)) !== null) { 
-                let qtd = (parseInt(match[1]) || 1) * mult; 
-                let faces = parseInt(match[2]) || 1; 
-                let soma = 0; 
-                for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; 
-                parsedStr = parsedStr.replace(match[0], soma); 
-            }
-            let parts = parsedStr.match(/[+-]?\d+/g); 
-            return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; 
-        } catch(e) {
-            console.error("Erro calcular dano:", e);
-            return 0;
-        }
+        if(!expressao) return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
+        try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
 
     function mostrarResultadoFinal() {
@@ -1288,21 +1325,23 @@
             resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
 
             box.style.borderColor = corCataroria;
-            
-            let safeCat = "DANO";
-            if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
-            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-            
+            if (!document.getElementById(`glow-${categoria}`)) { const style = document.createElement('style'); style.id = `glow-${categoria}`; style.innerHTML = `@keyframes diceGlowPulse${categoria.replace(/\s/g,'')} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria.replace(/\s/g,'')} 2s infinite 0.5s`;
             finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         } else {
             let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
-            let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = "";
+            let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
 
             if (dadoReal === 1) { 
                 categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
             } 
             else if (dadoReal === 20) {
                 categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
+                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
+                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; let sinal = bonus >= 0 ? '+' : '';
+                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                }
             } else {
                 if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
                 else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
@@ -1318,7 +1357,7 @@
             let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
             if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
 
         socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); 
