@@ -210,7 +210,7 @@
         .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
         .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
         .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
-        .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: transition: 0.2s; }
+        .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
         .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
         .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.6rem; font-weight: 900; color: #3e2723; display: block; }
         .monstro-stat-val { font-family: 'Roboto'; font-size: 0.9rem; font-weight: bold; color: #b71c1c; }
@@ -225,7 +225,7 @@
         /* =========================================
            INICIATIVA (AGORA EM FORMATO DE CARDS)
         ========================================= */
-        #lista-iniciativa { overflow-y: auto; flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 10px;}
+        #lista-iniciativa { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .ini-row { 
             background: rgba(255,255,255,0.6); 
             border: 2px solid #8b5a2b; 
@@ -427,7 +427,6 @@
 
     <div class="tabs-container">
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
-        <button class="tab-btn" onclick="mudarAba('iniciativa')">⏱️ INICIATIVA</button>
         <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
         <button class="tab-btn" onclick="mudarAba('mundo')">📖 MUNDO E LORE</button>
     </div>
@@ -436,11 +435,13 @@
         <div class="coluna-central">
             
             <!-- ============================== -->
-            <!-- ABA: MESA DE JOGADORES -->
+            <!-- ABA: MESA DE JOGADORES + INICIATIVA -->
             <!-- ============================== -->
             <div id="tab-mesa" class="tab-content active">
                 <div class="mesa-layout">
-                    <div class="mesa-sidebar">
+                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
+                        
+                        <!-- Box Sessão -->
                         <div class="box-rpg">
                             <h2 class="section-title">🖥️ SESSÃO</h2>
                             <p style="font-family: 'Roboto'; font-size: 0.8rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase; text-align: center;">Nome da Sala</p>
@@ -448,29 +449,17 @@
                             <button class="btn-acao" style="margin-bottom: 10px;" onclick="conectarSala()">CONECTAR</button>
                             <button class="btn-acao" style="background-color: #0d47a1;" onclick="forcarSincronizacao()">🔄 PUXAR FICHAS</button>
                         </div>
+                        
+                        <!-- Box Convite Mágico -->
                         <div class="box-rpg" style="padding: 15px; margin-top: 15px;">
                             <h2 class="section-title" style="margin-bottom: 10px;">🔗 CONVITE MAGICO</h2>
                             <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
                             <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem; color: #0d47a1; background: #fff; padding: 8px; margin-bottom: 10px;" readonly>
                             <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
                         </div>
-                    </div>
-                    <div class="mesa-jogadores box-rpg">
-                        <h2 class="section-title">JOGADORES CONECTADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
-                        <div id="players-container">
-                            <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando jogadores conectarem...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- ============================== -->
-            <!-- ABA: INICIATIVA E COMBATE -->
-            <!-- ============================== -->
-            <div id="tab-iniciativa" class="tab-content">
-                <div class="mesa-layout">
-                    <div class="mesa-sidebar">
-                        <div class="box-rpg">
+                        <!-- Box Controle de Combate -->
+                        <div class="box-rpg" style="margin-top: 15px;">
                             <h2 class="section-title">CONTROLE DE COMBATE</h2>
                             <p style="text-align:center; font-size:0.8rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold; margin-bottom: 20px;">
                                 A Iniciativa entra automaticamente ao rolarem na ficha!
@@ -486,10 +475,25 @@
                                 <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
                             </div>
                         </div>
+
                     </div>
-                    <div class="mesa-jogadores box-rpg">
-                        <h2 class="section-title">ORDEM DE TURNOS</h2>
-                        <div id="lista-iniciativa"></div>
+                    
+                    <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0; gap: 20px;">
+                        
+                        <!-- Top Half: Jogadores Conectados -->
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
+                            <h2 class="section-title">JOGADORES CONECTADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
+                            <div id="players-container">
+                                <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando jogadores conectarem...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottom Half: Ordem de Turnos -->
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
+                            <h2 class="section-title">ORDEM DE TURNOS</h2>
+                            <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -724,6 +728,7 @@
                 arrayIniciativa = JSON.parse(iSalva); 
                 turnoAtualIndex = parseInt(localStorage.getItem('rpgIniciativaTurno'));
                 if(isNaN(turnoAtualIndex)) turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
+                renderIniciativa(); // Já renderiza ao carregar a página
             } catch(e){} 
         }
 
@@ -737,10 +742,17 @@
         event.currentTarget.classList.add('active');
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         
-        if(aba === 'mesa') document.getElementById('tab-mesa').classList.add('active');
-        else if (aba === 'iniciativa') { document.getElementById('tab-iniciativa').classList.add('active'); renderIniciativa(); }
-        else if (aba === 'bestiario') { document.getElementById('tab-bestiario').classList.add('active'); renderizarBestiario(); }
-        else if (aba === 'mundo') { document.getElementById('tab-mundo').classList.add('active'); inicializarHistoriaGM(); }
+        if(aba === 'mesa') { 
+            document.getElementById('tab-mesa').classList.add('active'); 
+        }
+        else if (aba === 'bestiario') { 
+            document.getElementById('tab-bestiario').classList.add('active'); 
+            renderizarBestiario(); 
+        }
+        else if (aba === 'mundo') { 
+            document.getElementById('tab-mundo').classList.add('active'); 
+            inicializarHistoriaGM(); 
+        }
     }
 
     function conectarSala(uidAutomatica = null) {
@@ -765,14 +777,19 @@
         j.charName = j.charName || "Sem nome";
         if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
         jogadores[chave] = j;
-        if (gmUid && abaAtual === 'mesa') renderizarJogadores();
+        
+        // Renderiza jogadores e também a iniciativa (caso as fotos mudem)
+        if (abaAtual === 'mesa') {
+            renderizarJogadores();
+            renderIniciativa();
+        }
     });
     
     function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
     
     function expulsarJogador(chave) {
         if(confirm("Deseja desconectar este jogador da mesa?")) {
-            delete jogadores[chave]; renderizarJogadores();
+            delete jogadores[chave]; renderizarJogadores(); renderIniciativa();
             socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
         }
     }
@@ -845,7 +862,7 @@
         }
         
         salvarIniciativaLocal();
-        if(abaAtual === 'iniciativa') renderIniciativa(); 
+        renderIniciativa(); 
     }
     
     function proximoTurno() { 
@@ -1289,7 +1306,7 @@
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
         const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
-        box.style.display = 'block'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
+        box.style.display = 'flex'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
         box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
 
         let frames = 0;
