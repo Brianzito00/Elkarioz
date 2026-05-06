@@ -282,7 +282,7 @@
 
 <div class="ficha-container">
     
-    <!-- === BARRA DE FERRAMENTAS (NOVA) === -->
+    <!-- === BARRA DE FERRAMENTAS === -->
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px;">
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
@@ -481,7 +481,7 @@
             
             <div class="sidebar-direita">
                 
-                <!-- LISTAS DO MUNDO (COM O X PARA APAGAR) -->
+                <!-- LISTAS DO MUNDO -->
                 <div>
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
                     <div id="lista-guildas"></div>
@@ -489,8 +489,6 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
-                    
-                    <!-- Pessoas e Locais -->
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -525,6 +523,13 @@
 <!-- ==============================================================
      MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
 ============================================================== -->
+
+<!-- MODAL DE ZOOM DE IMAGEM -->
+<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="this.style.display='none'">
+    <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;">&times;</span>
+    <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);">
+</div>
+
 <div id="modal-inventario" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -544,7 +549,7 @@
                 <label style="font-size:0.7rem; font-weight:bold;">URL DA IMAGEM (Opcional)</label>
                 <input type="text" id="mi-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
             </div>
-            <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0;">
+            <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('mi-img-preview').src)">
                 <img id="mi-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
@@ -672,7 +677,7 @@
         <input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
         
         <div style="display:flex; justify-content:center; margin-bottom:15px;">
-            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none;">
+            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('ms-img-preview').src)">
                 <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
@@ -685,7 +690,7 @@
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <div style="display:flex; flex-direction:column; align-items:center;">
-            <img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none;">
+            <img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
             <h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3>
         </div>
         
@@ -889,6 +894,13 @@
             dbMagias: dbMagias || []
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
+    }
+
+    // === FUNÇÃO DE ZOOM DA IMAGEM ===
+    function abrirZoomImagem(url) {
+        if(!url || url.includes('placeholder')) return;
+        document.getElementById('zoom-img-target').src = url;
+        document.getElementById('modal-zoom-img').style.display = 'flex';
     }
 
     // === FUNÇÕES DE EXPORTAR E IMPORTAR (NOVAS) ===
@@ -1124,7 +1136,7 @@
     
     function fecharModais() { 
         document.querySelectorAll('.modal-overlay').forEach(m => { 
-            if(m.id !== 'dice-overlay-click') m.style.display = 'none'; 
+            if(m.id !== 'dice-overlay-click' && m.id !== 'modal-zoom-img') m.style.display = 'none'; 
         }); 
     }
     
@@ -1358,7 +1370,7 @@
                 </div>`).join('');
         }
         
-        // Garante que salve as listas novas
+        renderizarMagias(); 
         salvarFichaLocal();
     }
 
@@ -1926,7 +1938,7 @@
                 
                 box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
                 
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
             }
 
             let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
