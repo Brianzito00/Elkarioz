@@ -8,46 +8,99 @@
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
 
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box; 
+        }
 
         body {
             font-family: 'Lora', serif; 
             background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: #3e2723; display: flex; justify-content: center; padding: 30px 15px; margin: 0; min-height: 100vh; overflow-x: hidden;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #3e2723; 
+            display: flex; 
+            justify-content: center; 
+            padding: 30px 15px; 
+            margin: 0; 
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* === FICHA TRANSLÚCIDA === */
         .ficha-container {
-            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            padding: 40px; border-radius: 4px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1200px; 
-            border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; position: relative;
+            background-color: rgba(244, 235, 216, 0.88);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 40px; 
+            border-radius: 4px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%; 
+            max-width: 1200px; 
+            border: 3px solid #8b5a2b; 
+            outline: 5px solid rgba(92, 58, 33, 0.8); 
+            outline-offset: -12px; 
+            position: relative;
         }
 
-        .section-title { font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-align: center; font-weight: 800; }
-        .section-separator { border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%; }
+        .section-title { 
+            font-family: 'Cinzel', serif; color: #5c3a21; font-size: 1.4rem; 
+            margin-bottom: 25px; text-transform: uppercase; border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
+            padding-bottom: 10px; text-align: center; font-weight: 800; 
+        }
+        
+        .section-separator {
+            border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%;
+        }
+
         input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b;}
         
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
-        .portrait-slot { width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; border-radius: 4px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); transition: 0.3s; position: relative; }
+        
+        .portrait-slot {
+            width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; 
+            border-radius: 4px; background: rgba(0,0,0,0.3); cursor: pointer; overflow: hidden; display: flex; 
+            align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.6); 
+            transition: 0.3s; position: relative;
+        }
+        
         .portrait-slot:hover { border-color: #b71c1c; outline-color: #ff9100; }
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
+        
         .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 10px; }
         .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-start; }
+        
         .campo-rpg { display: flex; flex-direction: column; flex: 1; }
-        .campo-rpg input, .campo-rpg select { border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px; }
-        .campo-rpg label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; text-transform: uppercase; margin-top: 4px; margin-left: 2px; }
+        .campo-rpg input, .campo-rpg select { 
+            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
+            height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
+        }
+        .campo-rpg label { 
+            font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; 
+            text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
+        }
+        
+        /* SALA UID */
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
         .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; }
-        .btn-entrar { background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; height: 42px; display: flex; align-items: center; justify-content: center; }
+        
+        .btn-entrar { 
+            background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; 
+            padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; 
+            height: 42px; display: flex; align-items: center; justify-content: center;
+        }
         .btn-entrar:hover { background-color: #ff9100; color: #3e2723; }
 
         /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0; }
-        .tab-btn { background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative; }
+        .tab-btn { 
+            background: #fdfbf7; border: 2px solid #8b5a2b; border-bottom: none; padding: 12px 25px; 
+            cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
+            border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;
+        }
         .tab-btn.active { background: #b71c1c; color: #fff; border-color: #b71c1c; }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
@@ -60,7 +113,11 @@
         .sidebar-direita { flex: 0 0 260px; display: flex; flex-direction: column; gap: 20px;} 
 
         /* === ATRIBUTOS === */
-        .atributo-box { background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .atributo-box { 
+            background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; 
+            text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; 
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+        }
         .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0; }
         .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; -moz-appearance: textfield;}
         .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -70,17 +127,22 @@
         .status-container { display: flex; justify-content: center; gap: 25px; width: 100%; padding: 0 10px; }
         .status-module { display: flex; align-items: center; justify-content: center; gap: 15px; background: #eaddc4; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(139, 90, 43, 0.4); flex: 1; min-width: 0;}
         .circle-icon { width: 50px; height: 50px; background: #3e2723; color: #f4ebd8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel'; font-weight: 900; border: 3px solid #000; flex-shrink: 0; font-size: 1.2rem; }
+        
         .bar-wrapper { display: flex; flex-direction: column; align-items: flex-start; flex: 1; width: 100%;}
         .bar-title { font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.75rem; color: #3e2723; margin-bottom: 3px; margin-left: 38px; text-transform: uppercase;}
         .bar-capsule { display: flex; align-items: center; gap: 8px; width: 100%; }
+        
         .btn-status { background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
         .btn-status:hover { background-color: #b71c1c; }
+        
         .glass-track { flex: 1; min-width: 80px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
         .liquid-fill { height: 100%; transition: width 0.4s ease; }
         .vida-color { background-color: #b71c1c; box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
         .mana-color { background-color: #0d47a1; box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
+        
         .atual-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; border: none; text-align: center; color: #fff; font-size: 1.3rem; font-weight: 900; text-shadow: 1px 1px 2px #000; z-index: 5; -moz-appearance: textfield;}
         .atual-input::-webkit-outer-spin-button, .atual-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
         .max-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 5px; }
         .max-box label { font-size: 0.65rem; font-weight: 900; font-family: 'Roboto'; color: #000; margin-bottom: 2px;}
         .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000; -moz-appearance: textfield;}
@@ -100,13 +162,16 @@
         .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
+        
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
         .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; -moz-appearance: textfield;}
         .defesa-box input::-webkit-outer-spin-button, .defesa-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
         .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
         .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
+        
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
         .item-btn:hover { background: #fff; transform: translateX(3px);}
 
@@ -122,13 +187,14 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
 
-        /* === ABA INVENTÁRIO === */
+        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
         .carga-barra-bg { width: 100%; height: 18px; background: #ddd; border: 2px solid #000; border-radius: 10px; margin: 15px 0 0 0; overflow: hidden; }
         .carga-barra-fill { height: 100%; width: 0%; background: #2e7d32; transition: 0.3s; }
         .carga-barra-fill.excedido { background: #b71c1c; }
+        
         .moedas-container { flex: 1 1 30%; min-width: 180px; background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 10px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
@@ -161,10 +227,15 @@
         .btn-disparar:hover { background: #bf360c; }
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
-        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        
+        .btn-acao { 
+            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
+            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
+            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px;
+        }
         .btn-acao:hover { background-color: #b71c1c; }
 
-        /* === SISTEMA DE DADOS E TOAST === */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -190,24 +261,6 @@
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column-reverse; 
-            gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
-        }
-
-        .toast-entry {
-            background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; border-radius: 8px;
-            padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; backdrop-filter: blur(5px);
-            animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: 0.2s;
-            word-wrap: break-word; word-break: break-word;
-        }
-        
-        .toast-entry:hover { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-
-        @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
-
         /* SCROLLBAR & RESPONSIVIDADE */
         ::-webkit-scrollbar { width: 6px; } 
         ::-webkit-scrollbar-track { background: transparent; } 
@@ -228,7 +281,6 @@
 
 <div id="dice-overlay-click"></div>
 <div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
-<div id="toast-container"></div>
 
 <div class="ficha-container">
     
@@ -439,6 +491,7 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                    
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -663,6 +716,7 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
+        <!-- LOCAL ONDE A DESCRIÇÃO NO MODAL APARECE -->
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5; word-wrap: break-word; word-break: break-word;"></div>
         
         <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
@@ -1670,10 +1724,12 @@
                 isDesastre: false,
                 _trigger: Math.random()
             });
+            
+            mostrarPopupHabilidadeLocal("", item.nome, detalhesLog, cat, cor);
         }
     }
 
-    function mostrarPopupHabilidadeLocal(jogador, nome, detalhes, categoria, cor) {
+    function mostrarPopupHabilidadeLocal(remetente, nome, detalhes, categoria, cor) {
         try {
             const box = document.getElementById('dice-result-container'); 
             const text = document.getElementById('dice-text'); 
@@ -1700,10 +1756,12 @@
 
             // Converte os \n para <br> para forçar a quebra no HTML
             let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
+            
+            let subtitulo = remetente ? `<div style="font-size: 0.9rem; color: #555; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${remetente} compartilhou</div>` : '';
 
             text.innerHTML = `
-                <div style="font-size: 1rem; color: #555; font-family: 'Lora'; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;">${jogador} compartilhou</div>
-                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 0; margin-bottom: 5px;">${nome}</span>
+                ${subtitulo}
+                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
                 <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
                 <div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;">
                     <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span>
@@ -1717,63 +1775,19 @@
         } catch(e) {}
     }
 
-    // === RECEBE ROLAGENS E NOTIFICAÇÕES (TOAST E POPUP) ===
+    // === RECEBE ROLAGENS (SEM TOAST NA FICHA, APENAS O POPUP SE FOR COMPARTILHAMENTO) ===
     socket.on('player_dice_roll', function(roll) {
         let salaAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if(salaAtual && roll.uid && roll.uid.trim().toUpperCase() !== salaAtual) return;
 
-        // Sempre mostra no Toast para o histórico
-        mostrarToastRolagem(roll);
+        // Se for a própria ficha que enviou, não faz nada (pois o pop-up local já abriu)
+        if (roll.idUnico === idUnicoFicha) return;
 
-        // Se for uma Habilidade/Magia/Proficiência, abre o POP-UP gigante para todos na sala
         let isHabilidade = ['MAGIA', 'PROFICIÊNCIA', 'HABILIDADE', 'HABILIDADE DE MONSTRO'].includes(roll.categoria);
         if (isHabilidade) {
             mostrarPopupHabilidadeLocal(roll.playerName || 'Jogador', roll.nomeRolagem, roll.detalhes, roll.categoria, roll.corCategoria);
         }
     });
-
-    function mostrarToastRolagem(roll) {
-        const container = document.getElementById('toast-container');
-        if (!container) return; 
-        
-        let color = roll.corCategoria || "#2e7d32";
-        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 15px rgba(0,0,0,0.1); border-color:${color};` : `border-color:${color};`;
-        
-        const toast = document.createElement('div');
-        toast.className = 'toast-entry';
-        toast.style = `${shadow}; border-left-color: ${color};`;
-        
-        let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
-
-        // Converte os \n para <br> e usa as propriedades de quebra de palavra
-        let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
-
-        toast.innerHTML = `
-            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
-                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
-                <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
-            </div>
-            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
-            ${resultHtml}
-            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
-        `;
-        
-        toast.onclick = function() {
-            toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
-            setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
-        };
-
-        container.appendChild(toast);
-
-        setTimeout(() => {
-            if(toast.parentElement) {
-                toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
-                setTimeout(() => {
-                    if(toast.parentElement) toast.remove();
-                }, 400);
-            }
-        }, 12000); 
-    }
 
     function abrirVisualizacao(tipoLista, id) { 
         tipoContexto = tipoLista; 
