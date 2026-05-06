@@ -241,7 +241,7 @@
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
             background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px;
             z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
         #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
@@ -714,7 +714,7 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
-        <p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p>
+        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></div>
         
         <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
         
@@ -1700,13 +1700,12 @@
 
         let cor = tipo == 'magia' ? '#0d47a1' : (tipo == 'prof' ? '#ff9100' : '#673ab7');
         let cat = tipo == 'magia' ? 'MAGIA' : (tipo == 'prof' ? 'PROFICIÊNCIA' : 'HABILIDADE');
-        let icone = tipo == 'magia' ? '🔮' : (tipo == 'prof' ? '🛠️' : '✨');
 
-        let detalhesLog = item.desc || "";
+        let detalhesLog = "";
         if (tipo === 'magia') {
-            detalhesLog = `Círculo: ${item.circulo}º | Escola: ${item.escola}\nAlvo: ${item.alvo || '-'}`;
+            detalhesLog = `Círculo: ${item.circulo}º | Escola: ${item.escola}\nExecução: ${item.execucao || '-'}\nAlcance: ${item.alcance || '-'}\nAlvo/Área: ${item.alvo || '-'}\nDuração: ${item.duracao || '-'}\nResistência: ${item.resistencia || '-'}\n\nEfeito: ${item.desc || ""}`;
         } else {
-            if(detalhesLog.length > 70) detalhesLog = detalhesLog.substring(0, 70) + "...";
+            detalhesLog = item.desc || "Nenhuma descrição informada.";
         }
 
         if(typeof socket !== 'undefined' && socket.emit) {
@@ -1715,8 +1714,8 @@
                 idUnico: idUnicoFicha,
                 playerName: meuNome,
                 nomeRolagem: item.nome,
-                resultadoFinal: icone,
-                detalhes: detalhesLog,
+                resultadoFinal: "", // Removemos o Emoji daqui para não ficar gigante no toast
+                detalhes: detalhesLog, // Agora enviamos o texto 100% completo, sem cortar
                 categoria: cat,
                 corCategoria: cor,
                 isDano: false,
@@ -1725,11 +1724,11 @@
                 _trigger: Math.random()
             });
             
-            mostrarPopupHabilidadeLocal(item.nome, icone, detalhesLog, cat, cor);
+            mostrarPopupHabilidadeLocal(item.nome, detalhesLog, cat, cor);
         }
     }
 
-    function mostrarPopupHabilidadeLocal(nome, icone, detalhes, categoria, cor) {
+    function mostrarPopupHabilidadeLocal(nome, detalhes, categoria, cor) {
         try {
             const box = document.getElementById('dice-result-container'); 
             const text = document.getElementById('dice-text'); 
@@ -1754,18 +1753,71 @@
             }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
 
+            // O emoji de 4rem foi removido. Agora mostra o Título e toda a descrição com scroll.
             text.innerHTML = `
-                <div style="font-size: 4rem; margin-bottom: 10px; line-height: 1; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);">${icone}</div>
-                <span class="pop-pericia-nome" style="color: ${cor};">${nome}</span>
-                <div class="pop-categoria-badge" style="background-color: ${cor}; margin-top: 10px;">${categoria}</div>
-                <br><span class="pop-detalhes" style="margin-top: 10px; font-weight: bold; font-size: 0.85rem;">${detalhes}</span>
-                <br><small class="pop-hint" style="color:#555; margin-top: 15px;">Clique na tela para fechar</small>
+                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.8rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
+                <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
+                <div style="max-height: 250px; overflow-y: auto; padding: 0 10px; text-align: left;">
+                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; white-space: pre-wrap; color: #333; line-height: 1.4;">${detalhes}</span>
+                </div>
+                <small class="pop-hint" style="color:#999; margin-top: 15px; display: block;">Clique na tela para fechar</small>
             `;
             
             diceState = 2; 
             overlay.onclick = handleDiceClick; 
             box.onclick = handleDiceClick;
         } catch(e) {}
+    }
+
+    // === RECEBE ROLAGENS (TOAST DA FICHA) ===
+    socket.on('player_dice_roll', function(roll) {
+        let salaAtual = document.getElementById('uid-input').value.trim().toUpperCase();
+        if(salaAtual && roll.uid && roll.uid.trim().toUpperCase() !== salaAtual) return;
+
+        mostrarToastRolagem(roll);
+    });
+
+    function mostrarToastRolagem(roll) {
+        const container = document.getElementById('toast-container');
+        if (!container) return; // Se a ficha não tiver o container de toast (adicionei caso necessário futuramente)
+        
+        let color = roll.corCategoria || "#2e7d32";
+        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 15px rgba(0,0,0,0.1); border-color:${color};` : `border-color:${color};`;
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-entry';
+        toast.style = `${shadow}; border-left-color: ${color};`;
+        
+        // Só renderiza a div do resultado final se ela não for vazia (ex: nas rolagens de dados, mas não nas habilidades)
+        let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
+
+        // Formatação adaptada para suportar descrições longas
+        toast.innerHTML = `
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
+                <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
+            </div>
+            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px;">${roll.nomeRolagem}</div>
+            ${resultHtml}
+            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 120px; overflow-y: auto; white-space: pre-wrap; margin-top: 5px; padding-right: 5px;">${roll.detalhes}</div>
+        `;
+        
+        toast.onclick = function() {
+            toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
+            setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
+        };
+
+        container.appendChild(toast);
+
+        // Deixei o tempo um pouco maior (12s) para dar tempo de ler as descrições mais longas
+        setTimeout(() => {
+            if(toast.parentElement) {
+                toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
+                setTimeout(() => {
+                    if(toast.parentElement) toast.remove();
+                }, 400);
+            }
+        }, 12000); 
     }
 
     function abrirVisualizacao(tipoLista, id) { 
