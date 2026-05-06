@@ -282,7 +282,7 @@
 
 <div class="ficha-container">
     
-    <!-- === BARRA DE FERRAMENTAS (NOVA) === -->
+    <!-- === BARRA DE FERRAMENTAS === -->
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px;">
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
@@ -481,7 +481,7 @@
             
             <div class="sidebar-direita">
                 
-                <!-- LISTAS DO MUNDO (COM O X PARA APAGAR) -->
+                <!-- LISTAS DO MUNDO -->
                 <div>
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
                     <div id="lista-guildas"></div>
@@ -490,7 +490,6 @@
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
                     
-                    <!-- Pessoas e Locais -->
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -734,6 +733,7 @@
 
     let socket;
     let meuUID = "";
+    let fichaPronta = false; // TRAVA DE SEGURANÇA CONTRA RACE CONDITION
     
     // Conexão Segura
     if (typeof io !== 'undefined') {
@@ -826,6 +826,7 @@
     };
 
     function iniciarSistemas(salaFinal) {
+        fichaPronta = true; // AGORA O SISTEMA PODE SALVAR SEM MEDO
         popularSelectPericias(); 
         recalcularTudo(); 
         atualizarBarras(); 
@@ -881,6 +882,8 @@
     }
 
     function salvarFichaLocal() {
+        if (!fichaPronta) return; // TRAVA DE SEGURANÇA! Impede salvar tela branca na importação.
+
         let pImg = document.getElementById('portrait-img');
         let defInput = document.getElementById('defesa-personagem');
         
@@ -961,6 +964,11 @@
                 let jsonParsed = JSON.parse(jsonStr);
                 
                 if(jsonParsed && typeof jsonParsed === 'object') {
+                    // ADOTA A IDENTIDADE DA FICHA IMPORTADA
+                    if (jsonParsed.idUnico) {
+                        localStorage.setItem('rpg_id_ficha', jsonParsed.idUnico);
+                    }
+                    
                     localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
                     alert("Ficha importada com sucesso! A página será atualizada para carregar os dados.");
                     window.location.reload();
@@ -1067,6 +1075,7 @@
     });
 
     function sincronizarComMestre() {
+        if (!fichaPronta) return; // TRAVA DE SEGURANÇA!
         salvarFichaLocal(); 
 
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
