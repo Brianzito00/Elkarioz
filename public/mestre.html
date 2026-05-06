@@ -98,6 +98,9 @@
         .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; }
         .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
         .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+        .btn-hp-monstro { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: #fff; border-radius: 4px; width: 20px; height: 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; margin: 0 4px; transition: 0.2s; }
+        .btn-hp-monstro:hover { background: rgba(255,255,255,0.5); color: #b71c1c; border-color: #fff; transform: scale(1.1); }
+        
         .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
         .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
         .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
@@ -162,14 +165,10 @@
         .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
         .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
-        
-        /* AQUI A CLASSE DA DESCRIÇÃO QUEBRADA NO POP-UP DO MESTRE */
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        /* =========================================
-           SISTEMA DE TOAST NOTIFICATIONS
-        ========================================= */
+        /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
         #toast-container {
             position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex;
             flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
@@ -797,7 +796,17 @@
     }
     
     function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
+    
     function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
+    
+    function alterarHpMonstro(id, delta) {
+        let monstro = dbBestiario.find(m => m.id === id);
+        if(monstro) {
+            monstro.hpAtual = (parseInt(monstro.hpAtual) || 0) + delta;
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
+            renderizarBestiario();
+        }
+    }
     
     function usarHabilidadeMonstro(monstroId, habId) {
         let monstro = dbBestiario.find(m => m.id === monstroId);
@@ -920,7 +929,7 @@
                 <button class="monstro-skill-btn" style="grid-column: 1 / -1;" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vont. ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
             </div>`;
 
-            container.innerHTML += `<div class="monstro-card"><button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button><div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;"><h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3><div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div><div class="barras-container" style="margin-bottom:10px;"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem;">PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}</div></div></div><div class="monstro-stats-grid"><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div></div>${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}</div>`;
+            container.innerHTML += `<div class="monstro-card"><button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button><div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;"><h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3><div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div><div class="barras-container" style="margin-bottom:10px;"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem; display:flex; align-items:center;">PV: <button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, -1)">-</button><input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"><button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, 1)">+</button> / ${m.hpMax}</div></div></div><div class="monstro-stats-grid"><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div></div>${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}</div>`;
         });
     }
 
@@ -1271,7 +1280,7 @@
     }
 
     function calcularDanoStr(expressao, mult = 1) {
-        if(!expressao) return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        if(!expressao || expressao === '-') return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
         while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
         try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
