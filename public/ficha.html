@@ -282,7 +282,7 @@
 
 <div class="ficha-container">
     
-    <!-- === BARRA DE FERRAMENTAS === -->
+    <!-- === BARRA DE FERRAMENTAS (NOVA) === -->
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px;">
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
         <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
@@ -375,7 +375,7 @@
             <div class="conteudo-principal">
                 <div class="section-separator" style="margin-top:0;"></div>
                 
-                <!-- STATUS (BARRAS LÍQUIDAS CLÁSSICAS) -->
+                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -481,7 +481,7 @@
             
             <div class="sidebar-direita">
                 
-                <!-- LISTAS DO MUNDO -->
+                <!-- LISTAS DO MUNDO (COM O X PARA APAGAR) -->
                 <div>
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
                     <div id="lista-guildas"></div>
@@ -489,6 +489,8 @@
 
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                    
+                    <!-- Pessoas e Locais -->
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -802,66 +804,79 @@
             meuUID = salaFinal;
         }
 
-        carregarFichaLocal(); 
-        popularSelectPericias(); 
-        recalcularTudo(); 
-        atualizarBarras(); 
-        
-        // Tenta conectar logo de cara, se houver sala
-        if (salaFinal && typeof io !== 'undefined') {
-            conectarSalaJogador(); 
+        if (typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('pedir_ficha_db', idUnicoFicha, (dadosDoBanco) => {
+                if (dadosDoBanco) {
+                    carregarDadosNaTela(dadosDoBanco);
+                } else {
+                    let salvo = localStorage.getItem('rpgFichaLocal');
+                    if (salvo) {
+                        try { carregarDadosNaTela(JSON.parse(salvo)); } catch(e){}
+                    }
+                }
+                iniciarSistemas(salaFinal);
+            });
+        } else {
+            let salvo = localStorage.getItem('rpgFichaLocal');
+            if (salvo) {
+                try { carregarDadosNaTela(JSON.parse(salvo)); } catch(e){}
+            }
+            iniciarSistemas(salaFinal);
         }
     };
 
-    function carregarFichaLocal() {
-        let salvo = localStorage.getItem('rpgFichaLocal');
+    function iniciarSistemas(salaFinal) {
+        popularSelectPericias(); 
+        recalcularTudo(); 
+        atualizarBarras(); 
+        if (salaFinal && typeof io !== 'undefined') {
+            conectarSalaJogador(); 
+        }
+    }
 
-        if(salvo) {
-            try {
-                let j = JSON.parse(salvo);
-                document.getElementById('char-name-input').value = j.charName || '';
-                document.getElementById('player-name-input').value = j.playerName || '';
-                
-                document.getElementById('raca-input').value = j.raca || '';
-                document.getElementById('classe-input').value = j.classe || '';
-                document.getElementById('divindade-input').value = j.divindade || '';
-                document.getElementById('nivel').value = j.nivel || 1;
-                
-                if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
-                
-                document.getElementById('forca').value = j.forca || 0;
-                document.getElementById('agilidade').value = j.agilidade || 0;
-                document.getElementById('vigor').value = j.vigor || 0;
-                document.getElementById('intelecto').value = j.intelecto || 0;
-                document.getElementById('sabedoria').value = j.sabedoria || 0;
-                document.getElementById('carisma').value = j.carisma || 0;
-                
-                document.getElementById('vida-atual').value = j.hpAtual || 10;
-                document.getElementById('vida-max').value = j.hpMax || 10;
-                document.getElementById('mana-atual').value = j.mpAtual || 10;
-                document.getElementById('mana-max').value = j.mpMax || 10;
-                document.getElementById('moedas-atual').value = j.moedas || 0;
+    function carregarDadosNaTela(j) {
+        try {
+            document.getElementById('char-name-input').value = j.charName || '';
+            document.getElementById('player-name-input').value = j.playerName || '';
+            
+            document.getElementById('raca-input').value = j.raca || '';
+            document.getElementById('classe-input').value = j.classe || '';
+            document.getElementById('divindade-input').value = j.divindade || '';
+            document.getElementById('nivel').value = j.nivel || 1;
+            
+            if(document.getElementById('defesa-personagem')) document.getElementById('defesa-personagem').value = j.defesa || 10;
+            
+            document.getElementById('forca').value = j.forca || 0;
+            document.getElementById('agilidade').value = j.agilidade || 0;
+            document.getElementById('vigor').value = j.vigor || 0;
+            document.getElementById('intelecto').value = j.intelecto || 0;
+            document.getElementById('sabedoria').value = j.sabedoria || 0;
+            document.getElementById('carisma').value = j.carisma || 0;
+            
+            document.getElementById('vida-atual').value = j.hpAtual || 10;
+            document.getElementById('vida-max').value = j.hpMax || 10;
+            document.getElementById('mana-atual').value = j.mpAtual || 10;
+            document.getElementById('mana-max').value = j.mpMax || 10;
+            document.getElementById('moedas-atual').value = j.moedas || 0;
 
-                if (j.img && j.img.trim() !== "") {
-                    document.getElementById('portrait-img').src = j.img;
-                    document.getElementById('portrait-img').style.display = 'block';
-                    document.getElementById('portrait-placeholder').style.display = 'none';
-                }
-
-                // BLINDAGEM DE ARRAYS CORROMPIDOS (EVITA QUE A FICHA PARE DE SALVAR)
-                if (j.dbPericias) dbPericias = j.dbPericias;
-                dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
-                dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario : [];
-                dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
-                dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
-                dbGuildas = Array.isArray(j.dbGuildas) ? j.dbGuildas : [];
-                dbPessoas = Array.isArray(j.dbPessoas) ? j.dbPessoas : [];
-                dbLocais = Array.isArray(j.dbLocais) ? j.dbLocais : [];
-                dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
-                
-            } catch (e) {
-                console.error("Erro ao carregar a ficha salva: ", e);
+            if (j.img && j.img.trim() !== "") {
+                document.getElementById('portrait-img').src = j.img;
+                document.getElementById('portrait-img').style.display = 'block';
+                document.getElementById('portrait-placeholder').style.display = 'none';
             }
+
+            if (j.dbPericias) dbPericias = j.dbPericias;
+            dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
+            dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario : [];
+            dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
+            dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
+            dbGuildas = Array.isArray(j.dbGuildas) ? j.dbGuildas : [];
+            dbPessoas = Array.isArray(j.dbPessoas) ? j.dbPessoas : [];
+            dbLocais = Array.isArray(j.dbLocais) ? j.dbLocais : [];
+            dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
+            
+        } catch (e) {
+            console.error("Erro ao preencher a ficha: ", e);
         }
     }
 
@@ -870,6 +885,7 @@
         let defInput = document.getElementById('defesa-personagem');
         
         let dadosParaSalvar = {
+            idUnico: idUnicoFicha,
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
             uidSala: document.getElementById('uid-input').value.toUpperCase(),
@@ -894,6 +910,10 @@
             dbMagias: dbMagias || []
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
+
+        if (typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('salvar_ficha_db', dadosParaSalvar);
+        }
     }
 
     // === FUNÇÃO DE ZOOM DA IMAGEM ===
@@ -903,32 +923,29 @@
         document.getElementById('modal-zoom-img').style.display = 'flex';
     }
 
-    // === FUNÇÕES DE EXPORTAR E IMPORTAR (NOVAS) ===
+    // === FUNÇÕES DE EXPORTAR E IMPORTAR ===
     function forcarSalvar() {
         salvarFichaLocal();
-        alert("Ficha salva localmente com sucesso!");
+        alert("Ficha salva local e na nuvem com sucesso!");
     }
 
     function exportarFicha() {
-        salvarFichaLocal(); // Garante que a versão mais nova será exportada
+        salvarFichaLocal(); 
         let dados = localStorage.getItem('rpgFichaLocal');
         if(!dados) return alert("Nenhum dado para exportar.");
         
         let nomePersonagem = document.getElementById('char-name-input').value.trim();
         if(!nomePersonagem) nomePersonagem = "personagem";
         
-        // Transforma o texto JSON num arquivo
         let blob = new Blob([dados], { type: "application/json" });
         let url = URL.createObjectURL(blob);
         
-        // Cria um link fantasma e clica nele para forçar o download
         let a = document.createElement("a");
         a.href = url;
         a.download = `ficha_${nomePersonagem}.json`;
         document.body.appendChild(a);
         a.click();
         
-        // Limpa o fantasma
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
@@ -943,7 +960,6 @@
                 let jsonStr = e.target.result;
                 let jsonParsed = JSON.parse(jsonStr);
                 
-                // Validação super básica para ter certeza que é um JSON seguro
                 if(jsonParsed && typeof jsonParsed === 'object') {
                     localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
                     alert("Ficha importada com sucesso! A página será atualizada para carregar os dados.");
@@ -955,7 +971,6 @@
                 alert("Erro ao importar. O arquivo está corrompido ou não é um JSON válido.");
             }
         };
-        // Reseta o input para caso queira importar o mesmo arquivo de novo
         event.target.value = '';
         reader.readAsText(file);
     }
@@ -1938,7 +1953,7 @@
                 
                 box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
                 
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
             }
 
             let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
