@@ -169,20 +169,9 @@
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
         /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex;
-            flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
-        }
-
-        .toast-entry {
-            background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; 
-            border-radius: 8px; padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; 
-            backdrop-filter: blur(5px); animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            cursor: pointer; transition: 0.2s; word-wrap: break-word; word-break: break-word;
-        }
-        
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 350px; max-width: 90vw; }
+        .toast-entry { background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; border-radius: 8px; padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; backdrop-filter: blur(5px); animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: 0.2s; word-wrap: break-word; word-break: break-word; }
         .toast-entry:hover { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-
         @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
@@ -295,7 +284,7 @@
                     <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0; gap: 20px;">
                         
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
-                            <h2 class="section-title">JOGADORES CONECTADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
+                            <h2 class="section-title">MESA DE JOGADORES <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
                             <div id="players-container">
                                 <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Aguardando jogadores conectarem...</p>
                             </div>
@@ -400,7 +389,6 @@
         <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
         
-        <!-- ATAQUES BLINDADOS COM BONUS -->
         <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
             <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4>
             <div style="display:flex; gap:5px; margin-bottom:10px;">
@@ -565,6 +553,7 @@
 
         if (abaAtual === 'bestiario') renderizarBestiario();
         if (abaAtual === 'mundo') inicializarHistoriaGM();
+        if (abaAtual === 'mesa') renderizarJogadores();
     };
 
     function mudarAba(aba) {
@@ -575,6 +564,7 @@
         
         if(aba === 'mesa') { 
             document.getElementById('tab-mesa').classList.add('active'); 
+            renderizarJogadores();
         }
         else if (aba === 'bestiario') { 
             document.getElementById('tab-bestiario').classList.add('active'); 
@@ -626,10 +616,18 @@
     
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
-        let chaves = Object.keys(jogadores); document.getElementById('contador-jogadores').innerText = `(${chaves.length})`;
-        if(chaves.length === 0) { container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores entrarem pelo link...</p>'; return; }
+        let chaves = Object.keys(jogadores); 
+        let monstrosNaMesa = dbBestiario.filter(m => m.naMesa);
+        
+        document.getElementById('contador-jogadores').innerText = `(${chaves.length + monstrosNaMesa.length})`;
+        
+        if(chaves.length === 0 && monstrosNaMesa.length === 0) { 
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores conectarem ou monstros serem fixados...</p>'; 
+            return; 
+        }
         
         container.innerHTML = ''; 
+        
         chaves.forEach(key => {
             let p = jogadores[key]; let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
             let hpMax = parseFloat(p.hpMax) || 1; let hpAtual = parseFloat(p.hpAtual) || 0; let hpPerc = Math.max(0, Math.min(100, (hpAtual/hpMax)*100));
@@ -642,6 +640,27 @@
                     <textarea class="player-gm-notes" placeholder="Anotações Privadas do Mestre..." onchange="salvarNotaGM('${key}', this.value)">${p.gmNotes || ''}</textarea>
                 </div>`;
         });
+
+        monstrosNaMesa.forEach(m => {
+            let hpPerc = Math.max(0, Math.min(100, (m.hpAtual / m.hpMax) * 100));
+            let imgHtml = `<div class="player-img" style="background:#b71c1c; color:#fff; border-color:#5c3a21;">🐉</div>`;
+            container.innerHTML += `
+                <div class="player-card" style="border-color:#b71c1c; background: rgba(183, 28, 28, 0.05);">
+                    <button class="btn-kick" onclick="toggleMonstroMesa(${m.id}, false)" title="Remover da Mesa">&times;</button>
+                    <div class="player-header">${imgHtml}<div style="flex:1;"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div><div class="player-name" style="color:#b71c1c;">${m.nome}</div><div class="player-realname" style="color:#b71c1c;">MONSTRO</div></div><div class="stat-badge" style="background:#b71c1c;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" style="width:25px;" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div></div></div>
+                    <div class="barras-container"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem; display:flex; align-items:center;">PV: <button class="btn-hp-monstro" style="background:rgba(0,0,0,0.4); border:none; color:#fff; cursor:pointer;" onclick="alterarHpMonstro(${m.id}, -1)">-</button><input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"><button class="btn-hp-monstro" style="background:rgba(0,0,0,0.4); border:none; color:#fff; cursor:pointer;" onclick="alterarHpMonstro(${m.id}, 1)">+</button> / ${m.hpMax}</div></div></div>
+                </div>`;
+        });
+    }
+
+    function toggleMonstroMesa(id, isChecked) {
+        let m = dbBestiario.find(x => x.id === id);
+        if(m) {
+            m.naMesa = isChecked;
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
+            if(abaAtual === 'mesa') renderizarJogadores();
+            else renderizarBestiario();
+        }
     }
 
     function salvarIniciativaLocal() {
@@ -791,20 +810,32 @@
 
     function salvarMonstro() {
         let nome = document.getElementById('mon-nome').value.trim(); if(!nome) return alert("O monstro precisa de um nome!");
-        let novoMonstro = { id: Date.now(), nome: nome, hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, def: parseInt(document.getElementById('mon-def').value) || 10, attr: { for: parseInt(document.getElementById('mon-for').value)||0, des: parseInt(document.getElementById('mon-des').value)||0, con: parseInt(document.getElementById('mon-con').value)||0, int: parseInt(document.getElementById('mon-int').value)||0, sab: parseInt(document.getElementById('mon-sab').value)||0, car: parseInt(document.getElementById('mon-car').value)||0 }, mov: document.getElementById('mon-mov').value.trim(), imun: document.getElementById('mon-imun').value.trim(), vuln: document.getElementById('mon-vuln').value.trim(), ataques: [...tempAtaques], habilidades: [...tempHabilidades], enigma: document.getElementById('mon-enigma').value.trim() };
+        let novoMonstro = { 
+            id: Date.now(), nome: nome, naMesa: false, 
+            hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, def: parseInt(document.getElementById('mon-def').value) || 10, attr: { for: parseInt(document.getElementById('mon-for').value)||0, des: parseInt(document.getElementById('mon-des').value)||0, con: parseInt(document.getElementById('mon-con').value)||0, int: parseInt(document.getElementById('mon-int').value)||0, sab: parseInt(document.getElementById('mon-sab').value)||0, car: parseInt(document.getElementById('mon-car').value)||0 }, mov: document.getElementById('mon-mov').value.trim(), imun: document.getElementById('mon-imun').value.trim(), vuln: document.getElementById('mon-vuln').value.trim(), ataques: [...tempAtaques], habilidades: [...tempHabilidades], enigma: document.getElementById('mon-enigma').value.trim() 
+        };
         dbBestiario.push(novoMonstro); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); fecharModais(); renderizarBestiario();
     }
     
-    function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
+    function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); if(abaAtual === 'mesa') renderizarJogadores(); } }
     
-    function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
+    function updateMonstroStatus(id, campo, valor) { 
+        let monstro = dbBestiario.find(m => m.id === id); 
+        if(monstro) { 
+            monstro[campo] = parseInt(valor) || 0; 
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); 
+            if(abaAtual === 'bestiario') renderizarBestiario(); 
+            if(abaAtual === 'mesa') renderizarJogadores();
+        } 
+    }
     
     function alterarHpMonstro(id, delta) {
         let monstro = dbBestiario.find(m => m.id === id);
         if(monstro) {
             monstro.hpAtual = (parseInt(monstro.hpAtual) || 0) + delta;
             localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
-            renderizarBestiario();
+            if(abaAtual === 'bestiario') renderizarBestiario();
+            if(abaAtual === 'mesa') renderizarJogadores();
         }
     }
     
@@ -929,7 +960,36 @@
                 <button class="monstro-skill-btn" style="grid-column: 1 / -1;" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vont. ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
             </div>`;
 
-            container.innerHTML += `<div class="monstro-card"><button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button><div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;"><h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3><div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div><div class="barras-container" style="margin-bottom:10px;"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem; display:flex; align-items:center;">PV: <button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, -1)">-</button><input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"><button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, 1)">+</button> / ${m.hpMax}</div></div></div><div class="monstro-stats-grid"><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div></div>${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}</div>`;
+            container.innerHTML += `
+            <div class="monstro-card">
+                <button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;">
+                    <div style="display:flex; flex-direction:column; gap:2px;">
+                        <h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3>
+                        <label style="font-size:0.65rem; font-family:'Roboto'; font-weight:bold; color:#b71c1c; cursor:pointer; display:flex; align-items:center; gap:5px;">
+                            <input type="checkbox" style="margin:0; transform:scale(1.1); cursor:pointer;" ${m.naMesa ? 'checked' : ''} onchange="toggleMonstroMesa(${m.id}, this.checked)"> FIXAR NA MESA
+                        </label>
+                    </div>
+                    <div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">
+                        🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
+                    </div>
+                </div>
+                <div class="barras-container" style="margin-bottom:10px;">
+                    <div class="bar-bg" style="height: 22px;">
+                        <div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div>
+                        <div class="bar-text" style="font-size:0.75rem; display:flex; align-items:center;">PV: <button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, -1)">-</button><input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"><button class="btn-hp-monstro" onclick="alterarHpMonstro(${m.id}, 1)">+</button> / ${m.hpMax}</div>
+                    </div>
+                </div>
+                <div class="monstro-stats-grid">
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div>
+                </div>
+                ${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}
+            </div>`;
         });
     }
 
@@ -1227,7 +1287,32 @@
         });
     }
 
-    // === ROLAGEM DE DADOS DO MESTRE ===
+    // === VISUALIZAR DETALHES RÁPIDOS NO MESTRE ===
+    function abrirSubItem(tipoParent, parentId, subId) {
+        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
+        if(!parentObj) return;
+        
+        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        if(!subObj) return;
+        
+        document.getElementById('ms-nome').value = subObj.nome; 
+        document.getElementById('ms-desc').value = subObj.desc || '';
+        
+        let tempSubImgBase64 = subObj.img || '';
+        if(tempSubImgBase64) { 
+            document.getElementById('ms-img-preview').src = tempSubImgBase64; 
+            document.getElementById('ms-img-preview-container').style.display = 'block'; 
+        } else { 
+            document.getElementById('ms-img-preview-container').style.display = 'none'; 
+        }
+        
+        document.getElementById('modal-personagem').style.display = 'flex';
+    }
+
+    // ==============================================================
+    // 9. SISTEMA DE DADOS E ROLAGENS DO MESTRE
+    // ==============================================================
+
     function rolarDadoMonstro(nome, bonus, isIniciativa = false) {
         if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
         let baseName = nome.replace(/\s*\(\s*iniciativa\s*\)/i, '').trim();
@@ -1256,19 +1341,14 @@
 
             let frames = 0;
             animacaoGiro = setInterval(() => {
-                try {
-                    let tempDado = Math.floor(Math.random() * 20) + 1;
-                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-                    let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
-                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+                let tempDado = Math.floor(Math.random() * 20) + 1;
+                let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+                let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+                text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
 
-                    if (++frames >= 12) { 
-                        clearInterval(animacaoGiro);
-                        mostrarResultadoFinal();
-                    }
-                } catch(e) {
+                if (++frames >= 12) { 
                     clearInterval(animacaoGiro);
-                    closeDiceRoll();
+                    mostrarResultadoFinal();
                 }
             }, 50);
             
@@ -1293,7 +1373,7 @@
             let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
 
             if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO";
+                let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO (MESTRE)";
                 resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
 
                 box.style.borderColor = corCataroria;
