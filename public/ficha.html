@@ -275,6 +275,7 @@
 
 <div class="ficha-container">
     
+    <!-- === CABEÇALHO === -->
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
@@ -297,7 +298,7 @@
                         <input type="text" id="uid-input" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
                         <label>SALA / UID</label>
                     </div>
-                    <button class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
+                    <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
                 </div>
             </div>
             
@@ -332,15 +333,18 @@
         </div>
     </div>
 
+    <!-- === ABAS === -->
     <div class="tabs-nav">
-        <button class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">ESTATÍSTICAS</button>
-        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">MOCHILA / MUNDO</button>
-        <button class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">GRIMÓRIO</button>
+        <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">ESTATÍSTICAS</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">MOCHILA / MUNDO</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">GRIMÓRIO</button>
     </div>
 
+    <!-- === ABA 1: ESTATÍSTICAS PRINCIPAIS === -->
     <div id="tab-principal" class="tab-content active">
         <div class="main-layout">
             
+            <!-- ESQUERDA: ATRIBUTOS -->
             <div class="sidebar-atributos">
                 <div class="atributo-box"><label onclick="rolarDado('FOR', getValor('forca'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> FOR</label><input type="number" id="forca" value="0" oninput="recalcularTudo()"></div>
                 <div class="atributo-box"><label onclick="rolarDado('AGI', getValor('agilidade'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> AGI</label><input type="number" id="agilidade" value="0" oninput="recalcularTudo()"></div>
@@ -350,21 +354,23 @@
                 <div class="atributo-box"><label onclick="rolarDado('CAR', getValor('carisma'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> CAR</label><input type="number" id="carisma" value="0" oninput="recalcularTudo()"></div>
             </div>
 
+            <!-- MEIO: STATUS E PERÍCIAS -->
             <div class="conteudo-principal">
                 <div class="section-separator" style="margin-top:0;"></div>
                 
+                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
                         <div class="bar-wrapper">
                             <span class="bar-title">PONTOS DE VIDA</span>
                             <div class="bar-capsule">
-                                <button class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
+                                <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="vida-fill" class="liquid-fill vida-color"></div>
                                     <input type="number" id="vida-atual" value="10" class="atual-input" oninput="atualizarBarras()">
                                 </div>
-                                <button class="btn-status" onclick="alterarStatus('vida-atual', 1)">+</button>
+                                <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="vida-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
                             </div>
                         </div>
@@ -375,12 +381,12 @@
                         <div class="bar-wrapper">
                             <span class="bar-title">PONTOS DE MANA</span>
                             <div class="bar-capsule">
-                                <button class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
+                                <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
                                 <div class="glass-track">
                                     <div id="mana-fill" class="liquid-fill mana-color"></div>
                                     <input type="number" id="mana-atual" value="10" class="atual-input" oninput="atualizarBarras()">
                                 </div>
-                                <button class="btn-status" onclick="alterarStatus('mana-atual', 1)">+</button>
+                                <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="mana-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
                             </div>
                         </div>
@@ -391,12 +397,13 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <button class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.85rem; background:#5c3a21; color:#fff; border-radius:4px; font-family:'Cinzel'; cursor:pointer;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
+                    <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.85rem; background:#5c3a21; color:#fff; border-radius:4px; font-family:'Cinzel'; cursor:pointer;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
                 </div>
                 
                 <div class="pericias-grid" id="grid-pericias"></div>
             </div>
 
+            <!-- DIREITA: DEFESA E PROFICIÊNCIAS -->
             <div class="sidebar-direita">
                 <div class="defesa-box">
                     <label>DEFESA</label>
@@ -406,13 +413,13 @@
                 <div style="margin-top: 10px;">
                     <div class="list-section-title">PROFICIÊNCIAS</div>
                     <div id="lista-proficiencias"></div>
-                    <button class="btn-add" onclick="abrirModalHab('prof')">+ NOVA PROFICIÊNCIA</button>
+                    <button type="button" class="btn-add" onclick="abrirModalHab('prof')">+ NOVA PROFICIÊNCIA</button>
                 </div>
                 
                 <div style="margin-top: 25px;">
                     <div class="list-section-title">HABILIDADES</div>
                     <div id="lista-habilidades"></div>
-                    <button class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button>
+                    <button type="button" class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button>
                 </div>
                 
                 <div style="margin-top: 25px;">
@@ -428,6 +435,7 @@
         </div>
     </div>
 
+    <!-- === ABA 2: INVENTÁRIO / MUNDO === -->
     <div id="tab-inventario" class="tab-content">
         <div class="main-layout">
             <div class="conteudo-principal">
@@ -441,21 +449,22 @@
                     <div class="moedas-container">
                         <span class="moedas-title">TIBARES (T$)</span>
                         <div class="moedas-controle">
-                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', -10)">-</button>
+                            <button type="button" class="btn-moeda" onclick="alterarStatus('moedas-atual', -10)">-</button>
                             <input type="number" id="moedas-atual" value="0" class="input-moeda" oninput="recalcularTudo()">
-                            <button class="btn-moeda" onclick="alterarStatus('moedas-atual', 10)">+</button>
+                            <button type="button" class="btn-moeda" onclick="alterarStatus('moedas-atual', 10)">+</button>
                         </div>
                     </div>
                 </div>
 
                 <div style="text-align:center; margin-bottom:20px;">
-                    <button class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button>
+                    <button type="button" class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button>
                 </div>
                 <div id="grid-inventario" class="pericias-grid"></div>
             </div>
             
             <div class="sidebar-direita">
                 
+                <!-- LISTAS DO MUNDO -->
                 <div>
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
                     <div id="lista-guildas"></div>
@@ -472,38 +481,42 @@
         </div>
     </div>
 
+    <!-- === ABA 3: MAGIAS / GRIMÓRIO === -->
     <div id="tab-magias" class="tab-content">
         <div style="background:rgba(234, 221, 197, 0.85); padding:15px; border-radius:8px; border:2px solid #8b5a2b; margin-bottom:20px; text-align:center;">
             <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:5px;">ESCOLAS DE MAGIA APRENDIDAS</div>
             <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Abjuração</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Adivinhação</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Convocação</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Encantamento</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Evocação</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Ilusão</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Necromancia</button>
-                <button class="escola-badge" onclick="this.classList.toggle('active')">Transmutação</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Abjuração</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Adivinhação</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Convocação</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Encantamento</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Evocação</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Ilusão</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Necromancia</button>
+                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Transmutação</button>
             </div>
         </div>
 
         <div style="text-align:center; margin-bottom:20px;">
-            <button class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalMagia()">+ APRENDER MAGIA</button>
+            <button type="button" class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalMagia()">+ APRENDER MAGIA</button>
         </div>
         <div id="magias-container"></div>
     </div>
 </div>
 
+<!-- ==============================================================
+     MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
+============================================================== -->
 <div id="modal-inventario" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">Novo Item</h3>
         
         <div class="modal-tabs">
-            <button class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
-            <button class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
-            <button class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
-            <button class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
+            <button type="button" class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
+            <button type="button" class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
+            <button type="button" class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
+            <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
         </div>
         
         <input type="text" id="mi-nome" placeholder="Nome do Item / Arma / Munição" class="form-input" style="margin-bottom:12px;">
@@ -564,7 +577,7 @@
             </div>
         </div>
         <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais" class="form-input" style="height:60px; resize:none;"></textarea>
-        <button class="btn-salvar" onclick="salvarItemInv()">ADICIONAR AO INVENTÁRIO</button>
+        <button type="button" class="btn-salvar" onclick="salvarItemInv()">ADICIONAR AO INVENTÁRIO</button>
     </div>
 </div>
 
@@ -575,7 +588,7 @@
         <div class="form-group"><span style="font-size: 0.9rem;">Treinado:</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
         <div class="form-group"><span style="font-size: 0.9rem;">Bônus Extra:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0;"></div>
         <div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem;">TOTAL: <span id="mp-total" style="color:#b71c1c">0</span></div>
-        <button class="btn-apagar" id="btn-remover-pericia" style="display:none; width:100%; margin-top:25px; padding:12px; border:none; color:white; font-weight:bold; font-family:'Cinzel'; cursor:pointer; border-radius:4px;" onclick="removerPericiaAberta()">REMOVER PERÍCIA</button>
+        <button type="button" class="btn-apagar" id="btn-remover-pericia" style="display:none; width:100%; margin-top:25px; padding:12px; border:none; color:white; font-weight:bold; font-family:'Cinzel'; cursor:pointer; border-radius:4px;" onclick="removerPericiaAberta()">REMOVER PERÍCIA</button>
     </div>
 </div>
 
@@ -598,7 +611,7 @@
                 <option value="carisma">Carisma (CAR)</option>
             </select>
         </div>
-        <button class="btn-salvar" onclick="salvarNovaPericia()">ADICIONAR</button>
+        <button type="button" class="btn-salvar" onclick="salvarNovaPericia()">ADICIONAR</button>
     </div>
 </div>
 
@@ -608,7 +621,7 @@
         <h3 class="section-title" id="mh-titulo">Novo</h3>
         <input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
         <textarea id="mh-desc" placeholder="Descrição" class="form-input" style="height:100px; resize:none;"></textarea>
-        <button class="btn-salvar" onclick="salvarHab()">SALVAR</button>
+        <button type="button" class="btn-salvar" onclick="salvarHab()">SALVAR</button>
     </div>
 </div>
 
@@ -629,7 +642,7 @@
             <div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Fortitude reduz à metade" class="form-input" style="margin-bottom:0;"></div>
         </div>
         <textarea id="mm-desc" placeholder="Efeito da magia e Aprimoramentos..." class="form-input" style="height:100px; resize:none;"></textarea>
-        <button class="btn-salvar" onclick="salvarMagia()">ADICIONAR MAGIA</button>
+        <button type="button" class="btn-salvar" onclick="salvarMagia()">ADICIONAR MAGIA</button>
     </div>
 </div>
 
@@ -661,23 +674,23 @@
         <div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:4px; border:1px solid #8b5a2b;">
             <div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div>
             <div style="display:flex; gap:10px;">
-                <button class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button>
-                <button class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button>
+                <button type="button" class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button>
+                <button type="button" class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button>
             </div>
         </div>
         
         <div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;">
             <span style="font-family:'Cinzel'; font-weight:bold;">QUANTIDADE:</span>
-            <button class="btn-status" onclick="alterarMunicaoView(-1)">-</button>
+            <button type="button" class="btn-status" onclick="alterarMunicaoView(-1)">-</button>
             <span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.2rem;"></span>
-            <button class="btn-status" onclick="alterarMunicaoView(1)">+</button>
+            <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
         <p id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></p>
         
         <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
         
-        <button class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button>
+        <button type="button" class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button>
     </div>
 </div>
 
@@ -771,7 +784,6 @@
         recalcularTudo(); 
         atualizarBarras(); 
         
-        // Tenta conectar logo de cara, se houver sala
         if (salaFinal && typeof io !== 'undefined') {
             conectarSalaJogador(); 
         }
@@ -812,16 +824,16 @@
                     document.getElementById('portrait-placeholder').style.display = 'none';
                 }
 
+                // BLINDAGEM DE ARRAYS CORROMPIDOS (EVITA QUE A FICHA PARE DE SALVAR)
                 if (j.dbPericias) dbPericias = j.dbPericias;
-                if (j.dbPericiasCustom) dbPericiasCustom = j.dbPericiasCustom; else dbPericiasCustom = [];
-                
-                if (j.dbInventario) dbInventario = j.dbInventario || [];
-                if (j.dbProficiencias) dbProficiencias = j.dbProficiencias || [];
-                if (j.dbHabilidades) dbHabilidades = j.dbHabilidades || [];
-                if (j.dbGuildas) dbGuildas = j.dbGuildas || [];
-                if (j.dbPessoas) dbPessoas = j.dbPessoas || [];
-                if (j.dbLocais) dbLocais = j.dbLocais || [];
-                if (j.dbMagias) dbMagias = j.dbMagias || [];
+                dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
+                dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario : [];
+                dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
+                dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
+                dbGuildas = Array.isArray(j.dbGuildas) ? j.dbGuildas : [];
+                dbPessoas = Array.isArray(j.dbPessoas) ? j.dbPessoas : [];
+                dbLocais = Array.isArray(j.dbLocais) ? j.dbLocais : [];
+                dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
                 
             } catch (e) {
                 console.error("Erro ao carregar a ficha salva: ", e);
@@ -952,10 +964,8 @@
     });
 
     function sincronizarComMestre() {
-        // 1. SEMPRE salva os dados no telemóvel/PC do jogador (mesmo offline)
-        salvarFichaLocal();
+        salvarFichaLocal(); // OBRIGATÓRIO SALVAR LOCAL SEMPRE QUE ATUALIZAR ALGO
 
-        // 2. Tenta enviar para o mestre (se tiver sala conectada)
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if (!uidAtual || uidAtual === "SEM SALA") return; 
 
@@ -1134,10 +1144,10 @@
                     if (listPrincipal) {
                         listPrincipal.innerHTML += `
                         <div class="item-btn" style="border-left-color:#b71c1c; padding:0; display:flex; margin-bottom:4px;">
-                            <button style="flex:1; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('magia', ${m.id})">
+                            <button type="button" style="flex:1; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('magia', ${m.id})">
                                 <span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span>
                             </button>
-                            <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'magia', ${m.id})">&times;</button>
+                            <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'magia', ${m.id})">&times;</button>
                         </div>`;
                     }
                 });
@@ -1203,8 +1213,8 @@
                 let safeDano = (i.dano || '').replace(/'/g, "\\'");
                 let safeCrit = (i.crit || '').replace(/'/g, "\\'");
 
-                let btnAtqHtml = `<button class="btn-atq" onclick="rolarAtaqueArma('${safeNome}', ${bonusAtq}, '${safeDano}', '${safeCrit}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
-                let danoSide = i.dano ? `<button class="box-dano" onclick="rolarDano('Dano: ${safeNome}', '${safeDano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
+                let btnAtqHtml = `<button type="button" class="btn-atq" onclick="rolarAtaqueArma('${safeNome}', ${bonusAtq}, '${safeDano}', '${safeCrit}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
+                let danoSide = i.dano ? `<button type="button" class="box-dano" onclick="rolarDano('Dano: ${safeNome}', '${safeDano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
 
                 if(listArmas) {
                     listArmas.innerHTML += `
@@ -1226,8 +1236,8 @@
         if(profList) {
             profList.innerHTML = dbProficiencias.map(p => `
             <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>
-                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
+                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>
+                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
             </div>`).join('');
         }
         
@@ -1235,8 +1245,8 @@
         if(habList) {
             habList.innerHTML = dbHabilidades.map(h => `
             <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>
-                <button style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
+                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>
+                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px; line-height:1;" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
             </div>`).join('');
         }
         
@@ -1246,9 +1256,9 @@
             guildaList.innerHTML = dbGuildas.map(g => {
                 let membros = (g.membros || []).map(m => `
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
+                        <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
             }).join('');
         }
 
@@ -1257,9 +1267,9 @@
             locaisList.innerHTML = dbLocais.map(l => {
                 let pontos = (l.pontos || []).map(p => `
                     <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                        <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
+                        <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
                     </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
+                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
             }).join('');
         }
 
@@ -1267,12 +1277,12 @@
         if(pessoasList) {
             pessoasList.innerHTML = dbPessoas.map(p => `
                 <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                    <button style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                    <button style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
+                    <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
+                    <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
                 </div>`).join('');
         }
         
-        // Garante que salve as listas novas (mas o 'sincronizarComMestre' já salva no inicio)
+        renderizarMagias(); 
         salvarFichaLocal();
     }
 
