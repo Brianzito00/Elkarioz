@@ -10,163 +10,53 @@
         ========================================= */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
         
-        * { 
-            box-sizing: border-box; 
-        }
+        * { box-sizing: border-box; }
         
         body { 
-            font-family: 'Lora', serif; 
-            background-color: #170f0a; 
+            font-family: 'Lora', serif; background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed; 
-            color: #3e2723; 
-            display: flex; 
-            justify-content: center; 
-            align-items: flex-start; 
-            padding: 30px 20px; 
-            margin: 0; 
-            min-height: 100vh; 
+            background-size: cover; background-position: center; background-attachment: fixed; 
+            color: #3e2723; display: flex; justify-content: center; align-items: flex-start; 
+            padding: 30px 20px; margin: 0; min-height: 100vh; 
         }
         
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
-        
-        input[type=number] { 
-            appearance: textfield; 
-            -moz-appearance: textfield; 
-        }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
 
         /* =========================================
            PAINEL PRINCIPAL E ESTRUTURA
         ========================================= */
         .painel-mestre { 
-            background-color: rgba(244, 235, 216, 0.88); 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px); 
-            padding: 30px; 
-            border-radius: 6px; 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9); 
-            width: 100%; 
-            max-width: 1600px; 
-            border: 3px solid #8b5a2b; 
-            outline: 5px solid rgba(92, 58, 33, 0.8); 
-            outline-offset: -12px; 
-            display: flex; 
-            flex-direction: column; 
-            position: relative;
+            background-color: rgba(244, 235, 216, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); 
+            padding: 30px; border-radius: 6px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); width: 100%; max-width: 1600px; 
+            border: 3px solid #8b5a2b; outline: 5px solid rgba(92, 58, 33, 0.8); outline-offset: -12px; display: flex; flex-direction: column; position: relative;
         }
         
-        .header-titulo { 
-            text-align: center; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 900; 
-            font-size: 2.2rem; 
-            color: #5c3a21; 
-            margin-top: 0; 
-            margin-bottom: 20px; 
-            letter-spacing: 1px; 
-            border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
-            padding-bottom: 10px; 
-            text-transform: uppercase; 
-        }
+        .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #5c3a21; margin-top: 0; margin-bottom: 20px; letter-spacing: 1px; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-transform: uppercase; }
         
         /* === NAVEGAÇÃO (ABAS) === */
-        .tabs-container { 
-            display: flex; 
-            justify-content: center; 
-            gap: 12px; 
-            margin-bottom: 25px; 
-            border-bottom: 3px solid #8b5a2b; 
-            flex-wrap: wrap; 
-        }
-
-        .tab-btn { 
-            background: rgba(234, 221, 197, 0.9); 
-            border: 2px solid #8b5a2b; 
-            padding: 12px 25px; 
-            cursor: pointer; 
-            font-family: 'Cinzel', serif; 
-            font-weight: 800; 
-            color: #5c3a21; 
-            border-radius: 10px 10px 0 0; 
-            transition: 0.2s; 
-            font-size: 1rem;
-        }
-
+        .tabs-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
+        .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; font-size: 1rem; }
         .tab-btn:hover { background-color: #fff; }
         .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
-        
         .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} 
         .tab-content.active { display: flex; flex-direction: column;}
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* === COLUNAS GERAIS === */
-        .conteudo-wrapper { 
-            display: flex; 
-            gap: 25px; 
-            align-items: stretch; 
-            width: 100%; 
-            height: calc(100vh - 220px); 
-            min-height: 600px;
-        }
-
-        .coluna-central { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            min-width: 0; 
-        }
-        
-        .section-title { 
-            font-family: 'Cinzel', serif; 
-            font-weight: 800; 
-            font-size: 1.2rem; 
-            color: #5c3a21; 
-            text-align: center; 
-            border-bottom: 2px dashed rgba(139, 90, 43, 0.4); 
-            padding-bottom: 8px; 
-            margin-top: 0; 
-            margin-bottom: 15px; 
-            text-transform: uppercase;
-        }
+        .conteudo-wrapper { display: flex; gap: 25px; align-items: stretch; width: 100%; height: calc(100vh - 220px); min-height: 600px; }
+        .coluna-central { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+        .section-title { font-family: 'Cinzel', serif; font-weight: 800; font-size: 1.2rem; color: #5c3a21; text-align: center; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; }
         
         /* === CAIXAS E FORMULÁRIOS === */
-        .box-rpg { 
-            background-color: rgba(255,255,255,0.5); 
-            border: 2px solid #8b5a2b; 
-            border-radius: 8px; 
-            padding: 20px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
-            display: flex; 
-            flex-direction: column;
-        }
-
+        .box-rpg { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
         .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;}
         .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;}
-        
-        .btn-acao { 
-            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
-            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
-            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; 
-            justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%;
-        }
+        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%; }
         .btn-acao:hover { background-color: #b71c1c; }
-
-        .btn-dashed { 
-            width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; 
-            padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; 
-            cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; 
-        }
+        .btn-dashed { width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; }
         .btn-dashed:hover { background: rgba(139, 90, 43, 0.1); }
-        .placeholder-dashed { 
-            border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; 
-            font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; 
-        }
+        .placeholder-dashed { border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; }
 
         /* =========================================
            LAYOUTS ESPECÍFICOS DAS ABAS
@@ -175,9 +65,8 @@
         .mesa-sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* === GRIDS === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
-        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
         #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
@@ -226,39 +115,16 @@
            INICIATIVA (CARDS)
         ========================================= */
         #lista-iniciativa { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .ini-row { 
-            background: rgba(255,255,255,0.6); 
-            border: 2px solid #8b5a2b; 
-            border-radius: 8px; 
-            padding: 10px 15px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            transition: 0.3s; 
-            position: relative; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-        }
+        .ini-row { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .ini-row:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); transform: translateX(5px); }
-        
-        .ini-row.ativo { 
-            border-color: #b71c1c; 
-            background: rgba(183, 28, 28, 0.08); 
-            transform: scale(1.02) translateX(10px); 
-            box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); 
-            border-width: 3px; 
-            animation: pulseIni 2s infinite; 
-        }
+        .ini-row.ativo { border-color: #b71c1c; background: rgba(183, 28, 28, 0.08); transform: scale(1.02) translateX(10px); box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); border-width: 3px; animation: pulseIni 2s infinite; }
         @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
-        
         .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; border-radius: 4px 0 0 4px; }
-        
         .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; display: flex; align-items: center; gap: 5px; z-index: 2; line-height: 1;}
         .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
-        
         .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.8rem; color: #fff; background: #5c3a21; padding: 4px 15px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
         .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
-        
         .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
@@ -266,21 +132,15 @@
         /* =========================================
            MUNDO E LORE (BOTÕES CASCATA)
         ========================================= */
-        .mundo-item-rpg {
-            background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b;
-            padding: 10px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
-            align-items: center; transition: 0.2s; margin-bottom: 10px; border-radius: 4px;
-        }
+        .mundo-item-rpg { background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; margin-bottom: 10px; border-radius: 4px; }
         .mundo-item-rpg:hover { background-color: #f4ebd8; transform: translateX(3px); box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
         .mundo-item-nome { font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 15px;}
         .mini-img-moldura { width: 50px; height: 50px; border: 2px solid #5c3a21; object-fit: cover; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-
         #lista-capitulos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
         #lista-capitulos::-webkit-scrollbar { height: 6px; }
         .capitulo-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; border-radius: 4px; white-space: nowrap; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0; }
         .capitulo-btn:hover { background: #fff; }
         .capitulo-btn.active { background: #5c3a21; color: #fff; border-color: #3e2723;}
-        
         .story-paper { display: flex; flex-direction: column; flex: 1; background: rgba(244, 235, 216, 0.95); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); }
         .story-header-inline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%; gap: 15px; }
         .story-title-input { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900; color: #5c3a21; background: transparent; border: none; outline: none; flex: 1; text-transform: uppercase;}
@@ -302,28 +162,13 @@
         .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
         .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
-        
-        /* AQUI A CLASSE DA DESCRIÇÃO QUEBRADA NO POP-UP DO MESTRE */
         .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
-        /* =========================================
-           SISTEMA DE TOAST NOTIFICATIONS
-        ========================================= */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex;
-            flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
-        }
-
-        .toast-entry {
-            background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; 
-            border-radius: 8px; padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; 
-            backdrop-filter: blur(5px); animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            cursor: pointer; transition: 0.2s; word-wrap: break-word; word-break: break-word;
-        }
-        
+        /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 350px; max-width: 90vw; }
+        .toast-entry { background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; border-radius: 8px; padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; backdrop-filter: blur(5px); animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: 0.2s; word-wrap: break-word; word-break: break-word; }
         .toast-entry:hover { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-
         @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
@@ -342,10 +187,7 @@
         ::-webkit-scrollbar-track { background: transparent; } 
         ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
         
-        @media (max-width: 1100px) { 
-            #players-container, #lista-bestiario-container { grid-template-columns: repeat(2, 1fr); } 
-        }
-
+        @media (max-width: 1100px) { #players-container, #lista-bestiario-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 800px) { 
             .conteudo-wrapper { flex-direction: column; height: auto;} 
             .coluna-central, .mesa-sidebar { width: 100%; flex: none; } 
@@ -356,7 +198,6 @@
             .story-header-inline { flex-direction: column; gap: 10px; align-items: stretch; }
             .story-header-inline div { display: flex; flex-wrap: wrap; justify-content: space-between; }
         }
-
         @media (max-width: 600px) {
             body { padding: 10px; }
             .painel-mestre { padding: 15px; outline-offset: -6px; border-width: 2px;}
@@ -544,9 +385,29 @@
         <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="15"></div></div>
         <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
-        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div><div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Ex: 2d6+4)"></div><div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crítico (Ex: x2)"></div><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button></div><div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div></div>
+        
+        <!-- ATAQUES BLINDADOS COM BONUS -->
+        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4>
+            <div style="display:flex; gap:5px; margin-bottom:10px;">
+                <div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.8rem; padding:8px;" placeholder="Nome (Mordida)"></div>
+                <div style="flex:1;"><input type="number" id="mon-atq-bonus" class="form-input" style="margin-bottom:0; font-size:0.8rem; padding:8px;" placeholder="Atq (+5)"></div>
+                <div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.8rem; padding:8px;" placeholder="Dano (2d6)"></div>
+                <div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.8rem; padding:8px;" placeholder="Crit (x2)"></div>
+                <button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button>
+            </div>
+            <div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div>
+        </div>
+        
         <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Imunidades</label><input type="text" id="mon-imun" class="form-input" style="margin-bottom:0;" placeholder="Ex: Fogo"></div><div style="flex:1;"><label class="form-label-modal">Vulnerabilidades</label><input type="text" id="mon-vuln" class="form-input" style="margin-bottom:0;" placeholder="Ex: Gelo"></div></div>
-        <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div><div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div></div><div style="display:flex; gap:10px; margin-bottom:10px;"><textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button></div><div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div></div>
+        
+        <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4>
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div><div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div></div>
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button></div>
+            <div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div>
+        </div>
+        
         <div class="form-group-modal"><label class="form-label-modal">Enigma de Batalha (LORE)</label><textarea id="mon-enigma" class="form-input" style="margin-bottom:15px; height:60px; resize:vertical;" placeholder="Condições secretas para derrotar..."></textarea></div>
         <button class="btn-acao" style="font-size:1.2rem; padding:15px;" onclick="salvarMonstro()">💾 SALVAR MONSTRO</button>
     </div>
@@ -562,7 +423,7 @@
     </div>
 </div>
 
-<!-- CRIAR MUNDO (NPC, GUILDA, LOCAL) COM VÍNCULO -->
+<!-- CRIAR MUNDO (NPC, GUILDA, LOCAL) -->
 <div id="modal-criacao-listas" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -662,6 +523,9 @@
     let tipoContexto = ''; 
     let tempSubItemsLista = [];
     let itemPendenteEnvio = null;
+    let diceState = 0;
+    let animacaoGiro = null;
+    let currentRollData = {};
 
     window.onload = () => {
         let salaSalva = localStorage.getItem('gmUidSalva');
@@ -879,18 +743,42 @@
         renderTempAtqHab(); document.getElementById('modal-monstro').style.display = 'flex';
     }
     
-    function addMonstroAtaque() { let n = document.getElementById('mon-atq-nome').value.trim(); let d = document.getElementById('mon-atq-dano').value.trim(); let c = document.getElementById('mon-atq-crit').value.trim(); if(n && d) { tempAtaques.push({id: Date.now(), nome: n, dano: d, crit: c}); document.getElementById('mon-atq-nome').value = ''; document.getElementById('mon-atq-dano').value = ''; document.getElementById('mon-atq-crit').value = ''; renderTempAtqHab(); } }
+    function addMonstroAtaque() { 
+        let n = document.getElementById('mon-atq-nome').value.trim(); 
+        let b = document.getElementById('mon-atq-bonus').value; 
+        let d = document.getElementById('mon-atq-dano').value.trim(); 
+        let c = document.getElementById('mon-atq-crit').value.trim(); 
+        if(n && d) { 
+            tempAtaques.push({id: Date.now(), nome: n, bonus: parseInt(b)||0, dano: d, crit: c}); 
+            document.getElementById('mon-atq-nome').value = ''; 
+            document.getElementById('mon-atq-bonus').value = ''; 
+            document.getElementById('mon-atq-dano').value = ''; 
+            document.getElementById('mon-atq-crit').value = ''; 
+            renderTempAtqHab(); 
+        } 
+    }
+
     function addMonstroHab() { let n = document.getElementById('mon-hab-nome').value.trim(); let d = document.getElementById('mon-hab-dano').value.trim(); let desc = document.getElementById('mon-hab-desc').value.trim(); if(n && desc) { tempHabilidades.push({id: Date.now(), nome: n, dano: d, desc: desc}); document.getElementById('mon-hab-nome').value = ''; document.getElementById('mon-hab-dano').value = ''; document.getElementById('mon-hab-desc').value = ''; renderTempAtqHab(); } }
     function removerTempObj(tipo, id) { if(tipo === 'atq') tempAtaques = tempAtaques.filter(a => a.id !== id); else tempHabilidades = tempHabilidades.filter(h => h.id !== id); renderTempAtqHab(); }
     function renderTempAtqHab() {
-        let cAtq = document.getElementById('lista-temp-ataques'); cAtq.innerHTML = ''; tempAtaques.forEach(a => { cAtq.innerHTML += `<span style="background:#b71c1c; color:#fff; padding:3px 8px; border-radius:15px; font-size:0.75rem;">${a.nome} (${a.dano}) <span style="cursor:pointer; margin-left:5px;" onclick="removerTempObj('atq', ${a.id})">&times;</span></span>`; });
-        let cHab = document.getElementById('lista-temp-habs'); cHab.innerHTML = ''; tempHabilidades.forEach(h => { cHab.innerHTML += `<div style="background:rgba(255,255,255,0.7); padding:5px; border-radius:4px; font-size:0.75rem;"><b>${h.nome}</b>: ${h.desc} <span style="cursor:pointer; color:#b71c1c; float:right;" onclick="removerTempObj('hab', ${h.id})">&times;</span></div>`; });
+        let cAtq = document.getElementById('lista-temp-ataques'); cAtq.innerHTML = ''; 
+        tempAtaques.forEach(a => { 
+            let bStr = a.bonus >= 0 ? `+${a.bonus}` : a.bonus;
+            cAtq.innerHTML += `<span style="background:#b71c1c; color:#fff; padding:3px 8px; border-radius:15px; font-size:0.75rem;">${a.nome} (${bStr} / ${a.dano}) <span style="cursor:pointer; margin-left:5px;" onclick="removerTempObj('atq', ${a.id})">&times;</span></span>`; 
+        });
+        
+        let cHab = document.getElementById('lista-temp-habs'); cHab.innerHTML = ''; 
+        tempHabilidades.forEach(h => { 
+            cHab.innerHTML += `<div style="background:rgba(255,255,255,0.7); padding:5px; border-radius:4px; font-size:0.75rem;"><b>${h.nome}</b>: ${h.desc} <span style="cursor:pointer; color:#b71c1c; float:right;" onclick="removerTempObj('hab', ${h.id})">&times;</span></div>`; 
+        });
     }
+
     function salvarMonstro() {
         let nome = document.getElementById('mon-nome').value.trim(); if(!nome) return alert("O monstro precisa de um nome!");
         let novoMonstro = { id: Date.now(), nome: nome, hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, def: parseInt(document.getElementById('mon-def').value) || 10, attr: { for: parseInt(document.getElementById('mon-for').value)||0, des: parseInt(document.getElementById('mon-des').value)||0, con: parseInt(document.getElementById('mon-con').value)||0, int: parseInt(document.getElementById('mon-int').value)||0, sab: parseInt(document.getElementById('mon-sab').value)||0, car: parseInt(document.getElementById('mon-car').value)||0 }, mov: document.getElementById('mon-mov').value.trim(), imun: document.getElementById('mon-imun').value.trim(), vuln: document.getElementById('mon-vuln').value.trim(), ataques: [...tempAtaques], habilidades: [...tempHabilidades], enigma: document.getElementById('mon-enigma').value.trim() };
         dbBestiario.push(novoMonstro); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); fecharModais(); renderizarBestiario();
     }
+    
     function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     
@@ -975,16 +863,45 @@
         if(txtVazio) txtVazio.style.display = 'none'; container.innerHTML = '';
         dbBestiario.forEach(m => {
             let hpPerc = Math.max(0, Math.min(100, (m.hpAtual / m.hpMax) * 100));
-            let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Ataques</span>${m.ataques.map(a => `<button class="btn-atq-monstro" onclick="rolarDanoGM('${m.nome} usa ${a.nome}', '${a.dano}', 0)">⚔️ ${a.nome} (${a.dano})</button>`).join('')}</div>` : '';
+            let safeNome = m.nome.replace(/'/g, "\\'");
             
-            let habSecao = m.habilidades.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Habilidades</span>${m.habilidades.map(h => `<div class="monstro-hab-item"><b>${h.nome}${h.dano ? ` [${h.dano}]` : ''}:</b> ${h.desc} <button style="background:transparent; border:none; cursor:pointer;" title="Compartilhar Habilidade" onclick="usarHabilidadeMonstro(${m.id}, ${h.id})">✨</button> ${h.dano ? `<button style="background:transparent; border:none; cursor:pointer;" title="Rolar Dano" onclick="rolarDanoGM('${m.nome}: ${h.nome}', '${h.dano}', 0)">🎲</button>` : ''}</div>`).join('')}</div>` : '';
+            let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Ataques</span>${m.ataques.map(a => {
+                let safeAtqNome = a.nome.replace(/'/g, "\\'");
+                let safeDano = (a.dano || '').replace(/'/g, "\\'");
+                let safeCrit = (a.crit || '').replace(/'/g, "\\'");
+                let bAtq = a.bonus || 0;
+                let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
+                return `<div style="display:flex; gap:5px; margin-bottom:6px; align-items:center;">
+                    <div style="flex:1.5; font-family:'Lora'; font-size:0.8rem; font-weight:bold; color:#3e2723; line-height:1.1;">${a.nome}</div>
+                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; flex:1; justify-content:center; background:#b71c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
+                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; background:#5c3a21; flex:1; justify-content:center;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                </div>`;
+            }).join('')}</div>` : '';
+            
+            let habSecao = m.habilidades.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Habilidades</span>${m.habilidades.map(h => {
+                let safeHabNome = h.nome.replace(/'/g, "\\'");
+                let safeHabDano = (h.dano || '').replace(/'/g, "\\'");
+                return `<div class="monstro-hab-item"><b>${h.nome}${h.dano ? ` [${h.dano}]` : ''}:</b> ${h.desc} 
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <button class="btn-acao" style="padding:4px; font-size:0.7rem; background:#673ab7; flex:1;" title="Compartilhar Habilidade" onclick="usarHabilidadeMonstro(${m.id}, ${h.id})">✨ COMPARTILHAR</button>
+                    ${h.dano ? `<button class="btn-acao" style="padding:4px; font-size:0.7rem; background:#8b0000; flex:1;" title="Rolar Dano" onclick="rolarDanoGM('${safeNome}: ${safeHabNome}', '${safeHabDano}', 0)">🎲 ROLAR DANO</button>` : ''}
+                </div>
+                </div>`;
+            }).join('')}</div>` : '';
             
             let extraInfos = []; if(m.mov) extraInfos.push(`<b>MOV:</b> ${m.mov}`); if(m.imun) extraInfos.push(`<b>Imune:</b> ${m.imun}`); if(m.vuln) extraInfos.push(`<b>Vuln:</b> ${m.vuln}`);
             let infoSecao = extraInfos.length > 0 ? `<div style="font-size:0.75rem; font-family:'Roboto'; color:#555; margin-top:5px;">${extraInfos.join(' | ')}</div>` : '';
             let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Enigma / Lore</span><div style="font-size:0.75rem; font-style:italic; color:#5c3a21;">${m.enigma}</div></div>` : '';
-            let periciasHtml = `<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 10px;"><button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Iniciativa)', ${m.attr.des}, true)">⏱️ Inic. ${m.attr.des>=0?'+':''}${m.attr.des}</button><button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Luta)', ${m.attr.for})">⚔️ Luta ${m.attr.for>=0?'+':''}${m.attr.for}</button><button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Fortitude)', ${m.attr.con})">🛡️ Fort. ${m.attr.con>=0?'+':''}${m.attr.con}</button><button class="monstro-skill-btn" onclick="rolarDadoMonstro('${m.nome} (Reflexos)', ${m.attr.des})">⚡ Refl. ${m.attr.des>=0?'+':''}${m.attr.des}</button><button class="monstro-skill-btn" style="grid-column: 1 / -1;" onclick="rolarDadoMonstro('${m.nome} (Vontade)', ${m.attr.sab})">🧠 Vont. ${m.attr.sab>=0?'+':''}${m.attr.sab}</button></div>`;
+            
+            let periciasHtml = `<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 10px;">
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Iniciativa)', ${m.attr.des}, true)">⏱️ Inic. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Luta)', ${m.attr.for})">⚔️ Luta ${m.attr.for>=0?'+':''}${m.attr.for}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Fortitude)', ${m.attr.con})">🛡️ Fort. ${m.attr.con>=0?'+':''}${m.attr.con}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Reflexos)', ${m.attr.des})">⚡ Refl. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
+                <button class="monstro-skill-btn" style="grid-column: 1 / -1;" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vont. ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
+            </div>`;
 
-            container.innerHTML += `<div class="monstro-card"><button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button><div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;"><h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3><div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div><div class="barras-container" style="margin-bottom:10px;"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem;">PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}</div></div></div><div class="monstro-stats-grid"><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${m.nome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div></div>${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}</div>`;
+            container.innerHTML += `<div class="monstro-card"><button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro">&times;</button><div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:15px; margin-bottom: 8px;"><h3 class="player-name" style="font-size:1.2rem; margin:0;">${m.nome}</h3><div class="stat-badge" style="background:#455a64; display:flex; align-items:center; gap:2px; padding: 2px 6px;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div></div><div class="barras-container" style="margin-bottom:10px;"><div class="bar-bg" style="height: 22px;"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text" style="font-size:0.75rem;">PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}</div></div></div><div class="monstro-stats-grid"><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div><div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div></div>${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}</div>`;
         });
     }
 
@@ -1290,6 +1207,13 @@
         iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c');
     }
 
+    function rolarAtaqueArmaGM(nomeMonstro, nomeAtaque, bonusAtq, danoBase, criticoStr) { 
+        if(diceState !== 0) return; 
+        diceState = 1; 
+        currentRollData = { nome: `${nomeMonstro}: ${nomeAtaque}`, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
+        iniciarGiroDado(`${nomeMonstro}: ${nomeAtaque}`, bonusAtq, '#b71c1c'); 
+    }
+
     function rolarDanoGM(nome, expressao, bonusExtra = 0) {
         if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
         let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } 
@@ -1318,7 +1242,7 @@
     }
 
     function calcularDanoStr(expressao, mult = 1) {
-        if(!expressao) return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        if(!expressao || expressao === '-') return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
         while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
         try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
@@ -1351,6 +1275,13 @@
             } 
             else if (dadoReal === 20) {
                 categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
+                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
+                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
+                    let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
+                    let sinal = bonus >= 0 ? '+' : '';
+                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                }
             } else {
                 if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
                 else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
@@ -1369,7 +1300,7 @@
             
             let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
 
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
 
         socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); 
@@ -1394,7 +1325,7 @@
 
         mostrarToastRolagem(roll);
 
-        if (roll.idUnico === "mestre") return; // Ignora o pop-up na tela do mestre se foi ele mesmo quem enviou (pois já abriu local)
+        if (roll.idUnico === "mestre") return; 
 
         let isHabilidade = ['MAGIA', 'PROFICIÊNCIA', 'HABILIDADE', 'HABILIDADE DE MONSTRO'].includes(roll.categoria);
         if (isHabilidade) {
@@ -1415,7 +1346,6 @@
         
         let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
 
-        // Converte os \n para <br>
         let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
 
         toast.innerHTML = `
