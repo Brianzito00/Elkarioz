@@ -219,7 +219,7 @@
         .modal-tab-btn.active { color: #b71c1c; border-bottom: 3px solid #b71c1c; }
         .form-group { margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .form-input { width: 100%; padding: 12px; border: 2px solid #3e2723; background: #fff; font-weight: 900; margin-bottom: 15px; font-size: 1rem; color: #3e2723; }
-        .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; transition: 0.2s; }
+        .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;}
         .btn-salvar:hover { background: #b71c1c; }
         .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
         .btn-apagar:hover { background: #7f0000; }
@@ -227,6 +227,13 @@
         .btn-disparar:hover { background: #bf360c; }
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
+        
+        .btn-acao { 
+            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
+            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
+            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px;
+        }
+        .btn-acao:hover { background-color: #b71c1c; }
 
         /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
@@ -275,6 +282,16 @@
 
 <div class="ficha-container">
     
+    <!-- === BARRA DE FERRAMENTAS (NOVA) === -->
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px;">
+        <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
+        <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
+        <label class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #5c3a21; cursor: pointer; margin: 0;">
+            📥 IMPORTAR FICHA
+            <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarFicha(event)">
+        </label>
+    </div>
+
     <!-- === CABEÇALHO === -->
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
@@ -358,7 +375,7 @@
             <div class="conteudo-principal">
                 <div class="section-separator" style="margin-top:0;"></div>
                 
-                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
+                <!-- STATUS (BARRAS LÍQUIDAS CLÁSSICAS) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -464,7 +481,7 @@
             
             <div class="sidebar-direita">
                 
-                <!-- LISTAS DO MUNDO -->
+                <!-- LISTAS DO MUNDO (COM O X PARA APAGAR) -->
                 <div>
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
                     <div id="lista-guildas"></div>
@@ -473,6 +490,7 @@
                 <div style="margin-top:25px;">
                     <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
                     
+                    <!-- Pessoas e Locais -->
                     <div id="lista-locais"></div>
                     <div id="lista-pessoas"></div>
                 </div>
@@ -784,6 +802,7 @@
         recalcularTudo(); 
         atualizarBarras(); 
         
+        // Tenta conectar logo de cara, se houver sala
         if (salaFinal && typeof io !== 'undefined') {
             conectarSalaJogador(); 
         }
@@ -870,6 +889,63 @@
             dbMagias: dbMagias || []
         };
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
+    }
+
+    // === FUNÇÕES DE EXPORTAR E IMPORTAR (NOVAS) ===
+    function forcarSalvar() {
+        salvarFichaLocal();
+        alert("Ficha salva localmente com sucesso!");
+    }
+
+    function exportarFicha() {
+        salvarFichaLocal(); // Garante que a versão mais nova será exportada
+        let dados = localStorage.getItem('rpgFichaLocal');
+        if(!dados) return alert("Nenhum dado para exportar.");
+        
+        let nomePersonagem = document.getElementById('char-name-input').value.trim();
+        if(!nomePersonagem) nomePersonagem = "personagem";
+        
+        // Transforma o texto JSON num arquivo
+        let blob = new Blob([dados], { type: "application/json" });
+        let url = URL.createObjectURL(blob);
+        
+        // Cria um link fantasma e clica nele para forçar o download
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = `ficha_${nomePersonagem}.json`;
+        document.body.appendChild(a);
+        a.click();
+        
+        // Limpa o fantasma
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function importarFicha(event) {
+        let file = event.target.files[0];
+        if(!file) return;
+        
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                let jsonStr = e.target.result;
+                let jsonParsed = JSON.parse(jsonStr);
+                
+                // Validação super básica para ter certeza que é um JSON seguro
+                if(jsonParsed && typeof jsonParsed === 'object') {
+                    localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
+                    alert("Ficha importada com sucesso! A página será atualizada para carregar os dados.");
+                    window.location.reload();
+                } else {
+                    alert("Erro: O arquivo não parece ser uma ficha válida.");
+                }
+            } catch(err) {
+                alert("Erro ao importar. O arquivo está corrompido ou não é um JSON válido.");
+            }
+        };
+        // Reseta o input para caso queira importar o mesmo arquivo de novo
+        event.target.value = '';
+        reader.readAsText(file);
     }
 
     // === SOCKET.IO EVENTOS ===
@@ -964,7 +1040,7 @@
     });
 
     function sincronizarComMestre() {
-        salvarFichaLocal(); // OBRIGATÓRIO SALVAR LOCAL SEMPRE QUE ATUALIZAR ALGO
+        salvarFichaLocal(); 
 
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if (!uidAtual || uidAtual === "SEM SALA") return; 
@@ -1282,7 +1358,7 @@
                 </div>`).join('');
         }
         
-        renderizarMagias(); 
+        // Garante que salve as listas novas
         salvarFichaLocal();
     }
 
@@ -1629,7 +1705,6 @@
             document.getElementById('mv-ammo-text').innerText = item.munAtual; 
         }
 
-        // Oculta o botão de apagar no Modal se o item for desses tipos (já tem o X na lista)
         const btnApagar = document.querySelector('#modal-view .btn-apagar');
         if (['guilda', 'local', 'pessoa', 'prof', 'hab', 'magia'].includes(tipoLista)) {
             if(btnApagar) btnApagar.style.display = 'none';
