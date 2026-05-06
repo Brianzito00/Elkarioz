@@ -256,7 +256,9 @@
         .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
         .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
+        
+        /* AQUI A CLASSE DA DESCRIÇÃO QUEBRADA NO POP-UP */
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
         .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
 
         /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
@@ -285,6 +287,8 @@
             animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             cursor: pointer;
             transition: 0.2s;
+            word-wrap: break-word;
+            word-break: break-word;
         }
         
         .toast-entry:hover {
@@ -758,7 +762,8 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
-        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5;"></div>
+        <!-- LOCAL ONDE A DESCRIÇÃO NO MODAL APARECE -->
+        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5; word-wrap: break-word; word-break: break-word;"></div>
         
         <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
         
@@ -1237,6 +1242,7 @@
         }
     }
 
+    // === RENDERIZADORES ===
     function popularSelectPericias() {
         let select = document.getElementById('mi-pericia');
         if(!select) return;
@@ -1408,6 +1414,7 @@
             </div>`).join('');
         }
         
+        // MUNDO (Cascata na Ficha)
         const guildaList = document.getElementById('lista-guildas');
         if(guildaList) {
             guildaList.innerHTML = dbGuildas.map(g => {
@@ -1741,9 +1748,10 @@
         let cor = tipo == 'magia' ? '#0d47a1' : (tipo == 'prof' ? '#ff9100' : '#673ab7');
         let cat = tipo == 'magia' ? 'MAGIA' : (tipo == 'prof' ? 'PROFICIÊNCIA' : 'HABILIDADE');
 
+        // Cria o texto quebrando as linhas
         let detalhesLog = "";
         if (tipo === 'magia') {
-            detalhesLog = `Círculo: ${item.circulo}º | Escola: ${item.escola}\nExecução: ${item.execucao || '-'}\nAlcance: ${item.alcance || '-'}\nAlvo/Área: ${item.alvo || '-'}\nDuração: ${item.duracao || '-'}\nResistência: ${item.resistencia || '-'}\n\nEfeito: ${item.desc || ""}`;
+            detalhesLog = `Círculo: ${item.circulo}º\nEscola: ${item.escola}\nExecução: ${item.execucao || '-'}\nAlcance: ${item.alcance || '-'}\nAlvo/Área: ${item.alvo || '-'}\nDuração: ${item.duracao || '-'}\nResistência: ${item.resistencia || '-'}\n\nEfeito:\n${item.desc || ""}`;
         } else {
             detalhesLog = item.desc || "Nenhuma descrição informada.";
         }
@@ -1754,8 +1762,8 @@
                 idUnico: idUnicoFicha,
                 playerName: meuNome,
                 nomeRolagem: item.nome,
-                resultadoFinal: "", // Removemos o Emoji daqui para não ficar gigante no toast
-                detalhes: detalhesLog, // Agora enviamos o texto 100% completo, sem cortar
+                resultadoFinal: "", 
+                detalhes: detalhesLog, 
                 categoria: cat,
                 corCategoria: cor,
                 isDano: false,
@@ -1793,11 +1801,14 @@
             }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
 
+            // Converte os \n para <br> para forçar a quebra no HTML
+            let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
+
             text.innerHTML = `
                 <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
                 <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
                 <div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;">
-                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; white-space: pre-wrap; color: #333; line-height: 1.4;">${detalhes}</span>
+                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span>
                 </div>
                 <small class="pop-hint" style="color:#999; margin-top: 15px; display: block;">Clique na tela para fechar</small>
             `;
@@ -1808,7 +1819,7 @@
         } catch(e) {}
     }
 
-    // === RECEBE ROLAGENS (TOAST DA FICHA) ===
+    // === RECEBE ROLAGENS E NOTIFICAÇÕES (TOAST DA FICHA) ===
     socket.on('player_dice_roll', function(roll) {
         let salaAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if(salaAtual && roll.uid && roll.uid.trim().toUpperCase() !== salaAtual) return;
@@ -1829,14 +1840,17 @@
         
         let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
 
+        // Converte os \n para <br> e usa as propriedades de quebra de palavra
+        let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
+
         toast.innerHTML = `
             <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
                 <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
                 <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
             </div>
-            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px;">${roll.nomeRolagem}</div>
+            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
             ${resultHtml}
-            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; white-space: pre-wrap; margin-top: 5px; padding-right: 5px;">${roll.detalhes}</div>
+            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
         `;
         
         toast.onclick = function() {
@@ -1876,7 +1890,7 @@
         let textoFormatado = "";
         
         if (tipoLista == 'magia') {
-            textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º  |  <strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}  |  <strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}  |  <strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
+            textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º<br><strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}<br><strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}<br><strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
         } else {
             let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : "";
             textoFormatado = (item.desc || "Sem descrição.") + extras; 
@@ -1987,7 +2001,7 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS - BLINDADO 
+    // 9. SISTEMA DE DADOS E ROLAGENS
     // ==============================================================
 
     function rolarDado(nome, bonus) { 
@@ -2025,7 +2039,6 @@
             overlay.style.display = 'block'; 
             box.classList.remove('dice-pop-out'); 
             
-            // Força reflow
             void box.offsetWidth; 
             
             box.classList.add('dice-pop-active'); 
@@ -2118,10 +2131,11 @@
                     style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; 
                     document.head.appendChild(style); 
                 }
-                
                 box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
                 
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+                let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesBR}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
             
             } else {
                 
@@ -2167,7 +2181,9 @@
                 
                 box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
                 
-                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+                let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesBR}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
             }
 
             let meuNome = document.getElementById('char-name-input').value.trim() || 'Desconhecido';
