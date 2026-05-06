@@ -223,7 +223,7 @@
         .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 5px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; }
 
         /* =========================================
-           INICIATIVA (AGORA EM FORMATO DE CARDS)
+           INICIATIVA (CARDS)
         ========================================= */
         #lista-iniciativa { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .ini-row { 
@@ -240,7 +240,6 @@
         }
         .ini-row:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); transform: translateX(5px); }
         
-        /* Efeito de Turno Ativo (Pulsante e Destacado) */
         .ini-row.ativo { 
             border-color: #b71c1c; 
             background: rgba(183, 28, 28, 0.08); 
@@ -291,7 +290,24 @@
         .story-body-input::placeholder { color: rgba(62, 39, 35, 0.4); }
 
         /* =========================================
-           NOVO: SISTEMA DE TOAST NOTIFICATIONS (POP-UPS DE DADO)
+           SISTEMA DE DADOS - POP UP MESTRE
+        ========================================= */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.5); }
+        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;}
+        #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
+        @keyframes diceSpreadEffect { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } }
+        .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
+        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
+        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
+        
+        /* AQUI A CLASSE DA DESCRIÇÃO QUEBRADA NO POP-UP DO MESTRE */
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
+
+        /* =========================================
+           SISTEMA DE TOAST NOTIFICATIONS
         ========================================= */
         #toast-container {
             position: fixed;
@@ -303,6 +319,7 @@
             gap: 15px;
             pointer-events: none; 
             width: 320px;
+            max-width: 90vw;
         }
 
         .toast-entry {
@@ -317,6 +334,8 @@
             animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             cursor: pointer;
             transition: 0.2s;
+            word-wrap: break-word;
+            word-break: break-word;
         }
         
         .toast-entry:hover {
@@ -344,24 +363,7 @@
         .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
 
-        /* =========================================
-           POP UP DE DADOS 3D (BLINDADO) DO MESTRE
-        ========================================= */
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.5); }
-        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;}
-        #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
-        @keyframes diceSpreadEffect { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); } 30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); } 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); } }
-        .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
-        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
-        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
-        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block;}
-        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
-
-        /* =========================================
-           SCROLLBARS E RESPONSIVIDADE MAXIMA (MOBILE)
-        ========================================= */
+        /* SCROLLBAR & RESPONSIVIDADE MAXIMA (MOBILE) */
         ::-webkit-scrollbar { width: 6px; } 
         ::-webkit-scrollbar-track { background: transparent; } 
         ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
@@ -381,34 +383,21 @@
             .story-header-inline div { display: flex; flex-wrap: wrap; justify-content: space-between; }
         }
 
-        /* === TELA DE CELULAR EM RETRATO (MOBILE) === */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .painel-mestre { padding: 15px; outline-offset: -6px; border-width: 2px;}
             .header-titulo { font-size: 1.6rem; }
-            
-            /* Abas em duas linhas */
             .tabs-container { gap: 5px; flex-wrap: wrap; }
             .tab-btn { flex: 1 1 45%; font-size: 0.85rem; padding: 10px; text-align: center; }
-            
-            /* Ajustes Jogadores */
             .player-header { flex-direction: column; text-align: center; }
             .player-header .stat-badge { margin-top: 5px; }
-            
-            /* Ajustes Bestiário */
             .monstro-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
             .grid-6 { grid-template-columns: repeat(2, 1fr); }
-            
-            /* Ajustes Iniciativa */
             .ini-row { flex-direction: column; text-align: center; padding: 15px; gap: 10px;}
             .ini-row > div { justify-content: center; }
-            
-            /* Ajustes Modais */
             .modal-content { padding: 20px; width: 95%; margin: 10px auto; }
             .modal-tabs { flex-wrap: wrap; gap: 5px; }
             .modal-tab-btn { flex: 1 1 40%; font-size: 0.75rem; }
-            
-            /* Toast Notification Mobile */
             #toast-container { width: 90%; right: 5%; bottom: 10px; }
         }
     </style>
@@ -418,7 +407,6 @@
 <div id="dice-overlay-click"></div>
 <div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
 
-<!-- CONTAINÊR PARA AS NOTIFICAÇÕES POP-UP DE DADOS -->
 <div id="toast-container"></div>
 
 <div class="painel-mestre">
@@ -441,7 +429,6 @@
                 <div class="mesa-layout">
                     <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
                         
-                        <!-- Box Sessão -->
                         <div class="box-rpg">
                             <h2 class="section-title">🖥️ SESSÃO</h2>
                             <p style="font-family: 'Roboto'; font-size: 0.8rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase; text-align: center;">Nome da Sala</p>
@@ -450,7 +437,6 @@
                             <button class="btn-acao" style="background-color: #0d47a1;" onclick="forcarSincronizacao()">🔄 PUXAR FICHAS</button>
                         </div>
                         
-                        <!-- Box Convite Mágico -->
                         <div class="box-rpg" style="padding: 15px; margin-top: 15px;">
                             <h2 class="section-title" style="margin-bottom: 10px;">🔗 CONVITE MAGICO</h2>
                             <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
@@ -458,7 +444,6 @@
                             <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
                         </div>
 
-                        <!-- Box Controle de Combate -->
                         <div class="box-rpg" style="margin-top: 15px;">
                             <h2 class="section-title">CONTROLE DE COMBATE</h2>
                             <p style="text-align:center; font-size:0.8rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold; margin-bottom: 20px;">
@@ -480,7 +465,6 @@
                     
                     <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0; gap: 20px;">
                         
-                        <!-- Top Half: Jogadores Conectados -->
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
                             <h2 class="section-title">JOGADORES CONECTADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
                             <div id="players-container">
@@ -488,7 +472,6 @@
                             </div>
                         </div>
                         
-                        <!-- Bottom Half: Ordem de Turnos -->
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
                             <h2 class="section-title">ORDEM DE TURNOS</h2>
                             <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
@@ -519,7 +502,6 @@
             <div id="tab-mundo" class="tab-content">
                 <div class="mesa-layout">
                     
-                    <!-- ESQUERDA: CAPÍTULOS DA CAMPANHA -->
                     <div class="mesa-jogadores box-rpg" style="background: transparent; border: none; box-shadow: none; padding: 0; position: relative;">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 20px;">
                             <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
@@ -545,7 +527,6 @@
                         </div>
                     </div>
 
-                    <!-- DIREITA: NPCS, GUILDAS, LOCAIS -->
                     <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
                         <div>
                             <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">GUILDAS E FACÇÕES</h3>
@@ -620,7 +601,6 @@
             <input type="text" id="mcl-img" placeholder="http://..." class="form-input" style="margin-bottom:0;">
         </div>
 
-        <!-- SELECIONAR LOCAL (SÓ APARECE PARA PESSOA) -->
         <div id="mcl-local-container" style="display:none; margin-bottom:12px;">
             <label class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">VINCULAR A UM LOCAL (Opcional)</label>
             <select id="mcl-local-link" class="form-input" style="margin-bottom:0; padding: 12px; font-size: 0.9rem;">
@@ -668,9 +648,7 @@
     </div>
 </div>
 
-<!-- =========================================
-     NOVO: VISUALIZAÇÃO DE NPC PELO MESTRE 
-========================================== -->
+<!-- VISUALIZAR NPC -->
 <div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
     <div class="modal-content" style="max-width: 400px;">
         <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
@@ -721,14 +699,13 @@
         let gSalvo = localStorage.getItem('rpgGuildas'); if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
         let lSalvo = localStorage.getItem('rpgLocais'); if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
 
-        // Carregar Iniciativa Salva!
         let iSalva = localStorage.getItem('rpgIniciativa'); 
         if(iSalva) { 
             try { 
                 arrayIniciativa = JSON.parse(iSalva); 
                 turnoAtualIndex = parseInt(localStorage.getItem('rpgIniciativaTurno'));
                 if(isNaN(turnoAtualIndex)) turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
-                renderIniciativa(); // Já renderiza ao carregar a página
+                renderIniciativa();
             } catch(e){} 
         }
 
@@ -778,7 +755,6 @@
         if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
         jogadores[chave] = j;
         
-        // Renderiza jogadores e também a iniciativa (caso as fotos mudem)
         if (abaAtual === 'mesa') {
             renderizarJogadores();
             renderIniciativa();
@@ -846,7 +822,6 @@
     }
     
     function ordenarIniciativa() { 
-        // Guarda de quem era o turno para não perder quando reordenar
         let idTurnoAtual = null;
         if (turnoAtualIndex >= 0 && turnoAtualIndex < arrayIniciativa.length) {
             idTurnoAtual = arrayIniciativa[turnoAtualIndex].id;
@@ -895,7 +870,6 @@
         arrayIniciativa.forEach((item, index) => {
             let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
             
-            // Tenta pegar a imagem se for um jogador conectado
             let p = jogadores[item.idUnico];
             let imgHtml = `<div class="player-img" style="width: 45px; height: 45px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21;">⚔️</div>`;
             let subNome = "NPC / Monstro";
@@ -947,6 +921,80 @@
     function apagarMonstro(id) { if(confirm("Apagar monstro do bestiário?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     function updateMonstroStatus(id, campo, valor) { let monstro = dbBestiario.find(m => m.id === id); if(monstro) { monstro[campo] = parseInt(valor) || 0; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); } }
     
+    // NOVO: GM compartilhar habilidade de monstro
+    function usarHabilidadeMonstro(monstroId, habId) {
+        let monstro = dbBestiario.find(m => m.id === monstroId);
+        if(!monstro) return;
+        let hab = monstro.habilidades.find(h => h.id === habId);
+        if(!hab) return;
+
+        let detalhesLog = hab.desc || "Nenhuma descrição.";
+        let cor = '#673ab7';
+        let cat = 'HABILIDADE DE MONSTRO';
+        let nome = `${monstro.nome}: ${hab.nome}`;
+
+        if(typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('player_dice_roll', {
+                uid: gmUid.toUpperCase(),
+                idUnico: "mestre",
+                playerName: "👑 MESTRE",
+                nomeRolagem: nome,
+                resultadoFinal: "", 
+                detalhes: detalhesLog, 
+                categoria: cat,
+                corCategoria: cor,
+                isDano: false,
+                isCritico: false,
+                isDesastre: false,
+                _trigger: Math.random()
+            });
+            
+            mostrarPopupHabilidadeLocal(nome, detalhesLog, cat, cor);
+        }
+    }
+
+    function mostrarPopupHabilidadeLocal(nome, detalhes, categoria, cor) {
+        try {
+            const box = document.getElementById('dice-result-container'); 
+            const text = document.getElementById('dice-text'); 
+            const overlay = document.getElementById('dice-overlay-click');
+            
+            box.style.display = 'flex'; 
+            overlay.style.display = 'block'; 
+            box.classList.remove('dice-pop-out'); 
+            void box.offsetWidth; 
+            
+            box.classList.add('dice-pop-active'); 
+            box.style.borderColor = cor; 
+            box.style.zIndex = "9999"; 
+            overlay.style.zIndex = "9998";
+
+            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            if (!document.getElementById(`glow-${safeCat}`)) { 
+                const style = document.createElement('style'); 
+                style.id = `glow-${safeCat}`; 
+                style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${cor}80; } 50% { box-shadow: 0 10px 50px ${cor}, 0 0 15px ${cor}60; } 100% { box-shadow: 0 10px 40px ${cor}80; } }`; 
+                document.head.appendChild(style); 
+            }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+
+            let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
+
+            text.innerHTML = `
+                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
+                <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
+                <div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;">
+                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span>
+                </div>
+                <small class="pop-hint" style="color:#999; margin-top: 15px; display: block;">Clique na tela para fechar</small>
+            `;
+            
+            diceState = 2; 
+            overlay.onclick = handleDiceClick; 
+            box.onclick = handleDiceClick;
+        } catch(e) {}
+    }
+
     function renderizarBestiario() {
         const container = document.getElementById('lista-bestiario-container'); const txtVazio = document.getElementById('bestiario-vazio-texto');
         if (dbBestiario.length === 0) { if(txtVazio) txtVazio.style.display = 'block'; container.innerHTML = ''; if(txtVazio) container.appendChild(txtVazio); return; }
@@ -954,7 +1002,10 @@
         dbBestiario.forEach(m => {
             let hpPerc = Math.max(0, Math.min(100, (m.hpAtual / m.hpMax) * 100));
             let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Ataques</span>${m.ataques.map(a => `<button class="btn-atq-monstro" onclick="rolarDanoGM('${m.nome} usa ${a.nome}', '${a.dano}', 0)">⚔️ ${a.nome} (${a.dano})</button>`).join('')}</div>` : '';
-            let habSecao = m.habilidades.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Habilidades</span>${m.habilidades.map(h => `<div class="monstro-hab-item"><b>${h.nome}${h.dano ? ` [${h.dano}]` : ''}:</b> ${h.desc} ${h.dano ? `<button style="background:transparent; border:none; cursor:pointer;" title="Rolar Dano" onclick="rolarDanoGM('${m.nome}: ${h.nome}', '${h.dano}', 0)">🎲</button>` : ''}</div>`).join('')}</div>` : '';
+            
+            // Adicionado botão de enviar a habilidade do monstro para o chat
+            let habSecao = m.habilidades.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Habilidades</span>${m.habilidades.map(h => `<div class="monstro-hab-item"><b>${h.nome}${h.dano ? ` [${h.dano}]` : ''}:</b> ${h.desc} <button style="background:transparent; border:none; cursor:pointer;" title="Compartilhar Habilidade" onclick="usarHabilidadeMonstro(${m.id}, ${h.id})">✨</button> ${h.dano ? `<button style="background:transparent; border:none; cursor:pointer;" title="Rolar Dano" onclick="rolarDanoGM('${m.nome}: ${h.nome}', '${h.dano}', 0)">🎲</button>` : ''}</div>`).join('')}</div>` : '';
+            
             let extraInfos = []; if(m.mov) extraInfos.push(`<b>MOV:</b> ${m.mov}`); if(m.imun) extraInfos.push(`<b>Imune:</b> ${m.imun}`); if(m.vuln) extraInfos.push(`<b>Vuln:</b> ${m.vuln}`);
             let infoSecao = extraInfos.length > 0 ? `<div style="font-size:0.75rem; font-family:'Roboto'; color:#555; margin-top:5px;">${extraInfos.join(' | ')}</div>` : '';
             let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Enigma / Lore</span><div style="font-size:0.75rem; font-style:italic; color:#5c3a21;">${m.enigma}</div></div>` : '';
@@ -1288,7 +1339,7 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS (CRÍTICO EXATO E FALHA/BOM)
+    // 9. SISTEMA DE DADOS E ROLAGENS DO MESTRE
     // ==============================================================
 
     function rolarDadoMonstro(nome, bonus, isIniciativa = false) {
@@ -1342,9 +1393,14 @@
             resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
 
             box.style.borderColor = corCataroria;
-            if (!document.getElementById(`glow-${categoria}`)) { const style = document.createElement('style'); style.id = `glow-${categoria}`; style.innerHTML = `@keyframes diceGlowPulse${categoria.replace(/\s/g,'')} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
-            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${categoria.replace(/\s/g,'')} 2s infinite 0.5s`;
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span><br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            
+            let safeCat = "DANO";
+            if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+            
+            let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         } else {
             let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
             let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
@@ -1354,11 +1410,6 @@
             } 
             else if (dadoReal === 20) {
                 categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
-                if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                    let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); let mult = multMatch ? parseInt(multMatch[1]) : 2; 
-                    let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; let sinal = bonus >= 0 ? '+' : '';
-                    extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
-                }
             } else {
                 if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
                 else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
@@ -1374,7 +1425,10 @@
             let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
             if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><span class="pop-detalhes">${detalhesLog}</span>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            
+            let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+            finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
         }
 
         socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); 
@@ -1389,7 +1443,7 @@
         setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300);
     }
 
-    // === RECEBE ROLAGENS (TOAST) ===
+    // === RECEBE ROLAGENS (TOAST DO MESTRE) ===
     socket.on('player_dice_roll', function(roll) {
         if(gmUid && roll.uid && roll.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
 
@@ -1402,6 +1456,7 @@
 
     function mostrarToastRolagem(roll) {
         const container = document.getElementById('toast-container');
+        if (!container) return;
         
         let color = roll.corCategoria || "#2e7d32";
         let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 15px rgba(0,0,0,0.1); border-color:${color};` : `border-color:${color};`;
@@ -1410,17 +1465,21 @@
         toast.className = 'toast-entry';
         toast.style = `${shadow}; border-left-color: ${color};`;
         
+        let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
+
+        // Converte os \n para <br>
+        let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
+
         toast.innerHTML = `
-            <div class="log-header">
-                <span><strong style="font-family:'Lora', serif; font-size:1rem;">${roll.playerName || 'Jogador'}</strong></span>
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
                 <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
             </div>
-            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px;">${roll.nomeRolagem}</div>
-            <div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0;">${roll.resultadoFinal}</div>
-            <div style="font-size:0.75rem; color:#666; text-align:center; font-family:'Roboto'; font-weight:bold; text-transform: uppercase;">${roll.detalhes}</div>
+            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
+            ${resultHtml}
+            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
         `;
         
-        // Se clicar no Toast, ele some mais rápido
         toast.onclick = function() {
             toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
             setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
@@ -1428,7 +1487,6 @@
 
         container.appendChild(toast);
 
-        // Remove automaticamente depois de 7 segundos
         setTimeout(() => {
             if(toast.parentElement) {
                 toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
@@ -1436,7 +1494,7 @@
                     if(toast.parentElement) toast.remove();
                 }, 400);
             }
-        }, 7000);
+        }, 12000); 
     }
 </script>
 
