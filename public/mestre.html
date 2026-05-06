@@ -34,6 +34,8 @@
         
         .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.2rem; color: #5c3a21; margin-top: 0; margin-bottom: 20px; letter-spacing: 1px; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; text-transform: uppercase; }
         
+        .btn-header-sessao { position: absolute; top: 25px; right: 30px; width: auto; padding: 10px 20px; font-size: 0.9rem; background-color: #0d47a1; z-index: 10; border-radius: 6px;}
+        
         /* === NAVEGAÇÃO (ABAS) === */
         .tabs-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; border-bottom: 3px solid #8b5a2b; flex-wrap: wrap; }
         .tab-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; padding: 12px 25px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; border-radius: 10px 10px 0 0; transition: 0.2s; font-size: 1rem; }
@@ -52,8 +54,8 @@
         .box-rpg { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
         .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;}
         .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;}
-        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%; }
-        .btn-acao:hover { background-color: #b71c1c; }
+        .btn-acao { background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
+        .btn-acao:hover { background-color: #b71c1c; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         .btn-dashed { width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; }
         .btn-dashed:hover { background: rgba(139, 90, 43, 0.1); }
         .placeholder-dashed { border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; }
@@ -200,6 +202,7 @@
             .story-paper { padding: 15px; }
             .story-header-inline { flex-direction: column; gap: 10px; align-items: stretch; }
             .story-header-inline div { display: flex; flex-wrap: wrap; justify-content: space-between; }
+            .btn-header-sessao { position: relative; top: 0; right: 0; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; width: 250px;}
         }
         @media (max-width: 600px) {
             body { padding: 10px; }
@@ -217,6 +220,7 @@
             .modal-tabs { flex-wrap: wrap; gap: 5px; }
             .modal-tab-btn { flex: 1 1 40%; font-size: 0.75rem; }
             #toast-container { width: 90%; right: 5%; bottom: 10px; }
+            .btn-header-sessao { position: static; margin: 0 auto 15px auto; width: 100%; display: block; text-align: center; }
         }
     </style>
 </head>
@@ -229,6 +233,7 @@
 
 <div class="painel-mestre">
     
+    <button class="btn-acao btn-header-sessao" onclick="document.getElementById('modal-sessao').style.display='flex'">🖥️ CONFIGURAR SESSÃO</button>
     <h1 class="header-titulo">PAINEL DO MESTRE</h1>
 
     <div class="tabs-container">
@@ -248,21 +253,6 @@
                     <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
                         
                         <div class="box-rpg">
-                            <h2 class="section-title">🖥️ SESSÃO</h2>
-                            <p style="font-family: 'Roboto'; font-size: 0.8rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase; text-align: center;">Nome da Sala</p>
-                            <input type="text" id="gm-uid" class="form-input" style="margin-bottom: 10px;" placeholder="Ex: SALA-RPGTOTAL">
-                            <button class="btn-acao" style="margin-bottom: 10px;" onclick="conectarSala()">CONECTAR</button>
-                            <button class="btn-acao" style="background-color: #0d47a1;" onclick="forcarSincronizacao()">🔄 PUXAR FICHAS</button>
-                        </div>
-                        
-                        <div class="box-rpg" style="padding: 15px; margin-top: 15px;">
-                            <h2 class="section-title" style="margin-bottom: 10px;">🔗 CONVITE MAGICO</h2>
-                            <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
-                            <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem; color: #0d47a1; background: #fff; padding: 8px; margin-bottom: 10px;" readonly>
-                            <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
-                        </div>
-
-                        <div class="box-rpg" style="margin-top: 15px;">
                             <h2 class="section-title">CONTROLE DE COMBATE</h2>
                             <p style="text-align:center; font-size:0.8rem; color:#5c3a21; font-family:'Roboto'; font-weight:bold; margin-bottom: 20px;">
                                 A Iniciativa entra automaticamente ao rolarem na ficha!
@@ -379,6 +369,27 @@
      MODAIS DE CRIAÇÃO E EDIÇÃO
 ========================================== -->
 
+<!-- MODAL DE SESSÃO (NOVO) -->
+<div id="modal-sessao" class="modal-overlay" style="z-index: 5000;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-sessao').style.display='none'">&times;</span>
+        
+        <h3 class="section-title">🖥️ CONFIGURAR SESSÃO</h3>
+        <p style="font-family: 'Roboto'; font-size: 0.8rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">Nome da Sala</p>
+        <input type="text" id="gm-uid" class="form-input" style="margin-bottom: 15px;" placeholder="Ex: SALA-RPGTOTAL">
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <button class="btn-acao" style="background-color: #2e7d32;" onclick="conectarSala(); document.getElementById('modal-sessao').style.display='none'">CONECTAR</button>
+            <button class="btn-acao" style="background-color: #0d47a1;" onclick="forcarSincronizacao(); document.getElementById('modal-sessao').style.display='none'">🔄 PUXAR FICHAS</button>
+        </div>
+
+        <h3 class="section-title" style="margin-bottom: 10px; font-size: 1rem;">🔗 CONVITE MÁGICO</h3>
+        <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
+        <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem; color: #0d47a1; background: #fff; padding: 8px; margin-bottom: 10px;" readonly>
+        <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
+    </div>
+</div>
+
 <!-- CRIAR MONSTRO -->
 <div id="modal-monstro" class="modal-overlay">
     <div class="modal-content">
@@ -389,6 +400,7 @@
         <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
         
+        <!-- ATAQUES BLINDADOS COM BONUS -->
         <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;">
             <h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4>
             <div style="display:flex; gap:5px; margin-bottom:10px;">
@@ -584,7 +596,11 @@
         
         let linkMagico = `${window.location.origin}/ficha.html?sala=${gmUid}`;
         document.getElementById('link-convite').value = linkMagico;
-        document.getElementById('status-texto').innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
+        
+        // Se o elemento status-texto existir (ele pode não existir se a div foi apagada e renderizarJogadores ainda não rodou)
+        let status = document.getElementById('status-texto');
+        if(status) status.innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
+        
         socket.emit('solicitarEstadoSala', gmUid);
     }
     
@@ -622,7 +638,7 @@
         document.getElementById('contador-jogadores').innerText = `(${chaves.length + monstrosNaMesa.length})`;
         
         if(chaves.length === 0 && monstrosNaMesa.length === 0) { 
-            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#8b5a2b; font-style:italic;">Aguardando jogadores conectarem ou monstros serem fixados...</p>'; 
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#8b5a2b; font-style:italic;" id="status-texto">Aguardando jogadores conectarem ou monstros serem fixados...</p>'; 
             return; 
         }
         
@@ -1341,14 +1357,19 @@
 
             let frames = 0;
             animacaoGiro = setInterval(() => {
-                let tempDado = Math.floor(Math.random() * 20) + 1;
-                let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-                let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
-                text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+                try {
+                    let tempDado = Math.floor(Math.random() * 20) + 1;
+                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+                    let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
 
-                if (++frames >= 12) { 
+                    if (++frames >= 12) { 
+                        clearInterval(animacaoGiro);
+                        mostrarResultadoFinal();
+                    }
+                } catch(e) {
                     clearInterval(animacaoGiro);
-                    mostrarResultadoFinal();
+                    closeDiceRoll();
                 }
             }, 50);
             
@@ -1373,7 +1394,7 @@
             let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
 
             if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO (MESTRE)";
+                let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO";
                 resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
 
                 box.style.borderColor = corCataroria;
