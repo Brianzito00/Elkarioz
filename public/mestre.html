@@ -74,11 +74,12 @@
            LAYOUTS ESPECÍFICOS DAS ABAS
         ========================================= */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
-        .mesa-sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
+        /* BARRA LATERAL AUMENTADA AQUI DE 280 PARA 350PX */
+        .mesa-sidebar { flex: 0 0 350px; display: flex; flex-direction: column; gap: 15px; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); grid-auto-rows: min-content; gap: 18px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
-        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 18px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
         #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
@@ -136,13 +137,13 @@
         .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 10px; margin-top: 8px; }
         .monstro-secao-titulo { font-family: 'Cinzel'; font-size: 0.85rem; font-weight: 900; color: #5c3a21; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px;}
         
-        .btn-atq-monstro { color: #fff; border: 2px solid rgba(0,0,0,0.5); border-radius: 6px; padding: 6px 12px; font-weight: 900; font-size: 0.75rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
+        .btn-atq-monstro { color: #fff; border: 2px solid rgba(0,0,0,0.5); border-radius: 6px; padding: 6px 12px; font-weight: 900; font-size: 0.75rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.2s; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2); flex: 1;}
         .btn-atq-monstro.red { background: linear-gradient(to bottom, #d32f2f, #b71c1c); border-color: #7f0000; }
         .btn-atq-monstro.brown { background: linear-gradient(to bottom, #795548, #5c3a21); border-color: #3e2723; }
         .btn-atq-monstro:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .btn-atq-monstro:active { transform: translateY(1px); }
         
-        .monstro-hab-item { font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; background: rgba(255,255,255,0.8); padding: 10px 12px; border-radius: 6px; margin-bottom: 6px; border-left: 4px solid #8b5a2b; box-shadow: 0 2px 4px rgba(0,0,0,0.05); line-height: 1.4;}
+        .monstro-hab-item { font-family: 'Lora'; font-size: 0.85rem; color: #3e2723; background: rgba(255,255,255,0.8); padding: 10px 12px; border-radius: 6px; margin-bottom: 8px; border-left: 4px solid #8b5a2b; box-shadow: 0 2px 4px rgba(0,0,0,0.05); line-height: 1.4;}
 
         /* =========================================
            INICIATIVA (CARDS)
@@ -204,6 +205,7 @@
             background: rgba(255,255,255,0.6); border: 1px solid transparent; border-radius: 6px;
             padding: 6px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer;
             transition: 0.2s; font-family: 'Roboto', sans-serif; font-size: 0.9rem; font-weight: bold; color: #5c3a21;
+            word-wrap: break-word; word-break: break-word;
         }
         .mundo-subitem:hover { background: #fff; border-color: #c8b99e; color: #b71c1c; transform: translateX(3px); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
