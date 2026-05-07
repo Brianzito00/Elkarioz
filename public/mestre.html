@@ -74,12 +74,11 @@
            LAYOUTS ESPECÍFICOS DAS ABAS
         ========================================= */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
-        /* BARRA LATERAL AUMENTADA AQUI DE 280 PARA 350PX */
-        .mesa-sidebar { flex: 0 0 350px; display: flex; flex-direction: column; gap: 15px; }
+        .mesa-sidebar { flex: 0 0 350px; display: flex; flex-direction: column; height: 100%; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); grid-auto-rows: min-content; gap: 18px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
-        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 18px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
         #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
@@ -149,18 +148,18 @@
            INICIATIVA (CARDS)
         ========================================= */
         #lista-iniciativa { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .ini-row { background: linear-gradient(145deg, #fff, #f4ebd8); border: 2px solid #c8b99e; border-radius: 10px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .ini-row { background: linear-gradient(145deg, #fff, #f4ebd8); border: 2px solid #c8b99e; border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         .ini-row:hover { border-color: #b71c1c; box-shadow: 0 6px 15px rgba(183, 28, 28, 0.15); transform: translateX(5px); }
         .ini-row.ativo { border-color: #b71c1c; background: linear-gradient(145deg, #fff, rgba(183, 28, 28, 0.08)); transform: scale(1.03) translateX(12px); box-shadow: 0 8px 20px rgba(183, 28, 28, 0.25); border-width: 3px; animation: pulseIni 2.5s infinite; }
         @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.3); } 70% { box-shadow: 0 0 0 12px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
         .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 10px; background: #b71c1c; border-radius: 8px 0 0 8px; }
-        .ini-name { font-family: 'Cinzel'; font-weight: 900; font-size: 1.3rem; color: #5c3a21; display: flex; align-items: center; gap: 8px; z-index: 2; line-height: 1;}
+        .ini-name { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; color: #5c3a21; display: flex; align-items: center; gap: 8px; z-index: 2; line-height: 1;}
         .ini-row.ativo .ini-name { color: #b71c1c; }
-        .ini-name .turn-marker { font-size: 1.2rem; opacity: 0; transition: 0.3s; color: #b71c1c; transform: translateX(-10px); }
+        .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; transform: translateX(-10px); }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; transform: translateX(0); }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 2rem; color: #fff; background: linear-gradient(to bottom, #795548, #5c3a21); padding: 5px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.2); border: 2px solid #2d1c11; z-index: 2; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; background: linear-gradient(to bottom, #795548, #5c3a21); padding: 4px 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.2); border: 2px solid #2d1c11; z-index: 2; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
         .ini-row.ativo .ini-val { background: linear-gradient(to bottom, #d32f2f, #b71c1c); border-color: #7f0000; }
-        .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 2rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.3; z-index: 2; margin-left: 15px; }
+        .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.3; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
         .btn-kick-ini:hover { transform: scale(1.3) rotate(90deg); color: #7f0000; }
 
@@ -266,7 +265,7 @@
         @media (max-width: 1100px) { #players-container, #lista-bestiario-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 800px) { 
             .conteudo-wrapper { flex-direction: column; height: auto;} 
-            .coluna-central, .mesa-sidebar { width: 100%; flex: none; } 
+            .coluna-central, .mesa-sidebar { width: 100%; flex: none; height: auto; } 
             .mesa-layout { flex-direction: column; } 
             #players-container, #lista-bestiario-container { grid-template-columns: 1fr; overflow-y: visible;} 
             .grid-6 { grid-template-columns: repeat(3, 1fr); } 
@@ -302,7 +301,6 @@
 
 <div class="painel-mestre">
     
-    <!-- BARRA DE FERRAMENTAS NO TOPO -->
     <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
         <button class="btn-acao blue" style="width: auto; padding: 10px 20px; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3);" onclick="document.getElementById('modal-sessao').style.display='flex'">🖥️ CONFIGURAR SESSÃO</button>
     </div>
@@ -318,14 +316,11 @@
     <div class="conteudo-wrapper">
         <div class="coluna-central">
             
-            <!-- ============================== -->
-            <!-- ABA: MESA DE JOGADORES E INICIATIVA -->
-            <!-- ============================== -->
             <div id="tab-mesa" class="tab-content active">
                 <div class="mesa-layout">
-                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 10px;">
-                        
-                        <div class="box-rpg">
+                    
+                    <div class="mesa-sidebar">
+                        <div class="box-rpg" style="flex-shrink: 0; margin-bottom: 15px;">
                             <h2 class="section-title">CONTROLE DE COMBATE</h2>
                             <p style="text-align:center; font-size:0.85rem; color:#5c3a21; font-family:'Roboto'; margin-bottom: 20px;">
                                 A Iniciativa entra automaticamente ao rolarem na ficha!
@@ -342,29 +337,24 @@
                             </div>
                         </div>
 
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 10px;">
+                            <h2 class="section-title">ORDEM DE TURNOS</h2>
+                            <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+                        </div>
                     </div>
                     
-                    <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0; gap: 25px;">
-                        
-                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
+                    <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; height: 100%;">
                             <h2 class="section-title">MESA DE JOGADORES <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
                             <div id="players-container">
                                 <p style="grid-column: 1/-1; text-align:center; font-weight:bold; color:rgba(139, 90, 43, 0.6); font-size:1rem; margin-top:40px;" id="status-texto">Configure a sessão e envie o link para os jogadores aparecerem aqui.</p>
                             </div>
                         </div>
-                        
-                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
-                            <h2 class="section-title">ORDEM DE TURNOS</h2>
-                            <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 10px;"></div>
-                        </div>
-
                     </div>
+                    
                 </div>
             </div>
 
-            <!-- ============================== -->
-            <!-- ABA: BESTIÁRIO -->
-            <!-- ============================== -->
             <div id="tab-bestiario" class="tab-content">
                 <div style="text-align:center; margin-bottom: 25px; flex-shrink: 0;">
                     <button class="btn-acao" style="font-size: 1.2rem; padding: 15px 40px; display:inline-block; width:auto;" onclick="abrirModalMonstro()">➕ CRIAR NOVO MONSTRO</button>
@@ -377,9 +367,6 @@
                 </div>
             </div>
             
-            <!-- ============================== -->
-            <!-- ABA: MUNDO E LORE -->
-            <!-- ============================== -->
             <div id="tab-mundo" class="tab-content">
                 <div class="mesa-layout">
                     
@@ -408,7 +395,7 @@
                         </div>
                     </div>
 
-                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 10px;">
+                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 10px; flex: 0 0 350px;">
                         <div class="box-rpg" style="padding: 15px;">
                             <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">🛡️ GUILDAS E FACÇÕES</h3>
                             <button class="btn-dashed" onclick="abrirModalCriacaoListas('guilda')">➕ NOVA GUILDA</button>
@@ -435,11 +422,6 @@
     </div>
 </div>
 
-<!-- ==========================================
-     MODAIS DE CRIAÇÃO E EDIÇÃO
-========================================== -->
-
-<!-- MODAL DE SESSÃO -->
 <div id="modal-sessao" class="modal-overlay" style="z-index: 5000;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-sessao').style.display='none'">&times;</span>
@@ -462,7 +444,6 @@
     </div>
 </div>
 
-<!-- CRIAR MONSTRO -->
 <div id="modal-monstro" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -487,7 +468,6 @@
         
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
         
-        <!-- ATAQUES BLINDADOS COM BONUS -->
         <div style="background: linear-gradient(to right, rgba(183, 28, 28, 0.05), rgba(255,255,255,0.5)); border: 2px solid rgba(183, 28, 28, 0.3); padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);">
             <h4 class="section-title" style="font-size: 1.1rem; border:none; margin-bottom:15px; color:#b71c1c; text-align:left;">⚔️ CRIAR ATAQUE</h4>
             <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
@@ -524,7 +504,6 @@
     </div>
 </div>
 
-<!-- NOMEAR NOVO CAPÍTULO -->
 <div id="modal-criar-capitulo" class="modal-overlay" style="z-index: 3020;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-criar-capitulo').style.display='none'">&times;</span>
@@ -535,7 +514,6 @@
     </div>
 </div>
 
-<!-- CRIAR MUNDO (NPC, GUILDA, LOCAL) -->
 <div id="modal-criacao-listas" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -572,7 +550,6 @@
     </div>
 </div>
 
-<!-- EDITAR SUBITEM TEMPORARIO -->
 <div id="modal-edicao-temp" class="modal-overlay" style="z-index: 3020;">
     <div class="modal-content" style="max-width: 450px;">
         <span class="fechar-modal" onclick="document.getElementById('modal-edicao-temp').style.display='none'">&times;</span>
@@ -584,7 +561,6 @@
     </div>
 </div>
 
-<!-- SELECIONAR ALVO PARA ENVIO -->
 <div id="modal-enviar-alvo" class="modal-overlay" style="z-index: 3050;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
@@ -595,7 +571,6 @@
     </div>
 </div>
 
-<!-- VISUALIZAR NPC NO MESTRE -->
 <div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
     <div class="modal-content" style="max-width: 450px;">
         <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
@@ -612,7 +587,6 @@
     </div>
 </div>
 
-<!-- SCRIPTS GERAIS -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
@@ -872,11 +846,11 @@
             let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
             
             let p = jogadores[item.idUnico];
-            let imgHtml = `<div class="player-img" style="width: 50px; height: 50px; font-size: 1.5rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">⚔️</div>`;
+            let imgHtml = `<div class="player-img" style="width: 40px; height: 40px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">⚔️</div>`;
             let subNome = "NPC / Monstro";
 
             if (p) {
-                imgHtml = p.img ? `<img src="${p.img}" class="player-img" style="width: 50px; height: 50px; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">` : `<div class="player-img" style="width: 50px; height: 50px; font-size: 1.5rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">👤</div>`;
+                imgHtml = p.img ? `<img src="${p.img}" class="player-img" style="width: 40px; height: 40px; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">` : `<div class="player-img" style="width: 40px; height: 40px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">👤</div>`;
                 subNome = p.playerName || 'Jogador';
             }
 
