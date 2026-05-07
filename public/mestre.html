@@ -5,113 +5,405 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor da Mesa - RPG Total</title>
     <style>
-        /* === FONTES E RESET GERAL === */
+        /* =========================================
+           FONTES E RESET GERAL
+        ========================================= */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
-        * { box-sizing: border-box; }
-        body { font-family: 'Lora', serif; background-color: #170f0a; background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); background-size: cover; background-position: center; background-attachment: fixed; color: #3e2723; display: flex; justify-content: center; align-items: flex-start; padding: 30px 20px; margin: 0; min-height: 100vh; }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { appearance: textfield; -moz-appearance: textfield; }
-
-        .painel-mestre { background: linear-gradient(135deg, rgba(244, 235, 216, 0.95), rgba(220, 205, 180, 0.9)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 30px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 20px rgba(139, 90, 43, 0.2); width: 100%; max-width: 1750px; border: 2px solid #5c3a21; outline: 6px solid rgba(92, 58, 33, 0.7); outline-offset: -10px; display: flex; flex-direction: column; position: relative; }
-        .header-titulo { text-align: center; font-family: 'Cinzel', serif; font-weight: 900; font-size: 2.5rem; color: #3e2723; text-shadow: 2px 2px 0px rgba(255,255,255,0.5); margin-top: 0; margin-bottom: 20px; letter-spacing: 2px; border-bottom: 3px double rgba(139, 90, 43, 0.6); padding-bottom: 15px; text-transform: uppercase; }
-        .btn-header-sessao { position: absolute; top: 25px; right: 30px; width: auto; padding: 10px 20px; font-size: 0.9rem; background: linear-gradient(to bottom, #1565c0, #0d47a1); z-index: 10; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
         
-        .tabs-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; border-bottom: 4px solid #5c3a21; flex-wrap: wrap; }
-        .tab-btn { background: linear-gradient(to bottom, #f4ebd8, #eaddc4); border: 2px solid #5c3a21; border-bottom: none; padding: 12px 30px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: 900; color: #5c3a21; border-radius: 12px 12px 0 0; transition: all 0.3s; font-size: 1.05rem; transform: translateY(2px);}
-        .tab-btn:hover { background: #fff; transform: translateY(0); }
-        .tab-btn.active { background: linear-gradient(to bottom, #d32f2f, #b71c1c); color: #fff; border-color: #b71c1c; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); box-shadow: 0 -4px 15px rgba(183, 28, 28, 0.4); z-index: 2; transform: translateY(1px);}
-        .tab-content { display: none; animation: fadeIn 0.4s ease; height: 100%;} 
+        * { 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: 'Lora', serif; 
+            background-color: #170f0a; 
+            background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
+            color: #3e2723; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            padding: 30px 20px; 
+            margin: 0; 
+            min-height: 100vh; 
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        input[type=number] { 
+            appearance: textfield; 
+            -moz-appearance: textfield; 
+        }
+
+        /* =========================================
+           PAINEL PRINCIPAL E ESTRUTURA
+        ========================================= */
+        .painel-mestre { 
+            background-color: rgba(244, 235, 216, 0.88); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px); 
+            padding: 30px; 
+            border-radius: 6px; 
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9); 
+            width: 100%; 
+            max-width: 1600px; 
+            border: 3px solid #8b5a2b; 
+            outline: 5px solid rgba(92, 58, 33, 0.8); 
+            outline-offset: -12px; 
+            display: flex; 
+            flex-direction: column; 
+            position: relative;
+        }
+        
+        .header-titulo { 
+            text-align: center; 
+            font-family: 'Cinzel', serif; 
+            font-weight: 900; 
+            font-size: 2.2rem; 
+            color: #5c3a21; 
+            margin-top: 0; 
+            margin-bottom: 20px; 
+            letter-spacing: 1px; 
+            border-bottom: 2px solid rgba(139, 90, 43, 0.4); 
+            padding-bottom: 10px; 
+            text-transform: uppercase; 
+        }
+        
+        /* BOTÃO DE SESSÃO GLOBAL */
+        .btn-header-sessao { 
+            position: absolute; top: 25px; right: 30px; width: auto; 
+            padding: 10px 20px; font-size: 0.9rem; background-color: #0d47a1; z-index: 10;
+        }
+
+        /* === NAVEGAÇÃO (ABAS) === */
+        .tabs-container { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+            border-bottom: 3px solid #8b5a2b; 
+            flex-wrap: wrap; 
+        }
+
+        .tab-btn { 
+            background: rgba(234, 221, 197, 0.9); 
+            border: 2px solid #8b5a2b; 
+            padding: 12px 25px; 
+            cursor: pointer; 
+            font-family: 'Cinzel', serif; 
+            font-weight: 800; 
+            color: #5c3a21; 
+            border-radius: 10px 10px 0 0; 
+            transition: 0.2s; 
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover { background-color: #fff; }
+        .tab-btn.active { background: #b71c1c; color: #fff; border-bottom: 3px solid #b71c1c; }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s ease; height: 100%;} 
         .tab-content.active { display: flex; flex-direction: column;}
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .conteudo-wrapper { display: flex; gap: 25px; align-items: stretch; width: 100%; height: calc(100vh - 220px); min-height: 600px; }
-        .coluna-central { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-        .section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.3rem; color: #3e2723; text-align: center; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 8px; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        /* === COLUNAS GERAIS === */
+        .conteudo-wrapper { 
+            display: flex; 
+            gap: 25px; 
+            align-items: stretch; 
+            width: 100%; 
+            height: calc(100vh - 220px); 
+            min-height: 600px;
+        }
+
+        .coluna-central { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            min-width: 0; 
+        }
         
-        .box-rpg { background: rgba(255, 255, 255, 0.6); border: 1px solid #c8b99e; border-top: 4px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); display: flex; flex-direction: column; position: relative; }
-        .form-input { padding: 12px; border: 2px solid #8b5a2b; border-radius: 6px; background-color: #fff; font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%; transition: 0.2s;}
+        .section-title { 
+            font-family: 'Cinzel', serif; 
+            font-weight: 800; 
+            font-size: 1.2rem; 
+            color: #5c3a21; 
+            text-align: center; 
+            border-bottom: 2px dashed rgba(139, 90, 43, 0.4); 
+            padding-bottom: 8px; 
+            margin-top: 0; 
+            margin-bottom: 15px; 
+            text-transform: uppercase;
+        }
         
-        .btn-acao { background: linear-gradient(to bottom, #795548, #5c3a21); color: #fff; border: 2px solid #3e2723; border-radius: 6px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-shadow: 1px 1px 2px #000; letter-spacing: 1px;}
-        .btn-acao:hover { filter: brightness(1.15); transform: translateY(-2px); }
-        .btn-acao.red { background: linear-gradient(to bottom, #d32f2f, #b71c1c); border-color: #7f0000; }
-        .btn-acao.green { background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #1b5e20; }
-        .btn-acao.blue { background: linear-gradient(to bottom, #1e88e5, #0d47a1); border-color: #002171; }
+        /* === CAIXAS E FORMULÁRIOS === */
+        .box-rpg { 
+            background-color: rgba(255,255,255,0.5); 
+            border: 2px solid #8b5a2b; 
+            border-radius: 8px; 
+            padding: 20px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-direction: column;
+        }
+
+        .form-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;}
+        .form-input { padding: 12px; border: 2px solid #5c3a21; border-radius: 4px; background-color: rgba(255,255,255,0.9); font-family: 'Lora', serif; font-weight: bold; font-size: 1rem; color: #3e2723; text-align: center; width: 100%;}
         
+        .btn-acao { 
+            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
+            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
+            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; 
+            justify-content: center; align-items: center; gap: 5px; flex-shrink: 0; width: 100%;
+        }
+        .btn-acao:hover { background-color: #b71c1c; }
+
+        .btn-dashed { 
+            width: 100%; background: transparent; border: 2px dashed #8b5a2b; color: #5c3a21; 
+            padding: 10px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; 
+            cursor: pointer; transition: 0.2s; text-transform: uppercase; border-radius: 4px; margin-bottom: 10px; 
+        }
+        .btn-dashed:hover { background: rgba(139, 90, 43, 0.1); }
+        .placeholder-dashed { 
+            border: 2px dashed rgba(139, 90, 43, 0.4); padding: 30px; text-align: center; 
+            font-weight: bold; color: #8b5a2b; font-size: 0.95rem; background: rgba(255,255,255,0.2); border-radius: 6px; 
+        }
+
+        /* =========================================
+           LAYOUTS ESPECÍFICOS DAS ABAS
+        ========================================= */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
-        .mesa-sidebar { flex: 0 0 350px; display: flex; flex-direction: column; height: 100%; }
+        .mesa-sidebar { flex: 0 0 340px; display: flex; flex-direction: column; gap: 15px; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* AQUI AUMENTAMOS O TAMANHO DOS CARDS NA MESA */
-        #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
-        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 18px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        /* === GRIDS === */
+        #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
+        #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
-        .player-card, .monstro-card { background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(244, 235, 216, 0.9)); border: 2px solid #c8b99e; border-bottom: 4px solid #8b5a2b; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px; transition: all 0.2s ease; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .monstro-fixado { border-color: #b71c1c; border-bottom: 4px solid #b71c1c; background: linear-gradient(145deg, rgba(255,255,255,1), rgba(183, 28, 28, 0.05)); }
-        
-        .btn-kick { position: absolute; top: 8px; right: 10px; border-radius: 50%; width: 24px; height: 24px; color: #b71c1c; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; border: none; background: rgba(0,0,0,0.05);}
-        .player-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; border: 2px solid #5c3a21; flex-shrink: 0; background:#eaddc4; display:flex; align-items:center; justify-content:center; font-size:1.8rem; box-shadow: 0 4px 8px rgba(0,0,0,0.2);}
-        .stat-badge { padding: 5px 10px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 4px; font-size: 1.1rem;}
-        
-        .barras-container { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-        .bar-bg { width: 100%; height: 24px; background: rgba(0,0,0,0.2); border: 2px solid #3e2723; border-radius: 12px; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-        .bar-fill { height: 100%; transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .fill-hp { background-color: #d32f2f; }
-        .fill-mp { background-color: #1e88e5; }
-        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.85rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; letter-spacing: 1px;}
-        
-        .btn-hp-monstro { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 4px; width: 28px; height: 28px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; font-weight: bold;}
-        .monstro-edit-hp { background: transparent; border: none; border-bottom: 2px solid rgba(255,255,255,0.8); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; width: 45px; text-align: center; outline: none; font-size: 1rem;}
-        
-        .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 12px; text-align: center; }
-        .monstro-stat-box { background: linear-gradient(to bottom, #fff, #f4ebd8); border: 2px solid #8b5a2b; border-bottom: 4px solid #8b5a2b; border-radius: 8px; padding: 6px 2px; cursor: pointer; transition: 0.2s; }
-        .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.7rem; font-weight: 900; color: #5c3a21; display: block; border-bottom: 1px solid rgba(139, 90, 43, 0.2); margin-bottom: 4px;}
-        .monstro-stat-val { font-family: 'Roboto'; font-size: 1.1rem; font-weight: 900; color: #b71c1c; }
-        
-        .monstro-skill-btn { background: rgba(255,255,255,0.8); border: 1px solid #c8b99e; border-bottom: 3px solid #8b5a2b; border-radius: 8px; padding: 8px; font-family: 'Cinzel', serif; font-size: 0.8rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
-        .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 12px; margin-top: 10px; }
-        .monstro-secao-titulo { font-family: 'Cinzel'; font-size: 0.9rem; font-weight: 900; color: #5c3a21; margin-bottom: 10px; display: block; text-transform: uppercase; }
-        
-        .btn-atq-monstro { color: #fff; border: 2px solid rgba(0,0,0,0.5); border-radius: 6px; padding: 8px 15px; font-weight: 900; font-size: 0.8rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; text-shadow: 1px 1px 1px #000; box-shadow: 0 3px 6px rgba(0,0,0,0.2); flex: 1;}
-        .btn-atq-monstro.red { background: linear-gradient(to bottom, #d32f2f, #b71c1c); }
-        .btn-atq-monstro.brown { background: linear-gradient(to bottom, #795548, #5c3a21); }
-        .monstro-hab-item { font-family: 'Lora'; font-size: 0.9rem; color: #3e2723; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #8b5a2b; line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        /* =========================================
+           CARDS DOS JOGADORES E MONSTROS
+        ========================================= */
+        .player-card, .monstro-card { background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; position: relative; }
+        .player-card:hover, .monstro-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
+        .monstro-fixado { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); border-width: 3px; }
 
-        /* === POP-UP DADOS === */
-        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
-        #dice-result-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0; background: linear-gradient(135deg, #fff, #f4ebd8); border: 6px solid #b71c1c; padding: 40px; border-radius: 20px; z-index: 4000; text-align: center; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 30px 80px rgba(0,0,0,0.9); min-width: 350px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;}
-        #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        .pop-detalhes { color: #2d1c11; font-weight: 600; font-size: 1.05rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(255,255,255,0.6); padding: 15px; border-radius: 8px; border: 1px dashed rgba(139, 90, 43, 0.4);}
-
-        /* TOASTS */
-        #toast-container { position: fixed; bottom: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column-reverse; gap: 15px; pointer-events: none; width: 360px; max-width: 90vw; }
-        .toast-entry { background: rgba(255, 255, 255, 0.98); border: 2px solid; border-left-width: 10px !important; border-radius: 10px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); pointer-events: auto; backdrop-filter: blur(5px); animation: toastSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: all 0.2s ease; word-wrap: break-word; word-break: break-word; }
-        @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* MODAIS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(8px); overflow-y: auto; padding: 20px;}
-        .modal-content { background: linear-gradient(to bottom, #fdfbf7, #eaddc4); border: 4px solid #8b5a2b; padding: 35px; width: 95%; max-width: 750px; border-radius: 12px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.9); margin: auto;}
-        .fechar-modal { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
+        .btn-kick:hover { transform: scale(1.3); color: #7f0000; }
         
-        .ini-row { background: linear-gradient(145deg, #fff, #f4ebd8); border: 2px solid #c8b99e; border-radius: 10px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .ini-row.ativo { border-color: #b71c1c; background: linear-gradient(145deg, #fff, rgba(183, 28, 28, 0.08)); transform: scale(1.03) translateX(12px); border-width: 3px; }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 2rem; color: #fff; background: linear-gradient(to bottom, #795548, #5c3a21); padding: 5px 20px; border-radius: 8px; border: 2px solid #2d1c11; }
+        .player-header { display: flex; gap: 10px; align-items: center; padding-right: 15px;}
+        .player-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.2rem;}
+        .player-name { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; color: #b71c1c; line-height: 1.1; margin-bottom: 2px; }
+        .player-realname { font-family: 'Roboto', sans-serif; font-size: 0.7rem; color: #5c3a21; font-weight: 900; text-transform: uppercase; }
+        .stat-badge { padding: 2px 6px; border-radius: 6px; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; border: 2px solid #2d1c11; text-shadow: 1px 1px 1px #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);}
         
-        .toggle-fixar { display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: 'Roboto'; font-size: 0.75rem; font-weight: 900; color: #5c3a21; text-transform: uppercase; background: rgba(255,255,255,0.6); padding: 6px 12px; border-radius: 6px; border: 1px solid #c8b99e; transition: 0.2s;}
-        .toggle-fixar.ativo { background: #b71c1c; color: #fff; border-color: #7f0000; }
+        .player-gm-notes { width: 100%; border: 1px dashed #8b5a2b; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 4px; font-family: 'Lora'; font-size: 0.8rem; color: #3e2723; resize: vertical; height: 50px; font-weight: bold;}
+        .player-gm-notes:focus { outline: none; border-color: #b71c1c; background: #fff;}
+        
+        .barras-container { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+        .bar-bg { width: 100%; height: 16px; background: rgba(0,0,0,0.15); border: 2px solid #3e2723; border-radius: 10px; position: relative; overflow: hidden; }
+        .bar-fill { height: 100%; transition: width 0.4s; }
+        .fill-hp { background-color: #b71c1c; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .fill-mp { background-color: #0d47a1; background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 100%); }
+        .bar-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto'; font-size: 0.65rem; font-weight: 900; color: #fff; text-shadow: 1px 1px 2px #000; }
+        
+        /* =========================================
+           BESTIÁRIO ESPECÍFICOS
+        ========================================= */
+        .toggle-fixar { display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: 'Roboto'; font-size: 0.7rem; font-weight: 900; color: #5c3a21; text-transform: uppercase; background: rgba(255,255,255,0.6); padding: 4px 8px; border-radius: 6px; border: 1px solid #c8b99e; transition: 0.2s;}
+        .toggle-fixar:hover { background: #fff; border-color: #8b5a2b; }
+        .toggle-fixar.ativo { background: #b71c1c; color: #fff; border-color: #7f0000; box-shadow: 0 2px 5px rgba(183, 28, 28, 0.4); }
         .toggle-fixar input { display: none; }
+
+        .monstro-edit-hp { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.6); color: #fff; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.85rem; width: 35px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 2px #000; margin: 0 4px; transition: 0.2s;}
+        .monstro-edit-hp:focus { background: rgba(255,255,255,0.2); border-color: #fff; border-radius: 4px;}
+        .monstro-edit-def { background: transparent; border: none; color: #fff; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.9rem; width: 25px; text-align: center; outline: none; padding: 0; text-shadow: 1px 1px 1px #000; transition: 0.2s;}
+        .monstro-edit-def:focus { background: rgba(0,0,0,0.3); border-radius: 4px; }
+        
+        .btn-hp-monstro { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: #fff; border-radius: 4px; width: 20px; height: 20px; font-family: 'Roboto', sans-serif; font-weight: 900; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; margin: 0; transition: 0.2s; }
+        .btn-hp-monstro:hover { background: rgba(255,255,255,0.5); color: #b71c1c; border-color: #fff; transform: scale(1.1); }
+        
+        .monstro-stats-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 8px; text-align: center; }
+        .monstro-stat-box { background: rgba(255, 255, 255, 0.6); border: 1px solid #8b5a2b; border-radius: 4px; padding: 2px; cursor: pointer; transition: 0.2s; }
+        .monstro-stat-box:hover { background: #eaddc4; border-color: #b71c1c; transform: scale(1.05); }
+        .monstro-stat-label { font-family: 'Cinzel'; font-size: 0.6rem; font-weight: 900; color: #3e2723; display: block; }
+        .monstro-stat-val { font-family: 'Roboto'; font-size: 0.9rem; font-weight: bold; color: #b71c1c; }
+        
+        .monstro-skill-btn { background: rgba(255,255,255,0.7); border: 1px solid #8b5a2b; border-radius: 4px; padding: 4px; font-family: 'Cinzel', serif; font-size: 0.7rem; font-weight: 900; color: #3e2723; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; transition: 0.2s; }
+        .monstro-skill-btn:hover { background: #eaddc4; color: #b71c1c; border-color: #b71c1c; transform: scale(1.02); }
+        
+        .monstro-secao { border-top: 1px dashed rgba(139, 90, 43, 0.5); padding-top: 6px; margin-top: 4px; }
+        .monstro-secao-titulo { font-family: 'Cinzel'; font-size: 0.75rem; font-weight: 900; color: #5c3a21; margin-bottom: 5px; display: block; text-transform: uppercase;}
+        
+        .btn-atq-monstro { background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 4px 8px; font-weight: bold; font-size: 0.7rem; font-family: 'Roboto'; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: 0.2s; }
+        .btn-atq-monstro:hover { background: #b71c1c; transform: scale(1.05); }
+        .monstro-hab-item { font-family: 'Lora'; font-size: 0.75rem; color: #3e2723; background: rgba(255,255,255,0.6); padding: 6px; border-radius: 4px; margin-bottom: 4px; border-left: 3px solid #8b5a2b; line-height:1.4; word-wrap: break-word;}
+
+        /* =========================================
+           INICIATIVA (CARDS)
+        ========================================= */
+        #lista-iniciativa { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .ini-row { 
+            background: rgba(255,255,255,0.6); border: 2px solid #8b5a2b; border-radius: 8px; 
+            padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; 
+            transition: 0.3s; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }
+        .ini-row:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); transform: translateX(5px); }
+        
+        .ini-row.ativo { 
+            border-color: #b71c1c; background: rgba(183, 28, 28, 0.08); 
+            transform: scale(1.02) translateX(10px); box-shadow: 0 5px 15px rgba(183, 28, 28, 0.3); 
+            border-width: 3px; animation: pulseIni 2s infinite; 
+        }
+        @keyframes pulseIni { 0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(183, 28, 28, 0); } 100% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); } }
+        
+        .ini-row.ativo::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 8px; background: #b71c1c; border-radius: 4px 0 0 4px; }
+        
+        .ini-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: #b71c1c; display: flex; align-items: center; gap: 5px; z-index: 2; line-height: 1;}
+        .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
+        .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
+        
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.8rem; color: #fff; background: #5c3a21; padding: 4px 15px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
+        .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
+        
+        .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
+        .ini-row:hover .btn-kick-ini { opacity: 1; }
+        .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
+
+        /* =========================================
+           MUNDO E LORE (BOTÕES CASCATA)
+        ========================================= */
+        .mundo-item-rpg {
+            background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b;
+            padding: 10px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.2s; margin-bottom: 10px; border-radius: 4px;
+        }
+        .mundo-item-rpg:hover { background-color: #f4ebd8; transform: translateX(3px); box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
+        .mundo-item-nome { font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 15px;}
+        .mini-img-moldura { width: 50px; height: 50px; border: 2px solid #5c3a21; object-fit: cover; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+        #lista-capitulos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
+        #lista-capitulos::-webkit-scrollbar { height: 6px; }
+        .capitulo-btn { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.9rem; cursor: pointer; border-radius: 4px; white-space: nowrap; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0; }
+        .capitulo-btn:hover { background: #fff; }
+        .capitulo-btn.active { background: #5c3a21; color: #fff; border-color: #3e2723;}
+        
+        .story-paper { display: flex; flex-direction: column; flex: 1; background: rgba(244, 235, 216, 0.95); border: 2px solid #8b5a2b; border-radius: 8px; padding: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); }
+        .story-header-inline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%; gap: 15px; }
+        .story-title-input { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 900; color: #5c3a21; background: transparent; border: none; outline: none; flex: 1; text-transform: uppercase;}
+        .story-title-input::placeholder { color: rgba(92, 58, 33, 0.4); }
+        .story-divider { border-bottom: 2px dashed rgba(139, 90, 43, 0.4); margin-bottom: 20px; width: 100%; }
+        .story-body-input { font-family: 'Lora', serif; font-size: 1.05rem; line-height: 1.6; color: #3e2723; background: transparent; border: none; outline: none; width: 100%; flex: 1; resize: vertical;}
+        .story-body-input::placeholder { color: rgba(62, 39, 35, 0.4); }
+
+        /* =========================================
+           SISTEMA DE DADOS - POP UP MESTRE E TOAST
+        ========================================= */
+        #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
+        #dice-result-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
+            background: #fff; border: 5px solid #b71c1c; padding: 30px 50px; border-radius: 20px;
+            z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
+        }
+        #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
+
+        @keyframes diceSpreadEffect {
+            0% { box-shadow: 0 0 0 0 rgba(183, 28, 28, 0); backdrop-filter: blur(0px); }
+            30% { box-shadow: 0 0 0 20px rgba(183, 28, 28, 0.2); backdrop-filter: blur(2px); }
+            100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); }
+        }
+
+        .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
+        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
+        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
+        
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
+
+        /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
+        #toast-container {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column-reverse; 
+            gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
+        }
+
+        .toast-entry {
+            background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; border-radius: 8px;
+            padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; backdrop-filter: blur(5px);
+            animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: 0.2s;
+            word-wrap: break-word; word-break: break-word;
+        }
+        
+        .toast-entry:hover { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+
+        @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+
+        /* =========================================
+           MODAIS GERAIS
+        ========================================= */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
+        .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 600px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto;}
+        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .form-group-modal { margin-bottom: 12px; display: flex; flex-direction: column; }
+        .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
+        .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
+
+        /* SCROLLBAR & RESPONSIVIDADE MAXIMA (MOBILE) */
+        ::-webkit-scrollbar { width: 6px; } 
+        ::-webkit-scrollbar-track { background: transparent; } 
+        ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
+        
+        @media (max-width: 1100px) { 
+            #players-container, #lista-bestiario-container { grid-template-columns: repeat(2, 1fr); } 
+        }
+
+        @media (max-width: 800px) { 
+            .conteudo-wrapper { flex-direction: column; height: auto;} 
+            .coluna-central, .mesa-sidebar { width: 100%; flex: none; } 
+            .mesa-layout { flex-direction: column; } 
+            #players-container, #lista-bestiario-container { grid-template-columns: 1fr; overflow-y: visible;} 
+            .grid-6 { grid-template-columns: repeat(3, 1fr); } 
+            .story-paper { padding: 15px; }
+            .story-header-inline { flex-direction: column; gap: 10px; align-items: stretch; }
+            .story-header-inline div { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .painel-mestre { padding: 15px; outline-offset: -6px; border-width: 2px;}
+            .header-titulo { font-size: 1.6rem; }
+            .tabs-container { gap: 5px; flex-wrap: wrap; }
+            .tab-btn { flex: 1 1 45%; font-size: 0.85rem; padding: 10px; text-align: center; }
+            .player-header { flex-direction: column; text-align: center; }
+            .player-header .stat-badge { margin-top: 5px; }
+            .monstro-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .grid-6 { grid-template-columns: repeat(2, 1fr); }
+            .ini-row { flex-direction: column; text-align: center; padding: 15px; gap: 10px;}
+            .ini-row > div { justify-content: center; }
+            .modal-content { padding: 20px; width: 95%; margin: 10px auto; }
+            #toast-container { width: 90%; right: 5%; bottom: 10px; }
+            .btn-header-sessao { position: relative; top: 0; right: 0; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto; width: 100%;}
+        }
     </style>
 </head>
 <body>
 
 <div id="dice-overlay-click"></div>
 <div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
+
 <div id="toast-container"></div>
 
 <div class="painel-mestre">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-        <button class="btn-acao blue" style="width: auto; padding: 10px 20px;" onclick="document.getElementById('modal-sessao').style.display='flex'">🖥️ CONFIGURAR SESSÃO</button>
-    </div>
     
+    <button class="btn-acao btn-header-sessao" onclick="document.getElementById('modal-sessao').style.display='flex'">🖥️ CONFIGURAR SESSÃO</button>
     <h1 class="header-titulo">PAINEL DO MESTRE</h1>
 
     <div class="tabs-container">
@@ -121,98 +413,237 @@
     </div>
 
     <div class="conteudo-wrapper">
-        <div class="mesa-sidebar">
-            <div class="box-rpg" style="flex-shrink: 0; margin-bottom: 15px; padding: 15px;">
-                <h2 class="section-title" style="font-size: 1.1rem;">CONTROLE DE COMBATE</h2>
-                <button class="btn-acao" style="margin-bottom: 15px;" onclick="abrirModalIniciativa()">➕ INICIATIVA MANUAL</button>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <button class="btn-acao green" style="grid-column: 1 / -1;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
-                    <button class="btn-acao blue" onclick="ordenarIniciativa()">🔄 ORDENAR</button>
-                    <button class="btn-acao red" onclick="limparIniciativa()">🗑️ LIMPAR</button>
-                </div>
-            </div>
-
-            <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-                <h2 class="section-title" style="font-size: 1.1rem;">ORDEM DE TURNOS</h2>
-                <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
-            </div>
-        </div>
-        
-        <div class="mesa-jogadores">
+        <div class="coluna-central">
+            
             <div id="tab-mesa" class="tab-content active">
-                <div id="players-container"></div>
+                <div class="mesa-layout">
+                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
+                        
+                        <div class="box-rpg" style="margin-bottom: 15px;">
+                            <h2 class="section-title">CONTROLE DE COMBATE</h2>
+                            <button class="btn-acao" style="margin-bottom: 15px; background-color: #5c3a21;" onclick="abrirModalIniciativa()">➕ ADD INICIATIVA MANUAL</button>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="btn-acao" style="background:#2e7d32; font-size: 1.1rem; padding: 15px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                                <button class="btn-acao" style="background:#0d47a1;" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
+                                <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
+                            </div>
+                        </div>
+                        
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
+                            <h2 class="section-title">ORDEM DE TURNOS</h2>
+                            <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                        
+                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; height: 100%;">
+                            <h2 class="section-title">MESA DE JOGADORES <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
+                            <div id="players-container">
+                                <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="status-texto">Configure a sessão e envie o link para os jogadores entrarem.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div id="tab-bestiario" class="tab-content">
-                <div style="text-align:center; margin-bottom: 25px;"><button class="btn-acao" style="width:auto; padding: 15px 40px;" onclick="abrirModalMonstro()">➕ CRIAR MONSTRO</button></div>
-                <div id="lista-bestiario-container"></div>
+                <div style="text-align:center; margin-bottom: 20px; flex-shrink: 0;">
+                    <button class="btn-acao" style="font-size: 1.2rem; padding: 15px 30px; display:inline-block; width:auto;" onclick="abrirModalMonstro()">+ CRIAR NOVO MONSTRO</button>
+                </div>
+                <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                    <h2 class="section-title" style="flex-shrink: 0;">MONSTROS SALVOS</h2>
+                    <div id="lista-bestiario-container">
+                        <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="bestiario-vazio-texto">Nenhum monstro criado ainda.</p>
+                    </div>
+                </div>
             </div>
-
+            
             <div id="tab-mundo" class="tab-content">
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <div id="lista-capitulos" style="flex:1;"></div>
-                    <button class="btn-acao" style="width:auto;" onclick="document.getElementById('modal-criar-capitulo').style.display='flex'">➕ NOVO</button>
-                </div>
-                <div id="area-edicao-capitulo" class="story-paper" style="display:none;">
-                    <input type="text" id="titulo-capitulo-ativo" class="story-title-input" oninput="salvarTextoCapituloAtivo()">
-                    <div class="story-divider"></div>
-                    <textarea id="gm-capitulo-texto" class="story-body-input" oninput="salvarTextoCapituloAtivo()"></textarea>
+                <div class="mesa-layout">
+                    
+                    <div class="mesa-jogadores box-rpg" style="background: transparent; border: none; box-shadow: none; padding: 0; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 20px;">
+                            <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
+                            <button class="btn-acao" id="btn-novo-capitulo" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="document.getElementById('modal-criar-capitulo').style.display='flex'">+ NOVO CAPÍTULO</button>
+                        </div>
+                        
+                        <div id="lista-capitulos"></div>
+
+                        <div id="area-edicao-capitulo" class="story-paper" style="display: none;">
+                            <div class="story-header-inline">
+                                <input type="text" id="titulo-capitulo-ativo" class="story-title-input" placeholder="Título do Capítulo..." oninput="salvarTextoCapituloAtivo()">
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-acao" style="width: auto; padding: 6px 12px; background: #0d47a1; font-size: 0.8rem;" onclick="enviarCapituloAtivo()">📤 ENVIAR</button>
+                                    <button class="btn-acao" style="width: auto; padding: 6px 12px; background: transparent; border: 2px solid #b71c1c; color: #b71c1c; font-size: 0.8rem;" onclick="apagarCapituloAtivo()">🗑️ APAGAR</button>
+                                </div>
+                            </div>
+                            <div class="story-divider"></div>
+                            <textarea id="gm-capitulo-texto" class="story-body-input" placeholder="Escreva a lore da campanha aqui..." oninput="salvarTextoCapituloAtivo()"></textarea>
+                        </div>
+
+                        <div id="msg-sem-capitulo" class="placeholder-dashed">
+                            Crie um novo capítulo para começar a escrever sua história.
+                        </div>
+                    </div>
+
+                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
+                        <div>
+                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">GUILDAS E FACÇÕES</h3>
+                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
+                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('guilda')">+ NOVA GUILDA</button>
+                            <div id="lista-guildas-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">PESSOAS / NPCS</h3>
+                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
+                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('pessoa')">+ NOVA PESSOA</button>
+                            <div id="lista-pessoas-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">LOCAIS CHAVE</h3>
+                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
+                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('local')">+ NOVO LOCAL</button>
+                            <div id="lista-locais-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
+
     </div>
 </div>
 
-<div id="modal-sessao" class="modal-overlay">
-    <div class="modal-content" style="max-width: 450px; text-align: center;">
+<div id="modal-sessao" class="modal-overlay" style="z-index: 5000;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-sessao').style.display='none'">&times;</span>
-        <h3 class="section-title">🖥️ SESSÃO</h3>
-        <input type="text" id="gm-uid" class="form-input" style="margin-bottom: 20px;" placeholder="NOME DA SALA">
-        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-            <button class="btn-acao green" onclick="conectarSala(); document.getElementById('modal-sessao').style.display='none'">CONECTAR</button>
-            <button class="btn-acao blue" onclick="forcarSincronizacao(); document.getElementById('modal-sessao').style.display='none'">PUXAR FICHAS</button>
+        
+        <h3 class="section-title">🖥️ CONFIGURAR SESSÃO</h3>
+        <p style="font-family: 'Roboto'; font-size: 0.8rem; color: #5c3a21; font-weight: bold; margin-top: 0; margin-bottom: 10px; text-transform: uppercase;">ID da Sala</p>
+        <input type="text" id="gm-uid" class="form-input" style="margin-bottom: 15px;" placeholder="Ex: SALA-RPGTOTAL">
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <button class="btn-acao" style="background-color: #2e7d32;" onclick="conectarSala(); document.getElementById('modal-sessao').style.display='none'">CONECTAR</button>
+            <button class="btn-acao" style="background-color: #0d47a1;" onclick="forcarSincronizacao(); document.getElementById('modal-sessao').style.display='none'">🔄 PUXAR FICHAS</button>
         </div>
-        <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem;" readonly>
-        <button class="btn-acao" style="margin-top:10px;" onclick="copiarLink()">📋 COPIAR LINK</button>
+
+        <h3 class="section-title" style="margin-bottom: 10px; font-size: 1rem;">🔗 CONVITE MÁGICO</h3>
+        <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
+        <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem; color: #0d47a1; background: #fff; padding: 8px; margin-bottom: 10px;" readonly>
+        <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
     </div>
 </div>
 
-<div id="modal-iniciativa" class="modal-overlay">
+<div id="modal-iniciativa" class="modal-overlay" style="z-index: 5010;">
     <div class="modal-content" style="max-width: 400px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-iniciativa').style.display='none'">&times;</span>
-        <h3 class="section-title">⏱️ INICIATIVA</h3>
-        <input type="text" id="ini-nome-modal" class="form-input" style="margin-bottom: 15px;" placeholder="Nome">
-        <input type="number" id="ini-val-modal" class="form-input" style="margin-bottom: 25px;" placeholder="Valor">
-        <button class="btn-acao green" onclick="addIniciativaManualModal()">✔️ ADICIONAR</button>
+        <h3 class="section-title">⏱️ ADICIONAR INICIATIVA</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <input type="text" id="ini-nome-modal" class="form-input" placeholder="Nome (Ex: Goblin)">
+            <input type="number" id="ini-val-modal" class="form-input" placeholder="Valor (Ex: 18)">
+        </div>
+        <button class="btn-acao" style="background-color: #2e7d32; padding: 15px;" onclick="addIniciativaManualModal()">✔️ ADICIONAR</button>
     </div>
 </div>
 
 <div id="modal-monstro" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title">🐉 CRIAR MONSTRO</h3>
-        <input type="text" id="mon-nome" class="form-input" style="margin-bottom:15px;" placeholder="Nome">
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <input type="number" id="mon-hp-atual" class="form-input" placeholder="HP Atual">
-            <input type="number" id="mon-hp-max" class="form-input" placeholder="HP Max">
-            <input type="number" id="mon-def" class="form-input" placeholder="Defesa">
+        <h3 class="section-title">CRIAR MONSTRO</h3>
+        <div class="form-group-modal"><label class="form-label-modal">Nome do Monstro</label><input type="text" id="mon-nome" class="form-input" style="margin-bottom:0;" placeholder="Ex: Dragão Vermelho"></div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="15"></div></div>
+        <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
+        <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
+        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div><div style="flex:1;"><input type="number" id="mon-atq-bonus" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Atq (+5)"></div><div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (2d6+4)"></div><div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crit (x2)"></div><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button></div><div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div></div>
+        <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Imunidades</label><input type="text" id="mon-imun" class="form-input" style="margin-bottom:0;" placeholder="Ex: Fogo"></div><div style="flex:1;"><label class="form-label-modal">Vulnerabilidades</label><input type="text" id="mon-vuln" class="form-input" style="margin-bottom:0;" placeholder="Ex: Gelo"></div></div>
+        <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div><div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div></div><div style="display:flex; gap:10px; margin-bottom:10px;"><textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button></div><div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div></div>
+        <div class="form-group-modal"><label class="form-label-modal">Enigma de Batalha (LORE)</label><textarea id="mon-enigma" class="form-input" style="margin-bottom:15px; height:60px; resize:vertical;" placeholder="Condições secretas para derrotar..."></textarea></div>
+        <button class="btn-acao" style="font-size:1.2rem; padding:15px;" onclick="salvarMonstro()">💾 SALVAR MONSTRO</button>
+    </div>
+</div>
+
+<div id="modal-criar-capitulo" class="modal-overlay" style="z-index: 3020;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-criar-capitulo').style.display='none'">&times;</span>
+        <h3 class="section-title">NOVO CAPÍTULO</h3>
+        <input type="text" id="gm-capitulo-nome" class="form-input" placeholder="Título do Capítulo..." style="margin-bottom: 15px;">
+        <button class="btn-acao" onclick="criarNovoCapitulo()">CRIAR E ABRIR</button>
+    </div>
+</div>
+
+<div id="modal-criacao-listas" class="modal-overlay">
+    <div class="modal-content">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title" id="mcl-titulo">Nova Guilda</h3>
+        
+        <input type="text" id="mcl-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
+        
+        <div id="mcl-img-container" style="display:block; margin-bottom:12px;">
+            <label class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">URL DA FOTO/SÍMBOLO GERAL (Opcional)</label>
+            <input type="text" id="mcl-img" placeholder="http://..." class="form-input" style="margin-bottom:0;">
         </div>
-        <div class="grid-6">
-            ${['FOR','DES','CON','INT','SAB','CAR'].map(a => `<div><label class="form-label-modal">${a}</label><input type="number" id="mon-${a.toLowerCase()}" class="form-input" value="0"></div>`).join('')}
+
+        <div id="mcl-local-container" style="display:none; margin-bottom:12px;">
+            <label class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">VINCULAR A UM LOCAL (Opcional)</label>
+            <select id="mcl-local-link" class="form-input" style="margin-bottom:0; padding: 12px; font-size: 0.9rem;">
+                <option value="">Nenhum Local (Fica solto na lista)</option>
+            </select>
         </div>
-        <input type="text" id="mon-mov" class="form-input" style="margin-bottom:15px;" placeholder="Deslocamento">
-        <div style="background:rgba(0,0,0,0.05); padding:15px; border-radius:8px; margin-bottom:15px;">
-            <h4 style="margin-top:0;">⚔️ ATAQUE</h4>
-            <div style="display:flex; gap:5px; margin-bottom:10px;">
-                <input type="text" id="mon-atq-nome" class="form-input" placeholder="Nome">
-                <input type="number" id="mon-atq-bonus" class="form-input" placeholder="Atq">
-                <input type="text" id="mon-atq-dano" class="form-input" placeholder="Dano">
-                <input type="text" id="mon-atq-crit" class="form-input" placeholder="Crit">
-                <button class="btn-acao red" style="width:auto;" onclick="addMonstroAtaque()">+</button>
+        
+        <div id="mcl-subitems-container" style="margin-bottom:15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
+            <label id="mcl-label-adicionar" class="form-label-modal" style="color:#5c3a21;">ADICIONAR MEMBROS</label>
+            <div style="display:flex; gap:10px; margin-top:5px;">
+                <input type="text" id="mcl-subitem-nome" placeholder="Nome..." class="form-input" style="margin-bottom:0;">
+                <button class="btn-acao" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1;" onclick="addTempMundo()">+</button>
             </div>
-            <div id="lista-temp-ataques" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
+            <p style="font-size:0.7rem; color:#555; margin-top:10px; font-weight:bold;">Clique em um membro adicionado abaixo para configurar detalhes (Foto, Lore):</p>
+            <div id="mcl-subitems-list" style="margin-top:5px; display:flex; flex-wrap:wrap; gap:5px;"></div>
         </div>
-        <button class="btn-acao" onclick="salvarMonstro()">💾 SALVAR MONSTRO</button>
+        
+        <label id="mcl-label-desc" class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">ANOTAÇÕES GERAIS</label>
+        <textarea id="mcl-desc" placeholder="Descrição da Guilda / Local..." class="form-input" style="height:80px; resize:vertical;"></textarea>
+        
+        <button class="btn-acao" onclick="salvarCriacaoMundo()">SALVAR</button>
+    </div>
+</div>
+
+<div id="modal-edicao-temp" class="modal-overlay" style="z-index: 3020;">
+    <div class="modal-content" style="max-width: 400px;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-edicao-temp').style.display='none'">&times;</span>
+        <h3 class="section-title">DETALHES DO MEMBRO</h3>
+        <div class="form-group-modal"><label class="form-label-modal">Nome</label><input type="text" id="mets-nome" class="form-input" style="margin-bottom:10px;"></div>
+        <div class="form-group-modal"><label class="form-label-modal">URL da Foto</label><input type="text" id="mets-img" class="form-input" style="margin-bottom:10px;" placeholder="http://..."></div>
+        <div class="form-group-modal"><label class="form-label-modal">Descrição / Função</label><textarea id="mets-desc" class="form-input" style="height:80px; resize:vertical; margin-bottom:15px;"></textarea></div>
+        <button class="btn-acao" onclick="salvarEdicaoTempSubitem()">SALVAR DETALHES</button>
+    </div>
+</div>
+
+<div id="modal-enviar-alvo" class="modal-overlay" style="z-index: 3050;">
+    <div class="modal-content" style="max-width: 450px; text-align: center;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
+        <h3 class="section-title">COMPARTILHAR COM...</h3>
+        <p style="font-family:'Roboto'; font-size:0.85rem; color:#5c3a21; margin-bottom:15px;">Escolha quem receberá esta informação na aba de Mundo deles:</p>
+        <div class="form-group-modal"><select id="select-alvo" class="form-input"></select></div>
+        <button class="btn-acao" style="width: 100%; margin-top: 15px; background-color: #0d47a1;" onclick="confirmarEnvioAlvo()">📤 CONFIRMAR ENVIO</button>
+    </div>
+</div>
+
+<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
+    <div class="modal-content" style="max-width: 400px;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
+        <h3 class="section-title">Perfil</h3>
+        <input type="text" id="ms-nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
+        <div style="display:flex; justify-content:center; margin-bottom:15px;">
+            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none;">
+                <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+        <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: justify; padding: 0 15px;" readonly></textarea>
     </div>
 </div>
 
@@ -224,10 +655,22 @@
     let arrayIniciativa = [];
     let turnoAtualIndex = -1;
     let abaAtual = 'mesa';
+
+    // Bancos de Dados Locais do Mestre
     let dbBestiario = []; 
     let tempAtaques = []; 
+    let tempHabilidades = [];
+    
     let gmCapitulos = []; 
     let capituloAtivoId = null;
+    
+    let dbPessoas = []; 
+    let dbGuildas = []; 
+    let dbLocais = [];
+    
+    let tipoContexto = ''; 
+    let tempSubItemsLista = [];
+    let itemPendenteEnvio = null;
     let diceState = 0;
     let animacaoGiro = null;
     let currentRollData = {};
@@ -236,240 +679,1071 @@
 
     window.onload = () => {
         let salaSalva = localStorage.getItem('gmUidSalva');
-        if(salaSalva) conectarSala(salaSalva);
-        let bSalvo = localStorage.getItem('rpgBestiario'); if(bSalvo) dbBestiario = JSON.parse(bSalvo);
-        let hSalvo = localStorage.getItem('gm_capitulos_campanha'); if(hSalvo) gmCapitulos = JSON.parse(hSalvo);
-        let iSalva = localStorage.getItem('rpgIniciativa'); if(iSalva) { arrayIniciativa = JSON.parse(iSalva); turnoAtualIndex = parseInt(localStorage.getItem('rpgIniciativaTurno')) || 0; renderIniciativa(); }
-        renderizarBestiario();
-        renderizarJogadores();
+        conectarSala(salaSalva);
+
+        let bSalvo = localStorage.getItem('rpgBestiario'); if(bSalvo) { try { dbBestiario = JSON.parse(bSalvo); } catch(e){} }
+        let hSalvo = localStorage.getItem('gm_capitulos_campanha'); if(hSalvo) { try { gmCapitulos = JSON.parse(hSalvo); } catch(e){} }
+        let pSalvo = localStorage.getItem('rpgPessoas'); if(pSalvo) { try { dbPessoas = JSON.parse(pSalvo); } catch(e){} }
+        let gSalvo = localStorage.getItem('rpgGuildas'); if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
+        let lSalvo = localStorage.getItem('rpgLocais'); if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
+
+        let iSalva = localStorage.getItem('rpgIniciativa'); 
+        if(iSalva) { 
+            try { 
+                arrayIniciativa = JSON.parse(iSalva); 
+                turnoAtualIndex = parseInt(localStorage.getItem('rpgIniciativaTurno'));
+                if(isNaN(turnoAtualIndex)) turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
+                renderIniciativa();
+            } catch(e){} 
+        }
+
+        if (abaAtual === 'bestiario') renderizarBestiario();
+        if (abaAtual === 'mundo') inicializarHistoriaGM();
+        if (abaAtual === 'mesa') renderizarJogadores();
     };
 
     function mudarAba(aba) {
         abaAtual = aba;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         event.currentTarget.classList.add('active');
-        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-        document.getElementById('tab-' + aba).style.display = 'block';
-        if(aba === 'mesa') renderizarJogadores();
-    }
-
-    function conectarSala(uid = null) {
-        gmUid = uid || document.getElementById('gm-uid').value.trim().toUpperCase();
-        if(!gmUid) return;
-        localStorage.setItem('gmUidSalva', gmUid);
-        document.getElementById('link-convite').value = `${window.location.origin}/ficha.html?sala=${gmUid}`;
-        socket.emit('solicitarEstadoSala', gmUid);
-    }
-
-    function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
-    function forcarSincronizacao() { socket.emit('solicitarEstadoSala', gmUid); }
-
-    socket.on('estadoSalaCompleto', dados => { jogadores = dados; renderizarJogadores(); });
-    socket.on('atualizarDados', data => {
-        if(gmUid && data.uid.toUpperCase() === gmUid) {
-            jogadores[data.dados.idUnico] = data.dados;
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        if(aba === 'mesa') { 
+            document.getElementById('tab-mesa').classList.add('active'); 
             renderizarJogadores();
         }
-    });
+        else if (aba === 'bestiario') { 
+            document.getElementById('tab-bestiario').classList.add('active'); 
+            renderizarBestiario(); 
+        }
+        else if (aba === 'mundo') { 
+            document.getElementById('tab-mundo').classList.add('active'); 
+            inicializarHistoriaGM(); 
+        }
+    }
 
+    function conectarSala(uidAutomatica = null) {
+        let inputEl = document.getElementById('gm-uid');
+        gmUid = uidAutomatica || inputEl.value.trim().toUpperCase();
+        if(!gmUid) gmUid = "MESA-" + Math.random().toString(36).substr(2, 5).toUpperCase();
+        inputEl.value = gmUid; localStorage.setItem('gmUidSalva', gmUid);
+        
+        let linkMagico = `${window.location.origin}/ficha.html?sala=${gmUid}`;
+        document.getElementById('link-convite').value = linkMagico;
+        
+        let status = document.getElementById('status-texto');
+        if(status) status.innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
+        
+        socket.emit('solicitarEstadoSala', gmUid);
+    }
+    
+    function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
+    function forcarSincronizacao() { if(!gmUid) return alert("Conecte a uma sala primeiro!"); socket.emit('solicitarEstadoSala', gmUid); }
+
+    socket.on('estadoSalaCompleto', function(dados) { jogadores = dados; if(abaAtual === 'mesa') renderizarJogadores(); });
+    socket.on('atualizarDados', function(data) {
+        if(gmUid && data.uid && data.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
+        let j = data.dados; let chave = j.idUnico; if (!chave) return; 
+        j.charName = j.charName || "Sem nome";
+        if(jogadores[chave] && jogadores[chave].gmNotes) j.gmNotes = jogadores[chave].gmNotes;
+        jogadores[chave] = j;
+        
+        if (abaAtual === 'mesa') {
+            renderizarJogadores();
+            renderIniciativa();
+        }
+    });
+    
+    function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
+    
+    function expulsarJogador(chave) {
+        if(confirm("Deseja desconectar este jogador da mesa?")) {
+            delete jogadores[chave]; renderizarJogadores(); renderIniciativa();
+            socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
+        }
+    }
+    
     function renderizarJogadores() {
         const container = document.getElementById('players-container');
-        container.innerHTML = '';
+        let chaves = Object.keys(jogadores); 
+        let monstrosNaMesa = dbBestiario.filter(m => m.naMesa);
         
-        Object.keys(jogadores).forEach(key => {
-            let p = jogadores[key];
-            let hpPerc = (p.hpAtual / p.hpMax) * 100;
+        document.getElementById('contador-jogadores').innerText = `(${chaves.length + monstrosNaMesa.length})`;
+        
+        if(chaves.length === 0 && monstrosNaMesa.length === 0) { 
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; font-weight:bold; color:rgba(139, 90, 43, 0.6); font-size:1rem; margin-top:40px;" id="status-texto">Configure a sessão e envie o link para os jogadores aparecerem aqui.</p>'; 
+            return; 
+        }
+        
+        container.innerHTML = ''; 
+        
+        chaves.forEach(key => {
+            let p = jogadores[key]; let imgHtml = p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`;
+            let hpMax = parseFloat(p.hpMax) || 1; let hpAtual = parseFloat(p.hpAtual) || 0; let hpPerc = Math.max(0, Math.min(100, (hpAtual/hpMax)*100));
+            let mpMax = parseFloat(p.mpMax) || 1; let mpAtual = parseFloat(p.mpAtual) || 0; let mpPerc = Math.max(0, Math.min(100, (mpAtual/mpMax)*100));
             container.innerHTML += `
                 <div class="player-card">
-                    <div class="player-header">
-                        ${p.img ? `<img src="${p.img}" class="player-img">` : `<div class="player-img">👤</div>`}
-                        <div style="flex:1;">
-                            <div class="player-name">${p.charName}</div>
-                            <div class="player-realname">${p.playerName} • Nvl ${p.nivel}</div>
-                        </div>
-                        <div class="stat-badge" style="background:#455a64;">🛡️ ${p.defesa}</div>
-                    </div>
-                    <div class="barras-container">
-                        <div class="bar-bg"><div class="bar-fill fill-hp" style="width:${hpPerc}%"></div><div class="bar-text">PV: ${p.hpAtual}/${p.hpMax}</div></div>
-                    </div>
-                    <textarea class="player-gm-notes" placeholder="Notas do Mestre..." onchange="jogadores['${key}'].gmNotes = this.value">${p.gmNotes || ''}</textarea>
+                    <button class="btn-kick" onclick="expulsarJogador('${key}')" title="Remover Jogador">&times;</button>
+                    <div class="player-header">${imgHtml}<div style="flex:1;"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div><div class="player-name">${p.charName}</div><div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div></div><div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${p.defesa || 10}</div></div></div></div>
+                    <div class="barras-container"><div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${hpAtual} / ${hpMax}</div></div><div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${mpAtual} / ${mpMax}</div></div></div>
+                    <textarea class="player-gm-notes" placeholder="Anotações Privadas do Mestre..." onchange="salvarNotaGM('${key}', this.value)">${p.gmNotes || ''}</textarea>
                 </div>`;
         });
 
-        dbBestiario.filter(m => m.naMesa).forEach(m => {
-            let hpPerc = (m.hpAtual / m.hpMax) * 100;
-            let safeNome = m.nome.replace(/'/g, "\\'");
+        monstrosNaMesa.forEach(m => {
+            let hpPerc = Math.max(0, Math.min(100, (m.hpAtual / m.hpMax) * 100));
+            let safeNome = m.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+            
+            let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Ataques</span>${m.ataques.map(a => {
+                let safeAtqNome = a.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeDano = (a.dano || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeCrit = (a.crit || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let bAtq = a.bonus || 0;
+                let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
+                return `
+                <div style="display:flex; gap:5px; margin-bottom:6px; align-items:center;">
+                    <div style="flex:1.5; font-family:'Lora'; font-size:0.8rem; font-weight:bold; color:#3e2723; line-height:1.1;">${a.nome}</div>
+                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; flex:1; justify-content:center; background:#b71c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
+                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; background:#5c3a21; flex:1; justify-content:center;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                </div>`;
+            }).join('')}</div>` : '';
+
             container.innerHTML += `
-                <div class="monstro-card monstro-fixado">
-                    <button class="btn-kick" onclick="toggleMonstroMesa(${m.id}, false)">&times;</button>
+                <div class="player-card monstro-fixado">
+                    <button class="btn-kick" onclick="toggleMonstroMesa(${m.id}, false)" title="Remover da Mesa">&times;</button>
                     <div class="player-header">
                         <div class="player-img" style="background:#b71c1c; color:#fff;">🐉</div>
                         <div style="flex:1;">
-                            <div class="player-name">${m.nome}</div>
-                            <div class="player-realname">MONSTRO</div>
-                        </div>
-                        <div class="stat-badge" style="background: linear-gradient(to bottom, #d32f2f, #b71c1c);">🛡️ ${m.def}</div>
-                    </div>
-                    <div class="barras-container">
-                        <div class="bar-bg" style="height:32px; display:flex; align-items:center; justify-content:space-between; padding:0 8px;">
-                            <div class="bar-fill fill-hp" style="position:absolute; left:0; width:${hpPerc}%; height:100%; z-index:0;"></div>
-                            <button class="btn-hp-monstro" style="z-index:1" onclick="alterarHpMonstro(${m.id}, -1)">-</button>
-                            <span class="bar-text" style="position:relative; z-index:1; font-size:1rem;">PV: ${m.hpAtual}/${m.hpMax}</span>
-                            <button class="btn-hp-monstro" style="z-index:1" onclick="alterarHpMonstro(${m.id}, 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="monstro-stats-grid">
-                        ${['FOR','DES','CON','INT','SAB','CAR'].map(a => `<div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (${a})', ${m.attr[a.toLowerCase()]})"><span class="monstro-stat-label">${a}</span><span class="monstro-stat-val">${m.attr[a.toLowerCase()]}</span></div>`).join('')}
-                    </div>
-                    <div class="monstro-secao">
-                        ${m.ataques.map(a => `
-                            <div style="display:flex; gap:8px; margin-bottom:8px;">
-                                <button class="btn-atq-monstro red" onclick="rolarAtaqueArmaGM('${safeNome}', '${a.nome}', ${a.bonus}, '${a.dano}', '${a.crit}')">🎲 ATQ +${a.bonus}</button>
-                                <button class="btn-atq-monstro brown" onclick="rolarDanoGM('${safeNome}: ${a.nome}', '${a.dano}')">⚔️ DANO</button>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div><div class="player-name" style="color:#b71c1c;">${m.nome}</div><div class="player-realname" style="color:#b71c1c;">MONSTRO DO MESTRE</div></div>
+                                <div class="stat-badge" style="background:#b71c1c;" title="Defesa Editável">🛡️ <input type="number" class="monstro-edit-def" style="width:25px;" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)"></div>
                             </div>
-                        `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="barras-container" style="margin-top:5px;">
+                        <div class="bar-bg" style="height: 28px; display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                            <div class="bar-fill fill-hp" style="position:absolute; left:0; top:0; width: ${hpPerc}%; height:100%; z-index:0;"></div>
+                            <button class="btn-hp-monstro" style="z-index: 2;" onclick="alterarHpMonstro(${m.id}, -1)">-</button>
+                            <div style="z-index: 2; flex:1; text-align:center; font-family:'Roboto'; font-size:0.85rem; font-weight:900; color:#fff; text-shadow:1px 1px 2px #000; letter-spacing: 1px;">
+                                PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}
+                            </div>
+                            <button class="btn-hp-monstro" style="z-index: 2;" onclick="alterarHpMonstro(${m.id}, 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="monstro-stats-grid">
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div>
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div>
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div>
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div>
+                        <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div>
+                    </div>
+                    ${atqSecao}
+                </div>`;
+        });
+    }
+
+    function toggleMonstroMesa(id, isChecked) {
+        let m = dbBestiario.find(x => x.id === id);
+        if(m) {
+            m.naMesa = isChecked;
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
+            if(abaAtual === 'mesa') renderizarJogadores();
+            else renderizarBestiario();
+        }
+    }
+
+    function salvarIniciativaLocal() {
+        localStorage.setItem('rpgIniciativa', JSON.stringify(arrayIniciativa));
+        localStorage.setItem('rpgIniciativaTurno', turnoAtualIndex.toString());
+    }
+
+    function abrirModalIniciativa() {
+        document.getElementById('ini-nome-modal').value = '';
+        document.getElementById('ini-val-modal').value = '';
+        document.getElementById('modal-iniciativa').style.display = 'flex';
+    }
+
+    function addIniciativaManualModal() { 
+        let nome = document.getElementById('ini-nome-modal').value.trim();
+        let val = document.getElementById('ini-val-modal').value;
+        addIniciativaInterna(nome, val, null); 
+        document.getElementById('modal-iniciativa').style.display = 'none';
+    }
+    
+    function addIniciativaInterna(nome, val, idUnicoFicha = null) {
+        if(!nome || isNaN(parseInt(val))) return; 
+        let existente;
+        if(idUnicoFicha) { 
+            existente = arrayIniciativa.find(i => i.idUnico === idUnicoFicha); 
+        } else { 
+            existente = arrayIniciativa.find(i => i.nome.toLowerCase() === nome.toLowerCase()); 
+        }
+        
+        if(existente) { 
+            existente.val = parseInt(val); 
+            existente.nome = nome; 
+        } else { 
+            arrayIniciativa.push({ id: Date.now() + Math.random(), idUnico: idUnicoFicha, nome: nome, val: parseInt(val) }); 
+        }
+        
+        ordenarIniciativa();
+    }
+    
+    function ordenarIniciativa() { 
+        let idTurnoAtual = null;
+        if (turnoAtualIndex >= 0 && turnoAtualIndex < arrayIniciativa.length) {
+            idTurnoAtual = arrayIniciativa[turnoAtualIndex].id;
+        }
+        
+        arrayIniciativa.sort((a, b) => b.val - a.val); 
+        
+        if (idTurnoAtual !== null) {
+            turnoAtualIndex = arrayIniciativa.findIndex(i => i.id === idTurnoAtual);
+            if(turnoAtualIndex === -1) turnoAtualIndex = 0;
+        } else {
+            turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
+        }
+        
+        salvarIniciativaLocal();
+        renderIniciativa(); 
+    }
+    
+    function proximoTurno() { 
+        if(arrayIniciativa.length === 0) return; 
+        turnoAtualIndex++; 
+        if(turnoAtualIndex >= arrayIniciativa.length) turnoAtualIndex = 0; 
+        salvarIniciativaLocal();
+        renderIniciativa(); 
+    }
+    
+    function limparIniciativa() { 
+        if(!confirm("Certeza que deseja limpar toda a iniciativa?")) return;
+        arrayIniciativa = []; 
+        turnoAtualIndex = -1; 
+        salvarIniciativaLocal();
+        renderIniciativa(); 
+    }
+    
+    function removerIni(id) { 
+        arrayIniciativa = arrayIniciativa.filter(i => i.id !== id); 
+        ordenarIniciativa(); 
+    }
+    
+    function renderIniciativa() {
+        const container = document.getElementById('lista-iniciativa'); container.innerHTML = '';
+        if(arrayIniciativa.length === 0) { 
+            container.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#8b5a2b; opacity:0.6; margin-top:40px;"><div style="font-size:4rem; margin-bottom:15px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));">⏱️</div><p style="font-style:italic; font-size:1.1rem; font-weight:bold;">Aguardando rolagens de iniciativa...</p></div>`; 
+            return; 
+        }
+        
+        arrayIniciativa.forEach((item, index) => {
+            let isAtivo = index === turnoAtualIndex ? 'ativo' : '';
+            
+            let p = jogadores[item.idUnico];
+            let imgHtml = `<div class="player-img" style="width: 40px; height: 40px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">⚔️</div>`;
+            let subNome = "NPC / Monstro";
+
+            if (p) {
+                imgHtml = p.img ? `<img src="${p.img}" class="player-img" style="width: 40px; height: 40px; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">` : `<div class="player-img" style="width: 40px; height: 40px; font-size: 1.2rem; background: #c8b99e; border-color: #5c3a21; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">👤</div>`;
+                subNome = p.playerName || 'Jogador';
+            }
+
+            container.innerHTML += `
+                <div class="ini-row ${isAtivo}">
+                    <div style="display:flex; align-items:center; gap: 15px;">
+                        ${imgHtml}
+                        <div style="display:flex; flex-direction:column;">
+                            <span class="ini-name"><span class="turn-marker">▶</span> ${item.nome}</span>
+                            <span class="player-realname" style="text-align:left; color:#8b5a2b; margin-top:2px;">${subNome}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap: 12px;">
+                        <div class="ini-val">${item.val}</div>
+                        <button class="btn-kick-ini" onclick="removerIni(${item.id})" title="Remover da Iniciativa">&times;</button>
                     </div>
                 </div>`;
         });
     }
 
-    function toggleMonstroMesa(id, checked) {
-        let m = dbBestiario.find(x => x.id === id);
-        if(m) { m.naMesa = checked; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarJogadores(); renderizarBestiario(); }
+    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
+    
+    function abrirModalMonstro() {
+        tempAtaques = []; tempHabilidades = [];
+        document.getElementById('mon-nome').value = ''; document.getElementById('mon-hp-atual').value = '50'; document.getElementById('mon-hp-max').value = '50'; document.getElementById('mon-def').value = '15';
+        document.getElementById('mon-for').value = '0'; document.getElementById('mon-des').value = '0'; document.getElementById('mon-con').value = '0'; document.getElementById('mon-int').value = '0'; document.getElementById('mon-sab').value = '0'; document.getElementById('mon-car').value = '0';
+        document.getElementById('mon-mov').value = ''; document.getElementById('mon-imun').value = ''; document.getElementById('mon-vuln').value = ''; document.getElementById('mon-enigma').value = '';
+        renderTempAtqHab(); document.getElementById('modal-monstro').style.display = 'flex';
+    }
+    
+    function addMonstroAtaque() { 
+        let n = document.getElementById('mon-atq-nome').value.trim(); 
+        let b = document.getElementById('mon-atq-bonus').value; 
+        let d = document.getElementById('mon-atq-dano').value.trim(); 
+        let c = document.getElementById('mon-atq-crit').value.trim(); 
+        if(n && d) { 
+            tempAtaques.push({id: Date.now(), nome: n, bonus: parseInt(b)||0, dano: d, crit: c}); 
+            document.getElementById('mon-atq-nome').value = ''; 
+            document.getElementById('mon-atq-bonus').value = ''; 
+            document.getElementById('mon-atq-dano').value = ''; 
+            document.getElementById('mon-atq-crit').value = ''; 
+            renderTempAtqHab(); 
+        } 
     }
 
+    function addMonstroHab() { let n = document.getElementById('mon-hab-nome').value.trim(); let d = document.getElementById('mon-hab-dano').value.trim(); let desc = document.getElementById('mon-hab-desc').value.trim(); if(n && desc) { tempHabilidades.push({id: Date.now(), nome: n, dano: d, desc: desc}); document.getElementById('mon-hab-nome').value = ''; document.getElementById('mon-hab-dano').value = ''; document.getElementById('mon-hab-desc').value = ''; renderTempAtqHab(); } }
+    function removerTempObj(tipo, id) { if(tipo === 'atq') tempAtaques = tempAtaques.filter(a => a.id !== id); else tempHabilidades = tempHabilidades.filter(h => h.id !== id); renderTempAtqHab(); }
+    
+    function renderTempAtqHab() {
+        let cAtq = document.getElementById('lista-temp-ataques'); cAtq.innerHTML = ''; 
+        tempAtaques.forEach(a => { 
+            let bStr = a.bonus >= 0 ? `+${a.bonus}` : a.bonus;
+            cAtq.innerHTML += `<span style="background:#b71c1c; color:#fff; padding:3px 8px; border-radius:15px; font-size:0.75rem;">${a.nome} (${bStr} / ${a.dano}) <span style="cursor:pointer; margin-left:5px;" onclick="removerTempObj('atq', ${a.id})">&times;</span></span>`; 
+        });
+        
+        let cHab = document.getElementById('lista-temp-habs'); cHab.innerHTML = ''; 
+        tempHabilidades.forEach(h => { 
+            cHab.innerHTML += `<div style="background:rgba(255,255,255,0.7); padding:5px; border-radius:4px; font-size:0.75rem;"><b>${h.nome}</b>: ${h.desc} <span style="cursor:pointer; color:#b71c1c; float:right;" onclick="removerTempObj('hab', ${h.id})">&times;</span></div>`; 
+        });
+    }
+
+    function salvarMonstro() {
+        let nome = document.getElementById('mon-nome').value.trim(); if(!nome) return alert("O monstro precisa de um nome!");
+        let novoMonstro = { 
+            id: Date.now(), nome: nome, naMesa: false, 
+            hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, def: parseInt(document.getElementById('mon-def').value) || 10, attr: { for: parseInt(document.getElementById('mon-for').value)||0, des: parseInt(document.getElementById('mon-des').value)||0, con: parseInt(document.getElementById('mon-con').value)||0, int: parseInt(document.getElementById('mon-int').value)||0, sab: parseInt(document.getElementById('mon-sab').value)||0, car: parseInt(document.getElementById('mon-car').value)||0 }, mov: document.getElementById('mon-mov').value.trim(), imun: document.getElementById('mon-imun').value.trim(), vuln: document.getElementById('mon-vuln').value.trim(), ataques: [...tempAtaques], habilidades: [...tempHabilidades], enigma: document.getElementById('mon-enigma').value.trim() 
+        };
+        dbBestiario.push(novoMonstro); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); fecharModais(); renderizarBestiario();
+    }
+    
+    function apagarMonstro(id) { if(confirm("Deseja apagar este monstro do bestiário para sempre?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); if(abaAtual === 'mesa') renderizarJogadores(); } }
+    
+    function updateMonstroStatus(id, campo, valor) { 
+        let monstro = dbBestiario.find(m => m.id === id); 
+        if(monstro) { 
+            monstro[campo] = parseInt(valor) || 0; 
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); 
+            if(abaAtual === 'bestiario') renderizarBestiario(); 
+            if(abaAtual === 'mesa') renderizarJogadores();
+        } 
+    }
+    
     function alterarHpMonstro(id, delta) {
-        let m = dbBestiario.find(x => x.id === id);
-        if(m) { m.hpAtual += delta; localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarJogadores(); }
+        let monstro = dbBestiario.find(m => m.id === id);
+        if(monstro) {
+            monstro.hpAtual = (parseInt(monstro.hpAtual) || 0) + delta;
+            localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
+            if(abaAtual === 'bestiario') renderizarBestiario();
+            if(abaAtual === 'mesa') renderizarJogadores();
+        }
+    }
+    
+    function usarHabilidadeMonstro(monstroId, habId) {
+        let monstro = dbBestiario.find(m => m.id === monstroId);
+        if(!monstro) return;
+        let hab = monstro.habilidades.find(h => h.id === habId);
+        if(!hab) return;
+
+        let detalhesLog = hab.desc || "Nenhuma descrição.";
+        let cor = '#0d47a1'; 
+        let cat = 'HABILIDADE DE MONSTRO';
+        let nome = `${monstro.nome}: ${hab.nome}`;
+
+        if(typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('player_dice_roll', {
+                uid: gmUid.toUpperCase(),
+                idUnico: "mestre",
+                playerName: "👑 MESTRE",
+                nomeRolagem: nome,
+                resultadoFinal: "", 
+                detalhes: detalhesLog, 
+                categoria: cat,
+                corCategoria: cor,
+                isDano: false,
+                isCritico: false,
+                isDesastre: false,
+                _trigger: Math.random()
+            });
+            
+            mostrarPopupHabilidadeLocal("", nome, detalhesLog, cat, cor);
+        }
+    }
+
+    function mostrarPopupHabilidadeLocal(remetente, nome, detalhes, categoria, cor) {
+        try {
+            const box = document.getElementById('dice-result-container'); 
+            const text = document.getElementById('dice-text'); 
+            const overlay = document.getElementById('dice-overlay-click');
+            
+            box.style.display = 'flex'; 
+            overlay.style.display = 'block'; 
+            box.classList.remove('dice-pop-out'); 
+            void box.offsetWidth; 
+            
+            box.classList.add('dice-pop-active'); 
+            box.style.borderColor = cor; 
+            box.style.zIndex = "9999"; 
+            overlay.style.zIndex = "9998";
+
+            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+            if (!document.getElementById(`glow-${safeCat}`)) { 
+                const style = document.createElement('style'); 
+                style.id = `glow-${safeCat}`; 
+                style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${cor}80; } 50% { box-shadow: 0 10px 50px ${cor}, 0 0 15px ${cor}60; } 100% { box-shadow: 0 10px 40px ${cor}80; } }`; 
+                document.head.appendChild(style); 
+            }
+            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+
+            let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
+            let subtitulo = remetente ? `<div style="font-size: 0.9rem; color: #555; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${remetente} compartilhou</div>` : '';
+
+            text.innerHTML = `
+                ${subtitulo}
+                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
+                <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
+                <div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;">
+                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span>
+                </div>
+                <small class="pop-hint" style="color:#999; margin-top: 15px; display: block;">Clique na tela para fechar</small>
+            `;
+            
+            diceState = 2; 
+            overlay.onclick = handleDiceClick; 
+            box.onclick = handleDiceClick;
+        } catch(e) {
+            console.error("Erro ao mostrar popup:", e);
+        }
     }
 
     function renderizarBestiario() {
-        const container = document.getElementById('lista-bestiario-container');
-        container.innerHTML = '';
+        const container = document.getElementById('lista-bestiario-container'); const txtVazio = document.getElementById('bestiario-vazio-texto');
+        if (dbBestiario.length === 0) { if(txtVazio) txtVazio.style.display = 'block'; container.innerHTML = ''; if(txtVazio) container.appendChild(txtVazio); return; }
+        if(txtVazio) txtVazio.style.display = 'none'; container.innerHTML = '';
         dbBestiario.forEach(m => {
+            let hpPerc = Math.max(0, Math.min(100, (m.hpAtual / m.hpMax) * 100));
+            let safeNome = m.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+            
+            // SEÇÃO ATAQUES 
+            let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">⚔️ Ataques</span>${m.ataques.map(a => {
+                let safeAtqNome = a.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeDano = (a.dano || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeCrit = (a.crit || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let bAtq = a.bonus || 0;
+                let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
+                
+                return `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(139,90,43,0.1); padding-bottom:6px;">
+                    <div style="font-family:'Lora'; font-size:0.9rem; font-weight:bold; color:#3e2723; line-height:1.2; flex:1;">${a.nome}</div>
+                    <div style="display:flex; gap:6px; flex-shrink:0;">
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 12px; background:#b71c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 12px; background:#5c3a21;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                    </div>
+                </div>`;
+            }).join('')}</div>` : '';
+            
+            // SEÇÃO HABILIDADES 
+            let habSecao = m.habilidades.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">✨ Habilidades</span>${m.habilidades.map(h => {
+                let safeHabNome = h.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeHabDano = (h.dano || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                
+                return `
+                <div class="monstro-hab-item">
+                    <b>${h.nome}${h.dano ? ` [${h.dano}]` : ''}:</b> ${h.desc} 
+                    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+                        <button class="btn-acao" style="background:#0d47a1; padding:6px 12px; font-size:0.75rem; width:auto;" title="Compartilhar Habilidade" onclick="usarHabilidadeMonstro(${m.id}, ${h.id})">✨ COMPARTILHAR</button>
+                        ${h.dano ? `<button class="btn-acao" style="background:#b71c1c; padding:6px 12px; font-size:0.75rem; width:auto;" title="Rolar Dano" onclick="rolarDanoGM('${safeNome}: ${safeHabNome}', '${safeHabDano}', 0)">🎲 DANO</button>` : ''}
+                    </div>
+                </div>`;
+            }).join('')}</div>` : '';
+            
+            let extraInfos = []; if(m.mov) extraInfos.push(`<b>MOV:</b> ${m.mov}`); if(m.imun) extraInfos.push(`<b>Imune:</b> ${m.imun}`); if(m.vuln) extraInfos.push(`<b>Vuln:</b> ${m.vuln}`);
+            let infoSecao = extraInfos.length > 0 ? `<div style="font-size:0.8rem; font-family:'Roboto'; color:#5c3a21; margin-top:8px; background: rgba(255,255,255,0.4); padding: 6px; border-radius: 4px; border: 1px dashed rgba(139,90,43,0.3);">${extraInfos.join(' | ')}</div>` : '';
+            let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">📖 Enigma / Lore</span><div style="font-size:0.8rem; font-style:italic; color:#5c3a21; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 4px; border-left: 3px solid #5c3a21;">${m.enigma}</div></div>` : '';
+            
+            let periciasHtml = `<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Iniciativa)', ${m.attr.des}, true)">⏱️ Inic. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Luta)', ${m.attr.for})">⚔️ Luta ${m.attr.for>=0?'+':''}${m.attr.for}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Fortitude)', ${m.attr.con})">🛡️ Fort. ${m.attr.con>=0?'+':''}${m.attr.con}</button>
+                <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Reflexos)', ${m.attr.des})">⚡ Refl. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
+                <button class="monstro-skill-btn" style="grid-column: 1 / -1; background: rgba(255,255,255,0.5);" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vontade ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
+            </div>`;
+
+            let isAtivoClass = m.naMesa ? 'ativo' : '';
+
             container.innerHTML += `
-                <div class="monstro-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <h3 style="margin:0">${m.nome}</h3>
-                        <label class="toggle-fixar ${m.naMesa ? 'ativo' : ''}">
-                            <input type="checkbox" ${m.naMesa ? 'checked' : ''} onchange="toggleMonstroMesa(${m.id}, this.checked)"> ${m.naMesa ? '📌 FIXADO' : '📌 FIXAR'}
+            <div class="monstro-card ${m.naMesa ? 'monstro-fixado' : ''}">
+                <button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro do Bestiário">&times;</button>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:20px; margin-bottom: 12px;">
+                    <div style="display:flex; flex-direction:column; gap:4px;">
+                        <h3 class="player-name" style="font-size:1.3rem; margin:0; color:#3e2723;">${m.nome}</h3>
+                        <label class="toggle-fixar ${isAtivoClass}">
+                            <input type="checkbox" ${m.naMesa ? 'checked' : ''} onchange="toggleMonstroMesa(${m.id}, this.checked)"> 
+                            ${m.naMesa ? '📌 NA MESA' : '📌 FIXAR NA MESA'}
                         </label>
                     </div>
-                    <p style="margin:5px 0;">🛡️ DEF: ${m.def} | ❤️ HP: ${m.hpMax} | ⚔️ Atks: ${m.ataques.length}</p>
-                    <button class="btn-acao red" style="padding:6px; font-size:0.8rem; margin-top:5px;" onclick="apagarMonstro(${m.id})">Apagar Monstro</button>
-                </div>`;
+                    <div class="stat-badge" style="background:#455a64;" title="Defesa Editável">
+                        🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
+                    </div>
+                </div>
+                
+                <div class="barras-container" style="margin-bottom:15px;">
+                    <div class="bar-bg" style="height: 28px; display: flex; justify-content: space-between; align-items: center; padding: 0 4px;">
+                        <div class="bar-fill fill-hp" style="position:absolute; left:0; top:0; width: ${hpPerc}%; height:100%; z-index:0;"></div>
+                        
+                        <button class="btn-hp-monstro" style="z-index: 2;" onclick="alterarHpMonstro(${m.id}, -1)">-</button>
+                        
+                        <div style="z-index: 2; flex:1; text-align:center; font-family:'Roboto'; font-size:0.85rem; font-weight:900; color:#fff; text-shadow:1px 1px 2px #000; letter-spacing: 1px;">
+                            PV: <input type="number" class="monstro-edit-hp" value="${m.hpAtual}" onchange="updateMonstroStatus(${m.id}, 'hpAtual', this.value)"> / ${m.hpMax}
+                        </div>
+                        
+                        <button class="btn-hp-monstro" style="z-index: 2;" onclick="alterarHpMonstro(${m.id}, 1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="monstro-stats-grid">
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (FOR)', ${m.attr.for})"><span class="monstro-stat-label">FOR</span><span class="monstro-stat-val">${m.attr.for>=0?'+':''}${m.attr.for}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (DES)', ${m.attr.des})"><span class="monstro-stat-label">DES</span><span class="monstro-stat-val">${m.attr.des>=0?'+':''}${m.attr.des}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CON)', ${m.attr.con})"><span class="monstro-stat-label">CON</span><span class="monstro-stat-val">${m.attr.con>=0?'+':''}${m.attr.con}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (INT)', ${m.attr.int})"><span class="monstro-stat-label">INT</span><span class="monstro-stat-val">${m.attr.int>=0?'+':''}${m.attr.int}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (SAB)', ${m.attr.sab})"><span class="monstro-stat-label">SAB</span><span class="monstro-stat-val">${m.attr.sab>=0?'+':''}${m.attr.sab}</span></div>
+                    <div class="monstro-stat-box" onclick="rolarDadoMonstro('${safeNome} (CAR)', ${m.attr.car})"><span class="monstro-stat-label">CAR</span><span class="monstro-stat-val">${m.attr.car>=0?'+':''}${m.attr.car}</span></div>
+                </div>
+                ${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}
+            </div>`;
         });
     }
 
-    function apagarMonstro(id) { if(confirm("Apagar permanentemente?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); renderizarJogadores(); } }
-
-    function abrirModalIniciativa() { document.getElementById('modal-iniciativa').style.display = 'flex'; }
-    function addIniciativaManualModal() {
-        let n = document.getElementById('ini-nome-modal').value;
-        let v = document.getElementById('ini-val-modal').value;
-        if(n && v) { arrayIniciativa.push({id:Date.now(), nome:n, val:parseInt(v)}); ordenarIniciativa(); }
-        document.getElementById('modal-iniciativa').style.display = 'none';
+    function inicializarHistoriaGM() {
+        renderizarMundo();
+        renderizarCapitulosGM();
+        if(gmCapitulos.length > 0 && !capituloAtivoId) {
+            abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id);
+        }
     }
 
-    function ordenarIniciativa() {
-        arrayIniciativa.sort((a,b) => b.val - a.val);
-        turnoAtualIndex = 0;
-        renderIniciativa();
-        localStorage.setItem('rpgIniciativa', JSON.stringify(arrayIniciativa));
+    function criarNovoCapitulo() {
+        let nome = document.getElementById('gm-capitulo-nome').value.trim();
+        if(!nome) return alert("Digite o nome do capítulo!");
+        let novoCapitulo = { id: Date.now(), nome: nome, texto: "" };
+        gmCapitulos.push(novoCapitulo);
+        localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+        document.getElementById('modal-criar-capitulo').style.display = 'none';
+        renderizarCapitulosGM();
+        abrirCapituloGM(novoCapitulo.id);
     }
 
-    function proximoTurno() {
-        if(arrayIniciativa.length === 0) return;
-        turnoAtualIndex = (turnoAtualIndex + 1) % arrayIniciativa.length;
-        renderIniciativa();
-    }
-
-    function limparIniciativa() { arrayIniciativa = []; turnoAtualIndex = -1; renderIniciativa(); localStorage.removeItem('rpgIniciativa'); }
-
-    function renderIniciativa() {
-        const container = document.getElementById('lista-iniciativa');
+    function renderizarCapitulosGM() {
+        const container = document.getElementById('lista-capitulos');
         container.innerHTML = '';
-        arrayIniciativa.forEach((item, idx) => {
-            container.innerHTML += `
-                <div class="ini-row ${idx === turnoAtualIndex ? 'ativo' : ''}">
-                    <span class="ini-name">${item.nome}</span>
-                    <div class="ini-val">${item.val}</div>
-                </div>`;
+        gmCapitulos.forEach(cap => {
+            let btnClass = (cap.id === capituloAtivoId) ? 'capitulo-btn active' : 'capitulo-btn';
+            container.innerHTML += `<button class="${btnClass}" onclick="abrirCapituloGM(${cap.id})">${cap.nome}</button>`;
         });
+        if(gmCapitulos.length === 0) {
+            document.getElementById('area-edicao-capitulo').style.display = 'none';
+            document.getElementById('msg-sem-capitulo').style.display = 'block';
+        }
     }
 
-    function rolarDadoMonstro(nome, bonus) { 
-        currentRollData = { nome, bonus, isDano: false }; 
-        iniciarGiroDado(nome, bonus, '#b71c1c'); 
-    }
-    function rolarAtaqueArmaGM(mon, atq, bonus, dano, crit) {
-        currentRollData = { nome: mon+": "+atq, bonus, isDano: false, isAtaque: true, dano, crit };
-        iniciarGiroDado(atq, bonus, '#b71c1c');
-    }
-    function rolarDanoGM(nome, exp) {
-        currentRollData = { nome, expressao: exp, isDano: true };
-        iniciarGiroDado(nome, 0, '#8b0000', true);
+    function abrirCapituloGM(id) {
+        capituloAtivoId = id;
+        let cap = gmCapitulos.find(c => c.id === id);
+        if(!cap) return;
+        document.getElementById('titulo-capitulo-ativo').value = cap.nome;
+        document.getElementById('gm-capitulo-texto').value = cap.texto;
+        document.getElementById('area-edicao-capitulo').style.display = 'flex';
+        document.getElementById('msg-sem-capitulo').style.display = 'none';
+        renderizarCapitulosGM();
     }
 
-    function iniciarGiroDado(nome, bonus, cor, isDano = false) {
-        const box = document.getElementById('dice-result-container');
-        const text = document.getElementById('dice-text');
-        box.style.display = 'flex';
-        box.style.borderColor = cor;
-        box.classList.add('dice-pop-active');
+    function salvarTextoCapituloAtivo() {
+        if(!capituloAtivoId) return;
+        let cap = gmCapitulos.find(c => c.id === capituloAtivoId);
+        if(cap) {
+            cap.nome = document.getElementById('titulo-capitulo-ativo').value || "Sem Título";
+            cap.texto = document.getElementById('gm-capitulo-texto').value;
+            localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+            renderizarCapitulosGM(); 
+        }
+    }
+
+    function apagarCapituloAtivo() {
+        if(!capituloAtivoId) return;
+        if(confirm("Apagar ESTE CAPÍTULO definitivamente?")) {
+            gmCapitulos = gmCapitulos.filter(c => c.id !== capituloAtivoId);
+            localStorage.setItem('gm_capitulos_campanha', JSON.stringify(gmCapitulos));
+            capituloAtivoId = null;
+            document.getElementById('area-edicao-capitulo').style.display = 'none';
+            document.getElementById('msg-sem-capitulo').style.display = 'block';
+            renderizarCapitulosGM();
+            if(gmCapitulos.length > 0) { abrirCapituloGM(gmCapitulos[gmCapitulos.length - 1].id); }
+        }
+    }
+
+    function enviarCapituloAtivo() {
+        if(!capituloAtivoId) return;
+        abrirModalEnvio(event, 'historia', capituloAtivoId);
+    }
+
+    function abrirModalCriacaoListas(tipo) {
+        tipoContexto = tipo; 
+        document.getElementById('mcl-titulo').innerText = tipo == 'guilda' ? 'Nova Guilda' : (tipo == 'local' ? 'Novo Local' : 'Nova Pessoa/NPC'); 
+        document.getElementById('mcl-nome').value = ''; 
+        document.getElementById('mcl-desc').value = ''; 
+        document.getElementById('mcl-img').value = '';
         
-        let frames = 0;
-        animacaoGiro = setInterval(() => {
-            text.innerHTML = `<span class="pop-pericia-nome">${nome}</span><span class="pop-total">...</span>`;
-            if(++frames > 8) { clearInterval(animacaoGiro); finalizarRolagem(); }
-        }, 50);
+        document.getElementById('mcl-img-container').style.display = 'block'; 
+        
+        if (tipo === 'pessoa') { 
+            document.getElementById('mcl-subitems-container').style.display = 'none'; 
+            document.getElementById('mcl-label-desc').innerText = "História / Personalidade";
+            
+            let selectLocal = document.getElementById('mcl-local-link');
+            selectLocal.innerHTML = '<option value="">Nenhum Local (Fica solto na lista)</option>';
+            dbLocais.forEach(l => {
+                selectLocal.innerHTML += `<option value="${l.id}">${l.nome}</option>`;
+            });
+            document.getElementById('mcl-local-container').style.display = 'block';
+            
+        } else { 
+            document.getElementById('mcl-subitems-container').style.display = 'block'; 
+            document.getElementById('mcl-label-desc').innerText = "Anotações Gerais";
+            document.getElementById('mcl-label-adicionar').innerText = tipo == 'guilda' ? 'ADICIONAR MEMBROS' : 'ADICIONAR PONTOS / NPCs'; 
+            document.getElementById('mcl-subitem-nome').value = ''; 
+            
+            document.getElementById('mcl-local-container').style.display = 'none';
+            
+            tempSubItemsLista = []; 
+            renderizarSubItemsTemp(); 
+        }
+        document.getElementById('modal-criacao-listas').style.display = 'flex';
+    }
+    
+    function addTempMundo() { 
+        let nome = document.getElementById('mcl-subitem-nome').value.trim(); 
+        if(nome) { 
+            tempSubItemsLista.push({ id: Date.now() + Math.floor(Math.random()*1000), nome: nome, desc: '', img: '' }); 
+            document.getElementById('mcl-subitem-nome').value = ''; 
+            renderizarSubItemsTemp(); 
+        } 
+    }
+    
+    function removerTempLista(idx) { 
+        tempSubItemsLista.splice(idx, 1); 
+        renderizarSubItemsTemp(); 
+    }
+    
+    function renderizarSubItemsTemp() { 
+        const container = document.getElementById('mcl-subitems-list'); container.innerHTML = ''; 
+        tempSubItemsLista.forEach((sub, idx) => { 
+            container.innerHTML += `<span style="background: rgba(234, 221, 197, 0.9); border: 1px solid #8b5a2b; padding: 4px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; color:#3e2723;" onclick="abrirEdicaoTempSubitem(${idx})">${sub.nome} <span style="color: #b71c1c; cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 0 4px;" onclick="event.stopPropagation(); removerTempLista(${idx})">&times;</span></span>`; 
+        }); 
     }
 
-    function finalizarRolagem() {
-        const text = document.getElementById('dice-text');
-        let res = 0, det = "", cat = "NORMAL";
+    let currentEditTempIndex = -1;
+    function abrirEdicaoTempSubitem(idx) {
+        currentEditTempIndex = idx; let sub = tempSubItemsLista[idx];
+        document.getElementById('mets-nome').value = sub.nome; document.getElementById('mets-img').value = sub.img || ''; document.getElementById('mets-desc').value = sub.desc || '';
+        document.getElementById('modal-edicao-temp').style.display = 'flex';
+    }
+
+    function salvarEdicaoTempSubitem() {
+        if(currentEditTempIndex === -1) return; let sub = tempSubItemsLista[currentEditTempIndex];
+        sub.nome = document.getElementById('mets-nome').value.trim(); sub.img = document.getElementById('mets-img').value.trim(); sub.desc = document.getElementById('mets-desc').value.trim();
+        document.getElementById('modal-edicao-temp').style.display = 'none'; renderizarSubItemsTemp();
+    }
+    
+    function salvarCriacaoMundo() {
+        let nome = document.getElementById('mcl-nome').value.trim();
+        let desc = document.getElementById('mcl-desc').value.trim();
+        let img = document.getElementById('mcl-img').value.trim();
+        if(!nome) return alert('Digite o nome!');
         
-        if(currentRollData.isDano) {
-            res = Math.floor(Math.random() * 12) + 1; // Simplificado
-            det = "Dano rolado"; cat = "DANO";
-        } else {
-            let dado = Math.floor(Math.random() * 20) + 1;
-            res = dado + currentRollData.bonus;
-            det = `d20(${dado}) + ${currentRollData.bonus}`;
+        let novoId = Date.now();
+
+        if(tipoContexto == 'guilda') { 
+            dbGuildas.push({ id: novoId, nome: nome, desc: desc, img: img, membros: [...tempSubItemsLista] }); 
+            localStorage.setItem('rpgGuildas', JSON.stringify(dbGuildas)); 
+        } else if(tipoContexto == 'local') { 
+            dbLocais.push({ id: novoId, nome: nome, desc: desc, img: img, pontos: [...tempSubItemsLista] }); 
+            localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
+        } else if(tipoContexto == 'pessoa') { 
+            let localId = document.getElementById('mcl-local-link').value;
+            if(localId) {
+                let localObj = dbLocais.find(l => l.id == localId);
+                if(localObj) {
+                    if(!localObj.pontos) localObj.pontos = [];
+                    localObj.pontos.push({
+                        id: novoId, 
+                        nome: nome,
+                        desc: desc,
+                        img: img,
+                        localId: localId
+                    });
+                    localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
+                }
+            } else {
+                dbPessoas.push({ id: novoId, nome: nome, desc: desc, img: img }); 
+                localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); 
+            }
+        }
+        
+        fecharModais(); 
+        renderizarMundo();
+    }
+
+    function apagarItemMundo(event, tipo, id) {
+        event.stopPropagation();
+        if(confirm("Tem certeza que deseja apagar permanentemente?")) {
+            if(tipo === 'guilda') { dbGuildas = dbGuildas.filter(h => h.id !== id); localStorage.setItem('rpgGuildas', JSON.stringify(dbGuildas)); }
+            else if(tipo === 'local') { dbLocais = dbLocais.filter(h => h.id !== id); localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); }
+            else if(tipo === 'pessoa') { dbPessoas = dbPessoas.filter(h => h.id !== id); localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); }
+            renderizarMundo();
+        }
+    }
+
+    function abrirModalEnvio(event, tipo, id) {
+        event.stopPropagation();
+        if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
+        
+        itemPendenteEnvio = { tipo: tipo, id: id };
+        let select = document.getElementById('select-alvo');
+        select.innerHTML = '<option value="todos">Mandar para Todos os Jogadores</option>';
+        
+        let chaves = Object.keys(jogadores);
+        chaves.forEach(key => {
+            let p = jogadores[key];
+            if (p.charName && p.charName !== "Sem nome") {
+                select.innerHTML += `<option value="${p.charName}">${p.charName} (${p.playerName || 'Jogador'})</option>`;
+            }
+        });
+        
+        document.getElementById('modal-enviar-alvo').style.display = 'flex';
+    }
+
+    function confirmarEnvioAlvo() {
+        if(!itemPendenteEnvio) return;
+        let { tipo, id } = itemPendenteEnvio; let alvoSelecionado = document.getElementById('select-alvo').value;
+        let db = tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos));
+        let item = db.find(x => x.id === id);
+        
+        if(!item) return;
+
+        let dadosEnviados = { ...item };
+        
+        if(tipo === 'historia') {
+            dadosEnviados.titulo = item.nome;
+            dadosEnviados.conteudo = item.texto;
         }
 
-        text.innerHTML = `<span class="pop-pericia-nome">${currentRollData.nome}</span><span class="pop-total">${res}</span><div class="pop-categoria-badge" style="background:#b71c1c">${cat}</div><div class="pop-detalhes">${det}</div>`;
-        document.getElementById('dice-overlay-click').style.display = 'block';
-        document.getElementById('dice-overlay-click').onclick = () => {
-            document.getElementById('dice-result-container').classList.remove('dice-pop-active');
-            document.getElementById('dice-result-container').style.display = 'none';
-            document.getElementById('dice-overlay-click').style.display = 'none';
-        };
-
-        socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: currentRollData.nome, resultadoFinal: res, detalhes: det, categoria: cat, corCategoria: "#b71c1c" });
+        socket.emit('gm_send_entity', { uidSala: gmUid, target: alvoSelecionado, entidade: { tipoLista: tipo, dados: dadosEnviados } });
+        
+        let alvoNome = alvoSelecionado === 'todos' ? 'Todos os Jogadores' : alvoSelecionado;
+        alert(`O item foi enviado para ${alvoNome} com sucesso!`);
+        fecharModais();
     }
 
-    function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
-    function abrirModalMonstro() { tempAtaques = []; document.getElementById('modal-monstro').style.display = 'flex'; }
-    function addMonstroAtaque() {
-        let n = document.getElementById('mon-atq-nome').value;
-        let b = document.getElementById('mon-atq-bonus').value;
-        let d = document.getElementById('mon-atq-dano').value;
-        let c = document.getElementById('mon-atq-crit').value;
-        if(n && d) { tempAtaques.push({nome:n, bonus:parseInt(b), dano:d, crit:c}); renderTempAtq(); }
+    function renderizarMundo() {
+        const contGuildas = document.getElementById('lista-guildas-container');
+        contGuildas.innerHTML = '';
+        dbGuildas.forEach(g => {
+            let img = g.img ? `<img src="${g.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">🛡️</div>`;
+            
+            let membrosHtml = '';
+            if (g.membros && g.membros.length > 0) {
+                membrosHtml = `<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 20px; border-left: 2px dashed rgba(139, 90, 43, 0.3); margin-top: 5px; margin-left: 15px;">` + g.membros.map(m => `
+                    <div style="background: rgba(255,255,255,0.6); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; color: #5c3a21; cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">
+                        👤 ${m.nome}
+                    </div>
+                `).join('') + `</div>`;
+            }
+
+            contGuildas.innerHTML += `
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            ${img}
+                            <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${g.nome}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
+                        </div>
+                    </div>
+                    ${membrosHtml}
+                </div>`;
+        });
+
+        const contLocais = document.getElementById('lista-locais-container');
+        contLocais.innerHTML = '';
+        dbLocais.forEach(l => {
+            let img = l.img ? `<img src="${l.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">📍</div>`;
+            
+            let pontosHtml = '';
+            if (l.pontos && l.pontos.length > 0) {
+                pontosHtml = `<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 20px; border-left: 2px dashed rgba(139, 90, 43, 0.3); margin-top: 5px; margin-left: 15px;">` + l.pontos.map(p => `
+                    <div style="background: rgba(255,255,255,0.6); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; color: #5c3a21; cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">
+                        👤 ${p.nome}
+                    </div>
+                `).join('') + `</div>`;
+            }
+
+            contLocais.innerHTML += `
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            ${img}
+                            <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${l.nome}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
+                        </div>
+                    </div>
+                    ${pontosHtml}
+                </div>`;
+        });
+
+        const contPessoas = document.getElementById('lista-pessoas-container');
+        contPessoas.innerHTML = '';
+        dbPessoas.forEach(p => {
+            let img = p.img ? `<img src="${p.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">👤</div>`;
+            contPessoas.innerHTML += `
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        ${img}
+                        <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${p.nome}</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                    </div>
+                </div>`;
+        });
     }
-    function renderTempAtq() {
-        document.getElementById('lista-temp-ataques').innerHTML = tempAtaques.map(a => `<span style="background:#b71c1c;color:#fff;padding:2px 5px;border-radius:4px;">${a.nome}</span>`).join('');
+
+    // === VISUALIZAR DETALHES RÁPIDOS NO MESTRE ===
+    function abrirSubItem(tipoParent, parentId, subId) {
+        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
+        if(!parentObj) return;
+        
+        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
+        if(!subObj) return;
+        
+        document.getElementById('ms-nome').value = subObj.nome; 
+        document.getElementById('ms-desc').value = subObj.desc || '';
+        
+        let tempSubImgBase64 = subObj.img || '';
+        if(tempSubImgBase64) { 
+            document.getElementById('ms-img-preview').src = tempSubImgBase64; 
+            document.getElementById('ms-img-preview-container').style.display = 'block'; 
+        } else { 
+            document.getElementById('ms-img-preview-container').style.display = 'none'; 
+        }
+        
+        document.getElementById('modal-personagem').style.display = 'flex';
     }
-    function salvarMonstro() {
-        let n = document.getElementById('mon-nome').value;
-        let mon = {
-            id: Date.now(), nome: n, hpAtual: parseInt(document.getElementById('mon-hp-atual').value), hpMax: parseInt(document.getElementById('mon-hp-max').value), def: parseInt(document.getElementById('mon-def').value),
-            attr: {for:parseInt(document.getElementById('mon-for').value), des:parseInt(document.getElementById('mon-des').value), con:parseInt(document.getElementById('mon-con').value), int:parseInt(document.getElementById('mon-int').value), sab:parseInt(document.getElementById('mon-sab').value), car:parseInt(document.getElementById('mon-car').value)},
-            ataques: [...tempAtaques], naMesa: false
+
+    // ==============================================================
+    // 9. SISTEMA DE DADOS E ROLAGENS DO MESTRE
+    // ==============================================================
+
+    function rolarDadoMonstro(nome, bonus, isIniciativa = false) {
+        if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
+        let baseName = nome.replace(/\s*\(\s*iniciativa\s*\)/i, '').trim();
+        currentRollData = { nome: nome, bonus: parseInt(bonus)||0, isDano: false, isIniciativa: isIniciativa, entityName: baseName }; 
+        iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c');
+    }
+
+    function rolarAtaqueArmaGM(nomeMonstro, nomeAtaque, bonusAtq, danoBase, criticoStr) { 
+        if(diceState !== 0) return; 
+        diceState = 1; 
+        currentRollData = { nome: `${nomeMonstro}: ${nomeAtaque}`, bonus: parseInt(bonusAtq)||0, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
+        iniciarGiroDado(`${nomeMonstro}: ${nomeAtaque}`, parseInt(bonusAtq)||0, '#b71c1c'); 
+    }
+
+    function rolarDanoGM(nome, expressao, bonusExtra = 0) {
+        if(diceState !== 0) return; diceState = 1; clearInterval(animacaoGiro);
+        let expFinal = expressao; if(bonusExtra !== 0) { expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; } 
+        currentRollData = { nome, expressao: expFinal, isDano: true }; iniciarGiroDado(nome, 0, '#8b0000', true);
+    }
+
+    function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
+        try {
+            const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
+            box.style.display = 'flex'; overlay.style.display = 'block'; box.classList.remove('dice-pop-out'); void box.offsetWidth; 
+            box.classList.add('dice-pop-active'); box.style.borderColor = borderColor; box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
+
+            let frames = 0;
+            animacaoGiro = setInterval(() => {
+                try {
+                    let tempDado = Math.floor(Math.random() * 20) + 1;
+                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+                    let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+
+                    if (++frames >= 12) { 
+                        clearInterval(animacaoGiro);
+                        mostrarResultadoFinal();
+                    }
+                } catch(e) {
+                    clearInterval(animacaoGiro);
+                    closeDiceRoll();
+                }
+            }, 50);
+            
+            overlay.onclick = handleDiceClick; box.onclick = handleDiceClick;
+        } catch(e) {
+            console.error(e);
+            closeDiceRoll();
+        }
+    }
+
+    function calcularDanoStr(expressao, mult = 1) {
+        if(!expressao || expressao === '-') return 0; let str = expressao.toLowerCase().replace(/\s+/g, ''); let parsedStr = str; let diceRegex = /(\d*)d(\d+)/g; let match;
+        while((match = diceRegex.exec(str)) !== null) { let qtd = (parseInt(match[1]) || 1) * mult; let faces = parseInt(match[2]) || 1; let soma = 0; for(let i=0; i<qtd; i++) soma += Math.floor(Math.random() * faces) + 1; parsedStr = parsedStr.replace(match[0], soma); }
+        try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
+    }
+
+    function mostrarResultadoFinal() {
+        try {
+            diceState = 2; 
+            const box = document.getElementById('dice-result-container'); const text = document.getElementById('dice-text'); const overlay = document.getElementById('dice-overlay-click');
+            let nome = currentRollData.nome; let finalHtml = "";
+            let resultadoLog = 0; let detalhesLog = ""; let isCrit = false; let isDesastre = false; let tipoCategoriaLog = ""; let corCategoriaLog = "";
+
+            if (currentRollData.isDano) {
+                let totalDano = calcularDanoStr(currentRollData.expressao); let corCataroria = "#8b0000"; let categoria = "DANO";
+                resultadoLog = totalDano; detalhesLog = `(Rolagem: ${currentRollData.expressao})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
+
+                box.style.borderColor = corCataroria;
+                
+                let safeCat = "DANO";
+                if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+                
+                let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalDano}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            } else {
+                let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
+                let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
+
+                if (dadoReal === 1) { 
+                    categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
+                } 
+                else if (dadoReal === 20) {
+                    categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
+                    if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
+                        let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
+                        let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                        let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
+                        let sinal = bonus >= 0 ? '+' : '';
+                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                    }
+                } else {
+                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                    else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                    else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                    else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+                }
+
+                resultadoLog = totalSoma; detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; tipoCategoriaLog = categoria; corCategoriaLog = corCataroria;
+                
+                if(currentRollData.isIniciativa) { addIniciativaInterna(currentRollData.entityName, totalSoma, null); }
+
+                box.style.borderColor = corCataroria;
+                let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
+                if (!document.getElementById(`glow-${safeCat}`)) { const style = document.createElement('style'); style.id = `glow-${safeCat}`; style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${corCataroria}80; } 50% { box-shadow: 0 10px 50px ${corCataroria}, 0 0 15px ${corCataroria}60; } 100% { box-shadow: 0 10px 40px ${corCataroria}80; } }`; document.head.appendChild(style); }
+                box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
+                
+                let detalhesBR = (detalhesLog || "").replace(/\n/g, '<br>');
+
+                finalHtml = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nome}</span><span class="pop-total" style="color: ${corCataroria};">${totalSoma}</span><div class="pop-categoria-badge" style="background-color: ${corCataroria};">${categoria}</div><br><div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;"><span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span></div>${extraCritHtml}<br><small class="pop-hint" style="color:#555;">Clique na tela para fechar</small>`;
+            }
+
+            if(typeof socket !== 'undefined' && socket.emit) {
+                socket.emit('player_dice_roll', { uid: gmUid, playerName: "👑 MESTRE", nomeRolagem: nome, resultadoFinal: resultadoLog, detalhes: detalhesLog, categoria: tipoCategoriaLog, corCategoria: corCategoriaLog, isDano: currentRollData.isDano, isCritico: isCrit, isDesastre: isDesastre, _trigger: Math.random() }); 
+            }
+            
+            text.innerHTML = finalHtml; overlay.onclick = closeDiceRoll; box.onclick = closeDiceRoll;
+        } catch(e) {
+            console.error("DICE ERROR:", e);
+            closeDiceRoll();
+        }
+    }
+
+    function handleDiceClick() { if (diceState === 2) { closeDiceRoll(); } }
+    function closeDiceRoll() {
+        if(diceState === 0) return;
+        const box = document.getElementById('dice-result-container'); const overlay = document.getElementById('dice-overlay-click');
+        box.classList.add('dice-pop-out');
+        setTimeout(() => { box.style.display = 'none'; overlay.style.display = 'none'; box.classList.remove('dice-pop-active', 'dice-pop-out'); box.style.animation = ''; diceState = 0; }, 300);
+    }
+
+    // === EVENTO DO SOCKET E TOASTS DO MESTRE ===
+    socket.on('player_dice_roll', function(roll) {
+        if(gmUid && roll.uid && roll.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
+
+        if (roll.playerName !== "👑 MESTRE" && roll.nomeRolagem && roll.nomeRolagem.toLowerCase() === 'iniciativa') { 
+            addIniciativaInterna(roll.playerName || 'Jogador', parseInt(roll.resultadoFinal) || 0, roll.idUnico); 
+        }
+
+        mostrarToastRolagem(roll);
+
+        if (roll.idUnico === "mestre") return; 
+
+        let isHabilidade = ['MAGIA', 'PROFICIÊNCIA', 'HABILIDADE', 'HABILIDADE DE MONSTRO'].includes(roll.categoria);
+        if (isHabilidade) {
+            mostrarPopupHabilidadeLocal(roll.playerName || 'Jogador', roll.nomeRolagem, roll.detalhes, roll.categoria, roll.corCategoria);
+        }
+    });
+
+    function mostrarToastRolagem(roll) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        
+        let color = roll.corCategoria || "#2e7d32";
+        let shadow = roll.isCritico || roll.isDesastre ? `box-shadow: inset 0 0 15px rgba(0,0,0,0.1); border-color:${color};` : `border-color:${color};`;
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-entry';
+        toast.style = `${shadow}; border-left-color: ${color};`;
+        
+        let resultHtml = roll.resultadoFinal ? `<div class="log-result" style="color: ${color}; font-size: 2.5rem; line-height:1; margin: 10px 0; text-align:center;">${roll.resultadoFinal}</div>` : '';
+
+        // Converte os \n para <br>
+        let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
+
+        toast.innerHTML = `
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
+                <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
+            </div>
+            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
+            ${resultHtml}
+            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
+        `;
+        
+        toast.onclick = function() {
+            toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
+            setTimeout(() => { if(toast.parentElement) toast.remove(); }, 400);
         };
-        dbBestiario.push(mon); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); fecharModais(); renderizarBestiario();
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            if(toast.parentElement) {
+                toast.style.animation = 'toastFadeOut 0.4s ease-in forwards';
+                setTimeout(() => {
+                    if(toast.parentElement) toast.remove();
+                }, 400);
+            }
+        }, 12000); 
     }
 </script>
+
 </body>
 </html>
