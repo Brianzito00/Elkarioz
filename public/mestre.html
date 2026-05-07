@@ -74,7 +74,7 @@
            LAYOUTS ESPECÍFICOS DAS ABAS
         ========================================= */
         .mesa-layout { display: flex; gap: 20px; height: 100%; align-items: stretch; }
-        .mesa-sidebar { flex: 0 0 350px; display: flex; flex-direction: column; height: 100%; }
+        .mesa-sidebar { flex: 0 0 380px; display: flex; flex-direction: column; height: 100%; }
         .mesa-jogadores { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); grid-auto-rows: min-content; gap: 18px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
@@ -157,7 +157,7 @@
         .ini-row.ativo .ini-name { color: #b71c1c; }
         .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; transform: translateX(-10px); }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; transform: translateX(0); }
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.5rem; color: #fff; background: linear-gradient(to bottom, #795548, #5c3a21); padding: 4px 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.2); border: 2px solid #2d1c11; z-index: 2; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
+        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.6rem; color: #fff; background: linear-gradient(to bottom, #795548, #5c3a21); padding: 5px 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.2); border: 2px solid #2d1c11; z-index: 2; text-shadow: 2px 2px 0px rgba(0,0,0,0.5); }
         .ini-row.ativo .ini-val { background: linear-gradient(to bottom, #d32f2f, #b71c1c); border-color: #7f0000; }
         .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.3; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
@@ -320,32 +320,29 @@
                 <div class="mesa-layout">
                     
                     <div class="mesa-sidebar">
-                        <div class="box-rpg" style="flex-shrink: 0; margin-bottom: 15px;">
-                            <h2 class="section-title">CONTROLE DE COMBATE</h2>
-                            <p style="text-align:center; font-size:0.85rem; color:#5c3a21; font-family:'Roboto'; margin-bottom: 20px;">
-                                A Iniciativa entra automaticamente ao rolarem na ficha!
-                            </p>
-                            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; padding-bottom: 25px; border-bottom: 2px dashed rgba(139, 90, 43, 0.3);">
-                                <input type="text" id="ini-nome" class="form-input" placeholder="Nome (Ex: Goblin)">
-                                <input type="number" id="ini-val" class="form-input" placeholder="Valor (Ex: 18)">
-                                <button class="btn-acao" onclick="addIniciativaManual()">➕ ADD MANUAL</button>
+                        <div class="box-rpg" style="flex-shrink: 0; margin-bottom: 15px; padding: 15px;">
+                            <h2 class="section-title" style="margin-bottom: 10px; font-size: 1.1rem;">CONTROLE DE COMBATE</h2>
+                            <div style="display: flex; gap: 5px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.3);">
+                                <input type="text" id="ini-nome" class="form-input" style="padding: 8px; font-size: 0.85rem;" placeholder="Nome (Goblin)">
+                                <input type="number" id="ini-val" class="form-input" style="padding: 8px; font-size: 0.85rem; width: 70px;" placeholder="Val (18)">
+                                <button class="btn-acao" style="width: auto; padding: 8px 12px; font-size: 1.2rem;" onclick="addIniciativaManual()" title="Adicionar Manualmente">➕</button>
                             </div>
-                            <div style="display: flex; flex-direction: column; gap: 12px;">
-                                <button class="btn-acao green" style="font-size: 1.1rem; padding: 18px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
-                                <button class="btn-acao blue" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
-                                <button class="btn-acao red" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <button class="btn-acao green" style="grid-column: 1 / -1; font-size: 1rem; padding: 12px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                                <button class="btn-acao blue" style="font-size: 0.8rem; padding: 8px;" onclick="ordenarIniciativa()">🔄 ORDENAR</button>
+                                <button class="btn-acao red" style="font-size: 0.8rem; padding: 8px;" onclick="limparIniciativa()">🗑️ LIMPAR</button>
                             </div>
                         </div>
 
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 10px;">
-                            <h2 class="section-title">ORDEM DE TURNOS</h2>
+                            <h2 class="section-title" style="margin-bottom: 10px; font-size: 1.1rem;">ORDEM DE TURNOS</h2>
                             <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
                         </div>
                     </div>
                     
                     <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0;">
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; height: 100%;">
-                            <h2 class="section-title">MESA DE JOGADORES <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
+                            <h2 class="section-title">MESA DE JOGADORES E MONSTROS FIXADOS <span id="contador-jogadores" style="color:#b71c1c;">(0)</span></h2>
                             <div id="players-container">
                                 <p style="grid-column: 1/-1; text-align:center; font-weight:bold; color:rgba(139, 90, 43, 0.6); font-size:1rem; margin-top:40px;" id="status-texto">Configure a sessão e envie o link para os jogadores aparecerem aqui.</p>
                             </div>
@@ -395,7 +392,7 @@
                         </div>
                     </div>
 
-                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 10px; flex: 0 0 350px;">
+                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 10px; flex: 0 0 380px;">
                         <div class="box-rpg" style="padding: 15px;">
                             <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">🛡️ GUILDAS E FACÇÕES</h3>
                             <button class="btn-dashed" onclick="abrirModalCriacaoListas('guilda')">➕ NOVA GUILDA</button>
