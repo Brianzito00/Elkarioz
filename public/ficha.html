@@ -837,6 +837,13 @@
         }
     }
 
+    function mudarAbaPrincipal(idAba, btn) { 
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        document.getElementById(idAba).classList.add('active'); 
+        if(btn) btn.classList.add('active'); 
+    }
+
     function carregarDadosNaTela(j) {
         try {
             document.getElementById('char-name-input').value = j.charName || '';
@@ -1059,7 +1066,7 @@
             if(item.tipo === 'historia') {
                 container.innerHTML += `
                     <div class="mundo-item-recebido">
-                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0;">&times;</button>
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer;">&times;</button>
                         <h3>📖 ${d.titulo}</h3>
                         <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5;">${d.conteudo.replace(/\n/g, '<br>')}</div>
                     </div>`;
@@ -1067,7 +1074,7 @@
                 let imgHtml = d.img ? `<img src="${d.img}" style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:2px solid #5c3a21; margin-right:15px; float:left; cursor:zoom-in;" onclick="abrirZoomImagem(this.src)">` : '';
                 container.innerHTML += `
                     <div class="mundo-item-recebido">
-                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0;">&times;</button>
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer;">&times;</button>
                         ${imgHtml}
                         <h3 style="margin-top:0;">📜 ${d.nome}</h3>
                         <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5; overflow:hidden;">${d.desc ? d.desc.replace(/\n/g, '<br>') : '<i>Nenhum detalhe adicional.</i>'}</div>
@@ -1168,12 +1175,6 @@
         let el = document.getElementById(id);
         return el ? (parseFloat(el.value) || 0) : 0; 
     }
-    
-    function fecharModais() { 
-        document.querySelectorAll('.modal-overlay').forEach(m => { 
-            if(m.id !== 'dice-overlay-click' && m.id !== 'modal-zoom-img') m.style.display = 'none'; 
-        }); 
-    }
 
     function pedirUrlRetrato() {
         let url = prompt("Cole a URL da imagem do seu personagem:");
@@ -1246,8 +1247,6 @@
         if(!container) return;
         
         container.innerHTML = '';
-        const listPrincipal = document.getElementById('lista-magias-principal'); 
-        if(listPrincipal) listPrincipal.innerHTML = '';
 
         const circulos = ["1", "2", "3", "4", "5"];
         circulos.forEach(c => {
