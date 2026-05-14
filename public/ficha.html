@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* === FICHA TRANSLÚCIDA === */
+        /* === FICHA TRANSLÚCIDA GIGANTE (1200px) === */
         .ficha-container {
             background-color: rgba(244, 235, 216, 0.88);
             backdrop-filter: blur(8px);
@@ -101,6 +101,7 @@
             cursor: pointer; font-family: 'Cinzel', serif; font-weight: 800; color: #5c3a21; 
             border-radius: 10px 10px 0 0; transition: 0.2s; margin-bottom: -2px; z-index: 1; position: relative;
         }
+        .tab-btn:hover { background: #fff; color: #b71c1c;}
         .tab-btn.active { background: #b71c1c; color: #fff; border-color: #b71c1c; }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInTabs 0.3s ease; }
@@ -110,14 +111,15 @@
         .main-layout { display: flex; gap: 30px; align-items: flex-start; width: 100%; }
         .sidebar-atributos { flex: 0 0 100px; display: flex; flex-direction: column; gap: 15px; } 
         .conteudo-principal { flex: 1; min-width: 0; } 
-        .sidebar-direita { flex: 0 0 260px; display: flex; flex-direction: column; gap: 20px;} 
+        .sidebar-direita { flex: 0 0 280px; display: flex; flex-direction: column; gap: 20px;} 
 
         /* === ATRIBUTOS === */
         .atributo-box { 
             background-color: #eaddc4; padding: 12px 8px; border-radius: 20px 8px 20px 8px; 
             text-align: center; border: 2px solid #8b5a2b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; 
-            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s;
         }
+        .atributo-box:hover { transform: scale(1.05); border-color: #b71c1c; }
         .atributo-box label { display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Cinzel', serif; font-weight: 900; cursor: pointer; color: #3e2723; font-size: 0.95rem; margin: 0; }
         .atributo-box input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 900; border: none; background: transparent; color: #000; font-family: 'Lora', serif; padding: 0; -moz-appearance: textfield;}
         .atributo-box input::-webkit-outer-spin-button, .atributo-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -133,7 +135,7 @@
         .bar-capsule { display: flex; align-items: center; gap: 8px; width: 100%; }
         
         .btn-status { background-color: #5c3a21; color: #fff; border: 2px solid #3e2723; width: 30px; height: 30px; border-radius: 6px; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: 0.2s; line-height: 1; flex-shrink: 0;}
-        .btn-status:hover { background-color: #b71c1c; }
+        .btn-status:hover { background-color: #b71c1c; transform: scale(1.1);}
         
         .glass-track { flex: 1; min-width: 80px; height: 35px; background: rgba(0,0,0,0.2); border: 3px solid #000; border-radius: 25px; position: relative; overflow: hidden; }
         .liquid-fill { height: 100%; transition: width 0.4s ease; }
@@ -151,43 +153,38 @@
         /* === PERÍCIAS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
         .pericia-card { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .pericia-card:hover { border-color: #b71c1c; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(183, 28, 28, 0.2);}
         .pericia-card.treinado { border-color: #b71c1c; background-color: rgba(183, 28, 28, 0.1); box-shadow: 0 0 8px rgba(183, 28, 28, 0.3); }
         .pericia-header { font-family: 'Cinzel', serif; font-weight: 800; font-size: 0.8rem; text-align: center; color: #3e2723; text-transform: uppercase; margin-top: 5px; line-height: 1.1;}
-        .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px;}
+        .pericia-roll-box { width: 100%; border: 1px solid #8b5a2b; border-radius: 4px; padding: 5px 0; display: flex; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.05); font-size: 1.2rem; font-weight: 900; margin-top: 8px; gap: 5px; transition: 0.2s;}
+        .pericia-card:hover .pericia-roll-box { background-color: #eaddc4; border-color: #b71c1c; color: #b71c1c; }
 
-        /* === INVENTÁRIO CARDS E DIREITA === */
-        .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
-        .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; }
-        .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
-        .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
-        .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
-        .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
-        
+        /* === DIREITA (ARMAS E DEFESA) === */
         .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
         .defesa-box input { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; -moz-appearance: textfield;}
         .defesa-box input::-webkit-outer-spin-button, .defesa-box input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
-        .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 8px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.8rem; margin-top:5px; }
-        .btn-add:hover { background: rgba(139, 90, 43, 0.2); }
+        .btn-add { background: rgba(255,255,255,0.4); border: 2px dashed #8b5a2b; color: #5c3a21; padding: 10px; cursor: pointer; font-family: 'Cinzel', serif; font-weight: bold; width: 100%; border-radius: 4px; transition: 0.2s; font-size: 0.9rem; margin-top:5px; margin-bottom: 15px;}
+        .btn-add:hover { background: rgba(139, 90, 43, 0.2); border-color: #b71c1c; color: #b71c1c;}
         
         .item-btn { background-color: rgba(234, 221, 197, 0.9); border: 1px solid #c8b99e; border-left: 5px solid #8b5a2b; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font-weight: bold; font-family: 'Lora'; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; border-radius: 2px;}
-        .item-btn:hover { background: #fff; transform: translateX(3px);}
+        .item-btn:hover { background: #fff; transform: translateX(3px); border-left-color: #b71c1c;}
 
-        /* === ARMAS EQUIPADAS === */
-        .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .arma-equipada-card { background: rgba(234, 221, 197, 0.9); border: 2px solid #8b5a2b; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s;}
+        .arma-equipada-card:hover { border-color: #b71c1c; transform: scale(1.02); }
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
         .arma-equipada-icon { width: 45px; height: 45px; border-radius: 4px; background: rgba(255,255,255,0.4); border: 1px solid #5c3a21; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
         .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; color: #3e2723; flex: 1; line-height: 1.1; }
         .arma-equipada-botoes { display: flex; gap: 5px; margin-top: 5px; }
         .btn-atq { flex: 1; background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Cinzel'; cursor: pointer; display:flex; justify-content:center; align-items:center; gap:5px; transition:0.2s;}
-        .btn-atq:hover { background: #b71c1c; }
+        .btn-atq:hover { background: #b71c1c; transform: translateY(-2px);}
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
-        .box-dano:hover { background: rgba(183, 28, 28, 0.9); }
+        .box-dano:hover { background: rgba(183, 28, 28, 0.9); transform: translateY(-2px);}
 
-        /* === ABA INVENTÁRIO (CARGA E MOEDAS) === */
+        /* === ABA 2: INVENTÁRIO E MUNDO === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
@@ -199,47 +196,57 @@
         .moedas-title { font-family: 'Cinzel'; font-weight: 900; font-size: 1rem; color: #5c3a21; margin-bottom: 10px; }
         .moedas-controle { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
         .btn-moeda { flex-shrink: 0; background: #ffb300; color: #3e2723; border: 2px solid #5c3a21; width: 35px; height: 35px; border-radius: 6px; font-weight: 900; font-size: 1.4rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;}
-        .btn-moeda:hover { background: #ffca28; }
+        .btn-moeda:hover { background: #ffca28; transform: scale(1.1);}
         .input-moeda { width: 90px; flex-shrink: 0; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.5rem; border: 2px solid #5c3a21; background: rgba(255,255,255,0.9); color: #3e2723; border-radius: 6px; height: 35px; padding: 0; -moz-appearance: textfield;}
         .input-moeda::-webkit-outer-spin-button, .input-moeda::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-        /* === MAGIAS === */
+        .equip-box { margin-top: 8px; width: 100%; border-top: 1px solid rgba(139, 90, 43, 0.3); padding-top: 8px; display: flex; justify-content: center; }
+        .equip-label { font-size: 0.75rem; font-family: 'Roboto'; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 5px; color: #5c3a21; transition: 0.2s; padding: 4px 8px; border-radius: 4px;}
+        .equip-label:hover { background: rgba(255,255,255,0.8); color: #b71c1c; }
+        .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
+        .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
+        .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
+        .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
+
+        .mundo-item-recebido { background: rgba(255,255,255,0.7); border: 1px solid #c8b99e; border-left: 6px solid #2e7d32; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .mundo-item-recebido h3 { font-family: 'Cinzel'; color: #1b5e20; margin-top: 0; margin-bottom: 5px; font-size: 1.2rem;}
+
+        /* === ABA 3: MAGIAS E HABILIDADES === */
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
-        .escola-badge.active { background: rgba(92, 58, 33, 0.9); color: #f4ebd8; border-color: #3e2723; }
+        .escola-badge:hover { background: rgba(255,255,255,0.8); border-color: #b71c1c; color: #b71c1c;}
+        .escola-badge.active { background: #0d47a1; color: #fff; border-color: #0d47a1; box-shadow: 0 2px 8px rgba(13, 71, 161, 0.4);}
+        
         .magia-circulo-section { margin-bottom: 30px; }
-        .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px #fff; }
+        .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
         /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto; }
-        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
-        .modal-tabs { display: flex; justify-content: space-around; margin-bottom: 15px; border-bottom: 1px solid #8b5a2b; }
-        .modal-tab-btn { padding: 8px 4px; cursor: pointer; font-family: 'Cinzel'; font-weight: bold; font-size: 0.8rem; border: none; background: transparent; color: #8b5a2b; transition: 0.2s; }
+        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; transition: 0.2s;}
+        .fechar-modal:hover { color: #b71c1c; transform: scale(1.2); }
+        
+        .modal-tabs { display: flex; justify-content: space-around; margin-bottom: 15px; border-bottom: 2px solid rgba(139, 90, 43, 0.3); }
+        .modal-tab-btn { padding: 8px 4px; cursor: pointer; font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; border: none; background: transparent; color: #8b5a2b; transition: 0.2s; }
+        .modal-tab-btn:hover { color: #b71c1c; }
         .modal-tab-btn.active { color: #b71c1c; border-bottom: 3px solid #b71c1c; }
+        
         .form-group { margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .form-input { width: 100%; padding: 12px; border: 2px solid #3e2723; background: #fff; font-weight: 900; margin-bottom: 15px; font-size: 1rem; color: #3e2723; }
         .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;}
-        .btn-salvar:hover { background: #b71c1c; }
+        .btn-salvar:hover { background: #b71c1c; transform: translateY(-2px); }
+        
         .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
         .btn-apagar:hover { background: #7f0000; }
         .btn-disparar { background: rgba(230, 81, 0, 0.9); flex: 1; margin-top: 0; }
         .btn-disparar:hover { background: #bf360c; }
         .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
         .btn-recarregar:hover { background: #002171; }
-        
-        .btn-acao { 
-            background-color: #5c3a21; color: #fff; border: none; border-radius: 4px; 
-            padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; 
-            font-size: 1rem; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 5px;
-        }
-        .btn-acao:hover { background-color: #b71c1c; }
 
         /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
-            background: #fff; border: 5px solid #b71c1c; padding: 30px; border-radius: 20px;
+            background: #fff; border: 5px solid #b71c1c; padding: 40px; border-radius: 20px;
             z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 60px rgba(0,0,0,0.8); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
@@ -252,19 +259,19 @@
             100% { box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(6px); }
         }
 
-        .pop-dado-img { width: 55px; height: 55px; margin-bottom: 10px; object-fit: contain; }
-        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.1rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
-        .pop-total { font-size: 5rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
-        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
+        .pop-dado-img { width: 65px; height: 65px; margin-bottom: 10px; object-fit: contain; }
+        .pop-pericia-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 1.4rem; color: #3e2723; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; display: block;}
+        .pop-total { font-size: 6rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+        .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
         
-        /* AQUI A CLASSE DA DESCRIÇÃO QUEBRADA NO POP-UP */
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.9rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; }
-        .pop-hint { color: #999; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; margin-top: 10px; display: block; text-transform: uppercase; }
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.95rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px;}
+        .pop-hint { color: #999; font-weight: bold; font-size: 0.8rem; font-family: 'Roboto'; margin-top: 15px; display: block; text-transform: uppercase; }
 
         /* SCROLLBAR & RESPONSIVIDADE */
-        ::-webkit-scrollbar { width: 6px; } 
+        ::-webkit-scrollbar { width: 8px; } 
         ::-webkit-scrollbar-track { background: transparent; } 
-        ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(139, 90, 43, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(183, 28, 28, 0.8); }
         
         @media (max-width: 900px) { 
             .main-layout { flex-direction: column; } 
@@ -274,6 +281,18 @@
             .header-rpg-container { flex-direction: column; align-items: center; gap: 15px; }
             .portrait-slot { width: 120px; height: 140px; }
             .inv-top-bar { flex-direction: column; align-items: center; }
+            .grid-atributos { grid-template-columns: repeat(3, 1fr); }
+            .pericias-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 600px) {
+            .grid-atributos { grid-template-columns: repeat(2, 1fr); }
+            .pericias-grid { grid-template-columns: 1fr; }
+            .tabs-container { gap: 5px; }
+            .tab-btn { font-size: 0.8rem; padding: 10px; width: 100%;}
+            .header-row { flex-direction: column; width: 100%;}
+            .campo-uid-container { width: 100%; flex-direction: column;}
+            .btn-entrar { width: 100%; }
         }
     </style>
 </head>
@@ -281,20 +300,19 @@
 
 <div id="dice-overlay-click"></div>
 <div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
+<div id="toast-container"></div>
 
 <div class="ficha-container">
     
-    <!-- === BARRA DE FERRAMENTAS === -->
-    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px;">
-        <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
-        <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
-        <label class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.8rem; background: #5c3a21; cursor: pointer; margin: 0;">
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
+        <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
+        <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
+        <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #5c3a21; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
             <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarFicha(event)">
         </label>
     </div>
 
-    <!-- === CABEÇALHO === -->
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
@@ -315,7 +333,7 @@
                 <div class="campo-uid-container">
                     <div class="campo-rpg campo-uid" style="flex: 1;">
                         <input type="text" id="uid-input" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
-                        <label>SALA / UID</label>
+                        <label>SALA / UID DO MESTRE</label>
                     </div>
                     <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
                 </div>
@@ -352,18 +370,15 @@
         </div>
     </div>
 
-    <!-- === ABAS === -->
     <div class="tabs-nav">
-        <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">ESTATÍSTICAS</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">MOCHILA / MUNDO</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">GRIMÓRIO</button>
+        <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ ESTATÍSTICAS</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 MOCHILA / MUNDO</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">✨ HABILIDADES / GRIMÓRIO</button>
     </div>
 
-    <!-- === ABA 1: ESTATÍSTICAS PRINCIPAIS === -->
     <div id="tab-principal" class="tab-content active">
         <div class="main-layout">
             
-            <!-- ESQUERDA: ATRIBUTOS -->
             <div class="sidebar-atributos">
                 <div class="atributo-box"><label onclick="rolarDado('FOR', getValor('forca'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> FOR</label><input type="number" id="forca" value="0" oninput="recalcularTudo()"></div>
                 <div class="atributo-box"><label onclick="rolarDado('AGI', getValor('agilidade'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> AGI</label><input type="number" id="agilidade" value="0" oninput="recalcularTudo()"></div>
@@ -373,11 +388,8 @@
                 <div class="atributo-box"><label onclick="rolarDado('CAR', getValor('carisma'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> CAR</label><input type="number" id="carisma" value="0" oninput="recalcularTudo()"></div>
             </div>
 
-            <!-- MEIO: STATUS E PERÍCIAS -->
             <div class="conteudo-principal">
-                <div class="section-separator" style="margin-top:0;"></div>
                 
-                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -416,47 +428,31 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <button type="button" class="btn-acao" style="width: auto; padding: 6px 15px; font-size: 0.85rem; background:#5c3a21; color:#fff; border-radius:4px; font-family:'Cinzel'; cursor:pointer;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
+                    <button type="button" class="btn-add" style="width: auto; padding: 8px 15px; margin: 0; border-color:#8b5a2b;" onclick="abrirModalAddPericia()">+ NOVA PERÍCIA</button>
                 </div>
                 
                 <div class="pericias-grid" id="grid-pericias"></div>
             </div>
 
-            <!-- DIREITA: DEFESA E PROFICIÊNCIAS -->
             <div class="sidebar-direita">
                 <div class="defesa-box">
                     <label>DEFESA</label>
                     <input type="number" value="10" id="defesa-personagem" oninput="sincronizarComMestre()">
                 </div>
+                <button class="btn-acao red" style="padding: 15px; font-size: 1.1rem; margin-top: 15px;" onclick="rolarIniciativa()">⏱️ ROLAR INICIATIVA</button>
                 
-                <div style="margin-top: 10px;">
-                    <div class="list-section-title">PROFICIÊNCIAS</div>
-                    <div id="lista-proficiencias"></div>
-                    <button type="button" class="btn-add" onclick="abrirModalHab('prof')">+ NOVA PROFICIÊNCIA</button>
-                </div>
-                
-                <div style="margin-top: 25px;">
-                    <div class="list-section-title">HABILIDADES</div>
-                    <div id="lista-habilidades"></div>
-                    <button type="button" class="btn-add" onclick="abrirModalHab('hab')">+ NOVA HABILIDADE</button>
-                </div>
-                
-                <div style="margin-top: 25px;">
-                    <div class="list-section-title" style="color:#b71c1c;">MAGIAS APRENDIDAS</div>
-                    <div id="lista-magias-principal"></div>
-                </div>
-                
-                <div style="margin-top: 25px;">
-                    <div class="list-section-title" style="color:#5c3a21;">ARMAS EQUIPADAS</div>
-                    <div id="lista-armas-equipadas"></div>
+                <div style="margin-top: 30px;">
+                    <div class="list-section-title" style="color:#5c3a21; border-bottom: 2px dashed rgba(139,90,43,0.4); padding-bottom:5px;">ARMAS EQUIPADAS</div>
+                    <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b;">(Vá na aba "Mochila" para criar e equipar armas)</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- === ABA 2: INVENTÁRIO / MUNDO === -->
     <div id="tab-inventario" class="tab-content">
         <div class="main-layout">
+            
             <div class="conteudo-principal">
                 <div class="inv-top-bar">
                     <div class="carga-container">
@@ -475,59 +471,69 @@
                     </div>
                 </div>
 
-                <div style="text-align:center; margin-bottom:20px;">
-                    <button type="button" class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button>
+                <div style="text-align:center; margin-bottom:25px;">
+                    <button type="button" class="btn-salvar" style="width:300px; margin:0 auto;" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button>
                 </div>
-                <div id="grid-inventario" class="pericias-grid"></div>
+                <div id="grid-inventario" class="pericias-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));"></div>
             </div>
             
             <div class="sidebar-direita">
-                
-                <!-- LISTAS DO MUNDO -->
-                <div>
-                    <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">GUILDAS E FACÇÕES</div>
-                    <div id="lista-guildas"></div>
-                </div>
-
-                <div style="margin-top:25px;">
-                    <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:10px;">LOCAIS E NPCs</div>
+                <div class="box-rpg" style="padding: 15px; border-top-color: #2e7d32; min-height: 400px; margin-bottom:0;">
+                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">LORE & MAPAS</h2>
+                    <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
                     
-                    <div id="lista-locais"></div>
-                    <div id="lista-pessoas"></div>
+                    <div id="lista-mundo-recebido"></div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- === ABA 3: MAGIAS / GRIMÓRIO === -->
     <div id="tab-magias" class="tab-content">
-        <div style="background:rgba(234, 221, 197, 0.85); padding:15px; border-radius:8px; border:2px solid #8b5a2b; margin-bottom:20px; text-align:center;">
-            <div class="list-section-title" style="border-bottom: 2px solid rgba(200, 185, 158, 0.8); padding-bottom:5px;">ESCOLAS DE MAGIA APRENDIDAS</div>
-            <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Abjuração</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Adivinhação</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Convocação</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Encantamento</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Evocação</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Ilusão</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Necromancia</button>
-                <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Transmutação</button>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+            
+            <div class="box-rpg" style="border-top-color: #673ab7; padding: 25px;">
+                <h2 class="section-title" style="color: #4527a0;">HABILIDADES DE CLASSE</h2>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button type="button" class="btn-acao" style="background:#5c3a21;" onclick="abrirModalHab('prof')">+ PROFICIÊNCIA</button>
+                    <button type="button" class="btn-acao" style="background:#673ab7;" onclick="abrirModalHab('hab')">+ HABILIDADE</button>
+                </div>
+                
+                <h3 style="font-family:'Cinzel'; font-size:1rem; color:#5c3a21; border-bottom:1px solid #c8b99e; margin-bottom:10px;">Proficiências / Ferramentas</h3>
+                <div id="lista-proficiencias" style="margin-bottom: 25px;"></div>
+                
+                <h3 style="font-family:'Cinzel'; font-size:1rem; color:#5c3a21; border-bottom:1px solid #c8b99e; margin-bottom:10px;">Habilidades & Poderes</h3>
+                <div id="lista-habilidades"></div>
             </div>
-        </div>
 
-        <div style="text-align:center; margin-bottom:20px;">
-            <button type="button" class="btn-salvar" style="width:250px; margin:0 auto;" onclick="abrirModalMagia()">+ APRENDER MAGIA</button>
+            <div class="box-rpg" style="border-top-color: #0d47a1; padding: 25px;">
+                <h2 class="section-title" style="color: #0d47a1;">GRIMÓRIO DE MAGIAS</h2>
+                
+                <div style="text-align:center; margin-bottom:20px;">
+                    <button type="button" class="btn-acao blue" style="width:100%;" onclick="abrirModalMagia()">🔮 APRENDER NOVA MAGIA</button>
+                </div>
+                
+                <div style="background:rgba(234, 221, 197, 0.5); padding:10px; border-radius:6px; border:1px solid #c8b99e; margin-bottom:20px; text-align:center;">
+                    <div style="font-family:'Cinzel'; font-size:0.8rem; font-weight:bold; color:#5c3a21; margin-bottom:5px;">Filtro por Escola:</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;">
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Abj</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Adiv</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Conv</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Enc</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Evo</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Ilu</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Necro</button>
+                        <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Trans</button>
+                    </div>
+                </div>
+
+                <div id="magias-container"></div>
+            </div>
+            
         </div>
-        <div id="magias-container"></div>
     </div>
 </div>
 
-<!-- ==============================================================
-     MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
-============================================================== -->
-
-<!-- MODAL DE ZOOM DE IMAGEM -->
 <div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="this.style.display='none'">
     <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);">
@@ -611,10 +617,10 @@
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mp-nome">Perícia</h3>
-        <div class="form-group"><span style="font-size: 0.9rem;">Treinado:</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
-        <div class="form-group"><span style="font-size: 0.9rem;">Bônus Extra:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0;"></div>
-        <div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem;">TOTAL: <span id="mp-total" style="color:#b71c1c">0</span></div>
-        <button type="button" class="btn-apagar" id="btn-remover-pericia" style="display:none; width:100%; margin-top:25px; padding:12px; border:none; color:white; font-weight:bold; font-family:'Cinzel'; cursor:pointer; border-radius:4px;" onclick="removerPericiaAberta()">REMOVER PERÍCIA</button>
+        <div class="form-group"><span style="font-size: 0.9rem; font-weight:bold; font-family:'Roboto';">Treinado na Perícia?</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
+        <div class="form-group"><span style="font-size: 0.9rem; font-weight:bold; font-family:'Roboto';">Bônus Extra Temporário:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0; padding:8px;"></div>
+        <div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem; font-family:'Cinzel';">TOTAL A ROLAR: <span id="mp-total" style="color:#b71c1c; font-size:1.8rem;">0</span></div>
+        <button type="button" class="btn-apagar btn-salvar" id="btn-remover-pericia" style="display:none; width:100%; margin-top:25px;" onclick="removerPericiaAberta()">🗑️ REMOVER PERÍCIA CUSTOMIZADA</button>
     </div>
 </div>
 
@@ -646,7 +652,7 @@
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mh-titulo">Novo</h3>
         <input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
-        <textarea id="mh-desc" placeholder="Descrição" class="form-input" style="height:100px; resize:none;"></textarea>
+        <textarea id="mh-desc" placeholder="Descrição da habilidade ou proficiência..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         <button type="button" class="btn-salvar" onclick="salvarHab()">SALVAR</button>
     </div>
 </div>
@@ -654,38 +660,34 @@
 <div id="modal-magia-add" class="modal-overlay">
     <div class="modal-content">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title">Aprender Magia</h3>
-        <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:12px;">
-        <div style="display:flex; gap:10px; margin-bottom:12px;">
-            <div style="flex:1;"><label style="font-size:0.7rem; font-weight:bold;">CÍRCULO</label><select id="mm-circulo" class="form-input" style="padding: 7px; font-size: 0.9rem; text-align:center; margin-bottom:0;"><option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option><option value="5">5º Círculo</option></select></div>
-            <div style="flex:2;"><label style="font-size:0.7rem; font-weight:bold;">ESCOLA</label><select id="mm-escola" class="form-input" style="padding: 7px; font-size: 0.9rem; margin-bottom:0;"><option value="Abjuração">Abjuração</option><option value="Adivinhação">Adivinhação</option><option value="Convocação">Convocação</option><option value="Encantamento">Encantamento</option><option value="Evocação">Evocação</option><option value="Ilusão">Ilusão</option><option value="Necromancia">Necromancia</option><option value="Transmutação">Transmutação</option></select></div>
-        </div>
-        <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">EXECUÇÃO</label><input type="text" id="mm-execucao" placeholder="Padrão" class="form-input" style="margin-bottom:0;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label><input type="text" id="mm-alcance" placeholder="Curto" class="form-input" style="margin-bottom:0;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALVO / ÁREA / EFEITO</label><input type="text" id="mm-alvo" placeholder="1 criatura" class="form-input" style="margin-bottom:0;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">DURAÇÃO</label><input type="text" id="mm-duracao" placeholder="Cena" class="form-input" style="margin-bottom:0;"></div>
-            <div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Fortitude reduz à metade" class="form-input" style="margin-bottom:0;"></div>
-        </div>
-        <textarea id="mm-desc" placeholder="Efeito da magia e Aprimoramentos..." class="form-input" style="height:100px; resize:none;"></textarea>
-        <button type="button" class="btn-salvar" onclick="salvarMagia()">ADICIONAR MAGIA</button>
-    </div>
-</div>
-
-<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
-    <div class="modal-content">
-        <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
-        <h3 class="section-title">Perfil</h3>
+        <h3 class="section-title" style="color:#0d47a1;">APRENDER MAGIA</h3>
+        <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:15px; border-color:#0d47a1; font-size:1.2rem;">
         
-        <input type="text" id="ms-nome" placeholder="Nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
-        
-        <div style="display:flex; justify-content:center; margin-bottom:15px;">
-            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('ms-img-preview').src)">
-                <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <div style="flex:1;">
+                <label style="font-size:0.7rem; font-weight:bold; color:#0d47a1;">CÍRCULO</label>
+                <select id="mm-circulo" class="form-input" style="padding: 10px; font-size: 1rem; text-align:center; margin-bottom:0;">
+                    <option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option><option value="5">5º Círculo</option>
+                </select>
+            </div>
+            <div style="flex:2;">
+                <label style="font-size:0.7rem; font-weight:bold; color:#0d47a1;">ESCOLA</label>
+                <select id="mm-escola" class="form-input" style="padding: 10px; font-size: 1rem; margin-bottom:0;">
+                    <option value="Abjuração">Abjuração</option><option value="Adivinhação">Adivinhação</option><option value="Convocação">Convocação</option><option value="Encantamento">Encantamento</option><option value="Evocação">Evocação</option><option value="Ilusão">Ilusão</option><option value="Necromancia">Necromancia</option><option value="Transmutação">Transmutação</option>
+                </select>
             </div>
         </div>
         
-        <textarea id="ms-desc" placeholder="Sem detalhes..." class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: justify; padding: 0 15px;" readonly></textarea>
+        <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">EXECUÇÃO</label><input type="text" id="mm-execucao" placeholder="Ex: Padrão" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label><input type="text" id="mm-alcance" placeholder="Ex: Curto" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALVO / ÁREA</label><input type="text" id="mm-alvo" placeholder="Ex: 1 criatura" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">DURAÇÃO</label><input type="text" id="mm-duracao" placeholder="Ex: Cena" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+            <div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">TESTE DE RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Ex: Fortitude reduz à metade" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+        </div>
+        
+        <textarea id="mm-desc" placeholder="Efeito da magia, Aprimoramentos, Dano..." class="form-input" style="height:120px; resize:vertical; margin-bottom:20px;"></textarea>
+        <button type="button" class="btn-salvar" style="background:#0d47a1;" onclick="salvarMagia()">ADICIONAR MAGIA</button>
     </div>
 </div>
 
@@ -706,7 +708,7 @@
         </div>
 
         <div id="mv-actions-hab" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; width:100%;">
-            <button type="button" class="btn-salvar" id="btn-usar-modal" onclick="usarHabilidadeAberta()">✨ USAR HABILIDADE</button>
+            <button type="button" class="btn-salvar" id="btn-usar-modal" onclick="usarHabilidadeAberta()">✨ USAR</button>
         </div>
         
         <div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;">
@@ -716,10 +718,7 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
-        <!-- LOCAL ONDE A DESCRIÇÃO NO MODAL APARECE -->
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5; word-wrap: break-word; word-break: break-word;"></div>
-        
-        <div id="mv-subitems-list" style="display:none; flex-direction:column; width:100%; margin-bottom:15px;"></div>
         
         <button type="button" class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button>
     </div>
@@ -771,20 +770,17 @@
     let dbInventario = [];
     let dbProficiencias = [];
     let dbHabilidades = [];
-    let dbGuildas = [];
-    let dbPessoas = [];
-    let dbLocais = [];
     let dbMagias = [];
+    
+    let fichaDados = {
+        mundoRecebido: []
+    };
     
     let tipoContexto = '';
     let itemAbertoId = null;
     let periciaAbertaNome = null;
     let abaItemAtual = 'comum';
     let tempImgBase64 = "";
-    let tempSubImgBase64 = "";
-    let tempSubItemsLista = []; 
-    let currentParentContext = null;
-    let currentSubItemId = null;
     let animacaoGiro = null;
     let diceState = 0;
     let currentRollData = {};
@@ -877,10 +873,12 @@
             dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario : [];
             dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
             dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
-            dbGuildas = Array.isArray(j.dbGuildas) ? j.dbGuildas : [];
-            dbPessoas = Array.isArray(j.dbPessoas) ? j.dbPessoas : [];
-            dbLocais = Array.isArray(j.dbLocais) ? j.dbLocais : [];
             dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
+            
+            fichaDados.mundoRecebido = Array.isArray(j.mundoRecebido) ? j.mundoRecebido : [];
+            
+            renderizarMagias();
+            renderizarMundoRecebido();
             
         } catch (e) {
             console.error("Erro ao preencher a ficha: ", e);
@@ -913,11 +911,10 @@
             dbInventario: dbInventario || [], 
             dbProficiencias: dbProficiencias || [], 
             dbHabilidades: dbHabilidades || [], 
-            dbGuildas: dbGuildas || [], 
-            dbPessoas: dbPessoas || [], 
-            dbLocais: dbLocais || [], 
-            dbMagias: dbMagias || []
+            dbMagias: dbMagias || [],
+            mundoRecebido: fichaDados.mundoRecebido || []
         };
+        
         localStorage.setItem('rpgFichaLocal', JSON.stringify(dadosParaSalvar));
 
         if (typeof socket !== 'undefined' && socket.emit) {
@@ -1029,53 +1026,64 @@
         }
     });
 
-    socket.on('gm_send_item', function(payload) {
-        if (payload && payload.item) {
-            let meuNome = document.getElementById('char-name-input').value.trim();
-            if (payload.target === 'todos' || payload.target === meuNome) {
-                dbInventario.push(payload.item); renderizarListas(); recalcularTudo();
-            }
-        }
-    });
-
     socket.on('gm_send_entity', function(payload) {
         if (payload && payload.entidade) {
             let meuNome = document.getElementById('char-name-input').value.trim();
             if (payload.target === 'todos' || payload.target === meuNome) {
-                let tipo = payload.entidade.tipoLista;
-                let dados = payload.entidade.dados;
+                fichaDados.mundoRecebido.push({
+                    id: Date.now(),
+                    tipo: payload.entidade.tipoLista,
+                    dados: payload.entidade.dados
+                });
+                salvarESincronizar();
+                renderizarMundoRecebido();
                 
-                if (tipo === 'guilda') { 
-                    let idx = dbGuildas.findIndex(g => g.id === dados.id);
-                    if(idx === -1) dbGuildas.push(dados); else dbGuildas[idx] = dados;
-                }
-                else if (tipo === 'local') { 
-                    let idx = dbLocais.findIndex(l => l.id === dados.id);
-                    if(idx === -1) dbLocais.push(dados); else dbLocais[idx] = dados;
-                    
-                    if(dados.pontos && dados.pontos.length > 0) {
-                        dados.pontos.forEach(pt => {
-                            dbPessoas = dbPessoas.filter(p => p.id !== pt.id);
-                        });
-                    }
-                }
-                else if (tipo === 'pessoa') { 
-                    let localConhecido = dados.localId ? dbLocais.find(l => l.id == dados.localId) : null;
-                    if (localConhecido) {
-                        if(!localConhecido.pontos) localConhecido.pontos = [];
-                        let pIdx = localConhecido.pontos.findIndex(p => p.id === dados.id);
-                        if(pIdx === -1) localConhecido.pontos.push(dados); else localConhecido.pontos[pIdx] = dados;
-                        dbPessoas = dbPessoas.filter(p => p.id !== dados.id);
-                    } else {
-                        let pIdx = dbPessoas.findIndex(p => p.id === dados.id);
-                        if(pIdx === -1) dbPessoas.push(dados); else dbPessoas[pIdx] = dados;
-                    }
-                }
-                
-                renderizarListas();
+                let icone = payload.entidade.tipoLista === 'historia' ? '📖' : '📜';
+                alert(`${icone} O Mestre compartilhou algo com você! Verifique a aba MOCHILA / MUNDO.`);
             }
         }
     });
+
+    function renderizarMundoRecebido() {
+        const container = document.getElementById('lista-mundo-recebido');
+        if(!container) return;
+        container.innerHTML = '';
+        
+        if(!fichaDados.mundoRecebido || fichaDados.mundoRecebido.length === 0) {
+            container.innerHTML = `<div class="placeholder-dashed" style="border-color:#2e7d32; color:#2e7d32;">Seu arquivo de lore e mapas está vazio.</div>`;
+            return;
+        }
+
+        fichaDados.mundoRecebido.reverse().forEach(item => {
+            let d = item.dados;
+            if(item.tipo === 'historia') {
+                container.innerHTML += `
+                    <div class="mundo-item-recebido">
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0;">&times;</button>
+                        <h3>📖 ${d.titulo}</h3>
+                        <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5;">${d.conteudo.replace(/\n/g, '<br>')}</div>
+                    </div>`;
+            } else {
+                let imgHtml = d.img ? `<img src="${d.img}" style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:2px solid #5c3a21; margin-right:15px; float:left; cursor:zoom-in;" onclick="abrirZoomImagem(this.src)">` : '';
+                container.innerHTML += `
+                    <div class="mundo-item-recebido">
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0;">&times;</button>
+                        ${imgHtml}
+                        <h3 style="margin-top:0;">📜 ${d.nome}</h3>
+                        <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5; overflow:hidden;">${d.desc ? d.desc.replace(/\n/g, '<br>') : '<i>Nenhum detalhe adicional.</i>'}</div>
+                        <div style="clear:both;"></div>
+                    </div>`;
+            }
+        });
+    }
+
+    function apagarMundoRecebido(id) {
+        if(confirm("Deseja apagar esta anotação do seu diário?")) {
+            fichaDados.mundoRecebido = fichaDados.mundoRecebido.filter(x => x.id !== id);
+            salvarESincronizar();
+            renderizarMundoRecebido();
+        }
+    }
 
     function sincronizarComMestre() {
         if (!fichaPronta) return; 
@@ -1103,7 +1111,7 @@
         }
     }
 
-    // === CÁLCULOS ===
+    // === CÁLCULOS E LÓGICA DE INTERFACE ===
     function recalcularTudo() {
         const forcaAtual = getValor('forca');
         const cargaMaxima = Math.max(10, 10 + (forcaAtual * 2)); 
@@ -1165,13 +1173,6 @@
         document.querySelectorAll('.modal-overlay').forEach(m => { 
             if(m.id !== 'dice-overlay-click' && m.id !== 'modal-zoom-img') m.style.display = 'none'; 
         }); 
-    }
-    
-    function mudarAbaPrincipal(idAba, btn) { 
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        document.getElementById(idAba).classList.add('active'); 
-        if(btn) btn.classList.add('active'); 
     }
 
     function pedirUrlRetrato() {
@@ -1254,31 +1255,11 @@
             if(filt.length > 0) {
                 let html = `<div class="magia-circulo-section"><h3 class="magia-circulo-title">${c}º CÍRCULO</h3><div class="pericias-grid">`;
                 filt.forEach(m => { 
-                    html += `<div class="pericia-card" style="border-color:#b71c1c" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; 
-                    if (listPrincipal) {
-                        listPrincipal.innerHTML += `
-                        <div class="item-btn" style="border-left-color:#b71c1c; padding:0; display:flex; margin-bottom:4px;">
-                            <button type="button" style="flex:1; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('magia', ${m.id})">
-                                <span>${m.nome}</span> <span style="font-size:0.65rem; color:#b71c1c; font-family:'Cinzel';">${c}º</span>
-                            </button>
-                            <button type="button" style="background:transparent; border:none; color:#0d47a1; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 5px;" title="Conjurar Magia" onclick="usarHabilidadeFast(event, 'magia', ${m.id})">🔮</button>
-                            <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px 0 5px; line-height:1;" title="Apagar" onclick="apagarItemList(event, 'magia', ${m.id})">&times;</button>
-                        </div>`;
-                    }
+                    html += `<div class="pericia-card" style="border-color:#0d47a1" onclick="abrirVisualizacao('magia', ${m.id})"><div class="pericia-header" style="color:#0d47a1;">${m.nome}</div><div class="magia-escola">${m.escola || ''}</div></div>`; 
                 });
                 container.innerHTML += html + `</div></div>`;
             }
         });
-    }
-
-    function apagarItemMundo(event, tipo, id) {
-        event.stopPropagation();
-        if(confirm("Tem certeza que deseja remover esta anotação da sua ficha?")) {
-            if(tipo === 'guilda') dbGuildas = dbGuildas.filter(x => x.id !== id);
-            if(tipo === 'pessoa') dbPessoas = dbPessoas.filter(x => x.id !== id);
-            if(tipo === 'local') dbLocais = dbLocais.filter(x => x.id !== id);
-            renderizarListas();
-        }
     }
 
     function apagarItemList(event, tipo, id) {
@@ -1288,6 +1269,7 @@
             else if(tipo === 'hab') dbHabilidades = dbHabilidades.filter(x => x.id !== id);
             else if(tipo === 'magia') dbMagias = dbMagias.filter(x => x.id !== id);
             renderizarListas();
+            salvarESincronizar();
         }
     }
 
@@ -1351,56 +1333,23 @@
         if(profList) {
             profList.innerHTML = dbProficiencias.map(p => `
             <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>
+                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.95rem; color:#3e2723; padding:12px 15px; cursor:pointer;" onclick="abrirVisualizacao('prof', ${p.id})">${p.nome}</button>
                 <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 5px;" title="Usar Proficiência" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">🛠️</button>
-                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px 0 5px; line-height:1;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
+                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px 0 5px; line-height:1;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
             </div>`).join('');
         }
         
         const habList = document.getElementById('lista-habilidades');
         if(habList) {
             habList.innerHTML = dbHabilidades.map(h => `
-            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.9rem; color:#3e2723; padding:10px 12px; cursor:pointer;" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>
+            <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px; border-left-color:#673ab7;">
+                <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:0.95rem; color:#3e2723; padding:12px 15px; cursor:pointer;" onclick="abrirVisualizacao('hab', ${h.id})">${h.nome}</button>
                 <button type="button" style="background:transparent; border:none; color:#673ab7; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 5px;" title="Usar Habilidade" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
-                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 10px 0 5px; line-height:1;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
+                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.3rem; font-weight:bold; cursor:pointer; padding:0 15px 0 5px; line-height:1;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
             </div>`).join('');
         }
         
-        // MUNDO (Cascata na Ficha)
-        const guildaList = document.getElementById('lista-guildas');
-        if(guildaList) {
-            guildaList.innerHTML = dbGuildas.map(g => {
-                let membros = (g.membros || []).map(m => `
-                    <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #0d47a1; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                        <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">👤 ${m.nome}</button>
-                    </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('guilda', ${g.id})">🛡️ ${g.nome}</button><button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'guilda', ${g.id})">&times;</button></div>` + membros;
-            }).join('');
-        }
-
-        const locaisList = document.getElementById('lista-locais');
-        if(locaisList) {
-            locaisList.innerHTML = dbLocais.map(l => {
-                let pontos = (l.pontos || []).map(p => `
-                    <div class="item-btn" style="padding:0; display:flex; margin-left:20px; border-left:3px solid #2e7d32; background:rgba(255,255,255,0.4); margin-bottom:4px;">
-                        <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:bold; font-size:0.9rem; color:#3e2723; padding:8px; cursor:pointer;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">📍/👤 ${p.nome}</button>
-                    </div>`).join('');
-                return `<div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;"><button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('local', ${l.id})">📍 ${l.nome}</button><button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'local', ${l.id})">&times;</button></div>` + pontos;
-            }).join('');
-        }
-
-        const pessoasList = document.getElementById('lista-pessoas');
-        if(pessoasList) {
-            pessoasList.innerHTML = dbPessoas.map(p => `
-                <div class="item-btn" style="padding:0; display:flex; margin-bottom:4px;">
-                    <button type="button" style="flex:1; background:transparent; border:none; text-align:left; font-family:'Lora'; font-weight:900; font-size:1rem; color:#3e2723; padding:12px; cursor:pointer;" onclick="abrirVisualizacao('pessoa', ${p.id})">👤 ${p.nome}</button>
-                    <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.2rem; font-weight:bold; cursor:pointer; padding:0 15px;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})">&times;</button>
-                </div>`).join('');
-        }
-        
         renderizarMagias(); 
-        salvarFichaLocal();
     }
 
     function abrirModalAddPericia() { 
@@ -1559,6 +1508,7 @@
         
         dbInventario.push(newItem); 
         renderizarListas(); 
+        salvarESincronizar();
         fecharModais();
     }
 
@@ -1578,6 +1528,7 @@
                 arma.munAtual--; 
                 document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; 
                 renderizarListas(); 
+                salvarESincronizar();
             } else {
                 alert("Arma descarregada! Clique em RECARREGAR."); 
             }
@@ -1604,6 +1555,7 @@
         
         document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; 
         renderizarListas(); 
+        salvarESincronizar();
         alert(`Recarregada!`); 
     }
     
@@ -1614,6 +1566,7 @@
             if(item.munAtual < 0) item.munAtual = 0; 
             document.getElementById('mv-ammo-text').innerText = item.munAtual; 
             renderizarListas(); 
+            salvarESincronizar();
         } 
     }
 
@@ -1637,6 +1590,7 @@
         }
         
         renderizarListas(); 
+        salvarESincronizar();
         fecharModais(); 
     }
 
@@ -1672,6 +1626,7 @@
         }); 
         
         renderizarListas(); 
+        salvarESincronizar();
         fecharModais(); 
     }
 
@@ -1701,7 +1656,6 @@
         let cor = tipo == 'magia' ? '#0d47a1' : (tipo == 'prof' ? '#ff9100' : '#673ab7');
         let cat = tipo == 'magia' ? 'MAGIA' : (tipo == 'prof' ? 'PROFICIÊNCIA' : 'HABILIDADE');
 
-        // Cria o texto quebrando as linhas
         let detalhesLog = "";
         if (tipo === 'magia') {
             detalhesLog = `Círculo: ${item.circulo}º\nEscola: ${item.escola}\nExecução: ${item.execucao || '-'}\nAlcance: ${item.alcance || '-'}\nAlvo/Área: ${item.alvo || '-'}\nDuração: ${item.duracao || '-'}\nResistência: ${item.resistencia || '-'}\n\nEfeito:\n${item.desc || ""}`;
@@ -1754,9 +1708,7 @@
             }
             box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
 
-            // Converte os \n para <br> para forçar a quebra no HTML
             let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
-            
             let subtitulo = remetente ? `<div style="font-size: 0.9rem; color: #555; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${remetente} compartilhou</div>` : '';
 
             text.innerHTML = `
@@ -1775,31 +1727,14 @@
         } catch(e) {}
     }
 
-    // === RECEBE ROLAGENS (SEM TOAST NA FICHA, APENAS O POPUP SE FOR COMPARTILHAMENTO) ===
-    socket.on('player_dice_roll', function(roll) {
-        let salaAtual = document.getElementById('uid-input').value.trim().toUpperCase();
-        if(salaAtual && roll.uid && roll.uid.trim().toUpperCase() !== salaAtual) return;
-
-        // Se for a própria ficha que enviou, não faz nada (pois o pop-up local já abriu)
-        if (roll.idUnico === idUnicoFicha) return;
-
-        let isHabilidade = ['MAGIA', 'PROFICIÊNCIA', 'HABILIDADE', 'HABILIDADE DE MONSTRO'].includes(roll.categoria);
-        if (isHabilidade) {
-            mostrarPopupHabilidadeLocal(roll.playerName || 'Jogador', roll.nomeRolagem, roll.detalhes, roll.categoria, roll.corCategoria);
-        }
-    });
-
     function abrirVisualizacao(tipoLista, id) { 
         tipoContexto = tipoLista; 
         
         let lista = [];
         if(tipoLista == 'inv') lista = dbInventario;
         else if(tipoLista == 'prof') lista = dbProficiencias;
-        else if(tipoLista == 'guilda') lista = dbGuildas;
-        else if(tipoLista == 'local') lista = dbLocais;
-        else if(tipoLista == 'pessoa') lista = dbPessoas;
+        else if(tipoLista == 'hab') lista = dbHabilidades;
         else if(tipoLista == 'magia') lista = dbMagias;
-        else lista = dbHabilidades;
         
         let item = lista.find(x => x.id == id); 
         if(!item) return;
@@ -1823,26 +1758,6 @@
             imgEl.style.display = 'block'; 
         } else { 
             imgEl.style.display = 'none'; 
-        }
-
-        const subListContainer = document.getElementById('mv-subitems-list'); 
-        subListContainer.innerHTML = ''; 
-        subListContainer.style.display = 'none';
-        
-        if (tipoLista == 'guilda' && item.membros && item.membros.length > 0) {
-            subListContainer.style.display = 'flex'; 
-            subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">MEMBROS DA GUILDA</h4>';
-            item.membros.forEach(sub => { 
-                let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">👤</div>`; 
-                subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; 
-            });
-        } else if (tipoLista == 'local' && item.pontos && item.pontos.length > 0) {
-            subListContainer.style.display = 'flex'; 
-            subListContainer.innerHTML = '<h4 style="width:100%; font-family:Cinzel; margin-bottom:10px; color:#5c3a21; font-size:1rem; border-bottom:1px solid #c8b99e; padding-bottom:5px;">PONTOS DE INTERESSE / NPCs</h4>';
-            item.pontos.forEach(sub => { 
-                let img = sub.img ? `<img src="${sub.img}" style="width:35px; height:35px; border-radius:50%; object-fit:cover; margin-right:10px; border:1px solid #8b5a2b;">` : `<div style="width:35px; height:35px; border-radius:50%; background:rgba(234, 221, 197, 0.9); margin-right:10px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:1px solid #8b5a2b; color:#3e2723;">📍</div>`; 
-                subListContainer.innerHTML += `<div class="btn-subitem" onclick="abrirSubItem('${tipoLista}', ${item.id}, ${sub.id})">${img}<span style="font-weight:bold; font-family:Lora;">${sub.nome}</span></div>`; 
-            });
         }
 
         const boxArma = document.getElementById('mv-actions-dist'); 
@@ -1879,43 +1794,16 @@
             }
         }
 
-        const btnApagar = document.querySelector('#modal-view .btn-apagar');
-        if (['guilda', 'local', 'pessoa', 'prof', 'hab', 'magia'].includes(tipoLista)) {
-            if(btnApagar) btnApagar.style.display = 'none';
-        } else {
-            if(btnApagar) btnApagar.style.display = 'block';
-        }
-
         document.getElementById('modal-view').style.display = 'flex'; 
-    }
-
-    function abrirSubItem(tipoParent, parentId, subId) {
-        currentParentContext = { tipo: tipoParent, id: parentId }; 
-        currentSubItemId = subId;
-        
-        let parentObj = (tipoParent == 'guilda' ? dbGuildas : dbLocais).find(x => x.id == parentId);
-        if(!parentObj) return;
-        
-        let subObj = (tipoParent == 'guilda' ? parentObj.membros : parentObj.pontos).find(x => x.id == subId);
-        if(!subObj) return;
-        
-        document.getElementById('ms-nome').value = subObj.nome; 
-        document.getElementById('ms-desc').value = subObj.desc || '';
-        
-        tempSubImgBase64 = subObj.img || '';
-        if(tempSubImgBase64) { 
-            document.getElementById('ms-img-preview').src = tempSubImgBase64; 
-            document.getElementById('ms-img-preview-container').style.display = 'block'; 
-        } else { 
-            document.getElementById('ms-img-preview-container').style.display = 'none'; 
-        }
-        
-        document.getElementById('modal-personagem').style.display = 'flex';
     }
 
     function apagarItemAberto() { 
         if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); 
+        else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
+        else if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
+        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
         renderizarListas(); 
+        salvarESincronizar();
         fecharModais(); 
     }
 
