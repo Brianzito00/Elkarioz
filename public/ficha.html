@@ -468,20 +468,14 @@
                 <div style="margin-top: 30px;">
                     <div class="list-section-title" style="color:#5c3a21; border-bottom: 2px dashed rgba(139,90,43,0.4); padding-bottom:5px;">ARMAS EQUIPADAS</div>
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-bottom: 25px;">(Vá na aba "Mochila" para equipar armas)</p>
                 </div>
 
-                <div style="margin-top: 20px; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 8px; border: 1px solid #c8b99e;">
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">USO RÁPIDO</div>
-                    <div style="display: flex; gap: 5px; margin-top: 15px;">
-                        <select id="quick-hab-select" class="form-input" style="flex: 1; padding: 8px; font-size: 0.85rem; margin-bottom: 0;">
-                            <option value="">Selecione para usar...</option>
-                        </select>
-                        <button type="button" class="btn-acao purple" style="width:auto; padding: 8px 15px;" onclick="usarHabSuspensa()">✨ USAR</button>
-                    </div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Crie as habilidades na aba Grimório)</p>
+                <div style="margin-top: 30px;">
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES RÁPIDAS</div>
+                    <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
+                    <div id="lista-habilidades-principal"></div>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Gerencie no Grimório)</p>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1249,7 +1243,6 @@
 
         renderizarPericias();
         sincronizarComMestre();
-        atualizarSelectHabRapida();
     }
 
     function atualizarBarras() {
@@ -1450,42 +1443,6 @@
             renderizarListas();
             salvarESincronizar();
         }
-    }
-
-    function atualizarSelectHabRapida() {
-        const select = document.getElementById('quick-hab-select');
-        if (!select) return;
-        
-        let html = '<option value="">Selecione para usar...</option>';
-        
-        if (dbHabilidades.length > 0) {
-            html += '<optgroup label="Habilidades">';
-            dbHabilidades.forEach(h => html += `<option value="hab-${h.id}">${h.nome}</option>`);
-            html += '</optgroup>';
-        }
-        
-        if (dbProficiencias.length > 0) {
-            html += '<optgroup label="Proficiências / Ferramentas">';
-            dbProficiencias.forEach(p => html += `<option value="prof-${p.id}">${p.nome}</option>`);
-            html += '</optgroup>';
-        }
-
-        if (dbMagias.length > 0) {
-            html += '<optgroup label="Magias (Grimório)">';
-            dbMagias.forEach(m => html += `<option value="magia-${m.id}">${m.nome}</option>`);
-            html += '</optgroup>';
-        }
-        
-        select.innerHTML = html;
-    }
-
-    function usarHabSuspensa() {
-        let val = document.getElementById('quick-hab-select').value;
-        if (!val) return alert("Selecione uma habilidade ou magia na lista!");
-        let partes = val.split('-');
-        let tipo = partes[0];
-        let id = parseInt(partes[1]);
-        usarHabilidadeAction(tipo, id);
     }
 
     function renderizarListas() {
