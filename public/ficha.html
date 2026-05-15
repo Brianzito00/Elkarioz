@@ -54,7 +54,34 @@
             border-bottom: 2px dashed rgba(139, 90, 43, 0.5); margin: 25px 0; width: 100%;
         }
 
-        input, select, textarea, button { font-family: 'Lora', serif; outline: none; border: 1px solid #8b5a2b;}
+        /* === PADRÃO DE SLOTS / INPUTS (NOVO DESIGN) === */
+        input, select, textarea, button { font-family: 'Lora', serif; outline: none;}
+        
+        .input-wrapper { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .input-wrapper label { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #5c3a21; text-transform: uppercase; margin-left: 2px; }
+        
+        .form-input { 
+            padding: 12px 15px; 
+            border: 2px solid #8b5a2b; 
+            border-radius: 6px; 
+            background-color: #fffaf0; 
+            font-family: 'Lora', serif; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            color: #3e2723; 
+            width: 100%; 
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); 
+            transition: all 0.3s ease;
+        }
+        .form-input:focus { 
+            border-color: #b71c1c; 
+            outline: none; 
+            box-shadow: inset 0 2px 4px rgba(183, 28, 28, 0.1), 0 0 8px rgba(183, 28, 28, 0.3); 
+            background-color: #fff;
+        }
+        .form-input::placeholder { color: rgba(139, 90, 43, 0.5); font-weight: normal;}
+
+        select.form-input { cursor: pointer; }
         
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
@@ -70,29 +97,21 @@
         #portrait-img { width: 100%; height: 100%; object-fit: cover; }
         #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
         
-        .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-start; }
+        .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-end; }
         
-        .campo-rpg { display: flex; flex-direction: column; flex: 1; }
-        .campo-rpg input, .campo-rpg select { 
-            border: 2px solid #000; font-family: 'Lora', serif; font-weight: 900; font-size: 1.1rem; padding: 0 12px; 
-            height: 42px; width: 100%; background: #fdfbf7; color: #000; border-radius: 2px;
-        }
-        .campo-rpg label { 
-            font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #3e2723; font-weight: 900; 
-            text-transform: uppercase; margin-top: 4px; margin-left: 2px; 
-        }
+        .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-end; }
+        .uid-especial { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #5c3a21; text-transform: uppercase; font-size: 1.2rem; font-weight: 900;}
         
-        /* SALA UID */
-        .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-start; }
-        .campo-uid input { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #8b5a2b; text-transform: uppercase; font-size: 1.3rem;}
-        
-        .btn-entrar { 
-            background-color: #b71c1c; color: #fff; border: 2px solid #3e2723; border-radius: 4px; 
-            padding: 0 15px; font-family: 'Cinzel'; font-weight: 900; cursor: pointer; transition: 0.2s; 
-            height: 42px; display: flex; align-items: center; justify-content: center;
-        }
-        .btn-entrar:hover { background-color: #ff9100; color: #3e2723; }
+        /* === BOTÕES === */
+        .btn-acao { background: linear-gradient(to bottom, #795548, #5c3a21); color: #fff; border: 2px solid #3e2723; border-radius: 6px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-shadow: 1px 1px 2px #000; letter-spacing: 1px;}
+        .btn-acao:hover { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.4);}
+        .btn-acao:active { transform: translateY(1px); }
+        .btn-acao.red { background: linear-gradient(to bottom, #d32f2f, #b71c1c); border-color: #7f0000; }
+        .btn-acao.green { background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #1b5e20; }
+        .btn-acao.blue { background: linear-gradient(to bottom, #1e88e5, #0d47a1); border-color: #002171; }
+
+        .btn-entrar { height: 46px; border-radius: 6px; padding: 0 20px; flex-shrink: 0; }
 
         /* === ABAS NAVEGAÇÃO === */
         .tabs-nav { display: flex; gap: 5px; margin-bottom: 25px; border-bottom: 2px solid #8b5a2b; flex-wrap: wrap; padding-bottom: 0; }
@@ -223,26 +242,15 @@
 
         /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
-        .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto; }
-        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; transition: 0.2s;}
+        .modal-content { background: linear-gradient(to bottom, #fdfbf7, #eaddc4); border: 4px solid #8b5a2b; padding: 35px; width: 95%; max-width: 650px; border-radius: 12px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.9); margin: auto; }
+        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.5rem; cursor: pointer; color: #8b5a2b; font-weight: bold; transition: 0.2s;}
         .fechar-modal:hover { color: #b71c1c; transform: scale(1.2); }
         
-        .modal-tabs { display: flex; justify-content: space-around; margin-bottom: 15px; border-bottom: 2px solid rgba(139, 90, 43, 0.3); }
-        .modal-tab-btn { padding: 8px 4px; cursor: pointer; font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; border: none; background: transparent; color: #8b5a2b; transition: 0.2s; }
+        .modal-tabs { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid rgba(139, 90, 43, 0.3); }
+        .modal-tab-btn { padding: 10px 5px; cursor: pointer; font-family: 'Cinzel'; font-weight: bold; font-size: 0.95rem; border: none; background: transparent; color: #8b5a2b; transition: 0.2s; }
         .modal-tab-btn:hover { color: #b71c1c; }
         .modal-tab-btn.active { color: #b71c1c; border-bottom: 3px solid #b71c1c; }
         
-        .form-group { margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .btn-salvar { width: 100%; background: #5c3a21; color: #fff; padding: 15px; cursor: pointer; border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; border-radius: 4px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;}
-        .btn-salvar:hover { background: #b71c1c; transform: translateY(-2px); }
-        
-        .btn-apagar { background: rgba(183, 28, 28, 0.9); margin-top: 10px; }
-        .btn-apagar:hover { background: #7f0000; }
-        .btn-disparar { background: rgba(230, 81, 0, 0.9); flex: 1; margin-top: 0; }
-        .btn-disparar:hover { background: #bf360c; }
-        .btn-recarregar { background: rgba(13, 71, 161, 0.9); flex: 1; margin-top: 0; }
-        .btn-recarregar:hover { background: #002171; }
-
         /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
@@ -306,9 +314,9 @@
 <div class="ficha-container">
     
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
-        <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #2e7d32;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
-        <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #0d47a1;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
-        <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; background: #5c3a21; cursor: pointer; margin: 0;">
+        <button type="button" class="btn-acao green" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
+        <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
+        <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
             <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importarFicha(event)">
         </label>
@@ -323,18 +331,24 @@
         <div class="header-info-grid">
             <div class="header-row">
                 <div class="campo-rpg" style="flex: 2;">
-                    <input type="text" id="char-name-input" oninput="sincronizarComMestre()">
-                    <label>Personagem</label>
+                    <div class="input-wrapper">
+                        <label>Personagem</label>
+                        <input type="text" id="char-name-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Nome do Herói">
+                    </div>
                 </div>
                 <div class="campo-rpg" style="flex: 1;">
-                    <input type="text" id="player-name-input" oninput="sincronizarComMestre()">
-                    <label>Jogador(a)</label>
+                    <div class="input-wrapper">
+                        <label>Jogador(a)</label>
+                        <input type="text" id="player-name-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Seu Nome">
+                    </div>
                 </div>
                 
                 <div class="campo-uid-container">
                     <div class="campo-rpg campo-uid" style="flex: 1;">
-                        <input type="text" id="uid-input" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
-                        <label>SALA / UID DO MESTRE</label>
+                        <div class="input-wrapper">
+                            <label>SALA / UID DO MESTRE</label>
+                            <input type="text" id="uid-input" class="form-input uid-especial" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
+                        </div>
                     </div>
                     <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
                 </div>
@@ -342,30 +356,38 @@
             
             <div class="header-row">
                 <div class="campo-rpg" style="flex: 1.5;">
-                    <select id="raca-input" onchange="sincronizarComMestre()">
-                        <option value="">Selecione...</option>
-                        <option value="Humano">Humano</option><option value="Anão">Anão</option><option value="Elfo">Elfo</option>
-                        <option value="Goblin">Goblin</option><option value="Minotauro">Minotauro</option><option value="Golem">Golem</option>
-                        <option value="Hynne">Hynne</option><option value="Osteon">Osteon</option><option value="Sereia/Tritão">Sereia/Tritão</option><option value="Trog">Trog</option>
-                    </select>
-                    <label>Raça</label>
+                    <div class="input-wrapper">
+                        <label>Raça</label>
+                        <select id="raca-input" class="form-input" onchange="sincronizarComMestre()">
+                            <option value="">Selecione...</option>
+                            <option value="Humano">Humano</option><option value="Anão">Anão</option><option value="Elfo">Elfo</option>
+                            <option value="Goblin">Goblin</option><option value="Minotauro">Minotauro</option><option value="Golem">Golem</option>
+                            <option value="Hynne">Hynne</option><option value="Osteon">Osteon</option><option value="Sereia/Tritão">Sereia/Tritão</option><option value="Trog">Trog</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="campo-rpg" style="flex: 1.5;">
-                    <input type="text" id="classe-input" oninput="sincronizarComMestre()">
-                    <label>Classe / Origem</label>
+                    <div class="input-wrapper">
+                        <label>Classe / Origem</label>
+                        <input type="text" id="classe-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Ex: Guerreiro">
+                    </div>
                 </div>
-                <div class="campo-rpg" style="flex: 0.5; max-width: 80px;">
-                    <select id="nivel" onchange="recalcularTudo()">
-                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                        <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-                        <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                        <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
-                    </select>
-                    <label>Nível</label>
+                <div class="campo-rpg" style="flex: 0.5; max-width: 90px;">
+                    <div class="input-wrapper">
+                        <label>Nível</label>
+                        <select id="nivel" class="form-input" onchange="recalcularTudo()">
+                            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                            <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                            <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                            <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="campo-rpg" style="flex: 1.5;">
-                    <input type="text" id="divindade-input" oninput="sincronizarComMestre()">
-                    <label>Divindade</label>
+                    <div class="input-wrapper">
+                        <label>Divindade</label>
+                        <input type="text" id="divindade-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Ex: Valkaria">
+                    </div>
                 </div>
             </div>
         </div>
@@ -445,7 +467,7 @@
                 <div style="margin-top: 30px;">
                     <div class="list-section-title" style="color:#5c3a21; border-bottom: 2px dashed rgba(139,90,43,0.4); padding-bottom:5px;">ARMAS EQUIPADAS</div>
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b;">(Vá na aba "Mochila" para equipar armas)</p>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b;">(Vá na aba "Mochila" para criar e equipar armas)</p>
                 </div>
             </div>
         </div>
@@ -473,7 +495,7 @@
                 </div>
 
                 <div style="text-align:center; margin-bottom:25px;">
-                    <button type="button" class="btn-salvar" style="width:300px; margin:0 auto;" onclick="abrirModalInv()">+ CRIAR ITEM / ARMA</button>
+                    <button type="button" class="btn-acao blue" style="width:300px; margin:0 auto; padding: 15px; font-size: 1.1rem;" onclick="abrirModalInv()">➕ CRIAR ITEM / ARMA</button>
                 </div>
                 <div id="grid-inventario" class="pericias-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));"></div>
             </div>
@@ -496,8 +518,8 @@
             <div class="box-rpg" style="border-top-color: #673ab7; padding: 25px;">
                 <h2 class="section-title" style="color: #4527a0;">HABILIDADES DE CLASSE</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button type="button" class="btn-acao" style="background:#5c3a21;" onclick="abrirModalHab('prof')">+ PROFICIÊNCIA</button>
-                    <button type="button" class="btn-acao" style="background:#673ab7;" onclick="abrirModalHab('hab')">+ HABILIDADE</button>
+                    <button type="button" class="btn-acao" style="background:#5c3a21;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
+                    <button type="button" class="btn-acao" style="background:#673ab7;" onclick="abrirModalHab('hab')">➕ HABILIDADE</button>
                 </div>
                 
                 <h3 style="font-family:'Cinzel'; font-size:1rem; color:#5c3a21; border-bottom:1px solid #c8b99e; margin-bottom:10px;">Proficiências / Ferramentas</h3>
@@ -511,11 +533,11 @@
                 <h2 class="section-title" style="color: #0d47a1;">GRIMÓRIO DE MAGIAS</h2>
                 
                 <div style="text-align:center; margin-bottom:20px;">
-                    <button type="button" class="btn-acao blue" style="width:100%;" onclick="abrirModalMagia()">🔮 APRENDER NOVA MAGIA</button>
+                    <button type="button" class="btn-acao blue" style="width:100%; padding: 15px; font-size:1.1rem;" onclick="abrirModalMagia()">🔮 APRENDER NOVA MAGIA</button>
                 </div>
                 
-                <div style="background:rgba(234, 221, 197, 0.5); padding:10px; border-radius:6px; border:1px solid #c8b99e; margin-bottom:20px; text-align:center;">
-                    <div style="font-family:'Cinzel'; font-size:0.8rem; font-weight:bold; color:#5c3a21; margin-bottom:5px;">Filtro por Escola:</div>
+                <div style="background:rgba(234, 221, 197, 0.5); padding:15px; border-radius:8px; border:1px dashed #c8b99e; margin-bottom:20px; text-align:center;">
+                    <div style="font-family:'Cinzel'; font-size:0.85rem; font-weight:bold; color:#5c3a21; margin-bottom:10px;">Filtro por Escola:</div>
                     <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;">
                         <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Abj</button>
                         <button type="button" class="escola-badge" onclick="this.classList.toggle('active')">Adiv</button>
@@ -543,7 +565,7 @@
 <div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title">Novo Item</h3>
+        <h3 class="section-title">NOVO ITEM / ARMA</h3>
         
         <div class="modal-tabs">
             <button type="button" class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
@@ -552,90 +574,106 @@
             <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
         </div>
         
-        <input type="text" id="mi-nome" placeholder="Nome do Item / Arma / Munição" class="form-input" style="margin-bottom:12px;">
+        <div class="input-wrapper" style="margin-bottom:15px;">
+            <label>Nome do Item / Arma / Munição</label>
+            <input type="text" id="mi-nome" placeholder="Ex: Espada Longa" class="form-input">
+        </div>
         
-        <div style="display:flex; gap:15px; margin-bottom:12px; align-items:center; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px; border: 1px dashed #8b5a2b;">
-            <div style="flex:1;">
-                <label style="font-size:0.7rem; font-weight:bold;">URL DA IMAGEM (Opcional)</label>
-                <input type="text" id="mi-img" class="form-input" placeholder="http://..." style="padding: 8px; font-size: 0.85rem; margin-bottom:0;" oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
+        <div style="display:flex; gap:15px; margin-bottom:15px; align-items:center; background: rgba(0,0,0,0.03); padding: 15px; border-radius: 6px; border: 1px dashed #8b5a2b;">
+            <div class="input-wrapper" style="flex:1;">
+                <label>URL DA IMAGEM (Opcional)</label>
+                <input type="text" id="mi-img" class="form-input" placeholder="http://..." oninput="atualizarPreview('mi-img', 'mi-img-preview', 'mi-img-preview-container')">
             </div>
-            <div id="mi-img-preview-container" style="width: 50px; height: 50px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('mi-img-preview').src)">
+            <div id="mi-img-preview-container" style="width: 55px; height: 55px; border: 2px solid #8b5a2b; border-radius: 6px; overflow: hidden; display: none; flex-shrink:0; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('mi-img-preview').src)">
                 <img id="mi-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
 
-        <div id="mi-mun-link-box" style="display:none; margin-bottom:12px; background: rgba(183, 28, 28, 0.1); border: 1px solid #b71c1c; padding: 10px; border-radius: 4px;">
-            <label style="font-size:0.7rem; font-weight:bold; color:#b71c1c;">QUAL MUNIÇÃO ESTA ARMA DISPARA?</label>
-            <input type="text" id="mi-mun-nome" placeholder="Ex: Balas Leves, Flechas..." class="form-input" style="margin-top:5px; margin-bottom:0; border-color:#b71c1c;">
-            <span style="font-size:0.65rem; color:#3e2723; display:block; margin-top:4px;">* O nome precisa ser igual ao do item de munição criado.</span>
+        <div id="mi-mun-link-box" style="display:none; margin-bottom:15px; background: rgba(183, 28, 28, 0.05); border: 1px solid #b71c1c; padding: 15px; border-radius: 6px;">
+            <div class="input-wrapper">
+                <label style="color:#b71c1c;">QUAL MUNIÇÃO ESTA ARMA DISPARA?</label>
+                <input type="text" id="mi-mun-nome" placeholder="Ex: Balas Leves, Flechas..." class="form-input" style="border-color:#b71c1c;">
+                <span style="font-size:0.7rem; color:#3e2723; margin-top:2px;">* O nome precisa ser igual ao do item de munição criado.</span>
+            </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-            <div style="flex:1; min-width:20%;">
-                <label style="font-size:0.7rem; font-weight:bold;">ESPAÇOS</label>
-                <input type="number" id="mi-peso" value="1" step="0.5" class="form-input" style="text-align:center; margin-bottom:0;">
+        <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap;">
+            <div class="input-wrapper" style="flex:1; min-width:80px;">
+                <label>ESPAÇOS</label>
+                <input type="number" id="mi-peso" value="1" step="0.5" class="form-input" style="text-align:center;">
             </div>
-            <div style="flex:1; min-width: 30%;">
-                <label style="font-size:0.7rem; font-weight:bold;">RARIDADE</label>
-                <select id="mi-raridade" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;">
+            <div class="input-wrapper" style="flex:1; min-width: 120px;">
+                <label>RARIDADE</label>
+                <select id="mi-raridade" class="form-input" style="text-align:center;">
                     <option value="Normal">Normal</option><option value="Incomum">Incomum</option><option value="Raro">Raro</option><option value="Único">Único</option><option value="Lendário">Lendário</option>
                 </select>
             </div>
-            <div class="arma-field" style="flex:1; min-width:35%; display:none;">
-                <label style="font-size:0.7rem; font-weight:bold;">PERÍCIA LIGADA</label>
-                <select id="mi-pericia" class="form-input" style="padding: 7px; font-size: 0.8rem; text-align:center; margin-bottom:0;"></select>
+            <div class="input-wrapper arma-field" style="flex:1; min-width:140px; display:none;">
+                <label>PERÍCIA LIGADA</label>
+                <select id="mi-pericia" class="form-input" style="text-align:center;"></select>
             </div>
-            <div class="arma-field" style="flex:1; min-width:20%; display:none;">
-                <label style="font-size:0.7rem; font-weight:bold;">DANO</label>
-                <input type="text" id="mi-dano" placeholder="Ex: 1d8" class="form-input" style="text-align:center; margin-bottom:0;">
+            <div class="input-wrapper arma-field" style="flex:1; min-width:90px; display:none;">
+                <label>DANO</label>
+                <input type="text" id="mi-dano" placeholder="Ex: 1d8" class="form-input" style="text-align:center;">
             </div>
-            <div class="arma-field" style="flex:1; min-width:20%; display:none;">
-                <label style="font-size:0.7rem; font-weight:bold;">CRÍTICO</label>
-                <input type="text" id="mi-crit" placeholder="Ex: x2, 19" class="form-input" style="text-align:center; margin-bottom:0;">
+            <div class="input-wrapper arma-field" style="flex:1; min-width:90px; display:none;">
+                <label>CRÍTICO</label>
+                <input type="text" id="mi-crit" placeholder="Ex: x2, 19" class="form-input" style="text-align:center;">
             </div>
-            <div id="mi-mun-container" style="flex:1; min-width:20%; display:none;">
-                <label style="font-size:0.7rem; font-weight:bold;" id="lbl-capacidade">CAPACIDADE MÁX</label>
-                <input type="number" id="mi-mun" value="6" class="form-input" style="text-align:center; margin-bottom:0;">
+            <div class="input-wrapper" id="mi-mun-container" style="flex:1; min-width:120px; display:none;">
+                <label id="lbl-capacidade">CAPACIDADE MÁX</label>
+                <input type="number" id="mi-mun" value="6" class="form-input" style="text-align:center;">
             </div>
         </div>
         
-        <div class="arma-field-row" style="display:none; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-            <div style="flex:1; min-width: 45%;">
-                <label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label>
-                <input type="text" id="mi-alc" placeholder="Curto" class="form-input" style="margin-bottom:0;">
+        <div class="arma-field-row" style="display:none; gap:15px; margin-bottom:15px; flex-wrap:wrap;">
+            <div class="input-wrapper" style="flex:1; min-width: 45%;">
+                <label>ALCANCE</label>
+                <input type="text" id="mi-alc" placeholder="Ex: Curto" class="form-input">
             </div>
-            <div style="flex:1; min-width: 45%;">
-                <label style="font-size:0.7rem; font-weight:bold;">TIPO DE DANO</label>
-                <input type="text" id="mi-tipo" placeholder="Corte" class="form-input" style="margin-bottom:0;">
+            <div class="input-wrapper" style="flex:1; min-width: 45%;">
+                <label>TIPO DE DANO</label>
+                <input type="text" id="mi-tipo" placeholder="Ex: Corte" class="form-input">
             </div>
         </div>
-        <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais" class="form-input" style="height:60px; resize:none;"></textarea>
-        <button type="button" class="btn-salvar" onclick="salvarItemInv()">ADICIONAR AO INVENTÁRIO</button>
+        
+        <div class="input-wrapper" style="margin-bottom: 25px;">
+            <label>DESCRIÇÃO</label>
+            <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais do item..." class="form-input" style="height:80px; resize:vertical;"></textarea>
+        </div>
+        
+        <button type="button" class="btn-acao blue" style="padding: 15px; font-size: 1.1rem;" onclick="salvarItemInv()">✔️ ADICIONAR AO INVENTÁRIO</button>
     </div>
 </div>
 
 <div id="modal-pericia" class="modal-overlay" onclick="fecharModais()">
-    <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-content" style="max-width: 400px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mp-nome">Perícia</h3>
-        <div class="form-group"><span style="font-size: 0.9rem; font-weight:bold; font-family:'Roboto';">Treinado na Perícia?</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
-        <div class="form-group"><span style="font-size: 0.9rem; font-weight:bold; font-family:'Roboto';">Bônus Extra Temporário:</span><input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:80px; text-align:center; margin-bottom:0; padding:8px;"></div>
-        <div style="text-align:center; font-weight:900; margin-top:20px; font-size:1.3rem; font-family:'Cinzel';">TOTAL A ROLAR: <span id="mp-total" style="color:#b71c1c; font-size:1.8rem;">0</span></div>
-        <button type="button" class="btn-apagar btn-salvar" id="btn-remover-pericia" style="display:none; width:100%; margin-top:25px;" onclick="removerPericiaAberta()">🗑️ REMOVER PERÍCIA CUSTOMIZADA</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding: 15px; background:rgba(0,0,0,0.05); border-radius:6px; border:1px solid #c8b99e;">
+            <span style="font-size: 1rem; font-weight:bold; font-family:'Roboto'; color:#3e2723;">Treinado na Perícia?</span>
+            <input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.8); cursor:pointer;">
+        </div>
+        <div class="input-wrapper" style="margin-bottom:20px; align-items:center;">
+            <label style="font-size: 0.9rem;">Bônus Extra Temporário:</label>
+            <input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:100px; text-align:center; font-size:1.3rem;">
+        </div>
+        <div style="text-align:center; font-weight:900; margin-top:25px; margin-bottom:15px; font-size:1.4rem; font-family:'Cinzel'; color:#5c3a21; border-top:2px dashed rgba(139,90,43,0.4); padding-top:15px;">TOTAL A ROLAR: <span id="mp-total" style="color:#b71c1c; font-size:2rem; margin-left:10px;">0</span></div>
+        <button type="button" class="btn-acao red" id="btn-remover-pericia" style="display:none; width:100%; padding: 15px;" onclick="removerPericiaAberta()">🗑️ REMOVER PERÍCIA CUSTOMIZADA</button>
     </div>
 </div>
 
 <div id="modal-add-pericia" class="modal-overlay" onclick="fecharModais()">
-    <div class="modal-content" style="max-width: 400px;" onclick="event.stopPropagation()">
+    <div class="modal-content" style="max-width: 450px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">NOVA PERÍCIA</h3>
-        <div class="form-group-modal" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
-            <label style="font-size: 0.75rem; font-weight: bold; font-family: 'Roboto'; color: #4a2f1d;">Nome da Perícia</label>
-            <input type="text" id="nova-pericia-nome" class="form-input" placeholder="Ex: Sobrevivência Urbana" style="margin-bottom: 0;">
+        <div class="input-wrapper" style="margin-bottom: 15px;">
+            <label>NOME DA PERÍCIA</label>
+            <input type="text" id="nova-pericia-nome" class="form-input" placeholder="Ex: Sobrevivência Urbana">
         </div>
-        <div class="form-group-modal" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 25px;">
-            <label style="font-size: 0.75rem; font-weight: bold; font-family: 'Roboto'; color: #4a2f1d;">Atributo Ligado</label>
-            <select id="nova-pericia-attr" class="form-input" style="margin-bottom: 0; padding: 10px;">
+        <div class="input-wrapper" style="margin-bottom: 25px;">
+            <label>ATRIBUTO LIGADO</label>
+            <select id="nova-pericia-attr" class="form-input">
                 <option value="forca">Força (FOR)</option>
                 <option value="agilidade">Agilidade (AGI)</option>
                 <option value="vigor">Vigor (VIG)</option>
@@ -644,51 +682,79 @@
                 <option value="carisma">Carisma (CAR)</option>
             </select>
         </div>
-        <button type="button" class="btn-salvar" onclick="salvarNovaPericia()">ADICIONAR</button>
+        <button type="button" class="btn-acao green" style="padding: 15px; font-size:1.1rem;" onclick="salvarNovaPericia()">✔️ ADICIONAR PERÍCIA</button>
     </div>
 </div>
 
 <div id="modal-hab" class="modal-overlay" onclick="fecharModais()">
-    <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-content" style="max-width: 500px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mh-titulo">Novo</h3>
-        <input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
-        <textarea id="mh-desc" placeholder="Descrição da habilidade ou proficiência..." class="form-input" style="height:120px; resize:vertical;"></textarea>
-        <button type="button" class="btn-salvar" onclick="salvarHab()">SALVAR</button>
+        <div class="input-wrapper" style="margin-bottom: 15px;">
+            <label>NOME</label>
+            <input type="text" id="mh-nome" placeholder="Ex: Fúria de Combate" class="form-input">
+        </div>
+        <div class="input-wrapper" style="margin-bottom: 25px;">
+            <label>DESCRIÇÃO</label>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+        </div>
+        <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
 </div>
 
 <div id="modal-magia-add" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title" style="color:#0d47a1;">APRENDER MAGIA</h3>
-        <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:15px; border-color:#0d47a1; font-size:1.2rem;">
+        <h3 class="section-title" style="color:#0d47a1; border-bottom-color: rgba(13, 71, 161, 0.4);">APRENDER MAGIA</h3>
         
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <div style="flex:1;">
-                <label style="font-size:0.7rem; font-weight:bold; color:#0d47a1;">CÍRCULO</label>
-                <select id="mm-circulo" class="form-input" style="padding: 10px; font-size: 1rem; text-align:center; margin-bottom:0;">
+        <div class="input-wrapper" style="margin-bottom: 15px;">
+            <label style="color:#0d47a1;">NOME DA MAGIA</label>
+            <input type="text" id="mm-nome" placeholder="Ex: Bola de Fogo" class="form-input" style="border-color:#0d47a1; font-size:1.2rem;">
+        </div>
+        
+        <div style="display:flex; gap:15px; margin-bottom:15px;">
+            <div class="input-wrapper" style="flex:1;">
+                <label style="color:#0d47a1;">CÍRCULO</label>
+                <select id="mm-circulo" class="form-input" style="border-color:#0d47a1; text-align:center;">
                     <option value="1">1º Círculo</option><option value="2">2º Círculo</option><option value="3">3º Círculo</option><option value="4">4º Círculo</option><option value="5">5º Círculo</option>
                 </select>
             </div>
-            <div style="flex:2;">
-                <label style="font-size:0.7rem; font-weight:bold; color:#0d47a1;">ESCOLA</label>
-                <select id="mm-escola" class="form-input" style="padding: 10px; font-size: 1rem; margin-bottom:0;">
+            <div class="input-wrapper" style="flex:2;">
+                <label style="color:#0d47a1;">ESCOLA</label>
+                <select id="mm-escola" class="form-input" style="border-color:#0d47a1;">
                     <option value="Abjuração">Abjuração</option><option value="Adivinhação">Adivinhação</option><option value="Convocação">Convocação</option><option value="Encantamento">Encantamento</option><option value="Evocação">Evocação</option><option value="Ilusão">Ilusão</option><option value="Necromancia">Necromancia</option><option value="Transmutação">Transmutação</option>
                 </select>
             </div>
         </div>
         
-        <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">EXECUÇÃO</label><input type="text" id="mm-execucao" placeholder="Ex: Padrão" class="form-input" style="margin-bottom:0; padding:8px;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALCANCE</label><input type="text" id="mm-alcance" placeholder="Ex: Curto" class="form-input" style="margin-bottom:0; padding:8px;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">ALVO / ÁREA</label><input type="text" id="mm-alvo" placeholder="Ex: 1 criatura" class="form-input" style="margin-bottom:0; padding:8px;"></div>
-            <div style="flex:1; min-width:45%;"><label style="font-size:0.7rem; font-weight:bold;">DURAÇÃO</label><input type="text" id="mm-duracao" placeholder="Ex: Cena" class="form-input" style="margin-bottom:0; padding:8px;"></div>
-            <div style="flex:1; min-width:100%;"><label style="font-size:0.7rem; font-weight:bold;">TESTE DE RESISTÊNCIA</label><input type="text" id="mm-resistencia" placeholder="Ex: Fortitude reduz à metade" class="form-input" style="margin-bottom:0; padding:8px;"></div>
+        <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap;">
+            <div class="input-wrapper" style="flex:1; min-width:45%;">
+                <label>EXECUÇÃO</label>
+                <input type="text" id="mm-execucao" placeholder="Ex: Padrão" class="form-input">
+            </div>
+            <div class="input-wrapper" style="flex:1; min-width:45%;">
+                <label>ALCANCE</label>
+                <input type="text" id="mm-alcance" placeholder="Ex: Curto" class="form-input">
+            </div>
+            <div class="input-wrapper" style="flex:1; min-width:45%;">
+                <label>ALVO / ÁREA</label>
+                <input type="text" id="mm-alvo" placeholder="Ex: 1 criatura" class="form-input">
+            </div>
+            <div class="input-wrapper" style="flex:1; min-width:45%;">
+                <label>DURAÇÃO</label>
+                <input type="text" id="mm-duracao" placeholder="Ex: Cena" class="form-input">
+            </div>
+            <div class="input-wrapper" style="flex:1; min-width:100%;">
+                <label>TESTE DE RESISTÊNCIA</label>
+                <input type="text" id="mm-resistencia" placeholder="Ex: Fortitude reduz à metade" class="form-input">
+            </div>
         </div>
         
-        <textarea id="mm-desc" placeholder="Efeito da magia, Aprimoramentos, Dano..." class="form-input" style="height:120px; resize:vertical; margin-bottom:20px;"></textarea>
-        <button type="button" class="btn-salvar" style="background:#0d47a1;" onclick="salvarMagia()">ADICIONAR MAGIA</button>
+        <div class="input-wrapper" style="margin-bottom: 25px;">
+            <label>DESCRIÇÃO E EFEITOS</label>
+            <textarea id="mm-desc" placeholder="Efeito da magia, Aprimoramentos, Dano..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+        </div>
+        <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarMagia()">✔️ ADICIONAR MAGIA</button>
     </div>
 </div>
 
@@ -700,28 +766,28 @@
             <h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3>
         </div>
         
-        <div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:4px; border:1px solid #8b5a2b;">
-            <div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div>
+        <div id="mv-actions-dist" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:8px; border:1px dashed #8b5a2b;">
+            <div style="text-align:center; font-family:'Cinzel'; font-weight:900; font-size:1.2rem; margin-bottom:5px; color:#3e2723;">MUNIÇÃO CARREGADA: <span id="mv-loaded-ammo" style="color:#b71c1c;">0 / 0</span></div>
             <div style="display:flex; gap:10px;">
-                <button type="button" class="btn-salvar btn-disparar" onclick="dispararArma()">💥 DISPARAR</button>
-                <button type="button" class="btn-salvar btn-recarregar" onclick="recarregarArma()">🔄 RECARREGAR</button>
+                <button type="button" class="btn-acao red" onclick="dispararArma()">💥 DISPARAR</button>
+                <button type="button" class="btn-acao blue" onclick="recarregarArma()">🔄 RECARREGAR</button>
             </div>
         </div>
 
         <div id="mv-actions-hab" style="display:none; flex-direction:column; gap:10px; margin-bottom:15px; width:100%;">
-            <button type="button" class="btn-salvar" id="btn-usar-modal" onclick="usarHabilidadeAberta()">✨ USAR</button>
+            <button type="button" class="btn-acao" id="btn-usar-modal" style="padding:15px; font-size:1.1rem;" onclick="usarHabilidadeAberta()">✨ USAR</button>
         </div>
         
-        <div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:10px; border-radius:4px; border:1px solid #8b5a2b;">
-            <span style="font-family:'Cinzel'; font-weight:bold;">QUANTIDADE:</span>
+        <div id="mv-ammo-container" style="display:none; align-items:center; justify-content:center; gap:15px; margin-bottom:15px; background: rgba(0,0,0,0.05); padding:15px; border-radius:8px; border:1px dashed #8b5a2b;">
+            <span style="font-family:'Cinzel'; font-weight:bold; color:#3e2723;">QUANTIDADE:</span>
             <button type="button" class="btn-status" onclick="alterarMunicaoView(-1)">-</button>
-            <span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.2rem;"></span>
+            <span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.4rem; color:#0d47a1;"></span>
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
-        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:15px; border-radius:4px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 15px; line-height:1.5; word-wrap: break-word; word-break: break-word;"></div>
+        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3);"></div>
         
-        <button type="button" class="btn-salvar btn-apagar" onclick="apagarItemAberto()">APAGAR DEFINITIVAMENTE</button>
+        <button type="button" class="btn-acao red" onclick="apagarItemAberto()">🗑️ APAGAR DEFINITIVAMENTE</button>
     </div>
 </div>
 
@@ -1387,7 +1453,7 @@
         dbPericiasCustom.push({ nome: nome, atributo: attr }); 
         dbPericias[nome] = { treinado: false, bonus: 0, total: 0 };
         
-        document.getElementById('modal-add-pericia').style.display = 'none';
+        fecharModais(); 
         recalcularTudo(); 
         popularSelectPericias();
     }
@@ -1396,7 +1462,7 @@
         if(confirm(`Tem certeza que deseja remover a perícia ${periciaAbertaNome}?`)) {
             dbPericiasCustom = dbPericiasCustom.filter(p => p.nome !== periciaAbertaNome); 
             delete dbPericias[periciaAbertaNome];
-            document.getElementById('modal-pericia').style.display = 'none';
+            fecharModais(); 
             recalcularTudo(); 
             popularSelectPericias();
         }
@@ -1523,9 +1589,9 @@
         }
         
         dbInventario.push(newItem); 
-        document.getElementById('modal-inventario').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
+        fecharModais();
     }
 
     function toggleEquip(e, id) { 
@@ -1605,9 +1671,9 @@
             dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc }); 
         }
         
-        document.getElementById('modal-hab').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
+        fecharModais(); 
     }
 
     function abrirModalMagia() { 
@@ -1641,9 +1707,9 @@
             desc: document.getElementById('mm-desc').value 
         }); 
         
-        document.getElementById('modal-magia-add').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
+        fecharModais(); 
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -1818,7 +1884,7 @@
         else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
-        document.getElementById('modal-view').style.display = 'none';
+        fecharModais();
         renderizarListas(); 
         salvarESincronizar();
     }
