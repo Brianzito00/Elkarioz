@@ -397,7 +397,7 @@
     <div class="tabs-nav">
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ ESTATÍSTICAS</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 MOCHILA / MUNDO</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">✨ HABILIDADES / GRIMÓRIO</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">✨ GRIMÓRIO</button>
     </div>
 
     <div id="tab-principal" class="tab-content active">
@@ -468,18 +468,14 @@
                 <div style="margin-top: 30px;">
                     <div class="list-section-title" style="color:#5c3a21; border-bottom: 2px dashed rgba(139,90,43,0.4); padding-bottom:5px;">ARMAS EQUIPADAS</div>
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-bottom: 25px;">(Vá na aba "Mochila" para criar e equipar armas)</p>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-bottom: 25px;">(Vá na aba "Mochila" para equipar armas)</p>
                 </div>
 
-                <div style="margin-top: 20px; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 8px; border: 1px solid #c8b99e;">
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">USO RÁPIDO</div>
-                    <div style="display: flex; gap: 5px; margin-top: 15px;">
-                        <select id="quick-hab-select" class="form-input" style="flex: 1; padding: 8px; font-size: 0.85rem; margin-bottom: 0;">
-                            <option value="">Selecione para usar...</option>
-                        </select>
-                        <button type="button" class="btn-acao purple" style="width:auto; padding: 8px 15px;" onclick="usarHabSuspensa()">✨ USAR</button>
-                    </div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Crie as habilidades na aba Grimório)</p>
+                <div style="margin-top: 25px;">
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES E PROFICIÊNCIAS</div>
+                    <div id="lista-proficiencias-principal" style="margin-top: 15px;"></div>
+                    <div id="lista-habilidades-principal"></div>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Crie novas na aba Grimório)</p>
                 </div>
 
             </div>
@@ -530,8 +526,8 @@
             
             <div class="box-rpg" style="border-top-color: #673ab7; padding: 25px;">
                 <h2 class="section-title" style="color: #4527a0;">HABILIDADES DE CLASSE</h2>
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
+                <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                    <button type="button" class="btn-acao" style="background:#5c3a21;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
                     <button type="button" class="btn-acao purple" onclick="abrirModalHab('hab')">➕ HABILIDADE</button>
                 </div>
                 
@@ -1249,7 +1245,6 @@
 
         renderizarPericias();
         sincronizarComMestre();
-        atualizarSelectHabRapida();
     }
 
     function atualizarBarras() {
@@ -1270,6 +1265,13 @@
     function getValor(id) { 
         let el = document.getElementById(id);
         return el ? (parseFloat(el.value) || 0) : 0; 
+    }
+
+    function toggleCat(id) {
+        let el = document.getElementById(id);
+        if (el) {
+            el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+        }
     }
 
     function fecharModais() { 
@@ -1346,6 +1348,75 @@
         renderizarListas(); 
     }
 
+    // Geração dos componentes em cascata para Habilidades e Proficiências
+    function renderCascadeProf(suffix) {
+        let subItemsHtml = `<div id="cat-prof-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
+        if (dbProficiencias.length === 0) {
+            subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
+        } else {
+            dbProficiencias.forEach(p => {
+                subItemsHtml += `
+                <div class="hab-subitem" onclick="abrirVisualizacao('prof', ${p.id})">
+                    <span style="cursor:pointer; flex:1;">👤 ${p.nome}</span>
+                    <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
+                        <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">✨</button>
+                        <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
+                    </div>
+                </div>`;
+            });
+        }
+        subItemsHtml += `</div>`;
+        return `
+        <div class="hab-category-wrapper" style="border-left-color: #ff9100; padding:8px;">
+            <div class="hab-category-header" onclick="toggleCat('cat-prof-${suffix}')">
+                <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">🛠️</div> Proficiências</div>
+                <span style="color:#8b5a2b; font-size:1rem;">▼</span>
+            </div>
+            ${subItemsHtml}
+        </div>`;
+    }
+
+    function renderCascadeHab(suffix) {
+        let htmlFinal = '';
+        const categorias = [
+            { id: 'Raça', icon: '🧬', title: 'Hab. de Raça', color: '#00695c' },
+            { id: 'Classe', icon: '⚔️', title: 'Hab. de Classe', color: '#b71c1c' },
+            { id: 'Poder', icon: '✨', title: 'Poderes/Outros', color: '#e65100' }
+        ];
+
+        categorias.forEach(cat => {
+            let items = dbHabilidades.filter(h => (h.tipo || 'Classe') === cat.id);
+            if (suffix === 'principal' && items.length === 0) return; // Oculta categorias vazias na aba principal
+
+            let subItemsHtml = `<div id="cat-hab-${cat.id}-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
+            if (items.length === 0) {
+                subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
+            } else {
+                items.forEach(h => {
+                    subItemsHtml += `
+                    <div class="hab-subitem" onclick="abrirVisualizacao('hab', ${h.id})">
+                        <span style="cursor:pointer; flex:1;">👤 ${h.nome}</span>
+                        <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
+                            <button type="button" style="background:transparent; border:none; color:${cat.color}; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
+                            <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
+                        </div>
+                    </div>`;
+                });
+            }
+            subItemsHtml += `</div>`;
+
+            htmlFinal += `
+            <div class="hab-category-wrapper" style="border-left-color: ${cat.color}; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-hab-${cat.id}-${suffix}')">
+                    <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">${cat.icon}</div> ${cat.title}</div>
+                    <span style="color:#8b5a2b; font-size:1rem;">▼</span>
+                </div>
+                ${subItemsHtml}
+            </div>`;
+        });
+        return htmlFinal;
+    }
+
     function renderizarMagias() {
         const container = document.getElementById('magias-container'); 
         if(!container) return;
@@ -1363,7 +1434,6 @@
                 container.innerHTML += html + `</div></div>`;
             }
         });
-        atualizarSelectHabRapida();
     }
 
     function apagarItemList(event, tipo, id) {
@@ -1374,51 +1444,7 @@
             else if(tipo === 'magia') dbMagias = dbMagias.filter(x => x.id !== id);
             renderizarListas();
             salvarESincronizar();
-            fecharModais();
         }
-    }
-
-    function toggleCat(id) {
-        let el = document.getElementById(id);
-        if (el) {
-            el.style.display = el.style.display === 'none' ? 'flex' : 'none';
-        }
-    }
-
-    function atualizarSelectHabRapida() {
-        const select = document.getElementById('quick-hab-select');
-        if (!select) return;
-        
-        let html = '<option value="">Selecione para usar...</option>';
-        
-        if (dbHabilidades.length > 0) {
-            html += '<optgroup label="Habilidades">';
-            dbHabilidades.forEach(h => html += `<option value="hab-${h.id}">${h.nome}</option>`);
-            html += '</optgroup>';
-        }
-        
-        if (dbProficiencias.length > 0) {
-            html += '<optgroup label="Proficiências / Ferramentas">';
-            dbProficiencias.forEach(p => html += `<option value="prof-${p.id}">${p.nome}</option>`);
-            html += '</optgroup>';
-        }
-
-        if (dbMagias.length > 0) {
-            html += '<optgroup label="Magias (Grimório)">';
-            dbMagias.forEach(m => html += `<option value="magia-${m.id}">${m.nome}</option>`);
-            html += '</optgroup>';
-        }
-        
-        select.innerHTML = html;
-    }
-
-    function usarHabSuspensa() {
-        let val = document.getElementById('quick-hab-select').value;
-        if (!val) return alert("Selecione uma habilidade ou magia na lista!");
-        let partes = val.split('-');
-        let tipo = partes[0];
-        let id = parseInt(partes[1]);
-        usarHabilidadeAction(tipo, id);
     }
 
     function renderizarListas() {
@@ -1477,77 +1503,21 @@
             }
         });
 
-        // RENDERIZAR PROFICIÊNCIAS EM CASCATA
-        const profList = document.getElementById('lista-proficiencias');
-        if(profList) {
-            let subItemsHtml = `<div id="cat-prof" class="hab-subitem-lista" style="display:flex;">`; 
-            if (dbProficiencias.length === 0) {
-                subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
-            } else {
-                dbProficiencias.forEach(p => {
-                    subItemsHtml += `
-                    <div class="hab-subitem" onclick="abrirVisualizacao('prof', ${p.id})">
-                        <span style="cursor:pointer; flex:1;">👤 ${p.nome}</span>
-                        <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
-                            <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">🛠️</button>
-                            <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
-                        </div>
-                    </div>`;
-                });
-            }
-            subItemsHtml += `</div>`;
+        // Atualiza Listas de Habilidades na Aba 3 (Grimório)
+        if(document.getElementById('lista-proficiencias')) document.getElementById('lista-proficiencias').innerHTML = renderCascadeProf('magias');
+        if(document.getElementById('lista-habilidades')) document.getElementById('lista-habilidades').innerHTML = renderCascadeHab('magias');
 
-            profList.innerHTML = `
-            <div class="hab-category-wrapper" style="border-left-color: #ff9100;">
-                <div class="hab-category-header" onclick="toggleCat('cat-prof')">
-                    <div class="hab-category-title"><div class="hab-category-icon">🛠️</div> Proficiências</div>
-                    <span style="color:#8b5a2b; font-size:1.2rem;">▼</span>
-                </div>
-                ${subItemsHtml}
-            </div>`;
+        // Atualiza Listas de Habilidades na Aba 1 (Principal)
+        if(document.getElementById('lista-proficiencias-principal')) {
+            if(dbProficiencias.length > 0) {
+                document.getElementById('lista-proficiencias-principal').innerHTML = renderCascadeProf('principal');
+                document.getElementById('lista-proficiencias-principal').style.display = 'block';
+            } else {
+                document.getElementById('lista-proficiencias-principal').style.display = 'none';
+            }
         }
         
-        // RENDERIZAR HABILIDADES EM CASCATA
-        const habList = document.getElementById('lista-habilidades');
-        if(habList) {
-            let htmlFinal = '';
-            const categorias = [
-                { id: 'Raça', icon: '🧬', title: 'Habilidades de Raça', color: '#00695c' },
-                { id: 'Classe', icon: '⚔️', title: 'Habilidades de Classe', color: '#b71c1c' },
-                { id: 'Poder', icon: '✨', title: 'Poderes e Outros', color: '#e65100' }
-            ];
-
-            categorias.forEach(cat => {
-                let items = dbHabilidades.filter(h => (h.tipo || 'Classe') === cat.id);
-                
-                let subItemsHtml = `<div id="cat-hab-${cat.id}" class="hab-subitem-lista" style="display:flex;">`; 
-                if (items.length === 0) {
-                    subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
-                } else {
-                    items.forEach(h => {
-                        subItemsHtml += `
-                        <div class="hab-subitem" onclick="abrirVisualizacao('hab', ${h.id})">
-                            <span style="cursor:pointer; flex:1;">👤 ${h.nome}</span>
-                            <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
-                                <button type="button" style="background:transparent; border:none; color:${cat.color}; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
-                                <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
-                            </div>
-                        </div>`;
-                    });
-                }
-                subItemsHtml += `</div>`;
-
-                htmlFinal += `
-                <div class="hab-category-wrapper" style="border-left-color: ${cat.color};">
-                    <div class="hab-category-header" onclick="toggleCat('cat-hab-${cat.id}')">
-                        <div class="hab-category-title"><div class="hab-category-icon">${cat.icon}</div> ${cat.title}</div>
-                        <span style="color:#8b5a2b; font-size:1.2rem;">▼</span>
-                    </div>
-                    ${subItemsHtml}
-                </div>`;
-            });
-            habList.innerHTML = htmlFinal;
-        }
+        if(document.getElementById('lista-habilidades-principal')) document.getElementById('lista-habilidades-principal').innerHTML = renderCascadeHab('principal');
         
         renderizarMagias(); 
     }
