@@ -226,7 +226,7 @@
         .mundo-item-recebido { background: rgba(255,255,255,0.7); border: 1px solid #c8b99e; border-left: 6px solid #2e7d32; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .mundo-item-recebido h3 { font-family: 'Cinzel'; color: #1b5e20; margin-top: 0; margin-bottom: 5px; font-size: 1.2rem;}
 
-        /* === ABA 3: MAGIAS E HABILIDADES (CASCATA / ACCORDION) === */
+        /* === ABA 3: MAGIAS E HABILIDADES (CASCATA) === */
         .hab-category-wrapper { background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(244, 235, 216, 0.95)); border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; border-radius: 6px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s ease;}
         .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
         .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
@@ -252,7 +252,7 @@
         .modal-tab-btn:hover { color: #b71c1c; }
         .modal-tab-btn.active { color: #b71c1c; border-bottom: 3px solid #b71c1c; }
         
-        /* === SISTEMA DE DADOS - POP UP ANIMADO BLINDADO === */
+        /* === SISTEMA DE DADOS - POP UP ANIMADO === */
         #dice-overlay-click { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3999; display: none; background: rgba(0,0,0,0.6); }
         #dice-result-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
@@ -471,7 +471,7 @@
                 </div>
 
                 <div style="margin-top: 30px;">
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES RÁPIDAS</div>
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">USO RÁPIDO</div>
                     <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
                     <div id="lista-habilidades-principal"></div>
                     <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Gerencie no Grimório)</p>
@@ -561,14 +561,14 @@
     </div>
 </div>
 
-<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="fecharModais()">
-    <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;">&times;</span>
+<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="document.getElementById('modal-zoom-img').style.display='none'">
+    <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="document.getElementById('modal-zoom-img').style.display='none'">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
 </div>
 
-<div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-inventario" class="modal-overlay" onclick="document.getElementById('modal-inventario').style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-inventario').style.display='none'">&times;</span>
         <h3 class="section-title">NOVO ITEM / ARMA</h3>
         
         <div class="modal-tabs">
@@ -650,9 +650,9 @@
     </div>
 </div>
 
-<div id="modal-pericia" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-pericia" class="modal-overlay" onclick="document.getElementById('modal-pericia').style.display='none'">
     <div class="modal-content" style="max-width: 400px;" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-pericia').style.display='none'">&times;</span>
         <h3 class="section-title" id="mp-nome">Perícia</h3>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding: 15px; background:rgba(0,0,0,0.05); border-radius:6px; border:1px solid #c8b99e;">
             <span style="font-size: 1rem; font-weight:bold; font-family:'Roboto'; color:#3e2723;">Treinado na Perícia?</span>
@@ -663,13 +663,14 @@
             <input type="number" id="mp-bonus" value="0" oninput="salvarPericia()" class="form-input" style="width:100px; text-align:center; font-size:1.3rem;">
         </div>
         <div style="text-align:center; font-weight:900; margin-top:25px; margin-bottom:15px; font-size:1.4rem; font-family:'Cinzel'; color:#5c3a21; border-top:2px dashed rgba(139,90,43,0.4); padding-top:15px;">TOTAL A ROLAR: <span id="mp-total" style="color:#b71c1c; font-size:2rem; margin-left:10px;">0</span></div>
+        <button type="button" class="btn-acao green" style="width:100%; padding: 15px; margin-bottom: 10px;" onclick="document.getElementById('modal-pericia').style.display='none'">✔️ FECHAR / SALVAR</button>
         <button type="button" class="btn-acao red" id="btn-remover-pericia" style="display:none; width:100%; padding: 15px;" onclick="removerPericiaAberta()">🗑️ REMOVER PERÍCIA CUSTOMIZADA</button>
     </div>
 </div>
 
-<div id="modal-add-pericia" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-add-pericia" class="modal-overlay" onclick="document.getElementById('modal-add-pericia').style.display='none'">
     <div class="modal-content" style="max-width: 450px;" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-add-pericia').style.display='none'">&times;</span>
         <h3 class="section-title">NOVA PERÍCIA</h3>
         <div class="input-wrapper" style="margin-bottom: 15px;">
             <label>NOME DA PERÍCIA</label>
@@ -690,9 +691,9 @@
     </div>
 </div>
 
-<div id="modal-hab" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-hab" class="modal-overlay" onclick="document.getElementById('modal-hab').style.display='none'">
     <div class="modal-content" style="max-width: 500px;" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-hab').style.display='none'">&times;</span>
         <h3 class="section-title" id="mh-titulo">Novo</h3>
         
         <div class="input-wrapper" id="div-hab-tipo" style="margin-bottom: 15px;">
@@ -716,9 +717,9 @@
     </div>
 </div>
 
-<div id="modal-magia-add" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-magia-add" class="modal-overlay" onclick="document.getElementById('modal-magia-add').style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-magia-add').style.display='none'">&times;</span>
         <h3 class="section-title" style="color:#0d47a1; border-bottom-color: rgba(13, 71, 161, 0.4);">APRENDER MAGIA</h3>
         
         <div class="input-wrapper" style="margin-bottom: 15px;">
@@ -772,9 +773,9 @@
     </div>
 </div>
 
-<div id="modal-view" class="modal-overlay" onclick="fecharModais()">
+<div id="modal-view" class="modal-overlay" onclick="document.getElementById('modal-view').style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <span class="fechar-modal" onclick="document.getElementById('modal-view').style.display='none'">&times;</span>
         <div style="display:flex; flex-direction:column; align-items:center;">
             <img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
             <h3 class="section-title" id="mv-nome" style="margin-bottom:10px;"></h3>
@@ -1272,14 +1273,6 @@
         }
     }
 
-    function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img'];
-        modais.forEach(id => {
-            let el = document.getElementById(id);
-            if(el) el.style.display = 'none';
-        });
-    }
-
     function pedirUrlRetrato() {
         let url = prompt("Cole a URL da imagem do seu personagem:");
         if (url !== null && url.trim() !== "") {
@@ -1539,7 +1532,7 @@
         dbPericiasCustom.push({ nome: nome, atributo: attr }); 
         dbPericias[nome] = { treinado: false, bonus: 0, total: 0 };
         
-        fecharModais(); 
+        document.getElementById('modal-add-pericia').style.display = 'none';
         recalcularTudo(); 
         popularSelectPericias();
     }
@@ -1548,7 +1541,7 @@
         if(confirm(`Tem certeza que deseja remover a perícia ${periciaAbertaNome}?`)) {
             dbPericiasCustom = dbPericiasCustom.filter(p => p.nome !== periciaAbertaNome); 
             delete dbPericias[periciaAbertaNome];
-            fecharModais(); 
+            document.getElementById('modal-pericia').style.display = 'none';
             recalcularTudo(); 
             popularSelectPericias();
         }
@@ -1675,9 +1668,9 @@
         }
         
         dbInventario.push(newItem); 
+        document.getElementById('modal-inventario').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais();
     }
 
     function toggleEquip(e, id) { 
@@ -1770,9 +1763,9 @@
             dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc, tipo: tipo }); 
         }
         
+        document.getElementById('modal-hab').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais(); 
     }
 
     function abrirModalMagia() { 
@@ -1806,9 +1799,9 @@
             desc: document.getElementById('mm-desc').value 
         }); 
         
+        document.getElementById('modal-magia-add').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais(); 
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -1819,7 +1812,7 @@
 
     function usarHabilidadeAberta() {
         usarHabilidadeAction(tipoContexto, itemAbertoId);
-        fecharModais();
+        document.getElementById('modal-view').style.display = 'none';
     }
 
     function usarHabilidadeAction(tipo, id) {
@@ -1915,7 +1908,6 @@
         
         let lista = [];
         if(tipoLista == 'inv') lista = dbInventario;
-        else if(tipoLista == 'prof') lista = dbProficiencias;
         else if(tipoLista == 'hab') lista = dbHabilidades;
         else if(tipoLista == 'magia') lista = dbMagias;
         
@@ -1960,16 +1952,13 @@
             document.getElementById('mv-ammo-text').innerText = item.munAtual; 
         }
 
-        if (tipoLista === 'hab' || tipoLista === 'magia' || tipoLista === 'prof') {
+        if (tipoLista === 'hab' || tipoLista === 'magia') {
             if(boxHab) {
                 boxHab.style.display = 'flex';
                 let btnUsar = document.getElementById('btn-usar-modal');
                 if(tipoLista === 'magia') {
                     btnUsar.style.background = '#0d47a1';
                     btnUsar.innerText = '🔮 CONJURAR MAGIA';
-                } else if(tipoLista === 'prof') {
-                    btnUsar.style.background = '#ff9100';
-                    btnUsar.innerText = '🛠️ USAR PROFICIÊNCIA';
                 } else {
                     btnUsar.style.background = '#673ab7';
                     btnUsar.innerText = '✨ USAR HABILIDADE';
@@ -1982,10 +1971,10 @@
 
     function apagarItemAberto() { 
         if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
-        fecharModais();
+        
+        document.getElementById('modal-view').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
     }
