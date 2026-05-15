@@ -471,11 +471,15 @@
                     <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-bottom: 25px;">(Vá na aba "Mochila" para equipar armas)</p>
                 </div>
 
-                <div style="margin-top: 25px;">
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES E PROFICIÊNCIAS</div>
-                    <div id="lista-proficiencias-principal" style="margin-top: 15px;"></div>
-                    <div id="lista-habilidades-principal"></div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Crie novas na aba Grimório)</p>
+                <div style="margin-top: 20px; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 8px; border: 1px solid #c8b99e;">
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">USO RÁPIDO</div>
+                    <div style="display: flex; gap: 5px; margin-top: 15px;">
+                        <select id="quick-hab-select" class="form-input" style="flex: 1; padding: 8px; font-size: 0.85rem; margin-bottom: 0;">
+                            <option value="">Selecione para usar...</option>
+                        </select>
+                        <button type="button" class="btn-acao purple" style="width:auto; padding: 8px 15px;" onclick="usarHabSuspensa()">✨ USAR</button>
+                    </div>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b; margin-top: 8px; margin-bottom:0;">(Crie as habilidades na aba Grimório)</p>
                 </div>
 
             </div>
@@ -527,7 +531,7 @@
             <div class="box-rpg" style="border-top-color: #673ab7; padding: 25px;">
                 <h2 class="section-title" style="color: #4527a0;">HABILIDADES DE CLASSE</h2>
                 <div style="display: flex; gap: 10px; margin-bottom: 30px;">
-                    <button type="button" class="btn-acao" style="background:#5c3a21;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
+                    <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
                     <button type="button" class="btn-acao purple" onclick="abrirModalHab('hab')">➕ HABILIDADE</button>
                 </div>
                 
@@ -710,9 +714,9 @@
             <label>NOME</label>
             <input type="text" id="mh-nome" placeholder="Ex: Fúria de Combate" class="form-input">
         </div>
-        <div class="input-wrapper" style="margin-bottom: 25px;">
+        <div class="input-wrapper" id="div-hab-desc" style="margin-bottom: 25px;">
             <label>DESCRIÇÃO</label>
-            <textarea id="mh-desc" placeholder="Descreva como a habilidade ou proficiência funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         </div>
         <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
@@ -1245,6 +1249,7 @@
 
         renderizarPericias();
         sincronizarComMestre();
+        atualizarSelectHabRapida();
     }
 
     function atualizarBarras() {
@@ -1356,9 +1361,9 @@
         } else {
             dbProficiencias.forEach(p => {
                 subItemsHtml += `
-                <div class="hab-subitem" onclick="abrirVisualizacao('prof', ${p.id})">
-                    <span style="cursor:pointer; flex:1;">👤 ${p.nome}</span>
-                    <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
+                <div class="hab-subitem">
+                    <span style="flex:1;">🛠️ ${p.nome}</span>
+                    <div style="display:flex; gap:8px;">
                         <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">✨</button>
                         <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
                     </div>
@@ -1445,6 +1450,42 @@
             renderizarListas();
             salvarESincronizar();
         }
+    }
+
+    function atualizarSelectHabRapida() {
+        const select = document.getElementById('quick-hab-select');
+        if (!select) return;
+        
+        let html = '<option value="">Selecione para usar...</option>';
+        
+        if (dbHabilidades.length > 0) {
+            html += '<optgroup label="Habilidades">';
+            dbHabilidades.forEach(h => html += `<option value="hab-${h.id}">${h.nome}</option>`);
+            html += '</optgroup>';
+        }
+        
+        if (dbProficiencias.length > 0) {
+            html += '<optgroup label="Proficiências / Ferramentas">';
+            dbProficiencias.forEach(p => html += `<option value="prof-${p.id}">${p.nome}</option>`);
+            html += '</optgroup>';
+        }
+
+        if (dbMagias.length > 0) {
+            html += '<optgroup label="Magias (Grimório)">';
+            dbMagias.forEach(m => html += `<option value="magia-${m.id}">${m.nome}</option>`);
+            html += '</optgroup>';
+        }
+        
+        select.innerHTML = html;
+    }
+
+    function usarHabSuspensa() {
+        let val = document.getElementById('quick-hab-select').value;
+        if (!val) return alert("Selecione uma habilidade ou magia na lista!");
+        let partes = val.split('-');
+        let tipo = partes[0];
+        let id = parseInt(partes[1]);
+        usarHabilidadeAction(tipo, id);
     }
 
     function renderizarListas() {
@@ -1746,8 +1787,12 @@
         
         if(tipo === 'prof') {
             document.getElementById('div-hab-tipo').style.display = 'none';
+            document.getElementById('div-hab-desc').style.display = 'none';
+            document.getElementById('mh-nome').placeholder = 'Ex: Investigação, Joalheria...';
         } else {
             document.getElementById('div-hab-tipo').style.display = 'flex';
+            document.getElementById('div-hab-desc').style.display = 'flex';
+            document.getElementById('mh-nome').placeholder = 'Ex: Fúria de Combate';
         }
 
         document.getElementById('mh-nome').value = ''; 
@@ -1757,7 +1802,7 @@
     
     function salvarHab() { 
         let nome = document.getElementById('mh-nome').value.trim();
-        let desc = document.getElementById('mh-desc').value.trim(); 
+        let desc = tipoContexto === 'prof' ? '' : document.getElementById('mh-desc').value.trim(); 
         let tipo = document.getElementById('mh-tipo') ? document.getElementById('mh-tipo').value : 'Classe';
 
         if(!nome) return alert("Digite o nome!"); 
@@ -1838,6 +1883,8 @@
         let detalhesLog = "";
         if (tipo === 'magia') {
             detalhesLog = `Círculo: ${item.circulo}º\nEscola: ${item.escola}\nExecução: ${item.execucao || '-'}\nAlcance: ${item.alcance || '-'}\nAlvo/Área: ${item.alvo || '-'}\nDuração: ${item.duracao || '-'}\nResistência: ${item.resistencia || '-'}\n\nEfeito:\n${item.desc || ""}`;
+        } else if (tipo === 'prof') {
+            detalhesLog = `Teste de Proficiência: ${item.nome}`;
         } else {
             detalhesLog = item.desc || "Nenhuma descrição informada.";
         }
