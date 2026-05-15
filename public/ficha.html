@@ -222,7 +222,7 @@
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
         /* === MODAIS GERAIS === */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 550px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto; }
         .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; transition: 0.2s;}
         .fechar-modal:hover { color: #b71c1c; transform: scale(1.2); }
@@ -445,7 +445,7 @@
                 <div style="margin-top: 30px;">
                     <div class="list-section-title" style="color:#5c3a21; border-bottom: 2px dashed rgba(139,90,43,0.4); padding-bottom:5px;">ARMAS EQUIPADAS</div>
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
-                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b;">(Vá na aba "Mochila" para criar e equipar armas)</p>
+                    <p style="font-size: 0.75rem; text-align: center; color: #8b5a2b;">(Vá na aba "Mochila" para equipar armas)</p>
                 </div>
             </div>
         </div>
@@ -535,13 +535,13 @@
     </div>
 </div>
 
-<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="this.style.display='none'">
+<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="fecharModais()">
     <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;">&times;</span>
-    <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);">
+    <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
 </div>
 
-<div id="modal-inventario" class="modal-overlay">
-    <div class="modal-content">
+<div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">Novo Item</h3>
         
@@ -614,8 +614,8 @@
     </div>
 </div>
 
-<div id="modal-pericia" class="modal-overlay">
-    <div class="modal-content">
+<div id="modal-pericia" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mp-nome">Perícia</h3>
         <div class="form-group"><span style="font-size: 0.9rem; font-weight:bold; font-family:'Roboto';">Treinado na Perícia?</span><input type="checkbox" id="mp-treinado" onchange="salvarPericia()" style="transform: scale(1.5);"></div>
@@ -625,8 +625,8 @@
     </div>
 </div>
 
-<div id="modal-add-pericia" class="modal-overlay">
-    <div class="modal-content" style="max-width: 400px;">
+<div id="modal-add-pericia" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" style="max-width: 400px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">NOVA PERÍCIA</h3>
         <div class="form-group-modal" style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px;">
@@ -648,8 +648,8 @@
     </div>
 </div>
 
-<div id="modal-hab" class="modal-overlay">
-    <div class="modal-content">
+<div id="modal-hab" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" id="mh-titulo">Novo</h3>
         <input type="text" id="mh-nome" placeholder="Nome" class="form-input" style="margin-bottom:15px;">
@@ -658,8 +658,8 @@
     </div>
 </div>
 
-<div id="modal-magia-add" class="modal-overlay">
-    <div class="modal-content">
+<div id="modal-magia-add" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title" style="color:#0d47a1;">APRENDER MAGIA</h3>
         <input type="text" id="mm-nome" placeholder="Nome da Magia" class="form-input" style="margin-bottom:15px; border-color:#0d47a1; font-size:1.2rem;">
@@ -692,8 +692,8 @@
     </div>
 </div>
 
-<div id="modal-view" class="modal-overlay">
-    <div class="modal-content">
+<div id="modal-view" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <div style="display:flex; flex-direction:column; align-items:center;">
             <img id="mv-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
@@ -1185,6 +1185,14 @@
         return el ? (parseFloat(el.value) || 0) : 0; 
     }
 
+    function fecharModais() { 
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img'];
+        modais.forEach(id => {
+            let el = document.getElementById(id);
+            if(el) el.style.display = 'none';
+        });
+    }
+
     function pedirUrlRetrato() {
         let url = prompt("Cole a URL da imagem do seu personagem:");
         if (url !== null && url.trim() !== "") {
@@ -1379,7 +1387,7 @@
         dbPericiasCustom.push({ nome: nome, atributo: attr }); 
         dbPericias[nome] = { treinado: false, bonus: 0, total: 0 };
         
-        fecharModais(); 
+        document.getElementById('modal-add-pericia').style.display = 'none';
         recalcularTudo(); 
         popularSelectPericias();
     }
@@ -1388,7 +1396,7 @@
         if(confirm(`Tem certeza que deseja remover a perícia ${periciaAbertaNome}?`)) {
             dbPericiasCustom = dbPericiasCustom.filter(p => p.nome !== periciaAbertaNome); 
             delete dbPericias[periciaAbertaNome];
-            fecharModais(); 
+            document.getElementById('modal-pericia').style.display = 'none';
             recalcularTudo(); 
             popularSelectPericias();
         }
@@ -1515,9 +1523,9 @@
         }
         
         dbInventario.push(newItem); 
+        document.getElementById('modal-inventario').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais();
     }
 
     function toggleEquip(e, id) { 
@@ -1597,9 +1605,9 @@
             dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc }); 
         }
         
+        document.getElementById('modal-hab').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais(); 
     }
 
     function abrirModalMagia() { 
@@ -1633,9 +1641,9 @@
             desc: document.getElementById('mm-desc').value 
         }); 
         
+        document.getElementById('modal-magia-add').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais(); 
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -1810,9 +1818,9 @@
         else if(tipoContexto == 'prof') dbProficiencias = dbProficiencias.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
         else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
+        document.getElementById('modal-view').style.display = 'none';
         renderizarListas(); 
         salvarESincronizar();
-        fecharModais(); 
     }
 
     // ==============================================================
