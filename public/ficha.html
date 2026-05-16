@@ -233,16 +233,13 @@
         .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
         
         .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
-        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
-        .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
+        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; border: 1px solid transparent;}
+        .hab-subitem.clickable { cursor: pointer; }
+        .hab-subitem.clickable:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
 
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge:hover { background: rgba(255,255,255,0.8); border-color: #b71c1c; color: #b71c1c;}
         .escola-badge.active { background: #0d47a1; color: #fff; border-color: #0d47a1; box-shadow: 0 2px 8px rgba(13, 71, 161, 0.4);}
-        
-        .magia-circulo-section { margin-bottom: 30px; }
-        .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
-        .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
         /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
@@ -329,7 +326,9 @@
 <div class="ficha-container">
     
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
-        <button type="button" class="btn-acao green" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="forcarSalvar()">💾 SALVAR LOCAL</button>
+        <div style="flex:1; display:flex; align-items:center;">
+            <span style="font-family:'Roboto'; font-size:0.8rem; font-weight:bold; color:#2e7d32; background:rgba(46,125,50,0.1); padding:6px 12px; border-radius:4px; border:1px solid #2e7d32;">💾 SALVO AUTO.</span>
+        </div>
         <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
         <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
@@ -348,13 +347,13 @@
                 <div class="campo-rpg" style="flex: 2;">
                     <div class="input-wrapper">
                         <label>Personagem</label>
-                        <input type="text" id="char-name-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Nome do Herói">
+                        <input type="text" id="char-name-input" class="form-input" placeholder="Nome do Herói">
                     </div>
                 </div>
                 <div class="campo-rpg" style="flex: 1;">
                     <div class="input-wrapper">
                         <label>Jogador(a)</label>
-                        <input type="text" id="player-name-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Seu Nome">
+                        <input type="text" id="player-name-input" class="form-input" placeholder="Seu Nome">
                     </div>
                 </div>
                 
@@ -362,7 +361,7 @@
                     <div class="campo-rpg campo-uid" style="flex: 1;">
                         <div class="input-wrapper">
                             <label>SALA / UID DO MESTRE</label>
-                            <input type="text" id="uid-input" class="form-input uid-especial" placeholder="EX: MESA1" onchange="conectarSalaJogador()">
+                            <input type="text" id="uid-input" class="form-input uid-especial" placeholder="EX: MESA1">
                         </div>
                     </div>
                     <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
@@ -373,7 +372,7 @@
                 <div class="campo-rpg" style="flex: 1.5;">
                     <div class="input-wrapper">
                         <label>Raça</label>
-                        <select id="raca-input" class="form-input" onchange="sincronizarComMestre()">
+                        <select id="raca-input" class="form-input">
                             <option value="">Selecione...</option>
                             <option value="Humano">Humano</option><option value="Anão">Anão</option><option value="Elfo">Elfo</option>
                             <option value="Goblin">Goblin</option><option value="Minotauro">Minotauro</option><option value="Golem">Golem</option>
@@ -384,7 +383,7 @@
                 <div class="campo-rpg" style="flex: 1.5;">
                     <div class="input-wrapper">
                         <label>Classe / Origem</label>
-                        <input type="text" id="classe-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Ex: Guerreiro">
+                        <input type="text" id="classe-input" class="form-input" placeholder="Ex: Guerreiro">
                     </div>
                 </div>
                 <div class="campo-rpg" style="flex: 0.5; max-width: 90px;">
@@ -401,7 +400,7 @@
                 <div class="campo-rpg" style="flex: 1.5;">
                     <div class="input-wrapper">
                         <label>Divindade</label>
-                        <input type="text" id="divindade-input" class="form-input" oninput="sincronizarComMestre()" placeholder="Ex: Valkaria">
+                        <input type="text" id="divindade-input" class="form-input" placeholder="Ex: Valkaria">
                     </div>
                 </div>
             </div>
@@ -478,6 +477,9 @@
                     <div class="defesa-box" style="flex:1;">
                         <label>DEFESA</label>
                         <div class="defesa-valor" id="defesa-total">0</div>
+                        <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
+                            Base/Outros: <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                        </div>
                     </div>
                 </div>
 
@@ -582,7 +584,7 @@
             <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
             <button type="button" class="modal-tab-btn" id="tab-armadura" onclick="mudarAbaItem('armadura')">🛡️ ARMADURA</button>
         </div>
-
+        
         <div class="input-wrapper armadura-field" style="display:none; margin-bottom: 15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 6px; border: 1px dashed #8b5a2b;">
             <label>CATÁLOGO DE ARMADURAS E ESCUDOS</label>
             <select id="mi-catalogo-armadura" class="form-input" onchange="aplicarCatalogoArmadura()">
@@ -607,7 +609,7 @@
                 </optgroup>
             </select>
         </div>
-        
+
         <div class="input-wrapper" style="margin-bottom:15px;">
             <label>Nome do Item / Arma / Munição</label>
             <input type="text" id="mi-nome" placeholder="Ex: Espada Longa" class="form-input">
@@ -751,7 +753,7 @@
         </div>
         <div class="input-wrapper" id="div-hab-desc" style="margin-bottom: 25px;">
             <label>DESCRIÇÃO</label>
-            <textarea id="mh-desc" placeholder="Descreva como a habilidade ou proficiência funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         </div>
         <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
@@ -862,6 +864,7 @@
     let socket;
     let meuUID = "";
     let fichaPronta = false; 
+    let timeoutSalvar;
     
     if (typeof io !== 'undefined') {
         socket = io();
@@ -932,6 +935,25 @@
         }
         return localStorage.getItem('rpgFichaSala');
     }
+
+    // Eventos para Salvar Automaticamente
+    document.addEventListener('input', () => {
+        clearTimeout(timeoutSalvar);
+        timeoutSalvar = setTimeout(() => {
+            if(fichaPronta) sincronizarComMestre();
+        }, 1500);
+    });
+
+    document.addEventListener('focusout', function(e) {
+        if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+            if(fichaPronta) recalcularTudo();
+        }
+    });
+
+    // Auto-Save de Segurança a cada 5 segundos
+    setInterval(() => {
+        if(fichaPronta) salvarFichaLocal();
+    }, 5000);
 
     window.onload = () => { 
         let salaConectada = obterSalaDaUrl();
@@ -1201,7 +1223,7 @@
                     tipo: payload.entidade.tipoLista,
                     dados: payload.entidade.dados
                 });
-                salvarESincronizar();
+                salvarFichaLocal(); // Mudado para manter consistência
                 renderizarMundoRecebido();
                 
                 let icone = payload.entidade.tipoLista === 'historia' ? '📖' : '📜';
@@ -1246,7 +1268,7 @@
     function apagarMundoRecebido(id) {
         if(confirm("Deseja apagar esta anotação do seu diário?")) {
             fichaDados.mundoRecebido = fichaDados.mundoRecebido.filter(x => x.id !== id);
-            salvarESincronizar();
+            salvarFichaLocal();
             renderizarMundoRecebido();
         }
     }
@@ -1452,10 +1474,9 @@
         } else {
             dbProficiencias.forEach(p => {
                 subItemsHtml += `
-                <div class="hab-subitem">
+                <div class="hab-subitem" style="cursor:default;">
                     <span style="flex:1;">🛠️ ${p.nome}</span>
-                    <div style="display:flex; gap:8px;">
-                        <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">✨</button>
+                    <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
                         <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
                     </div>
                 </div>`;
@@ -1538,8 +1559,7 @@
             if(tipo === 'prof') dbProficiencias = dbProficiencias.filter(x => x.id !== id);
             else if(tipo === 'hab') dbHabilidades = dbHabilidades.filter(x => x.id !== id);
             else if(tipo === 'magia') dbMagias = dbMagias.filter(x => x.id !== id);
-            renderizarListas();
-            salvarESincronizar();
+            recalcularTudo();
         }
     }
 
@@ -1789,8 +1809,7 @@
         
         dbInventario.push(newItem); 
         fecharModais();
-        renderizarListas(); 
-        salvarESincronizar();
+        recalcularTudo();
     }
 
     function toggleEquip(e, id) { 
@@ -1808,8 +1827,7 @@
             if(arma.munAtual > 0) { 
                 arma.munAtual--; 
                 document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; 
-                renderizarListas(); 
-                salvarESincronizar();
+                recalcularTudo();
             } else {
                 alert("Arma descarregada! Clique em RECARREGAR."); 
             }
@@ -1835,8 +1853,7 @@
         } 
         
         document.getElementById('mv-loaded-ammo').innerText = `${arma.munAtual} / ${arma.munMax}`; 
-        renderizarListas(); 
-        salvarESincronizar();
+        recalcularTudo();
         alert(`Recarregada!`); 
     }
     
@@ -1846,8 +1863,7 @@
             item.munAtual += delta; 
             if(item.munAtual < 0) item.munAtual = 0; 
             document.getElementById('mv-ammo-text').innerText = item.munAtual; 
-            renderizarListas(); 
-            salvarESincronizar();
+            recalcularTudo();
         } 
     }
 
@@ -1858,7 +1874,7 @@
         if(tipo === 'prof') {
             document.getElementById('div-hab-tipo').style.display = 'none';
             document.getElementById('div-hab-desc').style.display = 'none';
-            document.getElementById('mh-nome').placeholder = 'Ex: Investigação, Joalheria...';
+            document.getElementById('mh-nome').placeholder = 'Ex: Ferreiro, Culinária...';
         } else {
             document.getElementById('div-hab-tipo').style.display = 'flex';
             document.getElementById('div-hab-desc').style.display = 'flex';
@@ -1884,8 +1900,7 @@
         }
         
         fecharModais();
-        renderizarListas(); 
-        salvarESincronizar();
+        recalcularTudo();
     }
 
     function abrirModalMagia() { 
@@ -1920,8 +1935,7 @@
         }); 
         
         fecharModais();
-        renderizarListas(); 
-        salvarESincronizar();
+        recalcularTudo();
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -2097,8 +2111,7 @@
         else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
         
         fecharModais();
-        renderizarListas(); 
-        salvarESincronizar();
+        recalcularTudo();
     }
 
     // ==============================================================
@@ -2106,9 +2119,11 @@
     // ==============================================================
 
     function rolarIniciativa() {
-        // Redireciona o botão antigo de iniciativa para não fazer nada
-        // pois a função foi removida do layout, mas mantemos o código
-        // para não quebrar referências fantasmas caso você volte a usar.
+        if(diceState !== 0) return;
+        let dInic = dbPericias['Iniciativa'];
+        let bonus = dInic ? dInic.total : getValor('agilidade');
+        currentRollData = { nome: `Iniciativa`, bonus: bonus, isDano: false, isInit: true };
+        iniciarGiroDado(`Iniciativa`, bonus, '#2e7d32');
     }
 
     function rolarDado(nome, bonus) { 
