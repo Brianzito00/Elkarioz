@@ -194,8 +194,10 @@
         .player-card:hover, .monstro-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
         .monstro-fixado { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); border-width: 3px; }
 
-        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
+        .btn-kick { background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; }
         .btn-kick:hover { transform: scale(1.3); color: #7f0000; }
+        .btn-edit-monstro { background: transparent; border: none; color: #1976d2; font-size: 1.2rem; cursor: pointer; transition: 0.2s; padding: 0; line-height: 1;}
+        .btn-edit-monstro:hover { transform: scale(1.3); color: #0d47a1; }
         
         .player-header { display: flex; gap: 10px; align-items: center; padding-right: 15px;}
         .player-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #3e2723; flex-shrink: 0; background:rgba(234, 221, 197, 0.9); display:flex; align-items:center; justify-content:center; font-size:1.2rem;}
@@ -269,8 +271,10 @@
         .ini-name .turn-marker { font-size: 1rem; opacity: 0; transition: 0.3s; color: #b71c1c; }
         .ini-row.ativo .ini-name .turn-marker { opacity: 1; }
         
-        .ini-val { font-family: 'Roboto'; font-weight: 900; font-size: 1.8rem; color: #fff; background: #5c3a21; padding: 4px 15px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; }
+        .ini-val { background: #5c3a21; padding: 2px 10px; border-radius: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid #3e2723; z-index: 2; display: flex; justify-content: center; align-items: center; }
         .ini-row.ativo .ini-val { background: #b71c1c; border-color: #7f0000; }
+        .ini-val-input { background: transparent; border: none; color: #fff; font-family: 'Roboto'; font-weight: 900; font-size: 1.6rem; text-align: center; width: 45px; outline: none; -moz-appearance: textfield; padding: 0; }
+        .ini-val-input::-webkit-outer-spin-button, .ini-val-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         
         .btn-kick-ini { background: transparent; border: none; color: #b71c1c; font-size: 1.8rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; padding: 0; opacity: 0.5; z-index: 2; margin-left: 10px; }
         .ini-row:hover .btn-kick-ini { opacity: 1; }
@@ -667,6 +671,7 @@
     let dbBestiario = []; 
     let tempAtaques = []; 
     let tempHabilidades = [];
+    let monstroEditandoId = null; // Controle para saber se estamos editando ou criando
     
     let gmCapitulos = []; 
     let capituloAtivoId = null;
@@ -817,8 +822,11 @@
 
             container.innerHTML += `
                 <div class="player-card monstro-fixado">
-                    <button class="btn-kick" onclick="toggleMonstroMesa(${m.id}, false)" title="Remover da Mesa">&times;</button>
-                    <div class="player-header">
+                    <div style="position:absolute; top:5px; right:8px; display:flex; gap:5px; z-index:10;">
+                        <button class="btn-edit-monstro" onclick="editarMonstro(${m.id})" title="Editar Monstro">✏️</button>
+                        <button class="btn-kick" style="position:static;" onclick="toggleMonstroMesa(${m.id}, false)" title="Remover da Mesa">&times;</button>
+                    </div>
+                    <div class="player-header" style="padding-right: 50px;">
                         <div class="player-img" style="background:#b71c1c; color:#fff;">🐉</div>
                         <div style="flex:1;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -899,6 +907,14 @@
         ordenarIniciativa();
     }
     
+    function alterarIniciativaTracker(id, novoValor) {
+        let item = arrayIniciativa.find(i => i.id === id);
+        if(item) {
+            item.val = parseInt(novoValor) || 0;
+            ordenarIniciativa(); 
+        }
+    }
+
     function ordenarIniciativa() { 
         let idTurnoAtual = null;
         if (turnoAtualIndex >= 0 && turnoAtualIndex < arrayIniciativa.length) {
@@ -968,7 +984,9 @@
                         </div>
                     </div>
                     <div style="display:flex; align-items:center; gap: 12px;">
-                        <div class="ini-val">${item.val}</div>
+                        <div class="ini-val">
+                            <input type="number" class="ini-val-input" value="${item.val}" onchange="alterarIniciativaTracker(${item.id}, this.value)">
+                        </div>
                         <button class="btn-kick-ini" onclick="removerIni(${item.id})" title="Remover da Iniciativa">&times;</button>
                     </div>
                 </div>`;
@@ -978,11 +996,52 @@
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     
     function abrirModalMonstro() {
+        monstroEditandoId = null;
+        document.querySelector('#modal-monstro .section-title').innerText = 'CRIAR MONSTRO';
         tempAtaques = []; tempHabilidades = [];
-        document.getElementById('mon-nome').value = ''; document.getElementById('mon-hp-atual').value = '50'; document.getElementById('mon-hp-max').value = '50'; document.getElementById('mon-def').value = '15';
-        document.getElementById('mon-for').value = '0'; document.getElementById('mon-des').value = '0'; document.getElementById('mon-con').value = '0'; document.getElementById('mon-int').value = '0'; document.getElementById('mon-sab').value = '0'; document.getElementById('mon-car').value = '0';
-        document.getElementById('mon-mov').value = ''; document.getElementById('mon-imun').value = ''; document.getElementById('mon-vuln').value = ''; document.getElementById('mon-enigma').value = '';
+        document.getElementById('mon-nome').value = ''; 
+        document.getElementById('mon-hp-atual').value = '50'; 
+        document.getElementById('mon-hp-max').value = '50'; 
+        document.getElementById('mon-def').value = '15';
+        document.getElementById('mon-for').value = '0'; 
+        document.getElementById('mon-des').value = '0'; 
+        document.getElementById('mon-con').value = '0'; 
+        document.getElementById('mon-int').value = '0'; 
+        document.getElementById('mon-sab').value = '0'; 
+        document.getElementById('mon-car').value = '0';
+        document.getElementById('mon-mov').value = ''; 
+        document.getElementById('mon-imun').value = ''; 
+        document.getElementById('mon-vuln').value = ''; 
+        document.getElementById('mon-enigma').value = '';
         renderTempAtqHab(); document.getElementById('modal-monstro').style.display = 'flex';
+    }
+
+    function editarMonstro(id) {
+        let m = dbBestiario.find(x => x.id === id);
+        if(!m) return;
+        monstroEditandoId = id;
+        document.querySelector('#modal-monstro .section-title').innerText = 'EDITAR MONSTRO';
+        
+        document.getElementById('mon-nome').value = m.nome;
+        document.getElementById('mon-hp-atual').value = m.hpAtual;
+        document.getElementById('mon-hp-max').value = m.hpMax;
+        document.getElementById('mon-def').value = m.def;
+        document.getElementById('mon-for').value = m.attr.for;
+        document.getElementById('mon-des').value = m.attr.des;
+        document.getElementById('mon-con').value = m.attr.con;
+        document.getElementById('mon-int').value = m.attr.int;
+        document.getElementById('mon-sab').value = m.attr.sab;
+        document.getElementById('mon-car').value = m.attr.car;
+        document.getElementById('mon-mov').value = m.mov || '';
+        document.getElementById('mon-imun').value = m.imun || '';
+        document.getElementById('mon-vuln').value = m.vuln || '';
+        document.getElementById('mon-enigma').value = m.enigma || '';
+        
+        tempAtaques = [...(m.ataques || [])];
+        tempHabilidades = [...(m.habilidades || [])];
+        
+        renderTempAtqHab();
+        document.getElementById('modal-monstro').style.display = 'flex';
     }
     
     function addMonstroAtaque() { 
@@ -1017,12 +1076,45 @@
     }
 
     function salvarMonstro() {
-        let nome = document.getElementById('mon-nome').value.trim(); if(!nome) return alert("O monstro precisa de um nome!");
-        let novoMonstro = { 
-            id: Date.now(), nome: nome, naMesa: false, 
-            hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, def: parseInt(document.getElementById('mon-def').value) || 10, attr: { for: parseInt(document.getElementById('mon-for').value)||0, des: parseInt(document.getElementById('mon-des').value)||0, con: parseInt(document.getElementById('mon-con').value)||0, int: parseInt(document.getElementById('mon-int').value)||0, sab: parseInt(document.getElementById('mon-sab').value)||0, car: parseInt(document.getElementById('mon-car').value)||0 }, mov: document.getElementById('mon-mov').value.trim(), imun: document.getElementById('mon-imun').value.trim(), vuln: document.getElementById('mon-vuln').value.trim(), ataques: [...tempAtaques], habilidades: [...tempHabilidades], enigma: document.getElementById('mon-enigma').value.trim() 
+        let nome = document.getElementById('mon-nome').value.trim(); 
+        if(!nome) return alert("O monstro precisa de um nome!");
+        
+        let dados = { 
+            nome: nome,
+            hpAtual: parseInt(document.getElementById('mon-hp-atual').value) || 1, 
+            hpMax: parseInt(document.getElementById('mon-hp-max').value) || 1, 
+            def: parseInt(document.getElementById('mon-def').value) || 10, 
+            attr: { 
+                for: parseInt(document.getElementById('mon-for').value)||0, 
+                des: parseInt(document.getElementById('mon-des').value)||0, 
+                con: parseInt(document.getElementById('mon-con').value)||0, 
+                int: parseInt(document.getElementById('mon-int').value)||0, 
+                sab: parseInt(document.getElementById('mon-sab').value)||0, 
+                car: parseInt(document.getElementById('mon-car').value)||0 
+            }, 
+            mov: document.getElementById('mon-mov').value.trim(), 
+            imun: document.getElementById('mon-imun').value.trim(), 
+            vuln: document.getElementById('mon-vuln').value.trim(), 
+            ataques: [...tempAtaques], 
+            habilidades: [...tempHabilidades], 
+            enigma: document.getElementById('mon-enigma').value.trim() 
         };
-        dbBestiario.push(novoMonstro); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); fecharModais(); renderizarBestiario();
+
+        if(monstroEditandoId) {
+            let m = dbBestiario.find(x => x.id === monstroEditandoId);
+            if(m) {
+                Object.assign(m, dados);
+            }
+        } else {
+            dados.id = Date.now();
+            dados.naMesa = false;
+            dbBestiario.push(dados); 
+        }
+
+        localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); 
+        fecharModais(); 
+        renderizarBestiario();
+        if(abaAtual === 'mesa') renderizarJogadores();
     }
     
     function apagarMonstro(id) { if(confirm("Deseja apagar este monstro do bestiário para sempre?")) { dbBestiario = dbBestiario.filter(m => m.id !== id); localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario)); renderizarBestiario(); if(abaAtual === 'mesa') renderizarJogadores(); } }
@@ -1044,83 +1136,6 @@
             localStorage.setItem('rpgBestiario', JSON.stringify(dbBestiario));
             if(abaAtual === 'bestiario') renderizarBestiario();
             if(abaAtual === 'mesa') renderizarJogadores();
-        }
-    }
-    
-    function usarHabilidadeMonstro(monstroId, habId) {
-        let monstro = dbBestiario.find(m => m.id === monstroId);
-        if(!monstro) return;
-        let hab = monstro.habilidades.find(h => h.id === habId);
-        if(!hab) return;
-
-        let detalhesLog = hab.desc || "Nenhuma descrição.";
-        let cor = '#0d47a1'; 
-        let cat = 'HABILIDADE DE MONSTRO';
-        let nome = `${monstro.nome}: ${hab.nome}`;
-
-        if(typeof socket !== 'undefined' && socket.emit) {
-            socket.emit('player_dice_roll', {
-                uid: gmUid.toUpperCase(),
-                idUnico: "mestre",
-                playerName: "👑 MESTRE",
-                nomeRolagem: nome,
-                resultadoFinal: "", 
-                detalhes: detalhesLog, 
-                categoria: cat,
-                corCategoria: cor,
-                isDano: false,
-                isCritico: false,
-                isDesastre: false,
-                _trigger: Math.random()
-            });
-            
-            mostrarPopupHabilidadeLocal("", nome, detalhesLog, cat, cor);
-        }
-    }
-
-    function mostrarPopupHabilidadeLocal(remetente, nome, detalhes, categoria, cor) {
-        try {
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
-            
-            box.style.display = 'flex'; 
-            overlay.style.display = 'block'; 
-            box.classList.remove('dice-pop-out'); 
-            void box.offsetWidth; 
-            
-            box.classList.add('dice-pop-active'); 
-            box.style.borderColor = cor; 
-            box.style.zIndex = "9999"; 
-            overlay.style.zIndex = "9998";
-
-            let safeCat = categoria.replace(/[^a-zA-Z]/g, "");
-            if (!document.getElementById(`glow-${safeCat}`)) { 
-                const style = document.createElement('style'); 
-                style.id = `glow-${safeCat}`; 
-                style.innerHTML = `@keyframes diceGlowPulse${safeCat} { 0% { box-shadow: 0 10px 40px ${cor}80; } 50% { box-shadow: 0 10px 50px ${cor}, 0 0 15px ${cor}60; } 100% { box-shadow: 0 10px 40px ${cor}80; } }`; 
-                document.head.appendChild(style); 
-            }
-            box.style.animation = `diceSpreadEffect 0.6s ease-out forwards, diceGlowPulse${safeCat} 2s infinite 0.5s`;
-
-            let detalhesBR = (detalhes || "").replace(/\n/g, '<br>');
-            let subtitulo = remetente ? `<div style="font-size: 0.9rem; color: #555; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">${remetente} compartilhou</div>` : '';
-
-            text.innerHTML = `
-                ${subtitulo}
-                <span class="pop-pericia-nome" style="color: ${cor}; font-size: 1.6rem; margin-top: 10px; margin-bottom: 5px;">${nome}</span>
-                <div class="pop-categoria-badge" style="background-color: ${cor}; margin-bottom: 15px;">${categoria}</div>
-                <div style="max-height: 30vh; overflow-y: auto; padding: 0 10px; text-align: left;">
-                    <span class="pop-detalhes" style="font-weight: normal; font-size: 0.95rem; color: #333; line-height: 1.4; word-wrap: break-word; word-break: break-word;">${detalhesBR}</span>
-                </div>
-                <small class="pop-hint" style="color:#999; margin-top: 15px; display: block;">Clique na tela para fechar</small>
-            `;
-            
-            diceState = 2; 
-            overlay.onclick = handleDiceClick; 
-            box.onclick = handleDiceClick;
-        } catch(e) {
-            console.error("Erro ao mostrar popup:", e);
         }
     }
 
@@ -1181,8 +1196,11 @@
 
             container.innerHTML += `
             <div class="monstro-card ${m.naMesa ? 'monstro-fixado' : ''}">
-                <button class="btn-kick" onclick="apagarMonstro(${m.id})" title="Apagar Monstro do Bestiário">&times;</button>
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:20px; margin-bottom: 12px;">
+                <div style="position:absolute; top:5px; right:8px; display:flex; gap:5px; z-index:10;">
+                    <button class="btn-edit-monstro" onclick="editarMonstro(${m.id})" title="Editar Monstro">✏️</button>
+                    <button class="btn-kick" style="position:static;" onclick="apagarMonstro(${m.id})" title="Apagar Monstro do Bestiário">&times;</button>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:50px; margin-bottom: 12px;">
                     <div style="display:flex; flex-direction:column; gap:4px;">
                         <h3 class="player-name" style="font-size:1.3rem; margin:0; color:#3e2723;">${m.nome}</h3>
                         <label class="toggle-fixar ${isAtivoClass}">
@@ -1220,6 +1238,37 @@
                 ${periciasHtml}${infoSecao}${atqSecao}${habSecao}${enigmaSecao}
             </div>`;
         });
+    }
+
+    function usarHabilidadeMonstro(monstroId, habId) {
+        let monstro = dbBestiario.find(m => m.id === monstroId);
+        if(!monstro) return;
+        let hab = monstro.habilidades.find(h => h.id === habId);
+        if(!hab) return;
+
+        let detalhesLog = hab.desc || "Nenhuma descrição.";
+        let cor = '#0d47a1'; 
+        let cat = 'HABILIDADE DE MONSTRO';
+        let nome = `${monstro.nome}: ${hab.nome}`;
+
+        if(typeof socket !== 'undefined' && socket.emit) {
+            socket.emit('player_dice_roll', {
+                uid: gmUid.toUpperCase(),
+                idUnico: "mestre",
+                playerName: "👑 MESTRE",
+                nomeRolagem: nome,
+                resultadoFinal: "", 
+                detalhes: detalhesLog, 
+                categoria: cat,
+                corCategoria: cor,
+                isDano: false,
+                isCritico: false,
+                isDesastre: false,
+                _trigger: Math.random()
+            });
+            
+            mostrarPopupHabilidadeLocal("", nome, detalhesLog, cat, cor);
+        }
     }
 
     function inicializarHistoriaGM() {
