@@ -179,9 +179,9 @@
         .pericia-card:hover .pericia-roll-box { background-color: #eaddc4; border-color: #b71c1c; color: #b71c1c; }
 
         /* === DIREITA (ARMAS E DEFESA) === */
-        .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; text-align: center; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .defesa-box { background-color: #cfd8dc; border: 3px solid #455a64; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .defesa-box label { color: #455a64; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; display: block; margin-bottom: 5px; }
-        .defesa-box .defesa-valor { font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; color: #3e2723; line-height: 1;}
+        .defesa-valor { font-size: 3rem; font-weight: 900; color: #3e2723; line-height: 1; text-shadow: 2px 2px 0px rgba(255,255,255,0.5);}
         
         .list-section-title { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.1rem; color: #5c3a21; text-align: center; margin-bottom: 10px; }
         
@@ -225,7 +225,7 @@
         .mundo-item-recebido { background: rgba(255,255,255,0.7); border: 1px solid #c8b99e; border-left: 6px solid #2e7d32; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .mundo-item-recebido h3 { font-family: 'Cinzel'; color: #1b5e20; margin-top: 0; margin-bottom: 5px; font-size: 1.2rem;}
 
-        /* === ABA 3: MAGIAS E HABILIDADES (CASCATA / ACCORDION) === */
+        /* === ABA 3: MAGIAS E CASCATAS === */
         .hab-category-wrapper { background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(244, 235, 216, 0.95)); border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; border-radius: 6px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s ease;}
         .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
         .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
@@ -239,6 +239,10 @@
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .escola-badge:hover { background: rgba(255,255,255,0.8); border-color: #b71c1c; color: #b71c1c;}
         .escola-badge.active { background: #0d47a1; color: #fff; border-color: #0d47a1; box-shadow: 0 2px 8px rgba(13, 71, 161, 0.4);}
+        
+        .magia-circulo-section { margin-bottom: 30px; }
+        .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
+        .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
 
         /* === MODAIS GERAIS === */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 5000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
@@ -268,7 +272,7 @@
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.6); opacity: 0;
             background: #fff; border: 5px solid #b71c1c; padding: 40px; border-radius: 20px;
             z-index: 4000; text-align: center; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8); min-width: 300px; max-width: 90%; display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px;
         }
         #dice-result-container.dice-pop-active { display: flex !important; opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         #dice-result-container.dice-pop-out { opacity: 0; transform: translate(-50%, -50%) scale(0.8); pointer-events: none; }
@@ -407,7 +411,7 @@
     <div class="tabs-nav">
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ ESTATÍSTICAS</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 MOCHILA / MUNDO</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">✨ GRIMÓRIO</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 GRIMÓRIO</button>
     </div>
 
     <div id="tab-principal" class="tab-content active">
@@ -473,9 +477,9 @@
                 <div style="display:flex; gap:10px;">
                     <div class="defesa-box" style="flex:1;">
                         <label>DEFESA</label>
-                        <div class="defesa-valor" id="defesa-total">10</div>
+                        <div class="defesa-valor" id="defesa-total">0</div>
                         <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
-                            Base: <input type="number" id="defesa-personagem" value="10" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                            Base/Outros: <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
                         </div>
                     </div>
                 </div>
@@ -492,8 +496,8 @@
                     </div>
                     <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES & PROFICIÊNCIAS</div>
                     
-                    <div id="lista-proficiencias" style="margin-top: 15px;"></div>
-                    <div id="lista-habilidades"></div>
+                    <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
+                    <div id="lista-habilidades-principal"></div>
                 </div>
             </div>
         </div>
@@ -579,7 +583,32 @@
             <button type="button" class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
             <button type="button" class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
             <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
-            <button type="button" class="modal-tab-btn" id="tab-armadura" onclick="mudarAbaItem('armadura')">ARMADURA</button>
+            <button type="button" class="modal-tab-btn" id="tab-armadura" onclick="mudarAbaItem('armadura')">🛡️ ARMADURA</button>
+        </div>
+
+        <div class="input-wrapper armadura-field" style="display:none; margin-bottom: 15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 6px; border: 1px dashed #8b5a2b;">
+            <label>CATÁLOGO DE ARMADURAS E ESCUDOS</label>
+            <select id="mi-catalogo-armadura" class="form-input" onchange="aplicarCatalogoArmadura()">
+                <option value="">Personalizada / Criar do zero</option>
+                <optgroup label="Armaduras Leves">
+                    <option value="Armadura acolchoada">Armadura acolchoada (+1 Def, 0 Pen, 2 Esp)</option>
+                    <option value="Armadura de Couro">Armadura de Couro (+2 Def, 0 Pen, 2 Esp)</option>
+                    <option value="Couro Batido">Couro Batido (+3 Def, -1 Pen, 2 Esp)</option>
+                    <option value="Gibão de Peles">Gibão de Peles (+4 Def, -3 Pen, 2 Esp)</option>
+                    <option value="Couraça">Couraça (+5 Def, -4 Pen, 2 Esp)</option>
+                </optgroup>
+                <optgroup label="Armaduras Pesadas">
+                    <option value="Brunea">Brunea (+5 Def, -2 Pen, 5 Esp)</option>
+                    <option value="Cota de Malha">Cota de Malha (+6 Def, -2 Pen, 5 Esp)</option>
+                    <option value="Loriga Segmentada">Loriga Segmentada (+7 Def, -3 Pen, 5 Esp)</option>
+                    <option value="Meia Armadura">Meia Armadura (+8 Def, -4 Pen, 5 Esp)</option>
+                    <option value="Armadura Completa">Armadura Completa (+10 Def, -5 Pen, 5 Esp)</option>
+                </optgroup>
+                <optgroup label="Escudos">
+                    <option value="Escudo Leve">Escudo Leve (+1 Def, -1 Pen, 1 Esp)</option>
+                    <option value="Escudo Pesado">Escudo Pesado (+2 Def, -2 Pen, 2 Esp)</option>
+                </optgroup>
+            </select>
         </div>
         
         <div class="input-wrapper" style="margin-bottom:15px;">
@@ -725,7 +754,7 @@
         </div>
         <div class="input-wrapper" id="div-hab-desc" style="margin-bottom: 25px;">
             <label>DESCRIÇÃO</label>
-            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade ou proficiência funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         </div>
         <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
@@ -859,6 +888,21 @@
         {n:'Sobrevivência',a:'sabedoria'},{n:'Vontade',a:'sabedoria'}
     ];
     
+    const catalogoArmaduras = {
+        "Armadura acolchoada": { def: 1, pen: 0, esp: 2 },
+        "Armadura de Couro": { def: 2, pen: 0, esp: 2 },
+        "Couro Batido": { def: 3, pen: 1, esp: 2 },
+        "Gibão de Peles": { def: 4, pen: 3, esp: 2 },
+        "Couraça": { def: 5, pen: 4, esp: 2 },
+        "Brunea": { def: 5, pen: 2, esp: 5 },
+        "Cota de Malha": { def: 6, pen: 2, esp: 5 },
+        "Loriga Segmentada": { def: 7, pen: 3, esp: 5 },
+        "Meia Armadura": { def: 8, pen: 4, esp: 5 },
+        "Armadura Completa": { def: 10, pen: 5, esp: 5 },
+        "Escudo Leve": { def: 1, pen: 1, esp: 1 },
+        "Escudo Pesado": { def: 2, pen: 2, esp: 2 }
+    };
+    
     let dbPericias = {}; 
     listaPericiasBase.forEach(p => { dbPericias[p.n] = {treinado: false, bonus: 0, total: 0} });
     
@@ -950,7 +994,7 @@
             hpMax: getValor('vida-max'),
             mpAtual: getValor('mana-atual'),
             mpMax: getValor('mana-max'),
-            defesa: getValor('defesa-personagem') || 10,
+            defesa: getValor('defesa-personagem') || 0,
             img: document.getElementById('portrait-img').src,
             attr: {
                 for: getValor('forca'),
@@ -973,7 +1017,7 @@
             document.getElementById('classe-input').value = j.classe || '';
             document.getElementById('divindade-input').value = j.divindade || '';
             document.getElementById('nivel').value = j.nivel || 1;
-            document.getElementById('defesa-personagem').value = j.defesa || 10;
+            document.getElementById('defesa-personagem').value = j.defesa || 0;
             
             document.getElementById('forca').value = j.attr ? j.attr.for : (j.forca || 0);
             document.getElementById('agilidade').value = j.attr ? j.attr.des : (j.agilidade || 0);
@@ -1025,7 +1069,7 @@
             classe: document.getElementById('classe-input').value,
             divindade: document.getElementById('divindade-input').value,
             nivel: document.getElementById('nivel').value,
-            defesa: getValor('defesa-personagem') || 10,
+            defesa: getValor('defesa-personagem') || 0,
             forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
@@ -1224,7 +1268,7 @@
                 uid: uidAtual, 
                 dados: {
                     ...lerCampos(),
-                    defesa: (getValor('defesa-personagem') || 10) + bonusDefesaEquipamentos
+                    defesa: (getValor('defesa-personagem') || 0) + bonusDefesaEquipamentos
                 } 
             });
         }
@@ -1250,7 +1294,7 @@
             }
         }); 
         
-        let defBase = getValor('defesa-personagem') || 10;
+        let defBase = getValor('defesa-personagem') || 0;
         document.getElementById('defesa-total').innerText = defBase + bonusDefesaEquipamentos;
 
         let moedas = getValor('moedas-atual');
@@ -1393,6 +1437,85 @@
         renderizarListas(); 
     }
 
+    function aplicarCatalogoArmadura() {
+        let val = document.getElementById('mi-catalogo-armadura').value;
+        if(val && catalogoArmaduras[val]) {
+            document.getElementById('mi-nome').value = val;
+            document.getElementById('mi-defesa').value = catalogoArmaduras[val].def;
+            document.getElementById('mi-penalidade').value = catalogoArmaduras[val].pen;
+            document.getElementById('mi-peso').value = catalogoArmaduras[val].esp;
+        }
+    }
+
+    // Geração dos componentes em cascata para Habilidades e Proficiências
+    function renderCascadeProf(suffix) {
+        let subItemsHtml = `<div id="cat-prof-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
+        if (dbProficiencias.length === 0) {
+            subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
+        } else {
+            dbProficiencias.forEach(p => {
+                subItemsHtml += `
+                <div class="hab-subitem">
+                    <span style="flex:1;">🛠️ ${p.nome}</span>
+                    <div style="display:flex; gap:8px;">
+                        <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">✨</button>
+                        <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
+                    </div>
+                </div>`;
+            });
+        }
+        subItemsHtml += `</div>`;
+        return `
+        <div class="hab-category-wrapper" style="border-left-color: #ff9100; padding:8px;">
+            <div class="hab-category-header" onclick="toggleCat('cat-prof-${suffix}')">
+                <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">🛠️</div> Proficiências</div>
+                <span style="color:#8b5a2b; font-size:1rem;">▼</span>
+            </div>
+            ${subItemsHtml}
+        </div>`;
+    }
+
+    function renderCascadeHab(suffix) {
+        let htmlFinal = '';
+        const categorias = [
+            { id: 'Raça', icon: '🧬', title: 'Hab. de Raça', color: '#00695c' },
+            { id: 'Classe', icon: '⚔️', title: 'Hab. de Classe', color: '#b71c1c' },
+            { id: 'Poder', icon: '✨', title: 'Poderes/Outros', color: '#e65100' }
+        ];
+
+        categorias.forEach(cat => {
+            let items = dbHabilidades.filter(h => (h.tipo || 'Classe') === cat.id);
+            if (suffix === 'principal' && items.length === 0) return; // Oculta categorias vazias na aba principal
+
+            let subItemsHtml = `<div id="cat-hab-${cat.id}-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
+            if (items.length === 0) {
+                subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
+            } else {
+                items.forEach(h => {
+                    subItemsHtml += `
+                    <div class="hab-subitem" onclick="abrirVisualizacao('hab', ${h.id})">
+                        <span style="cursor:pointer; flex:1;">👤 ${h.nome}</span>
+                        <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
+                            <button type="button" style="background:transparent; border:none; color:${cat.color}; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
+                            <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
+                        </div>
+                    </div>`;
+                });
+            }
+            subItemsHtml += `</div>`;
+
+            htmlFinal += `
+            <div class="hab-category-wrapper" style="border-left-color: ${cat.color}; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-hab-${cat.id}-${suffix}')">
+                    <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">${cat.icon}</div> ${cat.title}</div>
+                    <span style="color:#8b5a2b; font-size:1rem;">▼</span>
+                </div>
+                ${subItemsHtml}
+            </div>`;
+        });
+        return htmlFinal;
+    }
+
     function renderizarMagias() {
         const container = document.getElementById('magias-container'); 
         if(!container) return;
@@ -1480,91 +1603,24 @@
         });
 
         // Atualiza Listas de Habilidades na Aba 3 (Grimório) e na Aba 1 (Estatísticas)
-        let htmlProficiencias = renderCascadeProf();
-        let htmlHabilidades = renderCascadeHab();
+        let htmlProficiencias = renderCascadeProf('magias');
+        let htmlHabilidades = renderCascadeHab('magias');
         
         if(document.getElementById('lista-proficiencias')) document.getElementById('lista-proficiencias').innerHTML = htmlProficiencias;
         if(document.getElementById('lista-habilidades')) document.getElementById('lista-habilidades').innerHTML = htmlHabilidades;
 
         if(document.getElementById('lista-proficiencias-principal')) {
             if(dbProficiencias.length > 0) {
-                document.getElementById('lista-proficiencias-principal').innerHTML = htmlProficiencias;
+                document.getElementById('lista-proficiencias-principal').innerHTML = renderCascadeProf('principal');
                 document.getElementById('lista-proficiencias-principal').style.display = 'block';
             } else {
                 document.getElementById('lista-proficiencias-principal').style.display = 'none';
             }
         }
         
-        if(document.getElementById('lista-habilidades-principal')) document.getElementById('lista-habilidades-principal').innerHTML = htmlHabilidades;
+        if(document.getElementById('lista-habilidades-principal')) document.getElementById('lista-habilidades-principal').innerHTML = renderCascadeHab('principal');
         
         renderizarMagias(); 
-    }
-
-    // Geração dos componentes em cascata para Habilidades e Proficiências
-    function renderCascadeProf() {
-        let suffix = Math.random().toString(36).substring(7);
-        let subItemsHtml = `<div id="cat-prof-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
-        if (dbProficiencias.length === 0) {
-            subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhuma cadastrada.</div>`;
-        } else {
-            dbProficiencias.forEach(p => {
-                subItemsHtml += `
-                <div class="hab-subitem">
-                    <span style="flex:1;">🛠️ ${p.nome}</span>
-                    <div style="display:flex; gap:8px;">
-                        <button type="button" style="background:transparent; border:none; color:#ff9100; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'prof', ${p.id})">✨</button>
-                        <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
-                    </div>
-                </div>`;
-            });
-        }
-        subItemsHtml += `</div>`;
-        return `
-        <div class="hab-category-wrapper" style="border-left-color: #ff9100; padding:8px;">
-            <div class="hab-category-header" onclick="toggleCat('cat-prof-${suffix}')">
-                <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">🛠️</div> Proficiências</div>
-                <span style="color:#8b5a2b; font-size:1rem;">▼</span>
-            </div>
-            ${subItemsHtml}
-        </div>`;
-    }
-
-    function renderCascadeHab() {
-        let htmlFinal = '';
-        let suffix = Math.random().toString(36).substring(7);
-        const categorias = [
-            { id: 'Raça', icon: '🧬', title: 'Hab. de Raça', color: '#00695c' },
-            { id: 'Classe', icon: '⚔️', title: 'Hab. de Classe', color: '#b71c1c' },
-            { id: 'Poder', icon: '✨', title: 'Poderes/Outros', color: '#e65100' }
-        ];
-
-        categorias.forEach(cat => {
-            let items = dbHabilidades.filter(h => (h.tipo || 'Classe') === cat.id);
-            if (items.length === 0) return; // Oculta categorias vazias para não poluir
-
-            let subItemsHtml = `<div id="cat-hab-${cat.id}-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
-            items.forEach(h => {
-                subItemsHtml += `
-                <div class="hab-subitem" onclick="abrirVisualizacao('hab', ${h.id})">
-                    <span style="cursor:pointer; flex:1;">👤 ${h.nome}</span>
-                    <div style="display:flex; gap:8px;" onclick="event.stopPropagation()">
-                        <button type="button" style="background:transparent; border:none; color:${cat.color}; font-size:1.2rem; cursor:pointer;" title="Usar" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
-                        <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
-                    </div>
-                </div>`;
-            });
-            subItemsHtml += `</div>`;
-
-            htmlFinal += `
-            <div class="hab-category-wrapper" style="border-left-color: ${cat.color}; padding:8px;">
-                <div class="hab-category-header" onclick="toggleCat('cat-hab-${cat.id}-${suffix}')">
-                    <div class="hab-category-title" style="font-size:1rem;"><div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem;">${cat.icon}</div> ${cat.title}</div>
-                    <span style="color:#8b5a2b; font-size:1rem;">▼</span>
-                </div>
-                ${subItemsHtml}
-            </div>`;
-        });
-        return htmlFinal;
     }
 
     function abrirModalAddPericia() { 
@@ -1639,9 +1695,9 @@
         document.getElementById('mi-mun-nome').value = ''; 
         document.getElementById('mi-pericia').value = '';
         
-        // Novos campos Armadura
         document.getElementById('mi-defesa').value = '0';
         document.getElementById('mi-penalidade').value = '0';
+        document.getElementById('mi-catalogo-armadura').value = '';
 
         tempImgBase64 = ""; 
         document.getElementById('mi-img').value = ""; 
@@ -1989,6 +2045,8 @@
             textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º<br><strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}<br><strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}<br><strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
         } else {
             let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : "";
+            if(item.tipo === 'armadura') extras += `\nDefesa: +${item.bonusDefesa} | Pen: -${item.penalidadeArmadura}`;
+            
             textoFormatado = (item.desc || "Sem descrição.") + extras; 
             textoFormatado = textoFormatado.replace(/\n/g, '<br>'); 
         }
@@ -2051,11 +2109,9 @@
     // ==============================================================
 
     function rolarIniciativa() {
-        if(diceState !== 0) return;
-        let dInic = dbPericias['Iniciativa'];
-        let bonus = dInic ? dInic.total : getValor('agilidade');
-        currentRollData = { nome: `Iniciativa`, bonus: bonus, isDano: false, isInit: true };
-        iniciarGiroDado(`Iniciativa`, bonus, '#2e7d32');
+        // Redireciona o botão antigo de iniciativa para não fazer nada
+        // pois a função foi removida do layout, mas mantemos o código
+        // para não quebrar referências fantasmas caso você volte a usar.
     }
 
     function rolarDado(nome, bonus) { 
