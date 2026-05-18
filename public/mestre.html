@@ -281,16 +281,17 @@
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
 
         /* =========================================
-           MUNDO E LORE (BOTÕES CASCATA)
+           MUNDO E LORE (CASCATAS)
         ========================================= */
-        .mundo-item-rpg {
-            background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b;
-            padding: 10px 15px; cursor: pointer; width: 100%; display: flex; justify-content: space-between;
-            align-items: center; transition: 0.2s; margin-bottom: 10px; border-radius: 4px;
-        }
-        .mundo-item-rpg:hover { background-color: #f4ebd8; transform: translateX(3px); box-shadow: 0 4px 10px rgba(0,0,0,0.15);}
-        .mundo-item-nome { font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a; display: flex; align-items: center; gap: 15px;}
-        .mini-img-moldura { width: 50px; height: 50px; border: 2px solid #5c3a21; object-fit: cover; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .hab-category-wrapper { background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(244, 235, 216, 0.95)); border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; border-radius: 6px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s ease;}
+        .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
+        .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
+        .hab-category-title { font-weight: 900; font-size: 1.15rem; font-family: 'Lora', serif; color: #3e2723; display: flex; align-items: center; gap: 10px; }
+        .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
+        
+        .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
+        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
+        .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
 
         #lista-capitulos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
         #lista-capitulos::-webkit-scrollbar { height: 6px; }
@@ -671,7 +672,7 @@
     let dbBestiario = []; 
     let tempAtaques = []; 
     let tempHabilidades = [];
-    let monstroEditandoId = null;
+    let monstroEditandoId = null; 
     
     let gmCapitulos = []; 
     let capituloAtivoId = null;
@@ -683,7 +684,7 @@
     let tipoContexto = ''; 
     let tempSubItemsLista = [];
     let itemPendenteEnvio = null;
-    let mundoEditandoId = null; // Variável para controlar a edição de Mundo/Lore
+    let mundoEditandoId = null; 
     
     let diceState = 0;
     let animacaoGiro = null;
@@ -774,6 +775,13 @@
         if(confirm("Deseja desconectar este jogador da mesa?")) {
             delete jogadores[chave]; renderizarJogadores(); renderIniciativa();
             socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
+        }
+    }
+
+    function toggleCat(id) {
+        let el = document.getElementById(id);
+        if (el) {
+            el.style.display = el.style.display === 'none' ? 'flex' : 'none';
         }
     }
     
@@ -1211,7 +1219,7 @@
                         </label>
                     </div>
                     <div class="stat-badge" style="background:#455a64;" title="Defesa Editável">
-                        🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
+                        🛡️ <input type="number" class="monstro-edit-def" style="width:25px;" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
                     </div>
                 </div>
                 
@@ -1563,81 +1571,100 @@
         const contGuildas = document.getElementById('lista-guildas-container');
         contGuildas.innerHTML = '';
         dbGuildas.forEach(g => {
-            let img = g.img ? `<img src="${g.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">🛡️</div>`;
+            let imgHtml = g.img ? `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `🛡️`;
             
-            let membrosHtml = '';
+            let membrosHtml = `<div id="cat-guilda-${g.id}" class="hab-subitem-lista" style="display:none;">`;
             if (g.membros && g.membros.length > 0) {
-                membrosHtml = `<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 20px; border-left: 2px dashed rgba(139, 90, 43, 0.3); margin-top: 5px; margin-left: 15px;">` + g.membros.map(m => `
-                    <div style="background: rgba(255,255,255,0.6); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; color: #5c3a21; cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">
-                        👤 ${m.nome}
-                    </div>
-                `).join('') + `</div>`;
+                g.membros.forEach(m => {
+                    membrosHtml += `
+                    <div class="hab-subitem" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">
+                        <span style="cursor:pointer; flex:1;">👤 ${m.nome}</span>
+                    </div>`;
+                });
+            } else {
+                membrosHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum membro registrado.</div>`;
             }
+            membrosHtml += `</div>`;
 
             contGuildas.innerHTML += `
-                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            ${img}
-                            <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${g.nome}</span>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
-                        </div>
+            <div class="hab-category-wrapper" style="border-left-color: #8b5a2b; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-guilda-${g.id}')">
+                    <div class="hab-category-title" style="font-size:1rem;">
+                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${g.nome}</span>
                     </div>
-                    ${membrosHtml}
-                </div>`;
+                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar">📤</button>
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
+                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-guilda-${g.id}')">▼</span>
+                    </div>
+                </div>
+                ${membrosHtml}
+            </div>`;
         });
 
         const contLocais = document.getElementById('lista-locais-container');
         contLocais.innerHTML = '';
         dbLocais.forEach(l => {
-            let img = l.img ? `<img src="${l.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">📍</div>`;
+            let imgHtml = l.img ? `<img src="${l.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `📍`;
             
-            let pontosHtml = '';
+            let pontosHtml = `<div id="cat-local-${l.id}" class="hab-subitem-lista" style="display:none;">`;
             if (l.pontos && l.pontos.length > 0) {
-                pontosHtml = `<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 20px; border-left: 2px dashed rgba(139, 90, 43, 0.3); margin-top: 5px; margin-left: 15px;">` + l.pontos.map(p => `
-                    <div style="background: rgba(255,255,255,0.6); padding: 5px 10px; border-radius: 4px; font-size: 0.9rem; font-weight: bold; color: #5c3a21; cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="abrirSubItem('local', ${l.id}, ${p.id})">
-                        👤 ${p.nome}
-                    </div>
-                `).join('') + `</div>`;
+                l.pontos.forEach(p => {
+                    pontosHtml += `
+                    <div class="hab-subitem" onclick="abrirSubItem('local', ${l.id}, ${p.id})">
+                        <span style="cursor:pointer; flex:1;">👤 ${p.nome}</span>
+                    </div>`;
+                });
+            } else {
+                pontosHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum ponto registrado.</div>`;
             }
+            pontosHtml += `</div>`;
 
             contLocais.innerHTML += `
-                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            ${img}
-                            <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${l.nome}</span>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
-                        </div>
+            <div class="hab-category-wrapper" style="border-left-color: #0d47a1; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-local-${l.id}')">
+                    <div class="hab-category-title" style="font-size:1rem;">
+                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${l.nome}</span>
                     </div>
-                    ${pontosHtml}
-                </div>`;
+                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar">📤</button>
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
+                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-local-${l.id}')">▼</span>
+                    </div>
+                </div>
+                ${pontosHtml}
+            </div>`;
         });
 
         const contPessoas = document.getElementById('lista-pessoas-container');
         contPessoas.innerHTML = '';
         dbPessoas.forEach(p => {
-            let img = p.img ? `<img src="${p.img}" class="mini-img-moldura">` : `<div class="mini-img-moldura">👤</div>`;
+            let imgHtml = p.img ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `👤`;
+            
+            let descHtml = `<div id="cat-pessoa-${p.id}" class="hab-subitem-lista" style="display:none;">
+                <div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4;">${p.desc ? p.desc.replace(/\n/g, '<br>') : '<i>Sem anotações.</i>'}</div>
+            </div>`;
+
             contPessoas.innerHTML += `
-                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        ${img}
-                        <span style="font-weight: 900; font-size: 1.2rem; font-family: 'Lora', serif; color: #170f0a;">${p.nome}</span>
+            <div class="hab-category-wrapper" style="border-left-color: #2e7d32; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-pessoa-${p.id}')">
+                    <div class="hab-category-title" style="font-size:1rem;">
+                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${p.nome}</span>
                     </div>
-                    <div style="display: flex; gap: 8px;">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
-                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar">📤</button>
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-pessoa-${p.id}')">▼</span>
                     </div>
-                </div>`;
+                </div>
+                ${descHtml}
+            </div>`;
         });
     }
 
