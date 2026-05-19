@@ -222,10 +222,11 @@
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
 
+        /* === CASCATAS DE MUNDO E LORE === */
         .mundo-item-recebido { background: rgba(255,255,255,0.7); border: 1px solid #c8b99e; border-left: 6px solid #2e7d32; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .mundo-item-recebido h3 { font-family: 'Cinzel'; color: #1b5e20; margin-top: 0; margin-bottom: 5px; font-size: 1.2rem;}
 
-        /* === ABA 3: MAGIAS E CASCATAS === */
+        /* === ABA 3: MAGIAS E HABILIDADES (CASCATA) === */
         .hab-category-wrapper { background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(244, 235, 216, 0.95)); border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; border-radius: 6px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s ease;}
         .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
         .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
@@ -233,7 +234,7 @@
         .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
         
         .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
-        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; border: 1px solid transparent; cursor: pointer;}
+        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
         .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
 
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
@@ -468,7 +469,7 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
+                    <button type="button" class="btn-add" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
                 </div>
                 
                 <div class="pericias-grid" id="grid-pericias"></div>
@@ -492,11 +493,7 @@
                 </div>
 
                 <div style="margin-top: 25px;">
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('prof')">➕ PROF.</button>
-                        <button type="button" class="btn-acao purple" style="padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('hab')">➕ HAB.</button>
-                    </div>
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES, PROFICIÊNCIAS & MAGIAS</div>
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES & PROFICIÊNCIAS</div>
                     
                     <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
                     <div id="lista-habilidades-principal"></div>
@@ -548,8 +545,10 @@
         <div class="box-rpg" style="border-top-color: #0d47a1; padding: 25px; max-width: 900px; margin: 0 auto; width: 100%;">
             <h2 class="section-title" style="color: #0d47a1;">GRIMÓRIO DE MAGIAS</h2>
             
-            <div style="text-align:center; margin-bottom:20px;">
-                <button type="button" class="btn-acao blue" style="width:100%; max-width: 400px; margin:0 auto; padding: 15px; font-size:1.1rem;" onclick="abrirModalMagia()">🔮 APRENDER NOVA MAGIA</button>
+            <div style="text-align:center; margin-bottom:30px; display:flex; gap:15px; justify-content:center;">
+                <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 15px; width:auto; font-size: 1rem;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
+                <button type="button" class="btn-acao purple" style="padding: 15px; width:auto; font-size: 1rem;" onclick="abrirModalHab('hab')">➕ HABILIDADE</button>
+                <button type="button" class="btn-acao blue" style="padding: 15px; width:auto; font-size:1rem;" onclick="abrirModalMagia()">🔮 NOVA MAGIA</button>
             </div>
             
             <div style="background:rgba(234, 221, 197, 0.5); padding:15px; border-radius:8px; border:1px dashed #c8b99e; margin-bottom:20px; text-align:center;">
@@ -768,7 +767,7 @@
         </div>
         <div class="input-wrapper" id="div-hab-desc" style="margin-bottom: 25px;">
             <label>DESCRIÇÃO</label>
-            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade ou proficiência funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         </div>
         <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
@@ -1908,6 +1907,7 @@
         dbInventario.push(newItem); 
         fecharModais();
         recalcularTudo();
+        renderizarListas();
     }
 
     function toggleEquip(e, id) { 
@@ -1999,6 +1999,7 @@
         
         fecharModais();
         recalcularTudo();
+        renderizarListas();
     }
 
     function abrirModalMagia() { 
@@ -2034,6 +2035,7 @@
         
         fecharModais();
         recalcularTudo();
+        renderizarListas();
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -2210,6 +2212,7 @@
         
         fecharModais();
         recalcularTudo();
+        renderizarListas();
     }
 
     // ==============================================================
