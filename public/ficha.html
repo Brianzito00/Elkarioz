@@ -1,3 +1,10 @@
+Perfeito! A lógica de atualização é fundamental para o mestre não flodar a sua ficha com cópias repetidas toda vez que corrigir um erro de digitação ou adicionar um novo membro na guilda.
+
+O ajuste foi feito na lógica de recebimento do Socket. Agora a Ficha do Jogador vai procurar o `ID` da entidade que o mestre enviou. Se já existir no seu diário, ele só **substitui** as informações antigas pela nova versão. Se não existir, ele **cria** um novo.
+
+Substitua **TODO o código do seu `ficha.html**` por esta versão final:
+
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -234,7 +241,7 @@
         .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
         
         .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
-        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
+        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; border: 1px solid transparent; cursor: pointer;}
         .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
 
         .escola-badge { background: rgba(255,255,255,0.4); border: 2px solid #8b5a2b; color: #5c3a21; padding: 8px 15px; margin: 5px; border-radius: 20px; font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
@@ -469,7 +476,7 @@
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <button type="button" class="btn-add" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
+                    <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
                 </div>
                 
                 <div class="pericias-grid" id="grid-pericias"></div>
@@ -493,7 +500,11 @@
                 </div>
 
                 <div style="margin-top: 25px;">
-                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES & PROFICIÊNCIAS</div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('prof')">➕ PROF.</button>
+                        <button type="button" class="btn-acao purple" style="padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('hab')">➕ HAB.</button>
+                    </div>
+                    <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES, PROFICIÊNCIAS & MAGIAS</div>
                     
                     <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
                     <div id="lista-habilidades-principal"></div>
@@ -767,7 +778,7 @@
         </div>
         <div class="input-wrapper" id="div-hab-desc" style="margin-bottom: 25px;">
             <label>DESCRIÇÃO</label>
-            <textarea id="mh-desc" placeholder="Descreva como a habilidade ou proficiência funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
+            <textarea id="mh-desc" placeholder="Descreva como a habilidade funciona..." class="form-input" style="height:120px; resize:vertical;"></textarea>
         </div>
         <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarHab()">✔️ SALVAR</button>
     </div>
@@ -1232,16 +1243,28 @@
         if (payload && payload.entidade) {
             let meuNome = document.getElementById('char-name-input').value.trim();
             if (payload.target === 'todos' || payload.target === meuNome) {
-                fichaDados.mundoRecebido.push({
-                    id: Date.now(),
-                    tipo: payload.entidade.tipoLista,
-                    dados: payload.entidade.dados
-                });
+                
+                let tipo = payload.entidade.tipoLista;
+                let dados = payload.entidade.dados;
+                let gmId = dados.id;
+
+                let indexExistente = fichaDados.mundoRecebido.findIndex(item => item.tipo === tipo && item.dados.id === gmId);
+
+                if (indexExistente !== -1) {
+                    fichaDados.mundoRecebido[indexExistente].dados = dados;
+                } else {
+                    fichaDados.mundoRecebido.push({
+                        id: gmId, 
+                        tipo: tipo,
+                        dados: dados
+                    });
+                }
+
                 salvarFichaLocal();
                 renderizarMundoRecebido();
                 
-                let icone = payload.entidade.tipoLista === 'historia' ? '📖' : '📜';
-                alert(`${icone} O Mestre compartilhou algo com você! Verifique a aba MOCHILA / MUNDO.`);
+                let icone = tipo === 'historia' ? '📖' : '📜';
+                alert(`${icone} O Mestre atualizou as informações! Verifique a aba MOCHILA / MUNDO.`);
             }
         }
     });
@@ -1907,7 +1930,6 @@
         dbInventario.push(newItem); 
         fecharModais();
         recalcularTudo();
-        renderizarListas();
     }
 
     function toggleEquip(e, id) { 
@@ -1999,7 +2021,6 @@
         
         fecharModais();
         recalcularTudo();
-        renderizarListas();
     }
 
     function abrirModalMagia() { 
@@ -2035,7 +2056,6 @@
         
         fecharModais();
         recalcularTudo();
-        renderizarListas();
     }
 
     // === LÓGICA DE USAR HABILIDADE/MAGIA ===
@@ -2212,7 +2232,6 @@
         
         fecharModais();
         recalcularTudo();
-        renderizarListas();
     }
 
     // ==============================================================
@@ -2491,3 +2510,5 @@
 
 </body>
 </html>
+
+```
