@@ -429,9 +429,9 @@
     </div>
 
     <div class="tabs-nav">
-        <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Dados</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Invetário / Mundo</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Habilidades, Proficiências & Mágias</button>
+        <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Atributos & Habilidades</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário / Mundo</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Mágias</button>
     </div>
 
     <div id="tab-principal" class="tab-content active">
@@ -526,7 +526,7 @@
             <div class="conteudo-principal">
                 <div class="inv-top-bar">
                     <div class="carga-container">
-                        <span class="carga-texto">ESPAÇOS (EQUIPADO): <span id="carga-atual">0</span> / <span id="carga-max">10</span></span>
+                        <span class="carga-texto">ESPAÇOS: <span id="carga-atual">0</span> / <span id="carga-max">10</span></span>
                         <div class="carga-barra-bg">
                             <div id="carga-fill" class="carga-barra-fill"></div>
                         </div>
@@ -549,7 +549,7 @@
             
             <div class="sidebar-direita">
                 <div class="box-rpg" style="padding: 15px; border-top-color: #2e7d32; min-height: 400px; margin-bottom:0;">
-                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">LORE & MAPAS</h2>
+                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
                     <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
                     
                     <div id="lista-mundo-recebido"></div>
@@ -560,11 +560,9 @@
 
     <div id="tab-magias" class="tab-content">
         <div class="box-rpg" style="border-top-color: #0d47a1; padding: 25px; max-width: 900px; margin: 0 auto; width: 100%;">
-            <h2 class="section-title" style="color: #0d47a1;">Habilidades / Proficiências / Mágias</h2>
+            <h2 class="section-title" style="color: #0d47a1;">Mágias</h2>
             
             <div style="text-align:center; margin-bottom:30px; display:flex; gap:15px; justify-content:center;">
-                <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 15px; width:auto; font-size: 1rem;" onclick="abrirModalHab('prof')">➕ PROFICIÊNCIA</button>
-                <button type="button" class="btn-acao purple" style="padding: 15px; width:auto; font-size: 1rem;" onclick="abrirModalHab('hab')">➕ HABILIDADE</button>
                 <button type="button" class="btn-acao blue" style="padding: 15px; width:auto; font-size:1rem;" onclick="abrirModalMagia()">🔮 NOVA MAGIA</button>
             </div>
             
@@ -609,9 +607,9 @@
         <h3 class="section-title">NOVO ITEM / ARMA</h3>
         
         <div class="modal-tabs">
-            <button type="button" class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">COMUM</button>
-            <button type="button" class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
-            <button type="button" class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
+            <button type="button" class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">ITENS</button>
+            <button type="button" class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">ARMAS CORPO A CORPO</button>
+            <button type="button" class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">ARMAS LONGA DISTÂCIA</button>
             <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
             <button type="button" class="modal-tab-btn" id="tab-armadura" onclick="mudarAbaItem('armadura')">🛡️ ARMADURA</button>
         </div>
