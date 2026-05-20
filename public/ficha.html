@@ -326,7 +326,7 @@
 
 <div id="dice-overlay-click"></div>
 <div id="dice-result-container"><div id="dice-text" style="width: 100%;"></div></div>
-
+<div id="toast-container"></div>
 
 <div class="ficha-container">
     
@@ -571,8 +571,8 @@
     </div>
 </div>
 
-<div id="modal-zoom-img" class="modal-overlay" style="z-index: 5000; background: rgba(0,0,0,0.9);" onclick="fecharModais()">
-    <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="event.stopPropagation(); fecharModais()">&times;</span>
+<div id="modal-zoom-img" class="modal-overlay" style="z-index: 9999; background: rgba(0,0,0,0.9);" onclick="fecharZoom()">
+    <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="event.stopPropagation(); fecharZoom()">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
 </div>
 
@@ -597,8 +597,34 @@
             <button type="button" class="modal-tab-btn" id="tab-corpo" onclick="mudarAbaItem('corpo')">C. CORPO</button>
             <button type="button" class="modal-tab-btn" id="tab-dist" onclick="mudarAbaItem('dist')">DISTÂNCIA</button>
             <button type="button" class="modal-tab-btn" id="tab-municao" onclick="mudarAbaItem('municao')">MUNIÇÃO</button>
+            <button type="button" class="modal-tab-btn" id="tab-armadura" onclick="mudarAbaItem('armadura')">🛡️ ARMADURA</button>
         </div>
         
+        <div class="input-wrapper armadura-field" style="display:none; margin-bottom: 15px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 6px; border: 1px dashed #8b5a2b;">
+            <label>CATÁLOGO DE ARMADURAS E ESCUDOS</label>
+            <select id="mi-catalogo-armadura" class="form-input" onchange="aplicarCatalogoArmadura()">
+                <option value="">Personalizada / Criar do zero</option>
+                <optgroup label="Armaduras Leves">
+                    <option value="Armadura acolchoada">Armadura acolchoada (+1 Def, 0 Pen, 2 Esp)</option>
+                    <option value="Armadura de Couro">Armadura de Couro (+2 Def, 0 Pen, 2 Esp)</option>
+                    <option value="Couro Batido">Couro Batido (+3 Def, -1 Pen, 2 Esp)</option>
+                    <option value="Gibão de Peles">Gibão de Peles (+4 Def, -3 Pen, 2 Esp)</option>
+                    <option value="Couraça">Couraça (+5 Def, -4 Pen, 2 Esp)</option>
+                </optgroup>
+                <optgroup label="Armaduras Pesadas">
+                    <option value="Brunea">Brunea (+5 Def, -2 Pen, 5 Esp)</option>
+                    <option value="Cota de Malha">Cota de Malha (+6 Def, -2 Pen, 5 Esp)</option>
+                    <option value="Loriga Segmentada">Loriga Segmentada (+7 Def, -3 Pen, 5 Esp)</option>
+                    <option value="Meia Armadura">Meia Armadura (+8 Def, -4 Pen, 5 Esp)</option>
+                    <option value="Armadura Completa">Armadura Completa (+10 Def, -5 Pen, 5 Esp)</option>
+                </optgroup>
+                <optgroup label="Escudos">
+                    <option value="Escudo Leve">Escudo Leve (+1 Def, -1 Pen, 1 Esp)</option>
+                    <option value="Escudo Pesado">Escudo Pesado (+2 Def, -2 Pen, 2 Esp)</option>
+                </optgroup>
+            </select>
+        </div>
+
         <div class="input-wrapper" style="margin-bottom:15px;">
             <label>Nome do Item / Arma / Munição</label>
             <input type="text" id="mi-nome" placeholder="Ex: Espada Longa" class="form-input">
@@ -632,6 +658,15 @@
                 <select id="mi-raridade" class="form-input" style="text-align:center;">
                     <option value="Normal">Normal</option><option value="Incomum">Incomum</option><option value="Raro">Raro</option><option value="Único">Único</option><option value="Lendário">Lendário</option>
                 </select>
+            </div>
+            
+            <div class="input-wrapper armadura-field" style="flex:1; min-width:90px; display:none;">
+                <label>BÔNUS DEFESA</label>
+                <input type="number" id="mi-defesa" value="0" class="form-input" style="text-align:center;">
+            </div>
+            <div class="input-wrapper armadura-field" style="flex:1; min-width:90px; display:none;">
+                <label>PENALIDADE</label>
+                <input type="number" id="mi-penalidade" value="0" class="form-input" style="text-align:center;">
             </div>
 
             <div class="input-wrapper arma-field" style="flex:1; min-width:140px; display:none;">
@@ -1080,6 +1115,10 @@
         document.getElementById('zoom-img-target').src = url;
         document.getElementById('modal-zoom-img').style.display = 'flex';
     }
+    
+    function fecharZoom() {
+        document.getElementById('modal-zoom-img').style.display = 'none';
+    }
 
     function forcarSalvar() {
         salvarFichaLocal();
@@ -1223,60 +1262,57 @@
             let d = item.dados;
             let tipo = item.tipo;
             
-            let cor = '#2e7d32'; let icone = '👤';
-            let subitens = [];
-            let desc = '';
-            let nome = '';
-
             if(tipo === 'historia') {
-                cor = '#8b5a2b'; icone = '📖';
-                nome = d.titulo;
-                desc = d.conteudo;
-            } else {
-                nome = d.nome;
-                desc = d.desc;
-                if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; subitens = d.membros || []; }
-                else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; subitens = d.pontos || []; }
-                else if(tipo === 'pessoa') { cor = '#2e7d32'; icone = '👤'; }
-            }
-            
-            let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : icone;
-            
-            let subItemsHtml = `<div id="cat-mundo-${item.id}" class="hab-subitem-lista" style="display:none;">`;
-            
-            if(desc) {
-                subItemsHtml += `<div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4; margin-bottom:8px; border-bottom:1px dashed ${cor};">${desc.replace(/\n/g, '<br>')}</div>`;
-            }
-
-            if (subitens.length > 0) {
-                subitens.forEach(sub => {
-                    let subNomeSafe = sub.nome.replace(/'/g, "\\'");
-                    let subDescSafe = (sub.desc || '').replace(/'/g, "\\'").replace(/\n/g, "<br>");
-                    let subImgSafe = (sub.img || '');
-                    subItemsHtml += `
-                    <div class="hab-subitem" style="cursor:pointer;" onclick="abrirDetalheMundo('${subNomeSafe}', '${subDescSafe}', '${subImgSafe}')">
-                        <span style="flex:1;">👤 ${sub.nome}</span>
+                container.innerHTML += `
+                    <div class="mundo-item-recebido">
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer;">&times;</button>
+                        <h3>📖 ${d.titulo}</h3>
+                        <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5;">${d.conteudo.replace(/\n/g, '<br>')}</div>
                     </div>`;
-                });
-            } else if (!desc) {
-                subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum detalhe adicional.</div>`;
-            }
-            subItemsHtml += `</div>`;
+            } else {
+                let cor = '#2e7d32'; let icone = '👤';
+                if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; }
+                else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; }
+                
+                let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : icone;
+                
+                let subitens = d.membros || d.pontos || [];
+                let subItemsHtml = `<div id="cat-mundo-${item.id}" class="hab-subitem-lista" style="display:none;">`;
+                
+                if(d.desc) {
+                    subItemsHtml += `<div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4; margin-bottom:8px; border-bottom:1px dashed ${cor};">${d.desc.replace(/\n/g, '<br>')}</div>`;
+                }
 
-            container.innerHTML += `
-            <div class="hab-category-wrapper" style="border-left-color: ${cor}; padding:8px;">
-                <div class="hab-category-header" onclick="toggleCat('cat-mundo-${item.id}')">
-                    <div class="hab-category-title" style="font-size:1rem;">
-                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
-                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;">${nome}</span>
+                if (subitens.length > 0) {
+                    subitens.forEach(sub => {
+                        let subNomeSafe = sub.nome.replace(/'/g, "\\'");
+                        let subDescSafe = (sub.desc || '').replace(/'/g, "\\'").replace(/\n/g, "<br>");
+                        let subImgSafe = (sub.img || '');
+                        subItemsHtml += `
+                        <div class="hab-subitem" style="cursor:pointer;" onclick="abrirDetalheMundo('${subNomeSafe}', '${subDescSafe}', '${subImgSafe}')">
+                            <span style="flex:1;">👤 ${sub.nome}</span>
+                        </div>`;
+                    });
+                } else if (!d.desc) {
+                    subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum detalhe adicional.</div>`;
+                }
+                subItemsHtml += `</div>`;
+
+                container.innerHTML += `
+                <div class="hab-category-wrapper" style="border-left-color: ${cor}; padding:8px;">
+                    <div class="hab-category-header" onclick="toggleCat('cat-mundo-${item.id}')">
+                        <div class="hab-category-title" style="font-size:1rem;">
+                            <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
+                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;">${d.nome}</span>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
+                            <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-mundo-${item.id}')">▼</span>
+                        </div>
                     </div>
-                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
-                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-mundo-${item.id}')">▼</span>
-                    </div>
-                </div>
-                ${subItemsHtml}
-            </div>`;
+                    ${subItemsHtml}
+                </div>`;
+            }
         });
     }
 
@@ -1399,7 +1435,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-mundo-detalhe'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
@@ -1858,6 +1894,7 @@
         dbInventario.push(newItem); 
         fecharModais();
         recalcularTudo();
+        renderizarListas();
     }
 
     function toggleEquip(e, id) { 
