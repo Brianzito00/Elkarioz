@@ -481,7 +481,10 @@
                 <div style="display:flex; gap:10px;">
                     <div class="defesa-box" style="flex:1;">
                         <label>DEFESA</label>
-                        <input type="number" value="10" id="defesa-personagem" oninput="recalcularTudo()" style="font-size: 2.8rem; font-weight: 900; width: 100%; text-align: center; background: transparent; border: none; color: #3e2723; -moz-appearance: textfield;">
+                        <div class="defesa-valor" id="defesa-total">0</div>
+                        <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
+                            Base/Outros: <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                        </div>
                     </div>
                 </div>
 
@@ -491,10 +494,6 @@
                 </div>
 
                 <div style="margin-top: 25px;">
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('prof')">➕ PROF.</button>
-                        <button type="button" class="btn-acao purple" style="padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('hab')">➕ HAB.</button>
-                    </div>
                     <div class="list-section-title" style="color:#673ab7; border-bottom: 2px dashed rgba(103,58,183,0.4); padding-bottom:5px;">HABILIDADES, PROFICIÊNCIAS E MAGIAS</div>
                     
                     <div id="lista-proficiencias-principal" style="margin-top: 15px; display:none;"></div>
@@ -634,7 +633,7 @@
                     <option value="Normal">Normal</option><option value="Incomum">Incomum</option><option value="Raro">Raro</option><option value="Único">Único</option><option value="Lendário">Lendário</option>
                 </select>
             </div>
-            
+
             <div class="input-wrapper arma-field" style="flex:1; min-width:140px; display:none;">
                 <label>PERÍCIA LIGADA</label>
                 <select id="mi-pericia" class="form-input" style="text-align:center;"></select>
@@ -979,7 +978,7 @@
             hpMax: getValor('vida-max'),
             mpAtual: getValor('mana-atual'),
             mpMax: getValor('mana-max'),
-            defesa: getValor('defesa-personagem') || 10,
+            defesa: getValor('defesa-personagem') || 0,
             img: document.getElementById('portrait-img').src,
             attr: {
                 for: getValor('forca'),
@@ -1002,7 +1001,7 @@
             document.getElementById('classe-input').value = j.classe || '';
             document.getElementById('divindade-input').value = j.divindade || '';
             document.getElementById('nivel').value = j.nivel || 1;
-            document.getElementById('defesa-personagem').value = j.defesa || 10;
+            document.getElementById('defesa-personagem').value = j.defesa || 0;
             
             document.getElementById('forca').value = j.attr ? j.attr.for : (j.forca || 0);
             document.getElementById('agilidade').value = j.attr ? j.attr.des : (j.agilidade || 0);
@@ -1032,7 +1031,6 @@
             
             fichaDados.mundoRecebido = Array.isArray(j.mundoRecebido) ? j.mundoRecebido : [];
             
-            // This is handled by recalcularTudo at initialization, but let's call just in case
             renderizarListas();
             renderizarMundoRecebido();
             
@@ -1055,7 +1053,7 @@
             classe: document.getElementById('classe-input').value,
             divindade: document.getElementById('divindade-input').value,
             nivel: document.getElementById('nivel').value,
-            defesa: getValor('defesa-personagem') || 10,
+            defesa: getValor('defesa-personagem') || 0,
             forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
@@ -1225,57 +1223,60 @@
             let d = item.dados;
             let tipo = item.tipo;
             
+            let cor = '#2e7d32'; let icone = '👤';
+            let subitens = [];
+            let desc = '';
+            let nome = '';
+
             if(tipo === 'historia') {
-                container.innerHTML += `
-                    <div class="mundo-item-recebido">
-                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer;">&times;</button>
-                        <h3>📖 ${d.titulo}</h3>
-                        <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5;">${d.conteudo.replace(/\n/g, '<br>')}</div>
-                    </div>`;
+                cor = '#8b5a2b'; icone = '📖';
+                nome = d.titulo;
+                desc = d.conteudo;
             } else {
-                let cor = '#2e7d32'; let icone = '👤';
-                if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; }
-                else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; }
-                
-                let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : icone;
-                
-                let subitens = d.membros || d.pontos || [];
-                let subItemsHtml = `<div id="cat-mundo-${item.id}" class="hab-subitem-lista" style="display:none;">`;
-                
-                if(d.desc) {
-                    subItemsHtml += `<div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4; margin-bottom:8px; border-bottom:1px dashed ${cor};">${d.desc.replace(/\n/g, '<br>')}</div>`;
-                }
-
-                if (subitens.length > 0) {
-                    subitens.forEach(sub => {
-                        let subNomeSafe = sub.nome.replace(/'/g, "\\'");
-                        let subDescSafe = (sub.desc || '').replace(/'/g, "\\'").replace(/\n/g, "<br>");
-                        let subImgSafe = (sub.img || '');
-                        subItemsHtml += `
-                        <div class="hab-subitem" style="cursor:pointer;" onclick="abrirDetalheMundo('${subNomeSafe}', '${subDescSafe}', '${subImgSafe}')">
-                            <span style="flex:1;">👤 ${sub.nome}</span>
-                        </div>`;
-                    });
-                } else if (!d.desc) {
-                    subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum detalhe adicional.</div>`;
-                }
-                subItemsHtml += `</div>`;
-
-                container.innerHTML += `
-                <div class="hab-category-wrapper" style="border-left-color: ${cor}; padding:8px;">
-                    <div class="hab-category-header" onclick="toggleCat('cat-mundo-${item.id}')">
-                        <div class="hab-category-title" style="font-size:1rem;">
-                            <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
-                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;">${d.nome}</span>
-                        </div>
-                        <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
-                            <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-mundo-${item.id}')">▼</span>
-                        </div>
-                    </div>
-                    ${subItemsHtml}
-                </div>`;
+                nome = d.nome;
+                desc = d.desc;
+                if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; subitens = d.membros || []; }
+                else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; subitens = d.pontos || []; }
+                else if(tipo === 'pessoa') { cor = '#2e7d32'; icone = '👤'; }
             }
+            
+            let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : icone;
+            
+            let subItemsHtml = `<div id="cat-mundo-${item.id}" class="hab-subitem-lista" style="display:none;">`;
+            
+            if(desc) {
+                subItemsHtml += `<div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4; margin-bottom:8px; border-bottom:1px dashed ${cor};">${desc.replace(/\n/g, '<br>')}</div>`;
+            }
+
+            if (subitens.length > 0) {
+                subitens.forEach(sub => {
+                    let subNomeSafe = sub.nome.replace(/'/g, "\\'");
+                    let subDescSafe = (sub.desc || '').replace(/'/g, "\\'").replace(/\n/g, "<br>");
+                    let subImgSafe = (sub.img || '');
+                    subItemsHtml += `
+                    <div class="hab-subitem" style="cursor:pointer;" onclick="abrirDetalheMundo('${subNomeSafe}', '${subDescSafe}', '${subImgSafe}')">
+                        <span style="flex:1;">👤 ${sub.nome}</span>
+                    </div>`;
+                });
+            } else if (!desc) {
+                subItemsHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum detalhe adicional.</div>`;
+            }
+            subItemsHtml += `</div>`;
+
+            container.innerHTML += `
+            <div class="hab-category-wrapper" style="border-left-color: ${cor}; padding:8px;">
+                <div class="hab-category-header" onclick="toggleCat('cat-mundo-${item.id}')">
+                    <div class="hab-category-title" style="font-size:1rem;">
+                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px;">${nome}</span>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
+                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
+                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-mundo-${item.id}')">▼</span>
+                    </div>
+                </div>
+                ${subItemsHtml}
+            </div>`;
         });
     }
 
@@ -1306,11 +1307,16 @@
 
         let uidAtual = document.getElementById('uid-input').value.trim().toUpperCase();
         if (!uidAtual || uidAtual === "SEM SALA") return; 
+        
+        let bonusDefesaEquipamentos = dbInventario.reduce((acc, i) => acc + (i.equipado && i.tipo === 'armadura' ? (parseFloat(i.bonusDefesa)||0) : 0), 0);
 
         if (typeof socket !== 'undefined' && socket.emit) {
             socket.emit('atualizarDados', { 
                 uid: uidAtual, 
-                dados: lerCampos()
+                dados: {
+                    ...lerCampos(),
+                    defesa: (getValor('defesa-personagem') || 0) + bonusDefesaEquipamentos
+                } 
             });
         }
     }
@@ -1322,7 +1328,19 @@
         document.getElementById('carga-max').innerText = cargaMaxima;
         
         let cargaAtual = 0; 
-        dbInventario.forEach(i => { if(i.equipado) cargaAtual += (i.peso || 0); }); 
+        let bonusDefesaEquipamentos = 0;
+
+        dbInventario.forEach(i => { 
+            if(i.equipado) {
+                cargaAtual += (i.peso || 0); 
+                if (i.tipo === 'armadura') {
+                    bonusDefesaEquipamentos += (parseFloat(i.bonusDefesa) || 0);
+                }
+            }
+        }); 
+        
+        let defBase = getValor('defesa-personagem') || 0;
+        document.getElementById('defesa-total').innerText = defBase + bonusDefesaEquipamentos;
 
         let moedas = getValor('moedas-atual');
         cargaAtual += Math.floor(moedas / 20);
@@ -1336,7 +1354,7 @@
         const nivel = parseInt(nivelStr) || 1;
         
         let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : nivel < 17 ? 5 : 6;
-
+        
         listaPericiasBase.forEach(p => { 
             if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.n]; 
@@ -1350,8 +1368,6 @@
         });
 
         renderizarPericias();
-        renderizarListas();
-        renderizarMagias();
         sincronizarComMestre();
     }
 
@@ -1453,6 +1469,15 @@
                     </div>
                 </div>`;
         });
+    }
+
+    function aplicarCatalogoArmadura() {
+        let val = document.getElementById('mi-catalogo-armadura').value;
+        if(val && catalogoArmaduras[val]) {
+            document.getElementById('mi-nome').value = val;
+            document.getElementById('mi-defesa').value = catalogoArmaduras[val].def;
+            document.getElementById('mi-peso').value = catalogoArmaduras[val].esp;
+        }
     }
 
     // Geração dos componentes em cascata para Habilidades e Proficiências
@@ -1584,6 +1609,8 @@
             else if(tipo === 'hab') dbHabilidades = dbHabilidades.filter(x => x.id !== id);
             else if(tipo === 'magia') dbMagias = dbMagias.filter(x => x.id !== id);
             recalcularTudo();
+            renderizarListas();
+            salvarFichaLocal();
         }
     }
 
@@ -1595,7 +1622,7 @@
         if(listArmas) listArmas.innerHTML = '';
         
         dbInventario.forEach(i => { 
-            let icone = i.tipo == 'corpo' ? '⚔️' : (i.tipo == 'dist' ? '🏹' : (i.tipo == 'municao' ? '🎯' : '🎒'));
+            let icone = i.tipo == 'corpo' ? '⚔️' : (i.tipo == 'dist' ? '🏹' : (i.tipo == 'municao' ? '🎯' : (i.tipo == 'armadura' ? '🛡️' : '🎒')));
             let imgHtml = i.img ? `<img src="${i.img}" class="item-img-mini">` : `<div class="item-icon-placeholder">${icone}</div>`;
             let displayMun = i.tipo == 'dist' ? `<div class="ammo-text" style="color:#b71c1c;">Tiros: ${i.munAtual}/${i.munMax}</div>` : (i.tipo == 'municao' ? `<div class="ammo-text" style="color:#0d47a1;">Qtde: ${i.munAtual}</div>` : '');
             
@@ -1733,6 +1760,10 @@
         document.getElementById('mi-mun-nome').value = ''; 
         document.getElementById('mi-pericia').value = '';
         
+        document.getElementById('mi-defesa').value = '0';
+        document.getElementById('mi-penalidade').value = '0';
+        document.getElementById('mi-catalogo-armadura').value = '';
+
         tempImgBase64 = ""; 
         document.getElementById('mi-img').value = ""; 
         document.getElementById('mi-img-preview-container').style.display = 'none';
@@ -1750,6 +1781,9 @@
         document.querySelectorAll('.arma-field-row').forEach(el => el.style.display = isArma ? 'flex' : 'none');
         document.getElementById('mi-mun-link-box').style.display = (tipo == 'dist') ? 'block' : 'none';
         
+        let isArmadura = (tipo == 'armadura');
+        document.querySelectorAll('.armadura-field').forEach(el => el.style.display = isArmadura ? 'flex' : 'none');
+
         const munContainer = document.getElementById('mi-mun-container');
         if(tipo == 'dist') { 
             munContainer.style.display = 'block'; 
@@ -1791,6 +1825,10 @@
             if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink) {
                 extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value || '-'}`;
             }
+        } else if (abaItemAtual == 'armadura') {
+            let bonusDef = parseInt(document.getElementById('mi-defesa').value) || 0;
+            let penArm = parseInt(document.getElementById('mi-penalidade').value) || 0;
+            extraText += `\nDEFESA: +${bonusDef} | PENALIDADE: -${penArm}`;
         }
 
         let newItem = { 
@@ -1803,7 +1841,9 @@
             equipado: false,
             periciaLink: periciaLink, 
             dano: document.getElementById('mi-dano').value, 
-            crit: document.getElementById('mi-crit').value
+            crit: document.getElementById('mi-crit').value,
+            bonusDefesa: parseInt(document.getElementById('mi-defesa').value) || 0,
+            penalidadeArmadura: parseInt(document.getElementById('mi-penalidade').value) || 0
         };
         
         if(abaItemAtual == 'dist') { 
@@ -2064,6 +2104,8 @@
             textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º<br><strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}<br><strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}<br><strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
         } else {
             let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : "";
+            if(item.tipo === 'armadura') extras += `\nDefesa: +${item.bonusDefesa} | Pen: -${item.penalidadeArmadura}`;
+            
             textoFormatado = (item.desc || "Sem descrição.") + extras; 
             textoFormatado = textoFormatado.replace(/\n/g, '<br>'); 
         }
@@ -2366,9 +2408,9 @@
         let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
 
         toast.innerHTML = `
-            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
-                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
-                <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <span style="flex:1; word-wrap: break-word; line-height: 1.1;"><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
+                <span style="color:${color}; font-family:'Cinzel'; font-weight:900; white-space:nowrap; flex-shrink: 0;">${roll.categoria}</span>
             </div>
             <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
             ${resultHtml}
