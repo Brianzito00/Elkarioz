@@ -287,8 +287,26 @@
         .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
         .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
         .hab-category-title { font-weight: 900; font-size: 1.15rem; font-family: 'Lora', serif; color: #3e2723; display: flex; align-items: center; gap: 10px; }
+        
         .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
         
+        /* MINIATURAS MAIORES DO ESCUDO DO MESTRE */
+        .mini-img-moldura { 
+            width: 75px; 
+            height: 75px; 
+            border: 2px solid #5c3a21; 
+            object-fit: cover; 
+            object-position: center;
+            background: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2.2rem; 
+            border-radius: 6px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3); 
+            flex-shrink: 0; 
+        }
+
         .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
         .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
         .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
@@ -1005,6 +1023,16 @@
 
     function fecharModais() { document.querySelectorAll('.modal-overlay').forEach(m => { if(m.id !== 'dice-overlay-click') m.style.display = 'none'; }); }
     
+    function abrirZoomImagem(url) {
+        if(!url || url.includes('placeholder')) return;
+        document.getElementById('zoom-img-target').src = url;
+        document.getElementById('modal-zoom-img').style.display = 'flex';
+    }
+    
+    function fecharZoom() {
+        document.getElementById('modal-zoom-img').style.display = 'none';
+    }
+
     function abrirModalMonstro() {
         monstroEditandoId = null;
         document.querySelector('#modal-monstro .section-title').innerText = 'CRIAR MONSTRO';
@@ -1219,7 +1247,7 @@
                         </label>
                     </div>
                     <div class="stat-badge" style="background:#455a64;" title="Defesa Editável">
-                        🛡️ <input type="number" class="monstro-edit-def" style="width:25px;" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
+                        🛡️ <input type="number" class="monstro-edit-def" value="${m.def}" onchange="updateMonstroStatus(${m.id}, 'def', this.value)">
                     </div>
                 </div>
                 
@@ -1594,7 +1622,7 @@
                         <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${g.nome}</span>
                     </div>
                     <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
                         <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar">📤</button>
                         <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
                         <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-guilda-${g.id}')">▼</span>
@@ -1630,7 +1658,7 @@
                         <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${l.nome}</span>
                     </div>
                     <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
                         <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar">📤</button>
                         <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
                         <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-local-${l.id}')">▼</span>
@@ -1657,7 +1685,7 @@
                         <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${p.nome}</span>
                     </div>
                     <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar">✏️</button>
+                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
                         <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar">📤</button>
                         <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
                         <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-pessoa-${p.id}')">▼</span>
@@ -1862,9 +1890,9 @@
         let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
 
         toast.innerHTML = `
-            <div class="log-header" style="display:flex; justify-content:space-between; align-items:center;">
-                <span><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
-                <span style="color:${color}; font-family:'Cinzel'; font-weight:900;">${roll.categoria}</span>
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                <span style="flex:1; word-wrap: break-word; line-height: 1.1;"><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
+                <span style="color:${color}; font-family:'Cinzel'; font-weight:900; white-space:nowrap; flex-shrink: 0;">${roll.categoria}</span>
             </div>
             <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
             ${resultHtml}
