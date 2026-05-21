@@ -307,26 +307,8 @@
         .pop-total { font-size: 6rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
         
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.95rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px;}
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.95rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px; text-align: left;}
         .pop-hint { color: #999; font-weight: bold; font-size: 0.8rem; font-family: 'Roboto'; margin-top: 15px; display: block; text-transform: uppercase; }
-
-        /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column-reverse; 
-            gap: 15px; pointer-events: none; width: 350px; max-width: 90vw;
-        }
-
-        .toast-entry {
-            background: rgba(255, 255, 255, 0.95); border: 2px solid; border-left-width: 8px !important; border-radius: 8px;
-            padding: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); pointer-events: auto; backdrop-filter: blur(5px);
-            animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; cursor: pointer; transition: 0.2s;
-            word-wrap: break-word; word-break: break-word;
-        }
-        
-        .toast-entry:hover { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-
-        @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
         /* SCROLLBAR & RESPONSIVIDADE */
         ::-webkit-scrollbar { width: 8px; } 
@@ -1330,7 +1312,7 @@
     });
 
     function renderizarMundoRecebido() {
-        const container = document.getElementById('lista-mundo-recebido');
+        const wrapper = document.getElementById('mundo-recebido-wrapper');
         const secHistorias = document.getElementById('sec-historias');
         const contHistorias = document.getElementById('lista-historias-recebidas');
         const secGuildas = document.getElementById('sec-guildas');
@@ -1340,9 +1322,8 @@
         const secLocais = document.getElementById('sec-locais');
         const contLocais = document.getElementById('lista-locais-recebidos');
         const msgVazio = document.getElementById('msg-mundo-vazio');
-        const wrapper = document.getElementById('mundo-recebido-wrapper');
 
-        if(!container) return;
+        if(!wrapper) return;
         
         contHistorias.innerHTML = '';
         contGuildas.innerHTML = '';
@@ -1364,34 +1345,35 @@
             let d = item.dados;
             let tipo = item.tipo;
             
+            let cor = '#2e7d32'; let icone = '👤';
+            let nome = d.nome;
+
             if(tipo === 'historia') {
                 temHistoria = true;
+                nome = d.titulo;
                 contHistorias.innerHTML += `
                     <div class="mundo-item-recebido" style="border-left-color: #8b5a2b; cursor:pointer;" onclick="abrirDetalheHistoriaRecebida(${item.id})">
                         <div style="display:flex; justify-content:space-between; align-items:center; gap: 10px;">
-                            <h3 style="margin:0; text-align: left; word-break: break-word; flex: 1;">📖 ${d.titulo}</h3>
+                            <h3 style="margin:0; text-align: left; word-break: break-word; flex: 1;">📖 ${nome}</h3>
                             <button class="btn-kick" onclick="event.stopPropagation(); apagarMundoRecebido(${item.id})" style="position:relative; right:0; top:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer; flex-shrink: 0;">&times;</button>
                         </div>
                     </div>`;
             } else {
-                let cor = '#2e7d32'; let icone = '👤';
-                let nome = d.nome;
-
                 if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; temGuilda = true; }
                 else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; temLocal = true; }
                 else if(tipo === 'pessoa') { cor = '#2e7d32'; icone = '👤'; temPessoa = true; }
                 
-                let imgHtml = d.img ? `<img src="${d.img}" class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px;">` : `<div class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px; background: #fff;">${icone}</div>`;
+                let imgHtml = d.img ? `<img src="${d.img}" class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; flex-shrink: 0; border-color:${cor};">` : `<div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; flex-shrink: 0; border-color:${cor}; background: #fff;">${icone}</div>`;
                 
                 let cardHtml = `
-                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 4px solid ${cor}; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid ${cor}; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0;">
                             ${imgHtml}
-                            <span style="font-weight: 900; font-size: 1.05rem; font-family: 'Lora', serif; color: #170f0a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1; text-align: left;">${nome}</span>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1; text-align: left;">${nome}</span>
                         </div>
-                        <div style="display:flex; flex-shrink: 0; align-items:center;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.4rem; font-weight:bold; line-height:0.8; padding: 0;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
+                        <div style="display:flex; gap:8px; flex-shrink: 0; align-items:center;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding-bottom: 2px; line-height:0.8;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
                         </div>
                     </div>
                 </div>`;
