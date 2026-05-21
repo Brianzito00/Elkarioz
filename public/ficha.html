@@ -894,7 +894,7 @@
         <h3 class="section-title">Perfil</h3>
         <input type="text" id="ms-nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
         <div style="display:flex; justify-content:center; margin-bottom:15px;">
-            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none;">
+            <div id="ms-img-preview-container" style="width: 100px; height: 100px; border: 3px solid #8b5a2b; border-radius: 50%; overflow: hidden; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(document.getElementById('ms-img-preview').src)">
                 <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
@@ -1309,15 +1309,15 @@
                 nome = d.titulo;
                 container.innerHTML += `
                     <div class="mundo-item-recebido">
-                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer;">&times;</button>
-                        <h3>📖 ${nome}</h3>
+                        <button class="btn-kick" onclick="apagarMundoRecebido(${item.id})" style="position:relative; float:right; top:0; right:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer; flex-shrink: 0;">&times;</button>
+                        <h3 style="text-align: left; word-break: break-word;">📖 ${nome}</h3>
                         <div style="font-family:'Lora'; font-size:0.95rem; color:#3e2723; line-height:1.5; text-align: left;">${d.conteudo.replace(/\n/g, '<br>')}</div>
                     </div>`;
             } else {
                 if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; }
                 else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; }
                 
-                let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;">` : icone;
+                let imgHtml = d.img ? `<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : icone;
                 
                 container.innerHTML += `
                 <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid ${cor}; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
@@ -1367,7 +1367,7 @@
             subList.innerHTML = '';
             if(subitems.length > 0) {
                 subitems.forEach(sub => {
-                    let subImgHtml = sub.img ? `<img src="${sub.img}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:2px solid #5c3a21; flex-shrink:0;">` : `<div style="width:35px;height:35px;border-radius:50%;background:#eaddc4;border:2px solid #5c3a21;display:flex;align-items:center;justify-content:center;font-size:1rem; flex-shrink:0;">👤</div>`;
+                    let subImgHtml = sub.img ? `<img src="${sub.img}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:2px solid #5c3a21; flex-shrink:0; cursor: zoom-in;" onclick="event.stopPropagation(); abrirZoomImagem(this.src)">` : `<div style="width:35px;height:35px;border-radius:50%;background:#eaddc4;border:2px solid #5c3a21;display:flex;align-items:center;justify-content:center;font-size:1rem; flex-shrink:0;">👤</div>`;
                     let safeNome = sub.nome.replace(/'/g, "\\'");
                     let safeDesc = (sub.desc || '').replace(/'/g, "\\'").replace(/\n/g, "<br>");
                     let safeImg = (sub.img || '');
