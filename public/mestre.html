@@ -185,6 +185,7 @@
         /* === GRIDS === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
         #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
+        #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
            CARDS DOS JOGADORES E MONSTROS
@@ -193,7 +194,7 @@
         .player-card:hover, .monstro-card:hover { border-color: #b71c1c; box-shadow: 0 4px 12px rgba(183, 28, 28, 0.15); }
         .monstro-fixado { border-color: #b71c1c; background: rgba(183, 28, 28, 0.05); border-width: 3px; }
 
-        .btn-kick { background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; }
+        .btn-kick { position: absolute; top: 5px; right: 8px; background: transparent; border: none; color: #b71c1c; font-size: 1.4rem; cursor: pointer; line-height: 1; font-weight: bold; transition: 0.2s; z-index: 10;}
         .btn-kick:hover { transform: scale(1.3); color: #7f0000; }
         .btn-edit-monstro { background: transparent; border: none; color: #1976d2; font-size: 1.2rem; cursor: pointer; transition: 0.2s; padding: 0; line-height: 1;}
         .btn-edit-monstro:hover { transform: scale(1.3); color: #0d47a1; }
@@ -493,7 +494,7 @@
                         <div id="area-edicao-capitulo" class="story-paper" style="display: none;">
                             <div class="story-header-inline">
                                 <input type="text" id="titulo-capitulo-ativo" class="story-title-input" placeholder="Título do Capítulo..." oninput="salvarTextoCapituloAtivo()">
-                                <div style="display: flex; gap: 8px;">
+                                <div style="display: flex; gap: 8px; flex-shrink: 0;">
                                     <button class="btn-acao" style="width: auto; padding: 6px 12px; background: #0d47a1; font-size: 0.8rem;" onclick="enviarCapituloAtivo()">📤 ENVIAR</button>
                                     <button class="btn-acao" style="width: auto; padding: 6px 12px; background: transparent; border: 2px solid #b71c1c; color: #b71c1c; font-size: 0.8rem;" onclick="apagarCapituloAtivo()">🗑️ APAGAR</button>
                                 </div>
@@ -617,14 +618,14 @@
             <label id="mcl-label-adicionar" class="form-label-modal" style="color:#5c3a21;">ADICIONAR MEMBROS</label>
             <div style="display:flex; gap:10px; margin-top:5px;">
                 <input type="text" id="mcl-subitem-nome" placeholder="Nome..." class="form-input" style="margin-bottom:0;">
-                <button class="btn-acao" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1;" onclick="addTempMundo()">+</button>
+                <button class="btn-acao" style="width:auto; margin-top:0; padding:8px 15px; font-size:1.5rem; line-height:1; flex-shrink: 0;" onclick="addTempMundo()">+</button>
             </div>
             <p style="font-size:0.7rem; color:#555; margin-top:10px; font-weight:bold;">Clique em um membro adicionado abaixo para configurar detalhes (Foto, Lore):</p>
             <div id="mcl-subitems-list" style="margin-top:5px; display:flex; flex-wrap:wrap; gap:5px;"></div>
         </div>
         
         <label id="mcl-label-desc" class="form-label-modal" style="color:#5c3a21; display:block; margin-bottom:3px;">ANOTAÇÕES GERAIS / LORE</label>
-        <textarea id="mcl-desc" placeholder="Descrição da Guilda / Local / Pessoa..." class="form-input" style="height:80px; resize:vertical;"></textarea>
+        <textarea id="mcl-desc" placeholder="Descrição da Guilda / Local / Pessoa..." class="form-input" style="height:80px; resize:vertical; text-align: left;"></textarea>
         
         <button class="btn-acao" onclick="salvarCriacaoMundo()">SALVAR</button>
     </div>
@@ -636,7 +637,7 @@
         <h3 class="section-title">DETALHES DO MEMBRO</h3>
         <div class="form-group-modal"><label class="form-label-modal">Nome</label><input type="text" id="mets-nome" class="form-input" style="margin-bottom:10px;"></div>
         <div class="form-group-modal"><label class="form-label-modal">URL da Foto</label><input type="text" id="mets-img" class="form-input" style="margin-bottom:10px;" placeholder="http://..."></div>
-        <div class="form-group-modal"><label class="form-label-modal">Descrição / Função</label><textarea id="mets-desc" class="form-input" style="height:80px; resize:vertical; margin-bottom:15px;"></textarea></div>
+        <div class="form-group-modal"><label class="form-label-modal">Descrição / Função</label><textarea id="mets-desc" class="form-input" style="height:80px; resize:vertical; margin-bottom:15px; text-align: left;"></textarea></div>
         <button class="btn-acao" onclick="salvarEdicaoTempSubitem()">SALVAR DETALHES</button>
     </div>
 </div>
@@ -661,7 +662,7 @@
                 <img id="ms-img-preview" src="" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </div>
-        <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: justify; padding: 0 15px;" readonly></textarea>
+        <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: left; padding: 0 15px;" readonly></textarea>
     </div>
 </div>
 
@@ -672,7 +673,7 @@
             <img id="mmd-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
             <h3 class="section-title" id="mmd-nome" style="margin-bottom:10px;"></h3>
         </div>
-        <div id="mmd-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; max-height: 30vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3);"></div>
+        <div id="mmd-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; max-height: 30vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
         
         <div id="mmd-subitems-container" style="display:none; width:100%;">
             <h4 style="font-family:'Cinzel'; color:#5c3a21; border-bottom:2px dashed rgba(139,90,43,0.4); padding-bottom:5px; margin-bottom:10px; margin-top:0;" id="mmd-subitems-title">MEMBROS</h4>
@@ -797,6 +798,13 @@
         if(confirm("Deseja desconectar este jogador da mesa?")) {
             delete jogadores[chave]; renderizarJogadores(); renderIniciativa();
             socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
+        }
+    }
+
+    function toggleCat(id) {
+        let el = document.getElementById(id);
+        if (el) {
+            el.style.display = el.style.display === 'none' ? 'flex' : 'none';
         }
     }
     
@@ -1599,15 +1607,15 @@
             let innerImg = g.img ? `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">` : `🛡️`;
             contGuildas.innerHTML += `
                 <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('guilda', ${g.id})">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem;">${innerImg}</div>
-                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${g.nome}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; flex-shrink: 0;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1;">${g.nome}</span>
                         </div>
-                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
+                        <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding-bottom: 2px; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
                         </div>
                     </div>
                 </div>`;
@@ -1619,15 +1627,15 @@
             let innerImg = l.img ? `<img src="${l.img}" style="width:100%;height:100%;object-fit:cover;">` : `📍`;
             contLocais.innerHTML += `
                 <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #0d47a1; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('local', ${l.id})">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#0d47a1;">${innerImg}</div>
-                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${l.nome}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#0d47a1; flex-shrink: 0;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1;">${l.nome}</span>
                         </div>
-                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
+                        <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding-bottom: 2px; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
                         </div>
                     </div>
                 </div>`;
@@ -1639,15 +1647,15 @@
             let innerImg = p.img ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">` : `👤`;
             contPessoas.innerHTML += `
                 <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #2e7d32; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('pessoa', ${p.id})">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#2e7d32;">${innerImg}</div>
-                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.nome}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#2e7d32; flex-shrink: 0;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1;">${p.nome}</span>
                         </div>
-                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
-                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                        <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding-bottom: 2px; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
                         </div>
                     </div>
                 </div>`;
@@ -1896,11 +1904,11 @@
         let detalhesBR = (roll.detalhes || "").replace(/\n/g, '<br>');
 
         toast.innerHTML = `
-            <div class="log-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-                <span style="flex:1; word-wrap: break-word; line-height: 1.1;"><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
-                <span style="color:${color}; font-family:'Cinzel'; font-weight:900; white-space:nowrap; flex-shrink: 0;">${roll.categoria}</span>
+            <div class="log-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <span style="flex: 1; word-break: break-word; text-align: left; line-height: 1.2; padding-right: 5px;"><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
+                <span style="flex-shrink: 0; color:${color}; font-family:'Cinzel'; font-weight:900; white-space:nowrap;">${roll.categoria}</span>
             </div>
-            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word;">${roll.nomeRolagem}</div>
+            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word; text-align: left;">${roll.nomeRolagem}</div>
             ${resultHtml}
             <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
         `;
