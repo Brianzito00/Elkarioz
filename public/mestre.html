@@ -185,7 +185,6 @@
         /* === GRIDS === */
         #players-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); grid-auto-rows: min-content; gap: 15px; flex: 1; overflow-y: auto; padding-right: 5px; align-content: start; }
         #lista-bestiario-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 15px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
-        #lista-historias-container { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; flex: 1; padding-right: 5px; align-content: start;}
 
         /* =========================================
            CARDS DOS JOGADORES E MONSTROS
@@ -281,16 +280,8 @@
         .btn-kick-ini:hover { transform: scale(1.3); color: #7f0000; }
 
         /* =========================================
-           MUNDO E LORE (CASCATAS)
+           MUNDO E LORE
         ========================================= */
-        .hab-category-wrapper { background: linear-gradient(to right, rgba(255,255,255,0.95), rgba(244, 235, 216, 0.95)); border: 1px solid #c8b99e; border-left: 6px solid #8b5a2b; border-radius: 6px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s ease;}
-        .hab-category-wrapper:hover { border-color: #8b5a2b; box-shadow: 0 6px 15px rgba(139, 90, 43, 0.15); transform: translateY(-1px);}
-        .hab-category-header { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; user-select: none;}
-        .hab-category-title { font-weight: 900; font-size: 1.15rem; font-family: 'Lora', serif; color: #3e2723; display: flex; align-items: center; gap: 10px; }
-        
-        .hab-category-icon { width: 42px; height: 42px; border: 2px solid #5c3a21; background: #eaddc4; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;}
-        
-        /* MINIATURAS MAIORES DO ESCUDO DO MESTRE */
         .mini-img-moldura { 
             width: 75px; 
             height: 75px; 
@@ -306,10 +297,6 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.3); 
             flex-shrink: 0; 
         }
-
-        .hab-subitem-lista { display: flex; flex-direction: column; gap: 6px; padding-left: 15px; border-left: 2px dashed rgba(139, 90, 43, 0.4); margin-top: 12px; margin-left: 22px; }
-        .hab-subitem { background: rgba(255,255,255,0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-family: 'Roboto', sans-serif; font-size: 0.95rem; font-weight: bold; color: #5c3a21; transition: 0.2s; cursor: pointer; border: 1px solid transparent;}
-        .hab-subitem:hover { background: #fff; transform: translateX(3px); border-color: #c8b99e; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #b71c1c; }
 
         #lista-capitulos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; }
         #lista-capitulos::-webkit-scrollbar { height: 6px; }
@@ -375,7 +362,8 @@
         ========================================= */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; backdrop-filter: blur(5px); overflow-y: auto; padding: 20px;}
         .modal-content { background-color: #f4ebd8; border: 3px solid #8b5a2b; padding: 30px; width: 95%; max-width: 600px; border-radius: 6px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); margin: auto;}
-        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; }
+        .fechar-modal { position: absolute; top: 12px; right: 18px; font-size: 2.2rem; cursor: pointer; color: #8b5a2b; font-weight: bold; transition:0.2s;}
+        .fechar-modal:hover { color: #b71c1c; transform: scale(1.2); }
         .form-group-modal { margin-bottom: 12px; display: flex; flex-direction: column; }
         .form-label-modal { font-family: 'Roboto', sans-serif; font-size: 0.75rem; font-weight: 900; color: #4a2f1d; margin-bottom: 4px; text-transform: uppercase; }
         .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 15px; }
@@ -663,8 +651,8 @@
     </div>
 </div>
 
-<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;">
-    <div class="modal-content" style="max-width: 400px;">
+<div id="modal-personagem" class="modal-overlay" style="z-index: 3010;" onclick="document.getElementById('modal-personagem').style.display='none'">
+    <div class="modal-content" style="max-width: 400px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="document.getElementById('modal-personagem').style.display='none'">&times;</span>
         <h3 class="section-title">Perfil</h3>
         <input type="text" id="ms-nome" class="form-input" style="margin-bottom:12px; background: transparent; border: none; font-size: 1.5rem; text-align: center; color: #b71c1c;" readonly>
@@ -674,6 +662,22 @@
             </div>
         </div>
         <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: justify; padding: 0 15px;" readonly></textarea>
+    </div>
+</div>
+
+<div id="modal-mundo-detalhe" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+            <img id="mmd-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
+            <h3 class="section-title" id="mmd-nome" style="margin-bottom:10px;"></h3>
+        </div>
+        <div id="mmd-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; max-height: 30vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3);"></div>
+        
+        <div id="mmd-subitems-container" style="display:none; width:100%;">
+            <h4 style="font-family:'Cinzel'; color:#5c3a21; border-bottom:2px dashed rgba(139,90,43,0.4); padding-bottom:5px; margin-bottom:10px; margin-top:0;" id="mmd-subitems-title">MEMBROS</h4>
+            <div id="mmd-subitems-list" style="display:flex; flex-direction:column; gap:8px; max-height: 25vh; overflow-y: auto; padding-right:5px;"></div>
+        </div>
     </div>
 </div>
 
@@ -793,13 +797,6 @@
         if(confirm("Deseja desconectar este jogador da mesa?")) {
             delete jogadores[chave]; renderizarJogadores(); renderIniciativa();
             socket.emit('kick_player', { uidSala: gmUid, idUnico: chave });
-        }
-    }
-
-    function toggleCat(id) {
-        let el = document.getElementById(id);
-        if (el) {
-            el.style.display = el.style.display === 'none' ? 'flex' : 'none';
         }
     }
     
@@ -1599,101 +1596,110 @@
         const contGuildas = document.getElementById('lista-guildas-container');
         contGuildas.innerHTML = '';
         dbGuildas.forEach(g => {
-            let imgHtml = g.img ? `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `🛡️`;
-            
-            let membrosHtml = `<div id="cat-guilda-${g.id}" class="hab-subitem-lista" style="display:none;">`;
-            if (g.membros && g.membros.length > 0) {
-                g.membros.forEach(m => {
-                    membrosHtml += `
-                    <div class="hab-subitem" onclick="abrirSubItem('guilda', ${g.id}, ${m.id})">
-                        <span style="cursor:pointer; flex:1;">👤 ${m.nome}</span>
-                    </div>`;
-                });
-            } else {
-                membrosHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum membro registrado.</div>`;
-            }
-            membrosHtml += `</div>`;
-
+            let innerImg = g.img ? `<img src="${g.img}" style="width:100%;height:100%;object-fit:cover;">` : `🛡️`;
             contGuildas.innerHTML += `
-            <div class="hab-category-wrapper" style="border-left-color: #8b5a2b; padding:8px;">
-                <div class="hab-category-header" onclick="toggleCat('cat-guilda-${g.id}')">
-                    <div class="hab-category-title" style="font-size:1rem;">
-                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
-                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${g.nome}</span>
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #8b5a2b; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('guilda', ${g.id})">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${g.nome}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
+                        </div>
                     </div>
-                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'guilda', ${g.id})" title="Editar Guilda">✏️</button>
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'guilda', ${g.id})" title="Enviar">📤</button>
-                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'guilda', ${g.id})" title="Apagar">&times;</button>
-                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-guilda-${g.id}')">▼</span>
-                    </div>
-                </div>
-                ${membrosHtml}
-            </div>`;
+                </div>`;
         });
 
         const contLocais = document.getElementById('lista-locais-container');
         contLocais.innerHTML = '';
         dbLocais.forEach(l => {
-            let imgHtml = l.img ? `<img src="${l.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `📍`;
-            
-            let pontosHtml = `<div id="cat-local-${l.id}" class="hab-subitem-lista" style="display:none;">`;
-            if (l.pontos && l.pontos.length > 0) {
-                l.pontos.forEach(p => {
-                    pontosHtml += `
-                    <div class="hab-subitem" onclick="abrirSubItem('local', ${l.id}, ${p.id})">
-                        <span style="cursor:pointer; flex:1;">👤 ${p.nome}</span>
-                    </div>`;
-                });
-            } else {
-                pontosHtml += `<div style="font-size:0.8rem; color:#888; font-style:italic; padding:5px;">Nenhum ponto registrado.</div>`;
-            }
-            pontosHtml += `</div>`;
-
+            let innerImg = l.img ? `<img src="${l.img}" style="width:100%;height:100%;object-fit:cover;">` : `📍`;
             contLocais.innerHTML += `
-            <div class="hab-category-wrapper" style="border-left-color: #0d47a1; padding:8px;">
-                <div class="hab-category-header" onclick="toggleCat('cat-local-${l.id}')">
-                    <div class="hab-category-title" style="font-size:1rem;">
-                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
-                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${l.nome}</span>
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #0d47a1; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('local', ${l.id})">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#0d47a1;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${l.nome}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
+                        </div>
                     </div>
-                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'local', ${l.id})" title="Editar Local">✏️</button>
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'local', ${l.id})" title="Enviar">📤</button>
-                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'local', ${l.id})" title="Apagar">&times;</button>
-                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-local-${l.id}')">▼</span>
-                    </div>
-                </div>
-                ${pontosHtml}
-            </div>`;
+                </div>`;
         });
 
         const contPessoas = document.getElementById('lista-pessoas-container');
         contPessoas.innerHTML = '';
         dbPessoas.forEach(p => {
-            let imgHtml = p.img ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : `👤`;
-            
-            let descHtml = `<div id="cat-pessoa-${p.id}" class="hab-subitem-lista" style="display:none;">
-                <div style="font-size:0.85rem; color:#3e2723; padding:5px; font-family:'Lora'; line-height:1.4;">${p.desc ? p.desc.replace(/\n/g, '<br>') : '<i>Sem anotações.</i>'}</div>
-            </div>`;
-
+            let innerImg = p.img ? `<img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">` : `👤`;
             contPessoas.innerHTML += `
-            <div class="hab-category-wrapper" style="border-left-color: #2e7d32; padding:8px;">
-                <div class="hab-category-header" onclick="toggleCat('cat-pessoa-${p.id}')">
-                    <div class="hab-category-title" style="font-size:1rem;">
-                        <div class="hab-category-icon" style="width:30px;height:30px;font-size:1rem; padding:0; overflow:hidden;">${imgHtml}</div> 
-                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${p.nome}</span>
+                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 6px solid #2e7d32; padding: 10px 15px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheParent('pessoa', ${p.id})">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="mini-img-moldura" style="width:60px; height:60px; font-size:1.5rem; border-color:#2e7d32;">${innerImg}</div>
+                            <span style="font-weight: 900; font-size: 1.1rem; font-family: 'Lora', serif; color: #170f0a; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${p.nome}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;" onclick="event.stopPropagation()">
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
+                            <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar para Jogadores">📤</button>
+                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
+                        </div>
                     </div>
-                    <div style="display:flex; gap:8px; align-items:center;" onclick="event.stopPropagation()">
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; color:#1976d2; padding:0;" onclick="editarItemMundo(event, 'pessoa', ${p.id})" title="Editar Pessoa">✏️</button>
-                        <button style="background:transparent; border:none; cursor:pointer; font-size:1.1rem; padding:0;" onclick="abrirModalEnvio(event, 'pessoa', ${p.id})" title="Enviar">📤</button>
-                        <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.3rem; font-weight:bold; padding:0; line-height:0.8;" onclick="apagarItemMundo(event, 'pessoa', ${p.id})" title="Apagar">&times;</button>
-                        <span style="color:#8b5a2b; font-size:1rem; margin-left:5px; cursor:pointer;" onclick="toggleCat('cat-pessoa-${p.id}')">▼</span>
-                    </div>
-                </div>
-                ${descHtml}
-            </div>`;
+                </div>`;
         });
+    }
+
+    function abrirDetalheParent(tipo, id) {
+        let item;
+        let subitems = [];
+        let subTitle = "";
+        
+        if(tipo === 'guilda') { item = dbGuildas.find(x => x.id === id); subitems = item.membros || []; subTitle = "Membros da Guilda"; }
+        else if(tipo === 'local') { item = dbLocais.find(x => x.id === id); subitems = item.pontos || []; subTitle = "NPCs / Pontos de Interesse"; }
+        else if(tipo === 'pessoa') { item = dbPessoas.find(x => x.id === id); }
+        
+        if(!item) return;
+
+        document.getElementById('mmd-nome').innerText = item.nome;
+        document.getElementById('mmd-desc').innerHTML = item.desc ? item.desc.replace(/\n/g, '<br>') : '<i>Sem anotações.</i>';
+        
+        const imgEl = document.getElementById('mmd-img');
+        if(item.img) {
+            imgEl.src = item.img;
+            imgEl.style.display = 'block';
+        } else {
+            imgEl.style.display = 'none';
+        }
+
+        const subContainer = document.getElementById('mmd-subitems-container');
+        const subList = document.getElementById('mmd-subitems-list');
+        
+        if(tipo === 'guilda' || tipo === 'local') {
+            document.getElementById('mmd-subitems-title').innerText = subTitle;
+            subList.innerHTML = '';
+            if(subitems.length > 0) {
+                subitems.forEach(sub => {
+                    let subImgHtml = sub.img ? `<img src="${sub.img}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:2px solid #5c3a21; flex-shrink:0;">` : `<div style="width:35px;height:35px;border-radius:50%;background:#eaddc4;border:2px solid #5c3a21;display:flex;align-items:center;justify-content:center;font-size:1rem; flex-shrink:0;">👤</div>`;
+                    subList.innerHTML += `
+                    <div style="background:rgba(255,255,255,0.8); border:1px solid #c8b99e; padding:8px 12px; border-radius:6px; display:flex; align-items:center; gap:12px; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='#fff';this.style.borderColor='#8b5a2b';this.style.transform='scale(1.02)';" onmouseout="this.style.background='rgba(255,255,255,0.8)';this.style.borderColor='#c8b99e';this.style.transform='scale(1)';" onclick="abrirSubItem('${tipo}', ${item.id}, ${sub.id})">
+                        ${subImgHtml}
+                        <span style="font-family:'Roboto'; font-weight:bold; color:#3e2723; font-size:1rem; flex:1;">${sub.nome}</span>
+                    </div>`;
+                });
+            } else {
+                subList.innerHTML = `<div style="font-size:0.85rem; color:#888; font-style:italic; text-align:center; padding: 10px;">Nenhum registro vinculado.</div>`;
+            }
+            subContainer.style.display = 'block';
+        } else {
+            subContainer.style.display = 'none';
+        }
+
+        document.getElementById('modal-mundo-detalhe').style.display = 'flex';
     }
 
     // === VISUALIZAR DETALHES RÁPIDOS NO MESTRE ===
