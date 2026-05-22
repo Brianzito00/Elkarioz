@@ -307,7 +307,7 @@
         .pop-total { font-size: 6rem; font-weight: 900; line-height: 1; font-family: 'Cinzel', serif; margin-bottom: 10px; display: block; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
         .pop-categoria-badge { color: #fff; padding: 6px 18px; border-radius: 8px; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 8px; }
         
-        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.95rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px;}
+        .pop-detalhes { color: #555; font-weight: bold; font-size: 0.95rem; font-family: 'Lora'; display: block; word-wrap: break-word; word-break: break-word; background: rgba(0,0,0,0.05); padding: 15px; border-radius: 6px; text-align: left;}
         .pop-hint { color: #999; font-weight: bold; font-size: 0.8rem; font-family: 'Roboto'; margin-top: 15px; display: block; text-transform: uppercase; }
 
         /* SISTEMA TOAST DE NOTIFICAÇÃO (CANTO DA TELA) */
@@ -519,7 +519,7 @@
                         <label>DEFESA</label>
                         <div class="defesa-valor" id="defesa-total">0</div>
                         <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
-                            Base/Outros: <input type="number" id="defesa-personagem" value="10" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                            Outros (Hab.): <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
                         </div>
                     </div>
                 </div>
