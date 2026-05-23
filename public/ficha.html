@@ -519,7 +519,7 @@
                         <label>DEFESA</label>
                         <div class="defesa-valor" id="defesa-total">0</div>
                         <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
-                            Outros (Hab.): <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                            Outros (Hab.): <input type="number" id="defesa-personagem" value="10" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
                         </div>
                     </div>
                 </div>
@@ -971,6 +971,21 @@
     
     const DADO_IMG_URL = "https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y";
     
+    const catalogoArmaduras = {
+        "Armadura acolchoada": { def: 1, pen: 0, esp: 2 },
+        "Armadura de Couro": { def: 2, pen: 0, esp: 2 },
+        "Couro Batido": { def: 3, pen: 1, esp: 2 },
+        "Gibão de Peles": { def: 4, pen: 3, esp: 2 },
+        "Couraça": { def: 5, pen: 4, esp: 2 },
+        "Brunea": { def: 5, pen: 2, esp: 5 },
+        "Cota de Malha": { def: 6, pen: 2, esp: 5 },
+        "Loriga Segmentada": { def: 7, pen: 3, esp: 5 },
+        "Meia Armadura": { def: 8, pen: 4, esp: 5 },
+        "Armadura Completa": { def: 10, pen: 5, esp: 5 },
+        "Escudo Leve": { def: 1, pen: 1, esp: 1 },
+        "Escudo Pesado": { def: 2, pen: 2, esp: 2 }
+    };
+
     const listaPericiasBase = [
         {n:'Acrobacia',a:'agilidade'},{n:'Adestramento',a:'carisma'},{n:'Arcanismo',a:'intelecto'},
         {n:'Atletismo',a:'forca'},{n:'Atuação',a:'carisma'},{n:'Cavalgar',a:'agilidade'},
