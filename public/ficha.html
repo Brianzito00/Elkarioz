@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Personagem - RPG Total</title>
+    <title>Elkarioz: Ficha de Personagem</title>
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
@@ -519,7 +519,7 @@
                         <label>DEFESA</label>
                         <div class="defesa-valor" id="defesa-total">0</div>
                         <div style="font-size:0.75rem; font-family:'Roboto'; font-weight:bold; color:#455a64; margin-top:5px;">
-                            Outros (Hab.): <input type="number" id="defesa-personagem" value="10" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
+                            Outros (Hab.): <input type="number" id="defesa-personagem" value="0" style="width:40px; border:1px solid #455a64; border-radius:4px; text-align:center; padding:2px; font-weight:bold; background:rgba(255,255,255,0.5);" oninput="recalcularTudo()">
                         </div>
                     </div>
                 </div>
@@ -1544,7 +1544,7 @@
                 cargaAtual += (i.peso || 0); 
                 if (i.tipo === 'armadura') {
                     bonusDefesaEquipamentos += (parseFloat(i.bonusDefesa) || 0);
-                    penalidadeArmaduraTotal += (parseFloat(i.penalidadeArmadura) || 0);
+                    penalidadeArmaduraTotal += Math.abs(parseFloat(i.penalidadeArmadura) || 0);
                 }
             }
         }); 
@@ -1565,25 +1565,35 @@
         
         let bonusProf = nivel < 5 ? 2 : nivel < 9 ? 3 : nivel < 13 ? 4 : nivel < 17 ? 5 : 6;
         
-        let periciasComPenalidade = ['Acrobacia', 'Atletismo', 'Furtividade', 'Ladinagem', 'Pilotagem'];
+        let periciasComPenalidade = ['acrobacia', 'atletismo', 'furtividade', 'ladinagem', 'pilotagem'];
+
+        window.penalidadeGlobalAtual = penalidadeArmaduraTotal;
 
         listaPericiasBase.forEach(p => { 
             if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.n]; 
-            d.total = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
+            let totalBase = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
             
-            if (periciasComPenalidade.includes(p.n)) {
-                d.total -= penalidadeArmaduraTotal;
+            if (periciasComPenalidade.includes(p.n.toLowerCase().trim())) {
+                d.total = totalBase - penalidadeArmaduraTotal;
+                d.penalidadeAplicada = penalidadeArmaduraTotal > 0 ? penalidadeArmaduraTotal : 0;
+            } else {
+                d.total = totalBase;
+                d.penalidadeAplicada = 0;
             }
         });
 
         dbPericiasCustom.forEach(p => {
             if(!dbPericias[p.nome]) dbPericias[p.nome] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.nome];
-            d.total = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0);
+            let totalBase = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0);
             
-            if (periciasComPenalidade.includes(p.nome)) {
-                d.total -= penalidadeArmaduraTotal;
+            if (periciasComPenalidade.includes(p.nome.toLowerCase().trim())) {
+                d.total = totalBase - penalidadeArmaduraTotal;
+                d.penalidadeAplicada = penalidadeArmaduraTotal > 0 ? penalidadeArmaduraTotal : 0;
+            } else {
+                d.total = totalBase;
+                d.penalidadeAplicada = 0;
             }
         });
 
@@ -1680,10 +1690,11 @@
             
             let safePN = p.n.replace(/'/g, "\\'");
             let attrTag = p.isCustom ? `<div style="font-family:'Roboto'; font-size:0.55rem; color:#888; margin-top:2px;">(${p.a.substring(0,3).toUpperCase()})</div>` : '';
+            let penTag = d.penalidadeAplicada ? `<div style="font-family:'Roboto'; font-size:0.6rem; color:#b71c1c; margin-top:2px; font-weight: 900;">(-${d.penalidadeAplicada} ARM)</div>` : '';
 
             grid.innerHTML += `
                 <div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${safePN}', ${p.isCustom})">
-                    <div class="pericia-header">${p.n} ${attrTag}</div>
+                    <div class="pericia-header">${p.n} ${attrTag} ${penTag}</div>
                     <div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${safePN}', ${d.total})">
                         <img src="${DADO_IMG_URL}" class="icone-dado" style="margin-right:5px;"> <span>${d.total >= 0 ? '+'+d.total : d.total}</span>
                     </div>
@@ -1697,6 +1708,7 @@
             document.getElementById('mi-nome').value = val;
             document.getElementById('mi-defesa').value = catalogoArmaduras[val].def;
             document.getElementById('mi-peso').value = catalogoArmaduras[val].esp;
+            document.getElementById('mi-penalidade').value = catalogoArmaduras[val].pen;
         }
     }
 
@@ -2065,7 +2077,7 @@
             dano: document.getElementById('mi-dano').value, 
             crit: document.getElementById('mi-crit').value,
             bonusDefesa: parseInt(document.getElementById('mi-defesa').value) || 0,
-            penalidadeArmadura: parseInt(document.getElementById('mi-penalidade').value) || 0
+            penalidadeArmadura: Math.abs(parseInt(document.getElementById('mi-penalidade').value) || 0)
         };
         
         if(abaItemAtual == 'dist') { 
