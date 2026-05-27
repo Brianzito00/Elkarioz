@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ficha de Personagem - RPG Total</title>
+    <title>Elkarioz: Ficha de Personagem</title>
     <style>
         /* === FONTES E RESET === */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Roboto:wght@500;700;900&display=swap');
@@ -318,8 +318,8 @@
             position: fixed;
             top: 0;
             left: -600px;
-            width: 600px;
-            max-width: 100vw;
+            width: 100%;
+            max-width: 600px; /* Limita o tamanho em telas grandes */
             height: 100vh;
             background: #170f0a;
             border-right: 4px solid #8b5a2b;
@@ -467,6 +467,11 @@
         <div style="flex:1; display:flex; align-items:center;">
             <span style="font-family:'Roboto'; font-size:0.8rem; font-weight:bold; color:#2e7d32; background:rgba(46,125,50,0.1); padding:6px 12px; border-radius:4px; border:1px solid #2e7d32;">💾 SALVO AUTO.</span>
         </div>
+        
+        <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0; background: #37474f; border-color: #263238;" title="Use seus próprios dados reais na mesa">
+            <input type="checkbox" id="toggle-dados-fisicos" style="margin-right: 5px; transform: scale(1.2);"> 🎲 DADOS FÍSICOS
+        </label>
+
         <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
         <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
@@ -671,7 +676,7 @@
             
             <div class="sidebar-direita">
                 <div class="box-rpg" style="padding: 15px; border-top-color: #2e7d32; min-height: 400px; margin-bottom:0;">
-                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
+                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">LORE & MAPAS</h2>
                     <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
                     
                     <div id="msg-mundo-vazio" class="placeholder-dashed" style="border-color:#2e7d32; color:#2e7d32; text-align:center;">Seu arquivo de lore e mapas está vazio.</div>
@@ -733,6 +738,19 @@
 <div id="modal-zoom-img" class="modal-overlay" style="z-index: 9999; background: rgba(0,0,0,0.9);" onclick="fecharZoom()">
     <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="event.stopPropagation(); fecharZoom()">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
+</div>
+
+<div id="modal-dado-fisico" class="modal-overlay" style="z-index: 6000;">
+    <div class="modal-content" style="max-width: 350px; text-align: center;">
+        <span class="fechar-modal" onclick="document.getElementById('modal-dado-fisico').style.display='none'">&times;</span>
+        <h3 class="section-title">🎲 DADOS DA MESA</h3>
+        <p id="mdf-nome" style="font-family:'Cinzel'; font-weight:bold; color:#b71c1c; margin-bottom: 5px;"></p>
+        <p id="mdf-desc" style="font-family:'Roboto'; font-size: 0.85rem; color:#5c3a21; margin-top: 0; margin-bottom: 20px; line-height: 1.4;"></p>
+        
+        <input type="number" id="mdf-valor" class="form-input" style="font-size: 2.5rem; text-align: center; height: 60px; margin-bottom: 20px;" placeholder="0" onkeypress="if(event.key === 'Enter') confirmarDadoFisico()">
+        
+        <button class="btn-acao green" style="padding: 15px; font-size: 1.1rem;" onclick="confirmarDadoFisico()">CONFIRMAR</button>
+    </div>
 </div>
 
 <div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
@@ -1125,6 +1143,8 @@
     let animacaoGiro = null;
     let diceState = 0;
     let currentRollData = {};
+
+    let rolagemFisicaPendente = null;
 
     function obterSalaDaUrl() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -1734,7 +1754,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem', 'modal-dado-fisico'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
@@ -2510,32 +2530,84 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS - BLINDADO 
+    // 9. SISTEMA DE DADOS - BLINDADO (FÍSICO E DIGITAL)
     // ==============================================================
+
+    function checkDadosFisicos(rollData, startAnimFunc) {
+        let isFisico = document.getElementById('toggle-dados-fisicos').checked;
+        if(isFisico) {
+            rolagemFisicaPendente = rollData;
+            document.getElementById('mdf-nome').innerText = rollData.nome;
+            if(rollData.isDano) {
+                document.getElementById('mdf-desc').innerHTML = `Sume os dados rolados na mesa e digite o <b>DANO TOTAL</b> abaixo.<br><span style="font-size:0.75rem; color:#888;">(Equivalente a rolar: ${rollData.expressao})</span>`;
+            } else {
+                let b = rollData.bonus >= 0 ? `+${rollData.bonus}` : rollData.bonus;
+                document.getElementById('mdf-desc').innerHTML = `Digite <b>apenas</b> o número que caiu no seu d20 físico.<br><span style="font-size:0.75rem; color:#888;">(O bônus de ${b} será somado automaticamente)</span>`;
+            }
+            document.getElementById('mdf-valor').value = '';
+            document.getElementById('modal-dado-fisico').style.display = 'flex';
+            setTimeout(() => document.getElementById('mdf-valor').focus(), 100);
+        } else {
+            startAnimFunc();
+        }
+    }
+
+    function confirmarDadoFisico() {
+        let val = parseInt(document.getElementById('mdf-valor').value);
+        if(isNaN(val)) return alert("Insira um valor válido!");
+        
+        document.getElementById('modal-dado-fisico').style.display = 'none';
+        
+        currentRollData = rolagemFisicaPendente;
+        currentRollData.isFisico = true;
+        currentRollData.valorFisico = val;
+        rolagemFisicaPendente = null;
+
+        // Pula a animação e mostra o resultado
+        diceState = 2;
+        
+        const box = document.getElementById('dice-result-container');
+        const overlay = document.getElementById('dice-overlay-click');
+        box.style.display = 'flex'; 
+        overlay.style.display = 'block'; 
+        box.classList.remove('dice-pop-out'); 
+        void box.offsetWidth; 
+        box.classList.add('dice-pop-active'); 
+        overlay.style.zIndex = "9998";
+        box.style.zIndex = "9999";
+
+        mostrarResultadoFinal();
+    }
 
     function rolarDado(nome, bonus) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
-        currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; 
-        iniciarGiroDado(nome, bonus, '#b71c1c'); 
+        currentRollData = { nome, bonus: parseInt(bonus)||0, isDano: false, isAtaqueArma: false }; 
+        checkDadosFisicos(currentRollData, () => {
+            diceState = 1; 
+            iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c'); 
+        });
     }
     
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
-        currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
-        iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); 
+        currentRollData = { nome: "Atq: " + nomeArma, bonus: parseInt(bonusAtq)||0, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
+        checkDadosFisicos(currentRollData, () => {
+            diceState = 1; 
+            iniciarGiroDado("Atq: " + nomeArma, currentRollData.bonus, '#b71c1c'); 
+        });
     }
     
     function rolarDano(nome, expressao, bonusExtra = 0) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
         let expFinal = expressao; 
         if(bonusExtra !== 0) { 
             expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; 
         } 
         currentRollData = { nome, expressao: expFinal, isDano: true }; 
-        iniciarGiroDado(nome, 0, '#8b0000', true); 
+        checkDadosFisicos(currentRollData, () => {
+            diceState = 1; 
+            iniciarGiroDado(nome, 0, '#8b0000', true); 
+        });
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
@@ -2622,12 +2694,12 @@
             let corCategoriaLog = "";
 
             if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); 
+                let totalDano = currentRollData.isFisico ? currentRollData.valorFisico : calcularDanoStr(currentRollData.expressao); 
                 let corCataroria = "#8b0000"; 
                 let categoria = "DANO";
                 
                 resultadoLog = totalDano; 
-                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
+                detalhesLog = currentRollData.isFisico ? `(Dado Físico: Dano Total Informado)` : `(Rolagem: ${currentRollData.expressao})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
 
@@ -2647,7 +2719,7 @@
             
             } else {
                 
-                let dadoReal = Math.floor(Math.random() * 20) + 1; 
+                let dadoReal = currentRollData.isFisico ? currentRollData.valorFisico : Math.floor(Math.random() * 20) + 1; 
                 let bonus = currentRollData.bonus; 
                 let totalSoma = dadoReal + bonus;
                 let categoria = "NORMAL", corCataroria = "#2e7d32"; 
@@ -2673,7 +2745,7 @@
                 }
 
                 resultadoLog = totalSoma; 
-                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
+                detalhesLog = currentRollData.isFisico ? `(d20 Físico: ${dadoReal} + Bônus: ${bonus})` : `(d20: ${dadoReal} + Bônus: ${bonus})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
                 
