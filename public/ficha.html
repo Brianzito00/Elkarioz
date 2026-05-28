@@ -445,14 +445,17 @@
 </head>
 <body>
 
+<!-- BOTÃO FLUTUANTE DE REGRAS -->
 <button class="btn-regras-flutuante" onclick="toggleRegras()" title="Abrir Livro de Regras">?</button>
 
+<!-- PAINEL LATERAL DO LIVRO DE REGRAS -->
 <div id="painel-regras">
     <div class="painel-regras-header">
         <h3 class="painel-regras-titulo">📖 Tormenta 20 - Livro Básico</h3>
         <button class="btn-fechar-regras" onclick="toggleRegras()" title="Fechar Livro">&times;</button>
     </div>
     <div class="painel-regras-content">
+        <!-- O PDF DEVE ESTAR NA MESMA PASTA QUE O ARQUIVO HTML E SE CHAMAR "t20.pdf" -->
         <iframe src="t20.pdf" width="100%" height="100%" style="border: none;"></iframe>
     </div>
 </div>
@@ -463,15 +466,11 @@
 
 <div class="ficha-container">
     
+    <!-- === BARRA DE FERRAMENTAS === -->
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
         <div style="flex:1; display:flex; align-items:center;">
             <span style="font-family:'Roboto'; font-size:0.8rem; font-weight:bold; color:#2e7d32; background:rgba(46,125,50,0.1); padding:6px 12px; border-radius:4px; border:1px solid #2e7d32;">💾 SALVO AUTO.</span>
         </div>
-        
-        <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0; background: #37474f; border-color: #263238;" title="Use seus próprios dados reais na mesa">
-            <input type="checkbox" id="toggle-dados-fisicos" style="margin-right: 5px; transform: scale(1.2);"> 🎲 DADOS FÍSICOS
-        </label>
-
         <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
         <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
@@ -479,6 +478,7 @@
         </label>
     </div>
 
+    <!-- === CABEÇALHO === -->
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
@@ -550,15 +550,20 @@
         </div>
     </div>
 
+    <!-- === ABAS === -->
     <div class="tabs-nav">
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Atributos & Habilidades</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário / Mundo</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Mágias</button>
     </div>
 
+    <!-- ============================== -->
+    <!-- ABA 1: ESTATÍSTICAS PRINCIPAIS -->
+    <!-- ============================== -->
     <div id="tab-principal" class="tab-content active">
         <div class="main-layout">
             
+            <!-- ESQUERDA: ATRIBUTOS -->
             <div class="sidebar-atributos">
                 <div class="atributo-box"><label onclick="rolarDado('FOR', getValor('forca'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> FOR</label><input type="number" id="forca" value="0" oninput="recalcularTudo()"></div>
                 <div class="atributo-box"><label onclick="rolarDado('AGI', getValor('agilidade'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> AGI</label><input type="number" id="agilidade" value="0" oninput="recalcularTudo()"></div>
@@ -568,8 +573,10 @@
                 <div class="atributo-box"><label onclick="rolarDado('CAR', getValor('carisma'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> CAR</label><input type="number" id="carisma" value="0" oninput="recalcularTudo()"></div>
             </div>
 
+            <!-- MEIO: STATUS E PERÍCIAS -->
             <div class="conteudo-principal">
                 
+                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -614,6 +621,7 @@
                 <div class="pericias-grid" id="grid-pericias"></div>
             </div>
 
+            <!-- DIREITA: DEFESA E ARMAS -->
             <div class="sidebar-direita">
                 
                 <div style="display:flex; gap:10px;">
@@ -631,6 +639,7 @@
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
                 </div>
 
+                <!-- HABILIDADES E PROFICIÊNCIAS NA ABA PRINCIPAL -->
                 <div style="margin-top: 25px;">
                     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                         <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('prof')">➕ PROF.</button>
@@ -647,6 +656,9 @@
         </div>
     </div>
 
+    <!-- ============================== -->
+    <!-- ABA 2: INVENTÁRIO / MUNDO -->
+    <!-- ============================== -->
     <div id="tab-inventario" class="tab-content">
         <div class="main-layout">
             
@@ -708,6 +720,9 @@
         </div>
     </div>
 
+    <!-- ============================== -->
+    <!-- ABA 3: GRIMÓRIO DE MAGIAS -->
+    <!-- ============================== -->
     <div id="tab-magias" class="tab-content">
         <div class="box-rpg" style="border-top-color: #0d47a1; padding: 25px; max-width: 900px; margin: 0 auto; width: 100%;">
             <h2 class="section-title" style="color: #0d47a1;">Mágias</h2>
@@ -735,22 +750,14 @@
     </div>
 </div>
 
+<!-- ==============================================================
+     MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
+============================================================== -->
+
+<!-- MODAL DE ZOOM DE IMAGEM -->
 <div id="modal-zoom-img" class="modal-overlay" style="z-index: 9999; background: rgba(0,0,0,0.9);" onclick="fecharZoom()">
     <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="event.stopPropagation(); fecharZoom()">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
-</div>
-
-<div id="modal-dado-fisico" class="modal-overlay" style="z-index: 6000;">
-    <div class="modal-content" style="max-width: 350px; text-align: center;">
-        <span class="fechar-modal" onclick="document.getElementById('modal-dado-fisico').style.display='none'">&times;</span>
-        <h3 class="section-title">🎲 DADOS DA MESA</h3>
-        <p id="mdf-nome" style="font-family:'Cinzel'; font-weight:bold; color:#b71c1c; margin-bottom: 5px;"></p>
-        <p id="mdf-desc" style="font-family:'Roboto'; font-size: 0.85rem; color:#5c3a21; margin-top: 0; margin-bottom: 20px; line-height: 1.4;"></p>
-        
-        <input type="number" id="mdf-valor" class="form-input" style="font-size: 2.5rem; text-align: center; height: 60px; margin-bottom: 20px;" placeholder="0" onkeypress="if(event.key === 'Enter') confirmarDadoFisico()">
-        
-        <button class="btn-acao green" style="padding: 15px; font-size: 1.1rem;" onclick="confirmarDadoFisico()">CONFIRMAR</button>
-    </div>
 </div>
 
 <div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
@@ -826,6 +833,7 @@
                 </select>
             </div>
             
+            <!-- NOVOS CAMPOS PARA ARMADURA -->
             <div class="input-wrapper armadura-field" style="flex:1; min-width:90px; display:none;">
                 <label>BÔNUS DEFESA</label>
                 <input type="number" id="mi-defesa" value="0" class="form-input" style="text-align:center;">
@@ -1023,6 +1031,7 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
+        <!-- LOCAL ONDE A DESCRIÇÃO NO MODAL APARECE -->
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
         
         <button type="button" class="btn-acao red" onclick="apagarItemAberto()">🗑️ APAGAR DEFINITIVAMENTE</button>
@@ -1058,6 +1067,111 @@
         <textarea id="ms-desc" class="form-input" style="height:150px; resize:none; margin-bottom:12px; background: transparent; border: none; font-family: 'Lora'; text-align: left; padding: 0 15px;" readonly></textarea>
     </div>
 </div>
+
+<!-- BOTÃO FLUTUANTE DE REGRAS -->
+<button class="btn-regras-flutuante" onclick="toggleRegras()" title="Abrir Livro de Regras">?</button>
+
+<!-- PAINEL LATERAL DO LIVRO DE REGRAS -->
+<div id="painel-regras">
+    <div class="painel-regras-header">
+        <h3 class="painel-regras-titulo">📖 Tormenta 20 - Livro Básico</h3>
+        <button class="btn-fechar-regras" onclick="toggleRegras()" title="Fechar Livro">&times;</button>
+    </div>
+    <div class="painel-regras-content">
+        <!-- O PDF DEVE ESTAR NA MESMA PASTA QUE O ARQUIVO HTML E SE CHAMAR "t20.pdf" -->
+        <iframe src="t20.pdf" width="100%" height="100%" style="border: none;"></iframe>
+    </div>
+</div>
+
+<style>
+    /* === BOTÃO DE REGRAS FLUTUANTE === */
+    .btn-regras-flutuante {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(to bottom, #1e88e5, #0d47a1);
+        color: white;
+        border: 3px solid #002171;
+        border-radius: 50%;
+        font-family: 'Cinzel', serif;
+        font-size: 2.2rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        z-index: 4500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+    }
+    .btn-regras-flutuante:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+        background: linear-gradient(to bottom, #2196f3, #1565c0);
+    }
+
+    /* === PAINEL DO LIVRO DE REGRAS === */
+    #painel-regras {
+        position: fixed;
+        top: 0;
+        left: -600px;
+        width: 100%;
+        max-width: 600px; /* Limita o tamanho em telas grandes */
+        height: 100vh;
+        background: #170f0a;
+        border-right: 4px solid #8b5a2b;
+        box-shadow: 15px 0 30px rgba(0,0,0,0.8);
+        z-index: 4600;
+        transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+    }
+    #painel-regras.aberto {
+        left: 0;
+    }
+    .painel-regras-header {
+        background: #eaddc4;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid #8b5a2b;
+    }
+    .painel-regras-titulo {
+        font-family: 'Cinzel', serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: #5c3a21;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    .btn-fechar-regras {
+        background: transparent;
+        border: none;
+        color: #b71c1c;
+        font-size: 2.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+        transition: 0.2s;
+        padding: 0;
+    }
+    .btn-fechar-regras:hover {
+        transform: scale(1.2);
+    }
+    .painel-regras-content {
+        flex: 1;
+        width: 100%;
+        background: #fff;
+    }
+
+    @media (max-width: 600px) {
+        #painel-regras { width: 100vw; left: -100vw; }
+        .btn-regras-flutuante { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.6rem;}
+    }
+</style>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -1143,8 +1257,6 @@
     let animacaoGiro = null;
     let diceState = 0;
     let currentRollData = {};
-
-    let rolagemFisicaPendente = null;
 
     function obterSalaDaUrl() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -1754,7 +1866,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem', 'modal-dado-fisico'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
@@ -2530,84 +2642,32 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS - BLINDADO (FÍSICO E DIGITAL)
+    // 9. SISTEMA DE DADOS E ROLAGENS (SEMPRE DIGITAL)
     // ==============================================================
-
-    function checkDadosFisicos(rollData, startAnimFunc) {
-        let isFisico = document.getElementById('toggle-dados-fisicos').checked;
-        if(isFisico) {
-            rolagemFisicaPendente = rollData;
-            document.getElementById('mdf-nome').innerText = rollData.nome;
-            if(rollData.isDano) {
-                document.getElementById('mdf-desc').innerHTML = `Sume os dados rolados na mesa e digite o <b>DANO TOTAL</b> abaixo.<br><span style="font-size:0.75rem; color:#888;">(Equivalente a rolar: ${rollData.expressao})</span>`;
-            } else {
-                let b = rollData.bonus >= 0 ? `+${rollData.bonus}` : rollData.bonus;
-                document.getElementById('mdf-desc').innerHTML = `Digite <b>apenas</b> o número que caiu no seu d20 físico.<br><span style="font-size:0.75rem; color:#888;">(O bônus de ${b} será somado automaticamente)</span>`;
-            }
-            document.getElementById('mdf-valor').value = '';
-            document.getElementById('modal-dado-fisico').style.display = 'flex';
-            setTimeout(() => document.getElementById('mdf-valor').focus(), 100);
-        } else {
-            startAnimFunc();
-        }
-    }
-
-    function confirmarDadoFisico() {
-        let val = parseInt(document.getElementById('mdf-valor').value);
-        if(isNaN(val)) return alert("Insira um valor válido!");
-        
-        document.getElementById('modal-dado-fisico').style.display = 'none';
-        
-        currentRollData = rolagemFisicaPendente;
-        currentRollData.isFisico = true;
-        currentRollData.valorFisico = val;
-        rolagemFisicaPendente = null;
-
-        // Pula a animação e mostra o resultado
-        diceState = 2;
-        
-        const box = document.getElementById('dice-result-container');
-        const overlay = document.getElementById('dice-overlay-click');
-        box.style.display = 'flex'; 
-        overlay.style.display = 'block'; 
-        box.classList.remove('dice-pop-out'); 
-        void box.offsetWidth; 
-        box.classList.add('dice-pop-active'); 
-        overlay.style.zIndex = "9998";
-        box.style.zIndex = "9999";
-
-        mostrarResultadoFinal();
-    }
 
     function rolarDado(nome, bonus) { 
         if(diceState !== 0) return; 
-        currentRollData = { nome, bonus: parseInt(bonus)||0, isDano: false, isAtaqueArma: false }; 
-        checkDadosFisicos(currentRollData, () => {
-            diceState = 1; 
-            iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c'); 
-        });
+        diceState = 1; 
+        currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; 
+        iniciarGiroDado(nome, bonus, '#b71c1c'); 
     }
     
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { 
         if(diceState !== 0) return; 
-        currentRollData = { nome: "Atq: " + nomeArma, bonus: parseInt(bonusAtq)||0, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
-        checkDadosFisicos(currentRollData, () => {
-            diceState = 1; 
-            iniciarGiroDado("Atq: " + nomeArma, currentRollData.bonus, '#b71c1c'); 
-        });
+        diceState = 1; 
+        currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
+        iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); 
     }
     
     function rolarDano(nome, expressao, bonusExtra = 0) { 
         if(diceState !== 0) return; 
+        diceState = 1; 
         let expFinal = expressao; 
         if(bonusExtra !== 0) { 
             expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; 
         } 
         currentRollData = { nome, expressao: expFinal, isDano: true }; 
-        checkDadosFisicos(currentRollData, () => {
-            diceState = 1; 
-            iniciarGiroDado(nome, 0, '#8b0000', true); 
-        });
+        iniciarGiroDado(nome, 0, '#8b0000', true); 
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
@@ -2694,12 +2754,12 @@
             let corCategoriaLog = "";
 
             if (currentRollData.isDano) {
-                let totalDano = currentRollData.isFisico ? currentRollData.valorFisico : calcularDanoStr(currentRollData.expressao); 
+                let totalDano = calcularDanoStr(currentRollData.expressao); 
                 let corCataroria = "#8b0000"; 
                 let categoria = "DANO";
                 
                 resultadoLog = totalDano; 
-                detalhesLog = currentRollData.isFisico ? `(Dado Físico: Dano Total Informado)` : `(Rolagem: ${currentRollData.expressao})`; 
+                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
 
@@ -2719,7 +2779,7 @@
             
             } else {
                 
-                let dadoReal = currentRollData.isFisico ? currentRollData.valorFisico : Math.floor(Math.random() * 20) + 1; 
+                let dadoReal = Math.floor(Math.random() * 20) + 1; 
                 let bonus = currentRollData.bonus; 
                 let totalSoma = dadoReal + bonus;
                 let categoria = "NORMAL", corCataroria = "#2e7d32"; 
@@ -2745,7 +2805,7 @@
                 }
 
                 resultadoLog = totalSoma; 
-                detalhesLog = currentRollData.isFisico ? `(d20 Físico: ${dadoReal} + Bônus: ${bonus})` : `(d20: ${dadoReal} + Bônus: ${bonus})`; 
+                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
                 
