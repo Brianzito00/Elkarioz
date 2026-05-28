@@ -1056,12 +1056,16 @@
     window.diceBox = new DiceBox("#dice-box", {
         assetPath: 'https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/assets/',
         theme: 'default',
-        themeColor: '#8b5a2b',
+        themeColor: '#b71c1c',
         scale: 7
     });
     
+    window.diceBoxReady = false;
     window.diceBox.init().then(() => {
+        window.diceBoxReady = true;
         console.log("Sistema de Dados 3D Carregado com Sucesso!");
+    }).catch(e => {
+        console.error("Falha ao carregar dados 3D", e);
     });
 </script>
 
@@ -2562,7 +2566,6 @@
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
         diceState = 1;
         const box = document.getElementById('dice-result-container'); 
-        const text = document.getElementById('dice-text'); 
         const overlay = document.getElementById('dice-overlay-click');
         
         box.style.display = 'flex'; 
@@ -2571,20 +2574,26 @@
         box.classList.add('dice-pop-active'); 
         box.style.borderColor = borderColor; 
         
-        // Deixa a caixa do resultado invisível enquanto os dados 3D rolam na tela
-        box.style.opacity = '0';
-        overlay.style.zIndex = "3999";
-        
         let expressao = "1d20";
         if (isCalcDano) {
             expressao = currentRollData.expressao || "1d6";
         }
 
-        if (window.diceBox) {
-            // Rola os dados 3D na tela
+        if (window.diceBoxReady) {
+            // Oculta a caixa 2D temporariamente para ver os dados 3D na tela
+            box.style.opacity = '0';
+            overlay.style.zIndex = "3999";
+            
+            let fallbackAcionado = false;
+            let fallbackTimer = setTimeout(() => {
+                fallbackAcionado = true;
+                animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano);
+            }, 4000); // 4 segundos de tolerância para o 3D não travar a mesa
+
             window.diceBox.roll(expressao).then((results) => {
+                if (fallbackAcionado) return;
+                clearTimeout(fallbackTimer);
                 
-                // Determina o valor bruto que caiu no dado (sem bônus)
                 if (!isCalcDano) {
                     let rawDice = 10;
                     if(results[0] && results[0].rolls && results[0].rolls.length > 0){
@@ -2595,29 +2604,25 @@
                     currentRollData.valorFisico = rawDice;
                     currentRollData.isFisico = true;
                 } else {
-                    // Soma todo o dano que caiu na mesa (inclusive modificadores da expressão)
                     let totalDanoFinal = 0;
                     results.forEach(g => totalDanoFinal += g.value);
                     currentRollData.valorFisico = totalDanoFinal;
                     currentRollData.isFisico = true;
                 }
 
-                // Espera um segundinho pro jogador admirar o dado caído na tela, e então abre o modal
                 setTimeout(() => {
                     box.style.opacity = '1';
                     box.style.zIndex = "9999"; 
                     overlay.style.zIndex = "9998";
                     mostrarResultadoFinal();
-                }, 1000);
+                }, 800);
 
             }).catch(e => {
-                console.error("Erro nos dados 3D, caindo pro plano B:", e);
-                box.style.opacity = '1';
+                if (fallbackAcionado) return;
+                clearTimeout(fallbackTimer);
                 animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano);
             });
         } else {
-            // Se o 3D falhar, roda a animação antiga
-            box.style.opacity = '1';
             animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano);
         }
     }
@@ -2627,9 +2632,11 @@
         const text = document.getElementById('dice-text'); 
         const overlay = document.getElementById('dice-overlay-click');
         
+        box.style.opacity = '1';
         box.style.zIndex = "9999"; 
         overlay.style.zIndex = "9998";
         box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
+        currentRollData.isFisico = false;
 
         let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
         let frames = 0;
@@ -2783,8 +2790,7 @@
     function closeDiceRoll() {
         if(diceState === 0) return;
         
-        // Limpa os dados 3D da tela
-        if(window.diceBox) window.diceBox.clear(); 
+        if (window.diceBox) window.diceBox.clear();
         
         const box = document.getElementById('dice-result-container'); 
         const overlay = document.getElementById('dice-overlay-click');
