@@ -411,6 +411,11 @@
         @keyframes toastSlideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes toastFadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
+        /* === 3D DICE CONTAINER === */
+        #dice-box {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 4500;
+        }
+
         /* SCROLLBAR & RESPONSIVIDADE */
         ::-webkit-scrollbar { width: 8px; } 
         ::-webkit-scrollbar-track { background: transparent; } 
@@ -445,17 +450,16 @@
 </head>
 <body>
 
-<!-- BOTÃO FLUTUANTE DE REGRAS -->
+<div id="dice-box"></div>
+
 <button class="btn-regras-flutuante" onclick="toggleRegras()" title="Abrir Livro de Regras">?</button>
 
-<!-- PAINEL LATERAL DO LIVRO DE REGRAS -->
 <div id="painel-regras">
     <div class="painel-regras-header">
         <h3 class="painel-regras-titulo">📖 Tormenta 20 - Livro Básico</h3>
         <button class="btn-fechar-regras" onclick="toggleRegras()" title="Fechar Livro">&times;</button>
     </div>
     <div class="painel-regras-content">
-        <!-- O PDF DEVE ESTAR NA MESMA PASTA QUE O ARQUIVO HTML E SE CHAMAR "t20.pdf" -->
         <iframe src="t20.pdf" width="100%" height="100%" style="border: none;"></iframe>
     </div>
 </div>
@@ -466,11 +470,11 @@
 
 <div class="ficha-container">
     
-    <!-- === BARRA DE FERRAMENTAS === -->
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
         <div style="flex:1; display:flex; align-items:center;">
             <span style="font-family:'Roboto'; font-size:0.8rem; font-weight:bold; color:#2e7d32; background:rgba(46,125,50,0.1); padding:6px 12px; border-radius:4px; border:1px solid #2e7d32;">💾 SALVO AUTO.</span>
         </div>
+
         <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
         <label class="btn-acao" style="width: auto; padding: 8px 15px; font-size: 0.85rem; cursor: pointer; margin: 0;">
             📥 IMPORTAR FICHA
@@ -478,7 +482,6 @@
         </label>
     </div>
 
-    <!-- === CABEÇALHO === -->
     <div class="header-rpg-container">
         <div class="portrait-slot" onclick="pedirUrlRetrato()">
             <img id="portrait-img" src="" style="display: none;">
@@ -550,20 +553,15 @@
         </div>
     </div>
 
-    <!-- === ABAS === -->
     <div class="tabs-nav">
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Atributos & Habilidades</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário / Mundo</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Mágias</button>
     </div>
 
-    <!-- ============================== -->
-    <!-- ABA 1: ESTATÍSTICAS PRINCIPAIS -->
-    <!-- ============================== -->
     <div id="tab-principal" class="tab-content active">
         <div class="main-layout">
             
-            <!-- ESQUERDA: ATRIBUTOS -->
             <div class="sidebar-atributos">
                 <div class="atributo-box"><label onclick="rolarDado('FOR', getValor('forca'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> FOR</label><input type="number" id="forca" value="0" oninput="recalcularTudo()"></div>
                 <div class="atributo-box"><label onclick="rolarDado('AGI', getValor('agilidade'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> AGI</label><input type="number" id="agilidade" value="0" oninput="recalcularTudo()"></div>
@@ -573,10 +571,8 @@
                 <div class="atributo-box"><label onclick="rolarDado('CAR', getValor('carisma'))"><img src="https://blogger.googleusercontent.com/img/a/AVvXsEiftVk-yKnWxfthjGdnwF6awfHwHWNWsmhyKK4zNCLhhQkGaZrFRK6ccqywzrKpCZfj5XjphjWdPu0SlYHO1P4V3qxS1IOODUZ57HsAF8L5MhsYp-TUmIWnzJW97I18ccNp0DwiT6yoAL7acHi-cWVd0gAOFLAzGbaWFhuF9jwM5P9iJUs2S04wU8Xern4Y" class="icone-dado"> CAR</label><input type="number" id="carisma" value="0" oninput="recalcularTudo()"></div>
             </div>
 
-            <!-- MEIO: STATUS E PERÍCIAS -->
             <div class="conteudo-principal">
                 
-                <!-- STATUS (LÍQUIDO CLÁSSICO) -->
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -621,7 +617,6 @@
                 <div class="pericias-grid" id="grid-pericias"></div>
             </div>
 
-            <!-- DIREITA: DEFESA E ARMAS -->
             <div class="sidebar-direita">
                 
                 <div style="display:flex; gap:10px;">
@@ -639,7 +634,6 @@
                     <div id="lista-armas-equipadas" style="margin-top: 15px;"></div>
                 </div>
 
-                <!-- HABILIDADES E PROFICIÊNCIAS NA ABA PRINCIPAL -->
                 <div style="margin-top: 25px;">
                     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                         <button type="button" class="btn-acao" style="background:#ff9100; color:#3e2723; padding: 10px 5px; font-size: 0.8rem; flex: 1;" onclick="abrirModalHab('prof')">➕ PROF.</button>
@@ -656,9 +650,6 @@
         </div>
     </div>
 
-    <!-- ============================== -->
-    <!-- ABA 2: INVENTÁRIO / MUNDO -->
-    <!-- ============================== -->
     <div id="tab-inventario" class="tab-content">
         <div class="main-layout">
             
@@ -720,9 +711,6 @@
         </div>
     </div>
 
-    <!-- ============================== -->
-    <!-- ABA 3: GRIMÓRIO DE MAGIAS -->
-    <!-- ============================== -->
     <div id="tab-magias" class="tab-content">
         <div class="box-rpg" style="border-top-color: #0d47a1; padding: 25px; max-width: 900px; margin: 0 auto; width: 100%;">
             <h2 class="section-title" style="color: #0d47a1;">Mágias</h2>
@@ -750,11 +738,6 @@
     </div>
 </div>
 
-<!-- ==============================================================
-     MODAIS DE CRIAÇÃO E VISUALIZAÇÃO
-============================================================== -->
-
-<!-- MODAL DE ZOOM DE IMAGEM -->
 <div id="modal-zoom-img" class="modal-overlay" style="z-index: 9999; background: rgba(0,0,0,0.9);" onclick="fecharZoom()">
     <span class="fechar-modal" style="color: #fff; font-size: 3.5rem; top: 20px; right: 40px; text-shadow: 2px 2px 5px #000;" onclick="event.stopPropagation(); fecharZoom()">&times;</span>
     <img id="zoom-img-target" src="" style="max-width: 90vw; max-height: 90vh; object-fit: contain; border: 4px solid #8b5a2b; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
@@ -833,7 +816,6 @@
                 </select>
             </div>
             
-            <!-- NOVOS CAMPOS PARA ARMADURA -->
             <div class="input-wrapper armadura-field" style="flex:1; min-width:90px; display:none;">
                 <label>BÔNUS DEFESA</label>
                 <input type="number" id="mi-defesa" value="0" class="form-input" style="text-align:center;">
@@ -1031,7 +1013,6 @@
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
         
-        <!-- LOCAL ONDE A DESCRIÇÃO NO MODAL APARECE -->
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
         
         <button type="button" class="btn-acao red" onclick="apagarItemAberto()">🗑️ APAGAR DEFINITIVAMENTE</button>
@@ -1068,110 +1049,21 @@
     </div>
 </div>
 
-<!-- BOTÃO FLUTUANTE DE REGRAS -->
-<button class="btn-regras-flutuante" onclick="toggleRegras()" title="Abrir Livro de Regras">?</button>
-
-<!-- PAINEL LATERAL DO LIVRO DE REGRAS -->
-<div id="painel-regras">
-    <div class="painel-regras-header">
-        <h3 class="painel-regras-titulo">📖 Tormenta 20 - Livro Básico</h3>
-        <button class="btn-fechar-regras" onclick="toggleRegras()" title="Fechar Livro">&times;</button>
-    </div>
-    <div class="painel-regras-content">
-        <!-- O PDF DEVE ESTAR NA MESMA PASTA QUE O ARQUIVO HTML E SE CHAMAR "t20.pdf" -->
-        <iframe src="t20.pdf" width="100%" height="100%" style="border: none;"></iframe>
-    </div>
-</div>
-
-<style>
-    /* === BOTÃO DE REGRAS FLUTUANTE === */
-    .btn-regras-flutuante {
-        position: fixed;
-        bottom: 25px;
-        left: 25px;
-        width: 65px;
-        height: 65px;
-        background: linear-gradient(to bottom, #1e88e5, #0d47a1);
-        color: white;
-        border: 3px solid #002171;
-        border-radius: 50%;
-        font-family: 'Cinzel', serif;
-        font-size: 2.2rem;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-        z-index: 4500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.2s;
-    }
-    .btn-regras-flutuante:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-        background: linear-gradient(to bottom, #2196f3, #1565c0);
-    }
-
-    /* === PAINEL DO LIVRO DE REGRAS === */
-    #painel-regras {
-        position: fixed;
-        top: 0;
-        left: -600px;
-        width: 100%;
-        max-width: 600px; /* Limita o tamanho em telas grandes */
-        height: 100vh;
-        background: #170f0a;
-        border-right: 4px solid #8b5a2b;
-        box-shadow: 15px 0 30px rgba(0,0,0,0.8);
-        z-index: 4600;
-        transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        display: flex;
-        flex-direction: column;
-    }
-    #painel-regras.aberto {
-        left: 0;
-    }
-    .painel-regras-header {
-        background: #eaddc4;
-        padding: 15px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 3px solid #8b5a2b;
-    }
-    .painel-regras-titulo {
-        font-family: 'Cinzel', serif;
-        font-size: 1.2rem;
-        font-weight: 900;
-        color: #5c3a21;
-        margin: 0;
-        text-transform: uppercase;
-    }
-    .btn-fechar-regras {
-        background: transparent;
-        border: none;
-        color: #b71c1c;
-        font-size: 2.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        line-height: 1;
-        transition: 0.2s;
-        padding: 0;
-    }
-    .btn-fechar-regras:hover {
-        transform: scale(1.2);
-    }
-    .painel-regras-content {
-        flex: 1;
-        width: 100%;
-        background: #fff;
-    }
-
-    @media (max-width: 600px) {
-        #painel-regras { width: 100vw; left: -100vw; }
-        .btn-regras-flutuante { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.6rem;}
-    }
-</style>
+<script type="module">
+    import DiceBox from 'https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/dice-box.es.min.js';
+    
+    // Inicializa a caixa de dados invisível por cima da tela inteira
+    window.diceBox = new DiceBox("#dice-box", {
+        assetPath: 'https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/assets/',
+        theme: 'default',
+        themeColor: '#8b5a2b',
+        scale: 7
+    });
+    
+    window.diceBox.init().then(() => {
+        console.log("Sistema de Dados 3D Carregado com Sucesso!");
+    });
+</script>
 
 <script src="/socket.io/socket.io.js"></script>
 
@@ -2642,7 +2534,7 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS E ROLAGENS (SEMPRE DIGITAL)
+    // 9. SISTEMA DE DADOS - BLINDADO 
     // ==============================================================
 
     function rolarDado(nome, bonus) { 
