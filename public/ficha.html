@@ -679,7 +679,7 @@
             
             <div class="sidebar-direita">
                 <div class="box-rpg" style="padding: 15px; border-top-color: #2e7d32; min-height: 400px; margin-bottom:0;">
-                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">LORE & MAPAS</h2>
+                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
                     <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
                     
                     <div id="msg-mundo-vazio" class="placeholder-dashed" style="border-color:#2e7d32; color:#2e7d32; text-align:center;">Seu arquivo de lore e mapas está vazio.</div>
@@ -2534,26 +2534,23 @@
     }
 
     // ==============================================================
-    // 9. SISTEMA DE DADOS - BLINDADO 
+    // 9. SISTEMA DE DADOS - BLINDADO COM FÍSICA 3D REAL
     // ==============================================================
 
     function rolarDado(nome, bonus) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
-        currentRollData = { nome, bonus, isDano: false, isAtaqueArma: false }; 
-        iniciarGiroDado(nome, bonus, '#b71c1c'); 
+        currentRollData = { nome, bonus: parseInt(bonus)||0, isDano: false, isAtaqueArma: false }; 
+        iniciarGiroDado(nome, currentRollData.bonus, '#b71c1c'); 
     }
     
     function rolarAtaqueArma(nomeArma, bonusAtq, danoBase, criticoStr) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
-        currentRollData = { nome: "Atq: " + nomeArma, bonus: bonusAtq, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
-        iniciarGiroDado("Atq: " + nomeArma, bonusAtq, '#b71c1c'); 
+        currentRollData = { nome: "Atq: " + nomeArma, bonus: parseInt(bonusAtq)||0, isDano: false, isAtaqueArma: true, danoBase: danoBase, critStr: criticoStr }; 
+        iniciarGiroDado("Atq: " + nomeArma, currentRollData.bonus, '#b71c1c'); 
     }
     
     function rolarDano(nome, expressao, bonusExtra = 0) { 
         if(diceState !== 0) return; 
-        diceState = 1; 
         let expFinal = expressao; 
         if(bonusExtra !== 0) { 
             expFinal += bonusExtra > 0 ? `+${bonusExtra}` : `${bonusExtra}`; 
@@ -2563,48 +2560,89 @@
     }
 
     function iniciarGiroDado(nomeDisplay, bonusDisplay, borderColor, isCalcDano = false) {
-        try {
-            const box = document.getElementById('dice-result-container'); 
-            const text = document.getElementById('dice-text'); 
-            const overlay = document.getElementById('dice-overlay-click');
-            
-            box.style.display = 'flex'; 
-            overlay.style.display = 'block'; 
-            box.classList.remove('dice-pop-out'); 
-            
-            void box.offsetWidth; 
-            
-            box.classList.add('dice-pop-active'); 
-            box.style.borderColor = borderColor; 
-            box.style.zIndex = "9999"; 
-            overlay.style.zIndex = "9998";
-            box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
-
-            let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
-            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">...</span><small class="pop-hint">${hint}</small>`;
-            
-            overlay.onclick = null; 
-            box.onclick = null; 
-
-            let frames = 0;
-            animacaoGiro = setInterval(() => {
-                try {
-                    let tempDado = Math.floor(Math.random() * 20) + 1;
-                    let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
-                    text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
-
-                    if (++frames >= 12) { 
-                        clearInterval(animacaoGiro);
-                        mostrarResultadoFinal();
-                    }
-                } catch(e) { 
-                    clearInterval(animacaoGiro); 
-                    closeDiceRoll(); 
-                }
-            }, 50);
-        } catch(e) { 
-            closeDiceRoll(); 
+        diceState = 1;
+        const box = document.getElementById('dice-result-container'); 
+        const text = document.getElementById('dice-text'); 
+        const overlay = document.getElementById('dice-overlay-click');
+        
+        box.style.display = 'flex'; 
+        overlay.style.display = 'block'; 
+        box.classList.remove('dice-pop-out'); 
+        box.classList.add('dice-pop-active'); 
+        box.style.borderColor = borderColor; 
+        
+        // Deixa a caixa do resultado invisível enquanto os dados 3D rolam na tela
+        box.style.opacity = '0';
+        overlay.style.zIndex = "3999";
+        
+        let expressao = "1d20";
+        if (isCalcDano) {
+            expressao = currentRollData.expressao || "1d6";
         }
+
+        if (window.diceBox) {
+            // Rola os dados 3D na tela
+            window.diceBox.roll(expressao).then((results) => {
+                
+                // Determina o valor bruto que caiu no dado (sem bônus)
+                if (!isCalcDano) {
+                    let rawDice = 10;
+                    if(results[0] && results[0].rolls && results[0].rolls.length > 0){
+                        rawDice = results[0].rolls[0].value;
+                    } else if(results[0]) {
+                        rawDice = results[0].value;
+                    }
+                    currentRollData.valorFisico = rawDice;
+                    currentRollData.isFisico = true;
+                } else {
+                    // Soma todo o dano que caiu na mesa (inclusive modificadores da expressão)
+                    let totalDanoFinal = 0;
+                    results.forEach(g => totalDanoFinal += g.value);
+                    currentRollData.valorFisico = totalDanoFinal;
+                    currentRollData.isFisico = true;
+                }
+
+                // Espera um segundinho pro jogador admirar o dado caído na tela, e então abre o modal
+                setTimeout(() => {
+                    box.style.opacity = '1';
+                    box.style.zIndex = "9999"; 
+                    overlay.style.zIndex = "9998";
+                    mostrarResultadoFinal();
+                }, 1000);
+
+            }).catch(e => {
+                console.error("Erro nos dados 3D, caindo pro plano B:", e);
+                box.style.opacity = '1';
+                animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano);
+            });
+        } else {
+            // Se o 3D falhar, roda a animação antiga
+            box.style.opacity = '1';
+            animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano);
+        }
+    }
+
+    function animacaoFallback(nomeDisplay, bonusDisplay, borderColor, isCalcDano) {
+        const box = document.getElementById('dice-result-container'); 
+        const text = document.getElementById('dice-text'); 
+        const overlay = document.getElementById('dice-overlay-click');
+        
+        box.style.zIndex = "9999"; 
+        overlay.style.zIndex = "9998";
+        box.style.animation = 'diceSpreadEffect 0.6s ease-out forwards';
+
+        let hint = isCalcDano ? "Calculando Dano..." : "Sorteando...";
+        let frames = 0;
+        animacaoGiro = setInterval(() => {
+            let tempDado = Math.floor(Math.random() * 20) + 1;
+            let displayNum = isCalcDano ? tempDado : tempDado + bonusDisplay;
+            text.innerHTML = `<img src="${DADO_IMG_URL}" class="pop-dado-img"><br><span class="pop-pericia-nome">${nomeDisplay}</span><span class="pop-total" style="color: #bbb;">${displayNum}</span><small class="pop-hint">${hint}</small>`;
+
+            if (++frames >= 12) { 
+                clearInterval(animacaoGiro);
+                mostrarResultadoFinal();
+            }
+        }, 50);
     }
 
     function calcularDanoStr(expressao, mult = 1) {
@@ -2646,7 +2684,7 @@
             let corCategoriaLog = "";
 
             if (currentRollData.isDano) {
-                let totalDano = calcularDanoStr(currentRollData.expressao); 
+                let totalDano = currentRollData.isFisico ? currentRollData.valorFisico : calcularDanoStr(currentRollData.expressao); 
                 let corCataroria = "#8b0000"; 
                 let categoria = "DANO";
                 
@@ -2671,7 +2709,7 @@
             
             } else {
                 
-                let dadoReal = Math.floor(Math.random() * 20) + 1; 
+                let dadoReal = currentRollData.isFisico ? currentRollData.valorFisico : Math.floor(Math.random() * 20) + 1; 
                 let bonus = currentRollData.bonus; 
                 let totalSoma = dadoReal + bonus;
                 let categoria = "NORMAL", corCataroria = "#2e7d32"; 
@@ -2744,6 +2782,10 @@
     
     function closeDiceRoll() {
         if(diceState === 0) return;
+        
+        // Limpa os dados 3D da tela
+        if(window.diceBox) window.diceBox.clear(); 
+        
         const box = document.getElementById('dice-result-container'); 
         const overlay = document.getElementById('dice-overlay-click');
         
