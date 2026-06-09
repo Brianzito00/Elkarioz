@@ -907,13 +907,15 @@
 <div id="modal-hab" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" style="max-width: 500px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title" id="mh-titulo">Novo</h3>
+        <h3 class="section-title" id="mh-titulo">NOVA HABILIDADE</h3>
         
         <div class="input-wrapper" id="div-hab-tipo" style="margin-bottom: 15px;">
-            <label>CATEGORIA</label>
+            <label>CATEGORIA / ORIGEM</label>
             <select id="mh-tipo" class="form-input">
                 <option value="Raça">Habilidade de Raça</option>
                 <option value="Classe">Habilidade de Classe</option>
+                <option value="Origem">Poder de Origem</option>
+                <option value="Divindade">Poder Concedido (Divindade)</option>
                 <option value="Poder">Poderes Gerais / Outros</option>
             </select>
         </div>
@@ -933,7 +935,7 @@
 <div id="modal-magia-add" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title" style="color:#0d47a1; border-bottom-color: rgba(13, 71, 161, 0.4);">APRENDER MAGIA</h3>
+        <h3 class="section-title" id="mm-titulo" style="color:#0d47a1; border-bottom-color: rgba(13, 71, 161, 0.4);">APRENDER MAGIA</h3>
         
         <div class="input-wrapper" style="margin-bottom: 15px;">
             <label style="color:#0d47a1;">NOME DA MAGIA</label>
@@ -982,7 +984,7 @@
             <label>DESCRIÇÃO E EFEITOS</label>
             <textarea id="mm-desc" placeholder="Efeito da magia, Aprimoramentos, Dano..." class="form-input" style="height:120px; resize:vertical; text-align: left;"></textarea>
         </div>
-        <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarMagia()">✔️ ADICIONAR MAGIA</button>
+        <button type="button" class="btn-acao blue" style="padding: 15px; font-size:1.1rem;" onclick="salvarMagia()">✔️ SALVAR MAGIA</button>
     </div>
 </div>
 
@@ -1014,8 +1016,6 @@
         </div>
         
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
-        
-        <button type="button" class="btn-acao red" onclick="apagarItemAberto()">🗑️ APAGAR DEFINITIVAMENTE</button>
     </div>
 </div>
 
@@ -1147,6 +1147,7 @@
     
     let tipoContexto = '';
     let itemAbertoId = null;
+    let editandoItemId = null; // Controle de edição de Habilidades/Magias
     let periciaAbertaNome = null;
     let abaItemAtual = 'comum';
     let tempImgBase64 = "";
@@ -1856,6 +1857,7 @@
                 <div class="hab-subitem" style="cursor:default;">
                     <span style="flex:1; text-align: left;">🛠️ ${p.nome}</span>
                     <div style="display:flex; gap:8px; flex-shrink: 0;" onclick="event.stopPropagation()">
+                        <button type="button" style="background:transparent; border:none; color:#1976d2; font-size:1.2rem; cursor:pointer; flex-shrink: 0;" title="Editar" onclick="editarItemLista(event, 'prof', ${p.id})">✏️</button>
                         <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold; flex-shrink: 0;" title="Apagar" onclick="apagarItemList(event, 'prof', ${p.id})">&times;</button>
                     </div>
                 </div>`;
@@ -1877,12 +1879,14 @@
         const categorias = [
             { id: 'Raça', icon: '🧬', title: 'Hab. de Raça', color: '#00695c' },
             { id: 'Classe', icon: '⚔️', title: 'Hab. de Classe', color: '#b71c1c' },
+            { id: 'Origem', icon: '📜', title: 'Poder de Origem', color: '#8b5a2b' },
+            { id: 'Divindade', icon: '⚡', title: 'Poder Concedido', color: '#fbc02d' },
             { id: 'Poder', icon: '✨', title: 'Poderes/Outros', color: '#e65100' }
         ];
 
         categorias.forEach(cat => {
             let items = dbHabilidades.filter(h => (h.tipo || 'Classe') === cat.id);
-            if (suffix === 'principal' && items.length === 0) return; // Oculta categorias vazias na aba principal
+            if (suffix === 'principal' && items.length === 0) return;
 
             let subItemsHtml = `<div id="cat-hab-${cat.id}-${suffix}" class="hab-subitem-lista" style="display:none;">`; 
             if (items.length === 0) {
@@ -1893,6 +1897,7 @@
                     <div class="hab-subitem" onclick="abrirVisualizacao('hab', ${h.id})">
                         <span style="cursor:pointer; flex:1; text-align: left;">👤 ${h.nome}</span>
                         <div style="display:flex; gap:8px; flex-shrink: 0;" onclick="event.stopPropagation()">
+                            <button type="button" style="background:transparent; border:none; color:#1976d2; font-size:1.2rem; cursor:pointer; flex-shrink: 0;" title="Editar" onclick="editarItemLista(event, 'hab', ${h.id})">✏️</button>
                             <button type="button" style="background:transparent; border:none; color:${cat.color}; font-size:1.2rem; cursor:pointer; flex-shrink: 0;" title="Usar" onclick="usarHabilidadeFast(event, 'hab', ${h.id})">✨</button>
                             <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold; flex-shrink: 0;" title="Apagar" onclick="apagarItemList(event, 'hab', ${h.id})">&times;</button>
                         </div>
@@ -1928,6 +1933,7 @@
                     <div class="hab-subitem" onclick="abrirVisualizacao('magia', ${m.id})">
                         <span style="cursor:pointer; flex:1; text-align: left;">🔮 ${m.nome}</span>
                         <div style="display:flex; gap:8px; flex-shrink: 0;" onclick="event.stopPropagation()">
+                            <button type="button" style="background:transparent; border:none; color:#1976d2; font-size:1.2rem; cursor:pointer; flex-shrink: 0;" title="Editar" onclick="editarItemLista(event, 'magia', ${m.id})">✏️</button>
                             <button type="button" style="background:transparent; border:none; color:#0d47a1; font-size:1.2rem; cursor:pointer; flex-shrink: 0;" title="Usar" onclick="usarHabilidadeFast(event, 'magia', ${m.id})">✨</button>
                             <button type="button" style="background:transparent; border:none; color:#b71c1c; font-size:1.4rem; cursor:pointer; line-height:0.8; font-weight:bold; flex-shrink: 0;" title="Apagar" onclick="apagarItemList(event, 'magia', ${m.id})">&times;</button>
                         </div>
@@ -1965,6 +1971,46 @@
                 container.innerHTML += html + `</div></div>`;
             }
         });
+    }
+
+    function editarItemLista(event, tipo, id) {
+        event.stopPropagation();
+        tipoContexto = tipo;
+        editandoItemId = id;
+        
+        if(tipo === 'prof') {
+            let item = dbProficiencias.find(x => x.id === id);
+            if(!item) return;
+            document.getElementById('mh-titulo').innerText = 'EDITAR PROFICIÊNCIA';
+            document.getElementById('div-hab-tipo').style.display = 'none';
+            document.getElementById('div-hab-desc').style.display = 'none';
+            document.getElementById('mh-nome').value = item.nome;
+            document.getElementById('modal-hab').style.display = 'flex';
+        } else if(tipo === 'hab') {
+            let item = dbHabilidades.find(x => x.id === id);
+            if(!item) return;
+            document.getElementById('mh-titulo').innerText = 'EDITAR HABILIDADE';
+            document.getElementById('div-hab-tipo').style.display = 'flex';
+            document.getElementById('div-hab-desc').style.display = 'flex';
+            document.getElementById('mh-nome').value = item.nome;
+            document.getElementById('mh-tipo').value = item.tipo || 'Classe';
+            document.getElementById('mh-desc').value = item.desc || '';
+            document.getElementById('modal-hab').style.display = 'flex';
+        } else if(tipo === 'magia') {
+            let item = dbMagias.find(x => x.id === id);
+            if(!item) return;
+            document.getElementById('mm-titulo').innerText = 'EDITAR MAGIA';
+            document.getElementById('mm-nome').value = item.nome;
+            document.getElementById('mm-circulo').value = item.circulo;
+            document.getElementById('mm-escola').value = item.escola;
+            document.getElementById('mm-execucao').value = item.execucao || '';
+            document.getElementById('mm-alcance').value = item.alcance || '';
+            document.getElementById('mm-alvo').value = item.alvo || '';
+            document.getElementById('mm-duracao').value = item.duracao || '';
+            document.getElementById('mm-resistencia').value = item.resistencia || '';
+            document.getElementById('mm-desc').value = item.desc || '';
+            document.getElementById('modal-magia-add').style.display = 'flex';
+        }
     }
 
     function apagarItemList(event, tipo, id) {
@@ -2289,6 +2335,7 @@
 
     function abrirModalHab(tipo) { 
         tipoContexto = tipo; 
+        editandoItemId = null; // Zera o ID pra garantir que é criação
         document.getElementById('mh-titulo').innerText = tipo == 'prof' ? 'NOVA PROFICIÊNCIA' : 'NOVA HABILIDADE'; 
         
         if(tipo === 'prof') {
@@ -2299,6 +2346,7 @@
             document.getElementById('div-hab-tipo').style.display = 'flex';
             document.getElementById('div-hab-desc').style.display = 'flex';
             document.getElementById('mh-nome').placeholder = 'Ex: Fúria de Combate';
+            document.getElementById('mh-tipo').value = 'Classe'; // Resetar pro padrão
         }
 
         document.getElementById('mh-nome').value = ''; 
@@ -2313,10 +2361,23 @@
 
         if(!nome) return alert("Digite o nome!"); 
         
-        if(tipoContexto == 'prof') {
-            dbProficiencias.push({ id: Date.now(), nome: nome, desc: desc }); 
+        if (editandoItemId) {
+            // Editando
+            if(tipoContexto == 'prof') {
+                let item = dbProficiencias.find(x => x.id === editandoItemId);
+                if(item) { item.nome = nome; item.desc = desc; }
+            } else {
+                let item = dbHabilidades.find(x => x.id === editandoItemId);
+                if(item) { item.nome = nome; item.desc = desc; item.tipo = tipo; }
+            }
+            editandoItemId = null; // Limpa após editar
         } else {
-            dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc, tipo: tipo }); 
+            // Criando novo
+            if(tipoContexto == 'prof') {
+                dbProficiencias.push({ id: Date.now(), nome: nome, desc: desc }); 
+            } else {
+                dbHabilidades.push({ id: Date.now(), nome: nome, desc: desc, tipo: tipo }); 
+            }
         }
         
         fecharModais();
@@ -2326,6 +2387,8 @@
 
     function abrirModalMagia() { 
         tipoContexto = 'magia'; 
+        editandoItemId = null; // Zera o ID
+        document.getElementById('mm-titulo').innerText = 'APRENDER MAGIA';
         document.getElementById('mm-nome').value = ''; 
         document.getElementById('mm-circulo').value = '1'; 
         document.getElementById('mm-escola').value = 'Abjuração'; 
@@ -2342,8 +2405,7 @@
         let n = document.getElementById('mm-nome').value.trim(); 
         if(!n) return alert("Digite o nome da magia!"); 
         
-        dbMagias.push({ 
-            id: Date.now(), 
+        let dados = { 
             nome: n, 
             circulo: document.getElementById('mm-circulo').value, 
             escola: document.getElementById('mm-escola').value, 
@@ -2353,7 +2415,16 @@
             duracao: document.getElementById('mm-duracao').value, 
             resistencia: document.getElementById('mm-resistencia').value, 
             desc: document.getElementById('mm-desc').value 
-        }); 
+        };
+
+        if (editandoItemId && tipoContexto === 'magia') {
+            let m = dbMagias.find(x => x.id === editandoItemId);
+            if (m) { Object.assign(m, dados); }
+            editandoItemId = null;
+        } else {
+            dados.id = Date.now();
+            dbMagias.push(dados); 
+        }
         
         fecharModais();
         recalcularTudo();
@@ -2696,7 +2767,7 @@
                 let categoria = "DANO";
                 
                 resultadoLog = totalDano; 
-                detalhesLog = `(Rolagem: ${currentRollData.expressao})`; 
+                detalhesLog = currentRollData.isFisico ? `(Dado Físico: Dano Total Informado)` : `(Rolagem: ${currentRollData.expressao})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
 
@@ -2742,7 +2813,7 @@
                 }
 
                 resultadoLog = totalSoma; 
-                detalhesLog = `(d20: ${dadoReal} + Bônus: ${bonus})`; 
+                detalhesLog = currentRollData.isFisico ? `(d20 Físico: ${dadoReal} + Bônus: ${bonus})` : `(d20: ${dadoReal} + Bônus: ${bonus})`; 
                 tipoCategoriaLog = categoria; 
                 corCategoriaLog = corCataroria;
                 
@@ -2790,7 +2861,8 @@
     function closeDiceRoll() {
         if(diceState === 0) return;
         
-        if (window.diceBox) window.diceBox.clear();
+        // Limpa os dados 3D da tela
+        if(window.diceBox) window.diceBox.clear(); 
         
         const box = document.getElementById('dice-result-container'); 
         const overlay = document.getElementById('dice-overlay-click');
