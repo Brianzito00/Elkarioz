@@ -11,6 +11,7 @@
         * { 
             box-sizing: border-box; 
         }
+
         body {
             font-family: 'Lora', serif; 
             background-color: #170f0a; 
@@ -220,6 +221,13 @@
         .equip-checkbox { transform: scale(1.2); cursor: pointer; margin: 0; }
         .item-img-mini { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #8b5a2b; }
         .item-icon-placeholder { width: 55px; height: 55px; font-size: 2rem; display: flex; align-items: center; justify-content: center; color: #3e2723; }
+        .item-acoes { display:flex; gap:6px; width:100%; margin-top:8px; }
+        .btn-item-editar, .btn-item-apagar { flex:1; border:1px solid #3e2723; border-radius:4px; padding:5px 6px; font-family:'Roboto',sans-serif; font-weight:900; font-size:.72rem; cursor:pointer; transition:.2s; }
+        .btn-item-editar { background:rgba(30,136,229,.9); color:#fff; }
+        .btn-item-apagar { background:rgba(183,28,28,.9); color:#fff; }
+        .btn-item-editar:hover { background:#0d47a1; transform:translateY(-1px); }
+        .btn-item-apagar:hover { background:#7f0000; transform:translateY(-1px); }
+
         .ammo-text { font-family: 'Roboto', sans-serif; font-size: 0.85rem; font-weight: 900; color: #3e2723; margin-top: 5px;}
 
         /* === CASCATAS DE MUNDO E LORE === */
@@ -745,7 +753,7 @@
 <div id="modal-inventario" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
-        <h3 class="section-title">NOVO ITEM / ARMA</h3>
+        <h3 class="section-title" id="mi-titulo">NOVO ITEM / ARMA</h3>
         
         <div class="modal-tabs">
             <button type="button" class="modal-tab-btn active" id="tab-comum" onclick="mudarAbaItem('comum')">ITENS</button>
@@ -858,7 +866,7 @@
             <textarea id="mi-desc" placeholder="Descrição ou efeitos adicionais do item..." class="form-input" style="height:80px; resize:vertical; text-align: left;"></textarea>
         </div>
         
-        <button type="button" class="btn-acao blue" style="padding: 15px; font-size: 1.1rem;" onclick="salvarItemInv()">✔️ ADICIONAR AO INVENTÁRIO</button>
+        <button type="button" class="btn-acao blue" id="btn-salvar-item-inv" style="padding: 15px; font-size: 1.1rem;" onclick="salvarItemInv()">✔️ ADICIONAR AO INVENTÁRIO</button>
     </div>
 </div>
 
@@ -1013,14 +1021,12 @@
             <span id="mv-ammo-text" style="font-family:'Roboto'; font-weight:900; font-size:1.4rem; color:#0d47a1;"></span>
             <button type="button" class="btn-status" onclick="alterarMunicaoView(1)">+</button>
         </div>
+        
         <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
         <div id="mv-item-actions" style="display:none; gap:10px; width:100%;">
             <button type="button" class="btn-acao blue" style="flex:1;" onclick="editarItemAberto()">✏️ EDITAR</button>
             <button type="button" class="btn-acao red" style="flex:1;" onclick="apagarItemAberto()">🗑️ APAGAR</button>
         </div>
-    </div>
-</div>
-        <div id="mv-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; min-height:80px; max-height: 40vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
     </div>
 </div>
 
@@ -1153,6 +1159,7 @@
     let tipoContexto = '';
     let itemAbertoId = null;
     let editandoItemId = null; // Controle de edição de Habilidades/Magias
+    let editandoInventarioId = null; // Controle de edição de itens do inventário
     let periciaAbertaNome = null;
     let abaItemAtual = 'comum';
     let tempImgBase64 = "";
@@ -2053,7 +2060,10 @@
                             </label>
                         </div>
                         ${displayMun}
-                    </div>`; 
+                        <div class="item-acoes" onclick="event.stopPropagation()">
+                            <button type="button" class="btn-item-editar" title="Editar item" onclick="editarItemInventario(event, ${i.id})">✏️ EDITAR</button>
+                            <button type="button" class="btn-item-apagar" title="Apagar item" onclick="apagarItemInventario(event, ${i.id})">🗑️ APAGAR</button>
+                        </div></div>`; 
             }
 
             if(i.equipado && (i.tipo == 'corpo' || i.tipo == 'dist')) {
@@ -2220,63 +2230,120 @@
         let nome = document.getElementById('mi-nome').value.trim();
         let peso = parseFloat(document.getElementById('mi-peso').value) || 0;
         let descBase = document.getElementById('mi-desc').value.trim();
-        
         if(!nome) return alert("Digite o nome do item!");
-        
+
         let extraText = "";
         let munMax = parseInt(document.getElementById('mi-mun').value) || 0;
         let munNomeLink = document.getElementById('mi-mun-nome').value.trim();
         let periciaLink = document.getElementById('mi-pericia').value;
         let r = document.getElementById('mi-raridade').value;
 
-        if(r !== 'Normal') { extraText += `\n[ ${r.toUpperCase()} ]`; }
-        
+        if(r !== 'Normal') extraText += `\n[ ${r.toUpperCase()} ]`;
+
         if(abaItemAtual == 'corpo' || abaItemAtual == 'dist') {
             let a = document.getElementById('mi-alc').value;
             let t = document.getElementById('mi-tipo').value;
             extraText += ` | Tipo: ${t || '-'}`;
-            
-            if(abaItemAtual == 'dist') {
-                extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`;
-            }
-            
-            if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink) {
+            if(abaItemAtual == 'dist') extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`;
+            if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink)
                 extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value || '-'}`;
-            }
-        } else if (abaItemAtual == 'armadura') {
+        } else if(abaItemAtual == 'armadura') {
             let bonusDef = parseInt(document.getElementById('mi-defesa').value) || 0;
             let penArm = parseInt(document.getElementById('mi-penalidade').value) || 0;
             extraText += `\nDEFESA: +${bonusDef} | PENALIDADE: -${penArm}`;
         }
 
-        let newItem = { 
-            id: Date.now(), 
-            nome: nome, 
-            peso: peso, 
-            desc: descBase + extraText, 
-            tipo: abaItemAtual, 
-            img: tempImgBase64, 
-            equipado: false,
-            periciaLink: periciaLink, 
-            dano: document.getElementById('mi-dano').value, 
+        let existente = editandoInventarioId ? dbInventario.find(x => x.id === editandoInventarioId) : null;
+
+        let dados = {
+            nome, peso, desc: descBase + extraText, tipo: abaItemAtual,
+            img: tempImgBase64,
+            equipado: existente ? existente.equipado : false,
+            periciaLink,
+            dano: document.getElementById('mi-dano').value,
             crit: document.getElementById('mi-crit').value,
             bonusDefesa: parseInt(document.getElementById('mi-defesa').value) || 0,
             penalidadeArmadura: Math.abs(parseInt(document.getElementById('mi-penalidade').value) || 0)
         };
-        
-        if(abaItemAtual == 'dist') { 
-            newItem.munMax = munMax; 
-            newItem.munAtual = munMax; 
-            newItem.munNomeReq = munNomeLink; 
-        } 
-        else if (abaItemAtual == 'municao') { 
-            newItem.munAtual = munMax; 
+
+        if(abaItemAtual == 'dist') {
+            dados.munMax = munMax;
+            dados.munAtual = existente && existente.tipo === 'dist'
+                ? Math.min(parseInt(existente.munAtual) || 0, munMax) : munMax;
+            dados.munNomeReq = munNomeLink;
+        } else if(abaItemAtual == 'municao') {
+            dados.munAtual = existente && existente.tipo === 'municao'
+                ? Math.max(0, parseInt(existente.munAtual) || 0) : munMax;
         }
-        
-        dbInventario.push(newItem); 
+
+        if(existente) {
+            Object.assign(existente, dados);
+        } else {
+            dados.id = Date.now();
+            dbInventario.push(dados);
+        }
+
+        editandoInventarioId = null;
         fecharModais();
         recalcularTudo();
         renderizarListas();
+        salvarFichaLocal();
+    }
+
+    function editarItemInventario(event, id) {
+        if(event) event.stopPropagation();
+        let item = dbInventario.find(x => x.id === id);
+        if(!item) return;
+
+        editandoInventarioId = id;
+        tipoContexto = 'inv';
+        popularSelectPericias();
+        mudarAbaItem(item.tipo || 'comum');
+
+        document.getElementById('mi-titulo').innerText = 'EDITAR ITEM / ARMA';
+        document.getElementById('btn-salvar-item-inv').innerText = '💾 SALVAR ALTERAÇÕES';
+
+        document.getElementById('mi-nome').value = item.nome || '';
+        document.getElementById('mi-peso').value = item.peso ?? 1;
+        document.getElementById('mi-desc').value = item.desc || '';
+        document.getElementById('mi-img').value = item.img || '';
+        document.getElementById('mi-raridade').value = 'Normal';
+        document.getElementById('mi-mun').value = item.tipo === 'dist' ? (item.munMax ?? 20) : (item.tipo === 'municao' ? (item.munAtual ?? 0) : 20);
+        document.getElementById('mi-mun-nome').value = item.munNomeReq || '';
+        document.getElementById('mi-pericia').value = item.periciaLink || '';
+        document.getElementById('mi-dano').value = item.dano || '';
+        document.getElementById('mi-crit').value = item.crit || '';
+        document.getElementById('mi-alc').value = '';
+        document.getElementById('mi-tipo').value = '';
+        document.getElementById('mi-defesa').value = item.bonusDefesa ?? 0;
+        document.getElementById('mi-penalidade').value = item.penalidadeArmadura ?? 0;
+        document.getElementById('mi-catalogo-armadura').value = '';
+
+        tempImgBase64 = item.img || '';
+        if(item.img) {
+            document.getElementById('mi-img-preview').src = item.img;
+            document.getElementById('mi-img-preview-container').style.display = 'block';
+        } else {
+            document.getElementById('mi-img-preview-container').style.display = 'none';
+        }
+
+        document.getElementById('modal-inventario').style.display = 'flex';
+    }
+
+    function apagarItemInventario(event, id) {
+        if(event) event.stopPropagation();
+        let item = dbInventario.find(x => x.id === id);
+        if(!item) return;
+        if(!confirm(`Tem certeza que deseja apagar "${item.nome}" do inventário?`)) return;
+
+        dbInventario = dbInventario.filter(x => x.id !== id);
+        if(itemAbertoId === id) itemAbertoId = null;
+        if(editandoInventarioId === id) editandoInventarioId = null;
+
+        fecharModais();
+        recalcularTudo();
+        renderizarListas();
+        salvarFichaLocal();
     }
 
     function toggleEquip(e, id) { 
@@ -2572,10 +2639,12 @@
         const boxArma = document.getElementById('mv-actions-dist'); 
         const boxMun = document.getElementById('mv-ammo-container');
         const boxHab = document.getElementById('mv-actions-hab');
+        const boxItemActions = document.getElementById('mv-item-actions');
         
         if(boxArma) boxArma.style.display = 'none'; 
         if(boxMun) boxMun.style.display = 'none';
         if(boxHab) boxHab.style.display = 'none';
+        if(boxItemActions) boxItemActions.style.display = tipoLista === 'inv' ? 'flex' : 'none';
         
         if(item.tipo == 'dist') { 
             boxArma.style.display = 'flex'; 
@@ -2603,14 +2672,29 @@
         document.getElementById('modal-view').style.display = 'flex'; 
     }
 
-    function apagarItemAberto() { 
-        if(tipoContexto == 'inv') dbInventario = dbInventario.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId); 
-        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId); 
-        
+    function editarItemAberto() {
+        if(tipoContexto === 'inv') {
+            let id = itemAbertoId;
+            fecharModais();
+            editarItemInventario(null, id);
+        }
+    }
+
+    function apagarItemAberto() {
+        if(tipoContexto === 'inv') {
+            apagarItemInventario(null, itemAbertoId);
+            return;
+        }
+
+        if(!confirm("Tem certeza que deseja remover este item?")) return;
+
+        if(tipoContexto == 'hab') dbHabilidades = dbHabilidades.filter(x => x.id != itemAbertoId);
+        else if(tipoContexto == 'magia') dbMagias = dbMagias.filter(x => x.id != itemAbertoId);
+
         fecharModais();
         recalcularTudo();
         renderizarListas();
+        salvarFichaLocal();
     }
 
     // ==============================================================
