@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Lora', serif; 
-            background-color: #170f0a; 
+            background-color: #ffffff !important; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover;
             background-position: center;
@@ -701,37 +701,6 @@
             filter: brightness(0) invert(1) !important;
         }
 
-</style>
-
-<style>
-/* ===== MUNDO RECEBIDO: FUNDO PRETO + TEXTO BRANCO ===== */
-#lista-guildas-recebidas > div,
-#lista-pessoas-recebidas > div,
-#lista-locais-recebidos > div {
-    background-color: #0b0d12 !important;
-    border: 2px solid #4a5365 !important;
-    color: #ffffff !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.45) !important;
-}
-
-#lista-guildas-recebidas > div span,
-#lista-pessoas-recebidas > div span,
-#lista-locais-recebidos > div span {
-    color: #ffffff !important;
-}
-
-#lista-guildas-recebidas > div:hover,
-#lista-pessoas-recebidas > div:hover,
-#lista-locais-recebidos > div:hover {
-    background-color: #151922 !important;
-    border-color: #69758a !important;
-}
-
-#lista-guildas-recebidas > div button,
-#lista-pessoas-recebidas > div button,
-#lista-locais-recebidos > div button {
-    color: #e53935 !important;
-}
 </style>
 </head>
 <body>
@@ -1828,7 +1797,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
                             ${imgHtml}
-                            <span style="font-weight: 900; font-size: 1.05rem; font-family: 'Lora', serif; color: #000000 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1; text-align: left;">${nome}</span>
+                            <span style="font-weight: 900; font-size: 1.05rem; font-family: 'Lora', serif; color: #ffffff !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1; text-align: left;">${nome}</span>
                         </div>
                         <div style="display:flex; flex-shrink: 0; align-items:center;" onclick="event.stopPropagation()">
                             <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.4rem; font-weight:bold; line-height:0.8; padding: 0;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
