@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Lora', serif; 
-            background-color: #ffffff !important; 
+            background-color: #170f0a; 
             background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png');
             background-size: cover;
             background-position: center;
@@ -191,7 +191,7 @@
         .arma-equipada-header { display: flex; align-items: center; gap: 10px; }
         .arma-equipada-img { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #5c3a21; flex-shrink: 0; }
         .arma-equipada-icon { width: 45px; height: 45px; border-radius: 4px; background: rgba(255,255,255,0.4); border: 1px solid #5c3a21; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
-        .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; color: #ffffff !important; flex: 1; line-height: 1.1; }
+        .arma-equipada-nome { font-family: 'Cinzel'; font-weight: bold; font-size: 0.85rem; color: #3e2723; flex: 1; line-height: 1.1; }
         .arma-equipada-botoes { display: flex; gap: 5px; margin-top: 5px; }
         
         .btn-atq { flex: 1; background: rgba(183, 28, 28, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Cinzel'; cursor: pointer; display:flex; justify-content:center; align-items:center; gap:5px; transition:0.2s;}
@@ -1793,7 +1793,7 @@
                 let imgHtml = d.img ? `<img src="${d.img}" class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px;">` : `<div class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px; background: #fff;">${icone}</div>`;
                 
                 let cardHtml = `
-                <div style="background-color: #eaddc4; border: 1px solid #8b5a2b; border-left: 4px solid ${cor}; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
+                <div style="background-color: #000000; border: 1px solid #3f4652; border-left: 4px solid ${cor}; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
                             ${imgHtml}
