@@ -453,6 +453,267 @@
             #painel-regras { width: 100vw; left: -100vw; }
             .btn-regras-flutuante { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.6rem;}
         }
+    
+        /* =========================================================
+           TEMA ESCURO — OVERRIDES
+           ========================================================= */
+        :root {
+            --dark-bg: #0b0d12;
+            --dark-panel: #151922;
+            --dark-panel-2: #1b202b;
+            --dark-card: #202633;
+            --dark-card-hover: #293142;
+            --dark-border: #4a5365;
+            --dark-border-strong: #69758a;
+            --dark-text: #e7eaf0;
+            --dark-text-soft: #aeb7c7;
+            --dark-accent: #c0392b;
+            --dark-accent-2: #e05a47;
+            --dark-blue: #2f81d7;
+        }
+
+        body {
+            background-color: var(--dark-bg) !important;
+            background-image:
+                linear-gradient(rgba(5,7,11,.78), rgba(5,7,11,.88)),
+                url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicij-pbyNJBmSq1lNLeur-8lJkGfzOOurAvNt5ruR5j2KHWV9Qvqa90urImliVnN1Nvwm5ho0jTfeeNNjeUuSG-VDox7XojiJXx-6-2k4TJ5Or2PkHgGFgFwI4-ineXJaBO8nnt6Q9uchp7TobVp8W-HUKqTWhSU3Sg-uJFxZdvlYDy0kep7xEh0SrU5xt/w1519-h855/Gemini_Generated_Image_k9b6nuk9b6nuk9b6.png') !important;
+            color: var(--dark-text) !important;
+        }
+
+        .ficha-container {
+            background: rgba(15,18,25,.94) !important;
+            border-color: var(--dark-border-strong) !important;
+            outline-color: rgba(0,0,0,.75) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .section-title,
+        .list-section-title,
+        .input-wrapper label,
+        .bar-title,
+        .equip-label,
+        .moedas-title,
+        .pericia-header,
+        .hab-category-title,
+        .magia-escola {
+            color: var(--dark-text) !important;
+        }
+
+        .section-title {
+            border-bottom-color: rgba(105,117,138,.45) !important;
+        }
+
+        .section-separator {
+            border-bottom-color: rgba(105,117,138,.35) !important;
+        }
+
+        .form-input,
+        .input-moeda,
+        .max-input {
+            background: #202633 !important;
+            color: var(--dark-text) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .form-input:focus {
+            background: #252c39 !important;
+            border-color: var(--dark-accent-2) !important;
+        }
+
+        .form-input::placeholder {
+            color: #7f899a !important;
+        }
+
+        .uid-especial {
+            background: #252c39 !important;
+            color: var(--dark-text) !important;
+            border-color: var(--dark-border-strong) !important;
+        }
+
+        .tab-btn {
+            background: #171b24 !important;
+            color: var(--dark-text-soft) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .tab-btn:hover {
+            background: #242a36 !important;
+            color: #fff !important;
+        }
+
+        .tab-btn.active {
+            background: var(--dark-accent) !important;
+            border-color: var(--dark-accent) !important;
+            color: #fff !important;
+        }
+
+        .tabs-nav {
+            border-bottom-color: var(--dark-border) !important;
+        }
+
+        .atributo-box,
+        .status-module,
+        .carga-container,
+        .moedas-container,
+        .defesa-box,
+        .arma-equipada-card {
+            background: var(--dark-card) !important;
+            border-color: var(--dark-border) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .atributo-box label,
+        .atributo-box input,
+        .defesa-valor,
+        .max-box label,
+        .arma-equipada-nome {
+            color: var(--dark-text) !important;
+        }
+
+        .pericia-card {
+            background: rgba(31,37,49,.94) !important;
+            border-color: var(--dark-border) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .pericia-card:hover {
+            background: var(--dark-card-hover) !important;
+            border-color: var(--dark-accent-2) !important;
+        }
+
+        .pericia-card.treinado {
+            background: rgba(192,57,43,.16) !important;
+            border-color: var(--dark-accent) !important;
+        }
+
+        .pericia-roll-box {
+            background: rgba(0,0,0,.18) !important;
+            border-color: var(--dark-border) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .glass-track {
+            background: #090b10 !important;
+            border-color: #050609 !important;
+        }
+
+        .max-input {
+            background: #151922 !important;
+        }
+
+        .equip-label:hover {
+            background: rgba(255,255,255,.08) !important;
+            color: #fff !important;
+        }
+
+        .item-icon-placeholder {
+            color: var(--dark-text-soft) !important;
+        }
+
+        .ammo-text {
+            color: #ff7766 !important;
+        }
+
+        .hab-category-wrapper {
+            background: linear-gradient(to right, #1b202b, #151922) !important;
+            border-color: var(--dark-border) !important;
+        }
+
+        .hab-subitem {
+            background: #202633 !important;
+            color: var(--dark-text) !important;
+        }
+
+        .hab-subitem:hover {
+            background: #293142 !important;
+            border-color: var(--dark-border-strong) !important;
+            color: #fff !important;
+        }
+
+        .escola-badge {
+            background: rgba(255,255,255,.05) !important;
+            border-color: var(--dark-border) !important;
+            color: var(--dark-text-soft) !important;
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom, #1b202b, #11151d) !important;
+            border-color: var(--dark-border-strong) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .modal-tab-btn {
+            color: var(--dark-text-soft) !important;
+        }
+
+        .modal-tab-btn.active,
+        .modal-tab-btn:hover {
+            color: #ff7766 !important;
+        }
+
+        #dice-result-container {
+            background: #151922 !important;
+            border-color: var(--dark-accent) !important;
+            color: var(--dark-text) !important;
+        }
+
+        .pop-pericia-nome,
+        .pop-total {
+            color: var(--dark-text) !important;
+        }
+
+        .pop-detalhes {
+            color: var(--dark-text-soft) !important;
+            background: rgba(255,255,255,.05) !important;
+        }
+
+        .toast-entry {
+            background: rgba(25,29,39,.97) !important;
+            color: var(--dark-text) !important;
+        }
+
+        #painel-regras {
+            background: #0b0d12 !important;
+            border-right-color: var(--dark-border-strong) !important;
+        }
+
+        .painel-regras-header {
+            background: #171b24 !important;
+            border-bottom-color: var(--dark-border) !important;
+        }
+
+        .painel-regras-titulo {
+            color: var(--dark-text) !important;
+        }
+
+        .painel-regras-content {
+            background: #0b0d12 !important;
+        }
+
+        /* Inventário: ações ficam escondidas até o item ser selecionado */
+        .item-acoes {
+            display: none !important;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .pericia-card.item-selecionado .item-acoes {
+            display: flex !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pericia-card.item-selecionado {
+            border-color: var(--dark-accent-2) !important;
+            background: #293142 !important;
+            box-shadow: 0 0 0 2px rgba(224,90,71,.18), 0 8px 20px rgba(0,0,0,.35) !important;
+        }
+
+        .pericia-card.item-selecionado .pericia-header {
+            color: #fff !important;
+        }
+
     </style>
 </head>
 <body>
@@ -2037,6 +2298,22 @@
         }
     }
 
+    function selecionarItemInventario(event, id) {
+        event.stopPropagation();
+
+        const card = event.currentTarget;
+        const jaSelecionado = card.classList.contains('item-selecionado');
+
+        // Fecha todos os outros itens.
+        document.querySelectorAll('#grid-inventario .pericia-card.item-selecionado')
+            .forEach(el => el.classList.remove('item-selecionado'));
+
+        // Clicar novamente no mesmo item fecha os botões.
+        if (!jaSelecionado) {
+            card.classList.add('item-selecionado');
+        }
+    }
+
     function renderizarListas() {
         const gridInv = document.getElementById('grid-inventario'); 
         if(gridInv) gridInv.innerHTML = '';
@@ -2051,7 +2328,7 @@
             
             if(gridInv) {
                 gridInv.innerHTML += `
-                    <div class="pericia-card" onclick="abrirVisualizacao('inv', ${i.id})">
+                    <div class="pericia-card" onclick="selecionarItemInventario(event, ${i.id})">
                         ${imgHtml}
                         <div class="pericia-header" style="margin-top:5px;">${i.nome}</div>
                         <div class="equip-box" onclick="event.stopPropagation()">
