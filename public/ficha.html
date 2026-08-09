@@ -690,6 +690,40 @@
             background: #0b0d12 !important;
         }
 
+        .mv-item-info {
+            width: 100%;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 12px;
+            margin-bottom: 14px;
+            padding: 14px;
+            background: #202633;
+            border: 1px solid #4a5365;
+            border-radius: 8px;
+            text-align: left;
+            font-family: 'Roboto', sans-serif;
+            color: #e7eaf0;
+        }
+        .mv-item-info strong,
+        .mv-item-descricao strong { color: #ff7766; }
+        .mv-item-descricao {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            margin-bottom: 16px;
+            background: #151922;
+            border: 1px solid #4a5365;
+            border-radius: 8px;
+            text-align: left;
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+        .mv-item-descricao > div {
+            margin-top: 8px;
+            color: #cbd2df;
+        }
+
         /* Inventário: ações ficam escondidas até o item ser selecionado */
         .item-acoes {
             display: none !important;
@@ -2336,11 +2370,7 @@
                                 <input type="checkbox" class="equip-checkbox" ${i.equipado ? 'checked' : ''} onchange="toggleEquip(event, ${i.id})"> Equipado
                             </label>
                         </div>
-                        ${displayMun}
-                        <div class="item-acoes" onclick="event.stopPropagation()">
-                            <button type="button" class="btn-item-editar" title="Editar item" onclick="editarItemInventario(event, ${i.id})">✏️ EDITAR</button>
-                            <button type="button" class="btn-item-apagar" title="Apagar item" onclick="apagarItemInventario(event, ${i.id})">🗑️ APAGAR</button>
-                        </div></div>`; 
+                        ${displayMun}</div>`; 
             }
 
             if(i.equipado && (i.tipo == 'corpo' || i.tipo == 'dist')) {
@@ -2896,13 +2926,52 @@
         
         if (tipoLista == 'magia') {
             textoFormatado = `<strong style="color:#b71c1c;">Círculo:</strong> ${item.circulo}º<br><strong style="color:#b71c1c;">Escola:</strong> ${item.escola}<br><strong style="color:#b71c1c;">Execução:</strong> ${item.execucao || '-'}<br><strong style="color:#b71c1c;">Alcance:</strong> ${item.alcance || '-'}<br><strong style="color:#b71c1c;">Alvo/Área:</strong> ${item.alvo || '-'}<br><strong style="color:#b71c1c;">Duração:</strong> ${item.duracao || '-'}<br><strong style="color:#b71c1c;">Resistência:</strong> ${item.resistencia || '-'}<br><br>` + (item.desc || "Sem efeito descrito.").replace(/\n/g, '<br>');
+        } else if (tipoLista == 'inv') {
+            const tipoNomes = {
+                comum: 'Item',
+                corpo: 'Arma corpo a corpo',
+                dist: 'Arma à distância',
+                municao: 'Munição',
+                armadura: 'Armadura / Escudo'
+            };
+
+            let detalhes = `
+                <div class="mv-item-info">
+                    <div><strong>Categoria:</strong> ${tipoNomes[item.tipo] || item.tipo || 'Item'}</div>
+                    <div><strong>Espaços:</strong> ${item.peso ?? 0}</div>
+                    <div><strong>Equipado:</strong> ${item.equipado ? 'Sim' : 'Não'}</div>
+            `;
+
+            if(item.tipo === 'corpo' || item.tipo === 'dist') {
+                if(item.periciaLink) detalhes += `<div><strong>Perícia:</strong> ${item.periciaLink}</div>`;
+                if(item.dano) detalhes += `<div><strong>Dano:</strong> ${item.dano}</div>`;
+                if(item.crit) detalhes += `<div><strong>Crítico:</strong> ${item.crit}</div>`;
+            }
+
+            if(item.tipo === 'dist') {
+                detalhes += `<div><strong>Munição:</strong> ${item.munNomeReq || 'Nenhuma'}</div>`;
+                detalhes += `<div><strong>Carga:</strong> ${item.munAtual ?? 0} / ${item.munMax ?? 0}</div>`;
+            }
+
+            if(item.tipo === 'municao') {
+                detalhes += `<div><strong>Quantidade:</strong> ${item.munAtual ?? 0}</div>`;
+            }
+
+            if(item.tipo === 'armadura') {
+                detalhes += `<div><strong>Defesa:</strong> +${item.bonusDefesa ?? 0}</div>`;
+                detalhes += `<div><strong>Penalidade:</strong> -${item.penalidadeArmadura ?? 0}</div>`;
+            }
+
+            detalhes += `</div>`;
+
+            const descricao = (item.desc || "Sem descrição.").replace(/\n/g, '<br>');
+            textoFormatado = detalhes + `
+                <div class="mv-item-descricao">
+                    <strong>Descrição</strong>
+                    <div>${descricao}</div>
+                </div>`;
         } else {
-            let extras = tipoLista == 'inv' ? `\n\n(Espaços: ${item.peso})` : "";
-            if(item.tipo === 'armadura') extras += `\nDefesa: +${item.bonusDefesa} | Pen: -${item.penalidadeArmadura}`;
-            
-            textoFormatado = (item.desc || "Sem descrição.") + extras; 
-            textoFormatado = textoFormatado.replace(/\n/g, '<br>'); 
-        }
+            textoFormatado = (item.desc || "Sem descrição.").replace(/\n/g, '<br>');
 
         document.getElementById('mv-desc').innerHTML = textoFormatado; 
         const imgEl = document.getElementById('mv-img');
