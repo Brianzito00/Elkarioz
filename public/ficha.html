@@ -485,7 +485,223 @@
         .mv-item-descricao{padding:14px;margin-bottom:16px;background:#151922;border:1px solid #4a5365;border-radius:8px;text-align:left}
         .mv-item-descricao>div{margin-top:8px;color:#cbd2df}
 
-    </style>
+    
+        /* ===== AJUSTE VISUAL: PERÍCIAS + FICHA MAIS TRANSPARENTE ===== */
+
+        /* Texto geral branco e superfícies escuras */
+        body,
+        .ficha-container,
+        .ficha-container input,
+        .ficha-container textarea,
+        .ficha-container select {
+            color: #ffffff !important;
+        }
+
+        /* Fundo da ficha deixa a imagem aparecer mais */
+        .ficha-container {
+            background-color: rgba(8, 10, 14, 0.64) !important;
+            background-image: none !important;
+            backdrop-filter: blur(5px) !important;
+            -webkit-backdrop-filter: blur(5px) !important;
+            border-color: rgba(120, 130, 145, 0.55) !important;
+        }
+
+        /* Perícias: fundo preto e texto branco */
+        .pericia-card {
+            background: rgba(0, 0, 0, 0.82) !important;
+            border-color: rgba(150, 150, 160, 0.55) !important;
+            color: #ffffff !important;
+        }
+
+        .pericia-card:hover {
+            background: rgba(15, 15, 18, 0.94) !important;
+            border-color: #e05a47 !important;
+        }
+
+        .pericia-header,
+        .pericia-card .pericia-header {
+            color: #ffffff !important;
+        }
+
+        .pericia-roll-box {
+            background: rgba(0, 0, 0, 0.72) !important;
+            border-color: rgba(180, 180, 190, 0.5) !important;
+            color: #ffffff !important;
+        }
+
+        .pericia-card:hover .pericia-roll-box {
+            background: rgba(30, 30, 35, 0.95) !important;
+            border-color: #e05a47 !important;
+            color: #ffffff !important;
+        }
+
+        /* PERÍCIA TREINADA + algum bônus/valor:
+           destaque forte para ficar fácil de identificar. */
+        .pericia-card.treinado {
+            background: rgba(70, 20, 15, 0.92) !important;
+            border: 2px solid #ff5a47 !important;
+            box-shadow:
+                0 0 0 1px rgba(255, 90, 71, 0.45),
+                0 0 14px rgba(255, 70, 50, 0.45) !important;
+        }
+
+        .pericia-card.treinado .pericia-header,
+        .pericia-card.treinado .pericia-roll-box {
+            color: #ffffff !important;
+        }
+
+        /* Se a perícia treinada tiver bônus, reforça o destaque. */
+        .pericia-card.treinado .pericia-roll-box {
+            background: rgba(0, 0, 0, 0.78) !important;
+            border-color: #ff7766 !important;
+        }
+
+        /* Campos e módulos escuros com texto branco */
+        .form-input,
+        .input-moeda,
+        .max-input,
+        .uid-especial {
+            background: rgba(0, 0, 0, 0.72) !important;
+            color: #ffffff !important;
+            border-color: rgba(150, 150, 160, 0.6) !important;
+        }
+
+        .form-input::placeholder {
+            color: #a8adb7 !important;
+        }
+
+        /* Divisórias/tabelas internas mais transparentes */
+        .section-separator,
+        .tabs-nav {
+            border-color: rgba(150, 150, 160, 0.42) !important;
+        }
+
+        /* Mantém títulos e labels legíveis */
+        .section-title,
+        .list-section-title,
+        .input-wrapper label,
+        .bar-title,
+        .equip-label,
+        .moedas-title,
+        .hab-category-title,
+        .magia-escola,
+        .defesa-box label {
+            color: #ffffff !important;
+        }
+
+        /* Pop-up */
+        .modal-content {
+            background: rgba(8, 10, 14, 0.94) !important;
+            color: #ffffff !important;
+        }
+
+        .modal-content .mv-item-info,
+        .modal-content .mv-item-descricao {
+            background: rgba(0, 0, 0, 0.68) !important;
+            color: #ffffff !important;
+        }
+
+        .mv-item-descricao > div {
+            color: #ffffff !important;
+        }
+
+
+        /* ===== CABEÇALHOS DE CATEGORIA (Hab. de Classe etc.) ===== */
+        .hab-category-wrapper {
+            background: rgba(0, 0, 0, 0.88) !important;
+            border-color: rgba(150, 150, 160, 0.55) !important;
+            border-left-color: #b71c1c !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.45) !important;
+        }
+
+        .hab-category-wrapper:hover {
+            background: rgba(5, 5, 5, 0.95) !important;
+            border-color: #777 !important;
+            border-left-color: #e05a47 !important;
+        }
+
+        .hab-category-title,
+        .hab-category-wrapper .hab-category-title {
+            color: #ffffff !important;
+        }
+
+        .hab-category-icon,
+        .hab-category-wrapper .hab-category-icon {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border-color: #777777 !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6) !important;
+        }
+
+        .hab-category-header > span {
+            color: #ffffff !important;
+        }
+
+
+        /* Nomes dos atributos (FOR, AGI, VIG, INT, SAB, CAR) */
+        .atributo-box label,
+        .atributo-box label * {
+            color: #ffffff !important;
+        }
+
+
+        /* Número/valor da Defesa em branco */
+        .defesa-valor,
+        .defesa-box .defesa-valor,
+        .defesa-box input,
+        .defesa-box .valor {
+            color: #ffffff !important;
+        }
+
+
+        /* ===== TEXTOS DOS POP-UPS EM BRANCO ===== */
+        .modal-content,
+        .modal-content h1,
+        .modal-content h2,
+        .modal-content h3,
+        .modal-content h4,
+        .modal-content p,
+        .modal-content span,
+        .modal-content label,
+        .modal-content strong,
+        .modal-content div,
+        .modal-content .pop-pericia-nome,
+        .modal-content .pop-total,
+        .modal-content .pop-detalhes,
+        .modal-content .modal-title,
+        .modal-content .modal-tab-btn,
+        .modal-content .total-label,
+        .modal-content .bonus-label,
+        .modal-content .form-label {
+            color: #ffffff !important;
+        }
+
+        /* Campos numéricos e textos digitáveis dos pop-ups */
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            color: #ffffff !important;
+            background: #050505 !important;
+        }
+
+        .modal-content input::placeholder,
+        .modal-content textarea::placeholder {
+            color: #bfc3ca !important;
+        }
+
+        /* Mantém o botão concluído com texto branco */
+        .modal-content button {
+            color: #ffffff !important;
+        }
+
+
+        /* Ícone do dado: deixa a imagem branca no tema escuro */
+        .icone-dado,
+        .pop-dado-img {
+            filter: brightness(0) invert(1) !important;
+        }
+
+</style>
 </head>
 <body>
 
