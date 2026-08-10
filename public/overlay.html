@@ -70,9 +70,9 @@
         .top-bar {
             background: transparent;
             height: 100px;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
-            padding: 0 18px 0 35px;
+            padding: 0 18px 0 28px;
             border: none;
             border-radius: 0;
             clip-path: none;
@@ -85,15 +85,15 @@
             display: flex;
             flex: 1;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
         }
         .identity-block.hidden { display: none; }
 
         .char-name {
             display: block;
-            width: 100%;
-            max-width: 300px;
+            width: auto;
+            max-width: 290px;
             font-family: 'Cinzel', serif;
             font-size: 2.15rem;
             font-weight: 900;
@@ -103,7 +103,7 @@
             letter-spacing: 1px;
             white-space: normal;
             overflow-wrap: anywhere;
-            text-align: center;
+            text-align: left;
             text-shadow: 1px 2px 2px rgba(0,0,0,0.45);
             transform: rotate(-3deg);
         }
@@ -113,41 +113,23 @@
             flex: 1;
             flex-direction: column;
             justify-content: center;
-            gap: 9px;
+            align-items: flex-start;
+            gap: 0;
             width: 100%;
         }
         .combat-stats.active { display: flex; }
-        .combat-bar {
-            position: relative;
-            width: 100%;
-            height: 34px;
-            overflow: hidden;
-            border: 3px solid #111;
-            border-radius: 5px;
-            background: rgba(8, 8, 12, 0.82);
-            box-sizing: border-box;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.75), 0 2px 4px rgba(0,0,0,0.35);
+        .combat-number {
+            display: block;
+            font-family: 'Lora', serif;
+            font-size: 2.65rem;
+            font-weight: 600;
+            line-height: 0.94;
+            letter-spacing: -1px;
+            white-space: nowrap;
+            text-shadow: 0 2px 3px #000, 0 0 7px currentColor;
         }
-        .combat-fill {
-            position: absolute;
-            inset: 0 auto 0 0;
-            width: 0;
-            transition: width 0.4s ease;
-        }
-        .combat-fill.hp { background: linear-gradient(90deg, #7f1014, #c6292e); }
-        .combat-fill.mp { background: linear-gradient(90deg, #10275d, #1d51ad); }
-        .combat-label, .combat-value {
-            position: absolute;
-            top: 50%;
-            z-index: 2;
-            transform: translateY(-50%);
-            color: #fff;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 900;
-            text-shadow: 1px 1px 2px #000;
-        }
-        .combat-label { left: 9px; font-size: 0.68rem; letter-spacing: 0.8px; }
-        .combat-value { left: 0; width: 100%; text-align: center; font-size: 1rem; letter-spacing: 1px; }
+        .combat-number.hp { color: #ffd5dc; }
+        .combat-number.mp { color: #d7e5ff; }
 
         /* Painel de conexao: usa a mesma paleta do overlay e some no modo de exibicao. */
         .connection-panel {
@@ -283,16 +265,8 @@
                     <span class="char-name" id="o-nome">Carregando...</span>
                 </div>
                 <div class="combat-stats" id="combat-stats" aria-label="Vida e mana do personagem">
-                    <div class="combat-bar">
-                        <div class="combat-fill hp" id="o-hp-fill"></div>
-                        <span class="combat-label">VIDA</span>
-                        <span class="combat-value" id="o-hp-text">0 / 0</span>
-                    </div>
-                    <div class="combat-bar">
-                        <div class="combat-fill mp" id="o-mp-fill"></div>
-                        <span class="combat-label">MANA</span>
-                        <span class="combat-value" id="o-mp-text">0 / 0</span>
-                    </div>
+                    <span class="combat-number hp" id="o-hp-text">0/0</span>
+                    <span class="combat-number mp" id="o-mp-text">0/0</span>
                 </div>
             </div>
 
@@ -489,10 +463,8 @@
             const hpMax = Math.max(0, numeroSeguro(p.hpMax, 0));
             const mpAtual = numeroSeguro(p.mpAtual, 0);
             const mpMax = Math.max(0, numeroSeguro(p.mpMax, 0));
-            document.getElementById('o-hp-text').innerText = `${hpAtual} / ${hpMax}`;
-            document.getElementById('o-mp-text').innerText = `${mpAtual} / ${mpMax}`;
-            document.getElementById('o-hp-fill').style.width = calcularPercentual(hpAtual, hpMax) + '%';
-            document.getElementById('o-mp-fill').style.width = calcularPercentual(mpAtual, mpMax) + '%';
+            document.getElementById('o-hp-text').innerText = `${hpAtual}/${hpMax}`;
+            document.getElementById('o-mp-text').innerText = `${mpAtual}/${mpMax}`;
 
             elements.widget.style.display = 'flex';
             definirStatus(`${p.charName || 'Personagem'} (UID ${uidPersonagem}) carregado.`, 'ok');
@@ -501,11 +473,6 @@
         function numeroSeguro(valor, padrao) {
             const numero = Number.parseFloat(valor);
             return Number.isFinite(numero) ? numero : padrao;
-        }
-
-        function calcularPercentual(atual, maximo) {
-            if (maximo <= 0) return 0;
-            return Math.max(0, Math.min(100, (atual / maximo) * 100));
         }
 
         function salvarConfiguracaoNaUrl() {
