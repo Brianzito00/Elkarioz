@@ -123,6 +123,35 @@
             min-height: 0; 
         }
 
+        .combate-global {
+            flex: 0 0 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: calc(100vh - 230px);
+            min-height: 520px;
+            max-height: 760px;
+            position: sticky;
+            top: 20px;
+            min-width: 0;
+        }
+
+        .combate-global-badge {
+            align-self: center;
+            margin: -5px 0 0;
+            padding: 4px 10px;
+            border: 1px solid rgba(139, 90, 43, 0.5);
+            border-radius: 20px;
+            background: rgba(234, 221, 197, 0.75);
+            color: #5c3a21;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.64rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
         .coluna-central { 
             flex: 1; 
             display: flex; 
@@ -466,7 +495,9 @@
 
         @media (max-width: 800px) { 
             .conteudo-wrapper { flex-direction: column; height: auto;} 
-            .coluna-central, .mesa-sidebar { width: 100%; flex: none; } 
+            .coluna-central, .mesa-sidebar, .combate-global { width: 100%; flex: none; } 
+            .combate-global { position: static; height: auto; min-height: 0; max-height: none; }
+            .combate-global #lista-iniciativa { max-height: 430px; }
             .mesa-layout { flex-direction: column; } 
             #players-container, #lista-bestiario-container { grid-template-columns: 1fr; overflow-y: visible;} 
             .grid-6 { grid-template-columns: repeat(3, 1fr); } 
@@ -530,29 +561,28 @@
     </div>
 
     <div class="conteudo-wrapper">
+        <aside class="combate-global" aria-label="Controle de combate global">
+            <div class="box-rpg">
+                <h2 class="section-title" style="margin-bottom:8px;">CONTROLE DE COMBATE</h2>
+                <div class="combate-global-badge">Visível em todas as abas</div>
+                <button class="btn-acao" style="margin: 15px 0; background-color: #5c3a21;" onclick="abrirModalIniciativa()">➕ ADD INICIATIVA MANUAL</button>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn-acao" style="background:#2e7d32; font-size: 1.1rem; padding: 15px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
+                    <button class="btn-acao" style="background:#0d47a1;" onclick="ordenarIniciativa()">🔄 REORDENAR</button>
+                    <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
+                </div>
+            </div>
+
+            <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 260px;">
+                <h2 class="section-title">ORDEM DE TURNOS</h2>
+                <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+            </div>
+        </aside>
+
         <div class="coluna-central">
-            
+             
             <div id="tab-mesa" class="tab-content active">
                 <div class="mesa-layout">
-                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
-                        
-                        <div class="box-rpg" style="margin-bottom: 15px;">
-                            <h2 class="section-title">CONTROLE DE COMBATE</h2>
-                            <button class="btn-acao" style="margin-bottom: 15px; background-color: #5c3a21;" onclick="abrirModalIniciativa()">➕ ADD INICIATIVA MANUAL</button>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <button class="btn-acao" style="background:#2e7d32; font-size: 1.1rem; padding: 15px;" onclick="proximoTurno()">⏭️ PRÓXIMO TURNO</button>
-                                <button class="btn-acao" style="background:#0d47a1;" onclick="ordenarIniciativa()">🔄 RE-ORDENAR</button>
-                                <button class="btn-acao" style="background:#b71c1c;" onclick="limparIniciativa()">🗑️ LIMPAR TUDO</button>
-                            </div>
-                        </div>
-                        
-                        <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 300px;">
-                            <h2 class="section-title">ORDEM DE TURNOS</h2>
-                            <div id="lista-iniciativa" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
-                        </div>
-
-                    </div>
-                    
                     <div class="mesa-jogadores" style="background: transparent; border: none; box-shadow: none; padding: 0;">
                         
                         <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; height: 100%;">
@@ -821,9 +851,9 @@
                 arrayIniciativa = JSON.parse(iSalva); 
                 turnoAtualIndex = parseInt(localStorage.getItem('rpgIniciativaTurno'));
                 if(isNaN(turnoAtualIndex)) turnoAtualIndex = arrayIniciativa.length > 0 ? 0 : -1;
-                renderIniciativa();
             } catch(e){} 
         }
+        renderIniciativa();
 
         if (abaAtual === 'bestiario') renderizarBestiario();
         if (abaAtual === 'mundo') inicializarHistoriaGM();
@@ -868,7 +898,11 @@
     function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
     function forcarSincronizacao() { if(!gmUid) return alert("Conecte a uma sala primeiro!"); socket.emit('solicitarEstadoSala', gmUid); }
 
-    socket.on('estadoSalaCompleto', function(dados) { jogadores = dados; if(abaAtual === 'mesa') renderizarJogadores(); });
+    socket.on('estadoSalaCompleto', function(dados) {
+        jogadores = dados;
+        if(abaAtual === 'mesa') renderizarJogadores();
+        renderIniciativa();
+    });
     socket.on('atualizarDados', function(data) {
         if(gmUid && data.uid && data.uid.trim().toUpperCase() !== gmUid.trim().toUpperCase()) return;
         let j = data.dados; let chave = j.idUnico; if (!chave) return; 
@@ -878,8 +912,8 @@
         
         if (abaAtual === 'mesa') {
             renderizarJogadores();
-            renderIniciativa();
         }
+        renderIniciativa();
     });
     
     function salvarNotaGM(chave, valor) { if(jogadores[chave]) jogadores[chave].gmNotes = valor; }
