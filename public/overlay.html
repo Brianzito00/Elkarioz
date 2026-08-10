@@ -137,9 +137,126 @@
             letter-spacing: 2px;
         }
 
+        /* Painel de conexao: usa a mesma paleta do overlay e some no modo de exibicao. */
+        .connection-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            width: min(480px, calc(100vw - 40px));
+            box-sizing: border-box;
+            padding: 20px;
+            border: 4px solid #000;
+            border-radius: 10px;
+            background: rgba(253, 251, 247, 0.97);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+            color: #170f0a;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .connection-panel.hidden { display: none; }
+        .connection-title { margin: 0 0 5px; font-family: 'Cinzel', serif; font-size: 1.2rem; }
+        .connection-help { margin: 0 0 15px; color: #5c3a21; font-size: 0.8rem; line-height: 1.4; }
+        .connection-grid { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+        .connection-field { min-width: 0; }
+        .connection-field.full { grid-column: 1 / -1; }
+        .connection-field label { display: block; margin: 0 0 5px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 0.72rem; }
+        .connection-input, .connection-select {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 42px;
+            padding: 9px 11px;
+            border: 2px solid #3e2723;
+            border-radius: 5px;
+            background: #fff;
+            color: #170f0a;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 900;
+        }
+        .connection-button {
+            align-self: end;
+            min-height: 42px;
+            padding: 9px 15px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            background: #b82326;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .connection-button:hover { filter: brightness(1.12); }
+        .connection-button.secondary { background: #143d8d; }
+        .connection-status {
+            grid-column: 1 / -1;
+            min-height: 18px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.08);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .connection-status.ok { background: rgba(46,125,50,0.14); color: #1b5e20; }
+        .connection-status.error { background: rgba(183,28,28,0.14); color: #8e1010; }
+        .config-toggle {
+            display: none;
+            position: fixed;
+            top: 8px;
+            right: 8px;
+            z-index: 101;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 2px solid #000;
+            border-radius: 50%;
+            background: rgba(253,251,247,0.92);
+            color: #170f0a;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .config-toggle.visible { display: block; }
+
+        @media (max-width: 560px) {
+            body { padding: 10px; }
+            .connection-panel { top: 10px; left: 10px; width: calc(100vw - 20px); }
+            .connection-grid { grid-template-columns: 1fr; }
+            .connection-button { width: 100%; }
+        }
+
     </style>
 </head>
 <body>
+
+    <button type="button" class="config-toggle" id="config-toggle" aria-label="Configurar overlay" title="Configurar overlay">⚙</button>
+
+    <section class="connection-panel" id="connection-panel" aria-label="Conexao do overlay">
+        <h1 class="connection-title">CONECTAR OVERLAY</h1>
+        <p class="connection-help">Informe a mesa, conecte e escolha um personagem da lista ou digite o UID de 4 dígitos mostrado na ficha.</p>
+
+        <div class="connection-grid">
+            <div class="connection-field">
+                <label for="mesa-input">MESA / UID DO MESTRE</label>
+                <input class="connection-input" id="mesa-input" type="text" autocomplete="off" placeholder="EX: MESA1">
+            </div>
+            <button type="button" class="connection-button" id="connect-room-button">CONECTAR À MESA</button>
+
+            <div class="connection-field full">
+                <label for="players-select">PERSONAGENS ENCONTRADOS</label>
+                <select class="connection-select" id="players-select" disabled>
+                    <option value="">Conecte a uma mesa para listar os personagens</option>
+                </select>
+            </div>
+
+            <div class="connection-field">
+                <label for="character-uid-input">UID DO PERSONAGEM (4 DÍGITOS)</label>
+                <input class="connection-input" id="character-uid-input" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="EX: 4827">
+            </div>
+            <button type="button" class="connection-button secondary" id="load-character-button">CARREGAR PERSONAGEM</button>
+
+            <div class="connection-status" id="connection-status" role="status">Aguardando configuração.</div>
+        </div>
+    </section>
 
     <div class="widget-container" id="widget" style="display: none;">
         
@@ -170,82 +287,229 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        
-        // Pega as informações da URL do OBS
         const urlParams = new URLSearchParams(window.location.search);
-        const salaConfig = urlParams.get('sala');
-        const nomeConfig = urlParams.get('nome');
+        const elements = {
+            panel: document.getElementById('connection-panel'),
+            toggle: document.getElementById('config-toggle'),
+            mesa: document.getElementById('mesa-input'),
+            uid: document.getElementById('character-uid-input'),
+            players: document.getElementById('players-select'),
+            status: document.getElementById('connection-status'),
+            widget: document.getElementById('widget')
+        };
 
-        // Se não tiver os parâmetros na URL, mostra uma mensagem na tela do OBS
-        if (!salaConfig || !nomeConfig) {
-            document.body.innerHTML = `
-                <div style="background: rgba(0,0,0,0.8); color: white; padding: 20px; font-family: sans-serif; border-radius: 8px;">
-                    <h3>Overlay não configurado!</h3>
-                    <p>Adicione os parâmetros no link do OBS.</p>
-                    <p>Exemplo:<br> <b>http://localhost:3000/overlay.html?sala=SUASALA&nome=NomedoPersonagem</b></p>
-                </div>
-            `;
-        } else {
-            document.getElementById('widget').style.display = 'flex';
-        }
+        let salaAtual = normalizarSala(urlParams.get('sala') || localStorage.getItem('overlaySala') || '');
+        let uidPersonagem = normalizarUid(urlParams.get('uid') || localStorage.getItem('overlayPersonagemUid') || '');
+        const nomeLegado = (urlParams.get('nome') || '').trim().toLowerCase();
+        let jogadoresDaSala = {};
 
-        // Quando o overlay liga, ele pede pro servidor a situação atual da mesa
+        elements.mesa.value = salaAtual;
+        elements.uid.value = uidPersonagem;
+
+        document.getElementById('connect-room-button').addEventListener('click', () => conectarMesa(false));
+        document.getElementById('load-character-button').addEventListener('click', carregarPersonagemSelecionado);
+        elements.players.addEventListener('change', function() {
+            if (this.value) elements.uid.value = normalizarUid(this.value);
+        });
+        elements.uid.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 4);
+        });
+        elements.mesa.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') conectarMesa(false);
+        });
+        elements.uid.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') carregarPersonagemSelecionado();
+        });
+        elements.toggle.addEventListener('click', abrirConfiguracao);
+
         socket.on('connect', () => {
-            if (salaConfig) {
-                socket.emit('solicitarEstadoSala', salaConfig.toUpperCase());
-            }
+            if (salaAtual) conectarMesa(true);
+            else definirStatus('Informe a mesa para começar.');
         });
 
-        // Quando o mestre/servidor envia a lista completa de jogadores
+        socket.on('disconnect', () => {
+            definirStatus('Conexão com o servidor perdida. Tentando reconectar...', 'error');
+        });
+
         socket.on('estadoSalaCompleto', function(jogadores) {
-            atualizarPersonagemNaTela(jogadores);
-        });
+            jogadoresDaSala = jogadores && typeof jogadores === 'object' ? jogadores : {};
+            preencherListaPersonagens();
 
-        // Quando um jogador atualiza a vida ou mana, ele atualiza na hora
-        socket.on('atualizarDados', function(data) {
-            if(data.uid && data.uid.toUpperCase() === salaConfig.toUpperCase()) {
-                // Montamos um mini-objeto de jogadores falsos só com quem atualizou, para reaproveitar a função
-                let tempObj = {};
-                tempObj[data.dados.idUnico] = data.dados;
-                atualizarPersonagemNaTela(tempObj);
-            }
-        });
-
-        // Função que lê os dados e desenha as barras
-        function atualizarPersonagemNaTela(listaJogadores) {
-            const chaves = Object.keys(listaJogadores);
-            
-            // Procura na lista quem tem o mesmo nome que configuramos no OBS
-            for (let i = 0; i < chaves.length; i++) {
-                let p = listaJogadores[chaves[i]];
-                
-                if (p.charName && p.charName.toLowerCase() === nomeConfig.toLowerCase()) {
-                    
-                    // Atualiza Imagem e Textos
-                    if(p.img) document.getElementById('o-img').src = p.img;
-                    document.getElementById('o-nome').innerText = p.charName;
-                    document.getElementById('o-nivel').innerText = p.nivel || 1;
-
-                    // Cálculos de HP e MP
-                    let hpA = parseFloat(p.hpAtual) || 0;
-                    let hpM = parseFloat(p.hpMax) || 1;
-                    let mpA = parseFloat(p.mpAtual) || 0;
-                    let mpM = parseFloat(p.mpMax) || 1;
-
-                    // Textos das barras
-                    document.getElementById('o-hp-text').innerText = `${hpA}/${hpM}`;
-                    document.getElementById('o-mp-text').innerText = `${mpA}/${mpM}`;
-
-                    // Largura do líquido (com limites entre 0% e 100%)
-                    let hpPerc = Math.max(0, Math.min(100, (hpA / hpM) * 100));
-                    let mpPerc = Math.max(0, Math.min(100, (mpA / mpM) * 100));
-
-                    document.getElementById('o-hp-fill').style.width = hpPerc + '%';
-                    document.getElementById('o-mp-fill').style.width = mpPerc + '%';
-                    
-                    break; // Achou o jogador, não precisa olhar os outros
+            if (!uidPersonagem && nomeLegado) {
+                const legado = Object.values(jogadoresDaSala).find(p => p && p.charName && p.charName.toLowerCase() === nomeLegado);
+                if (legado) {
+                    uidPersonagem = normalizarUid(legado.idUnico);
+                    elements.uid.value = uidPersonagem;
                 }
             }
+
+            if (uidPersonagem) mostrarPersonagemPorUid(uidPersonagem, false);
+            else definirStatus(`Mesa ${salaAtual} conectada. Escolha um personagem.`, 'ok');
+        });
+
+        socket.on('atualizarDados', function(data) {
+            if (!data || !data.uid || !data.dados || !salaAtual) return;
+            if (normalizarSala(data.uid) !== salaAtual) return;
+
+            const uidRecebido = normalizarUid(data.dados.idUnico);
+            if (!uidRecebido) return;
+
+            jogadoresDaSala[uidRecebido] = data.dados;
+            preencherListaPersonagens();
+            if (uidPersonagem === uidRecebido) desenharPersonagem(data.dados);
+        });
+
+        function normalizarSala(valor) {
+            return String(valor || '').trim().toUpperCase();
+        }
+
+        function normalizarUid(valor) {
+            const somenteNumeros = String(valor || '').replace(/\D/g, '');
+            return somenteNumeros.length === 4 ? somenteNumeros : '';
+        }
+
+        function conectarMesa(automatico) {
+            const novaSala = normalizarSala(elements.mesa.value || salaAtual);
+            if (!novaSala) {
+                abrirConfiguracao();
+                definirStatus('Digite o nome ou UID da mesa.', 'error');
+                return;
+            }
+
+            salaAtual = novaSala;
+            elements.mesa.value = salaAtual;
+            const uidInformado = normalizarUid(elements.uid.value);
+            if (uidInformado) {
+                uidPersonagem = uidInformado;
+                localStorage.setItem('overlayPersonagemUid', uidPersonagem);
+            }
+            jogadoresDaSala = {};
+            elements.players.disabled = true;
+            elements.players.innerHTML = '<option value="">Buscando personagens...</option>';
+            localStorage.setItem('overlaySala', salaAtual);
+            definirStatus(`Conectando à mesa ${salaAtual}...`);
+
+            if (socket.connected) socket.emit('solicitarEstadoSala', salaAtual);
+            else if (!automatico) definirStatus('Aguardando conexão com o servidor...', 'error');
+        }
+
+        function preencherListaPersonagens() {
+            const jogadores = Object.entries(jogadoresDaSala)
+                .map(([chave, dados]) => ({
+                    chave: normalizarUid(dados && dados.idUnico) || normalizarUid(chave),
+                    dados: dados || {}
+                }))
+                .filter(item => item.chave)
+                .sort((a, b) => String(a.dados.charName || '').localeCompare(String(b.dados.charName || ''), 'pt-BR'));
+
+            elements.players.innerHTML = '';
+            const inicial = document.createElement('option');
+            inicial.value = '';
+            inicial.textContent = jogadores.length ? 'Selecione um personagem' : 'Nenhum personagem encontrado na mesa';
+            elements.players.appendChild(inicial);
+
+            jogadores.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.chave;
+                option.textContent = `${item.dados.charName || 'Sem nome'} — UID ${item.chave}`;
+                option.selected = item.chave === uidPersonagem;
+                elements.players.appendChild(option);
+            });
+
+            elements.players.disabled = jogadores.length === 0;
+        }
+
+        function carregarPersonagemSelecionado() {
+            const uidDigitado = normalizarUid(elements.uid.value || elements.players.value);
+            if (!uidDigitado) {
+                definirStatus('Informe ou selecione um UID válido de 4 dígitos.', 'error');
+                return;
+            }
+
+            uidPersonagem = uidDigitado;
+            elements.uid.value = uidPersonagem;
+            localStorage.setItem('overlayPersonagemUid', uidPersonagem);
+
+            if (!salaAtual) {
+                conectarMesa(false);
+                return;
+            }
+
+            mostrarPersonagemPorUid(uidPersonagem, true);
+        }
+
+        function encontrarPersonagem(uid) {
+            return Object.entries(jogadoresDaSala).find(([chave, dados]) => {
+                return normalizarUid(chave) === uid || normalizarUid(dados && dados.idUnico) === uid;
+            });
+        }
+
+        function mostrarPersonagemPorUid(uid, solicitarSeFaltar) {
+            const encontrado = encontrarPersonagem(uid);
+            if (!encontrado) {
+                elements.widget.style.display = 'none';
+                abrirConfiguracao();
+                definirStatus(`UID ${uid} não foi encontrado na mesa ${salaAtual}.`, 'error');
+                if (solicitarSeFaltar && socket.connected) socket.emit('solicitarEstadoSala', salaAtual);
+                return false;
+            }
+
+            desenharPersonagem(encontrado[1]);
+            salvarConfiguracaoNaUrl();
+            fecharConfiguracao();
+            return true;
+        }
+
+        function desenharPersonagem(p) {
+            if (!p) return;
+            const imagem = p.img && String(p.img).trim() ? p.img : 'https://via.placeholder.com/150';
+            document.getElementById('o-img').src = imagem;
+            document.getElementById('o-nome').innerText = p.charName || 'Sem nome';
+            document.getElementById('o-nivel').innerText = p.nivel || 1;
+
+            const hpAtual = numeroSeguro(p.hpAtual, 0);
+            const hpMax = Math.max(1, numeroSeguro(p.hpMax, 1));
+            const mpAtual = numeroSeguro(p.mpAtual, 0);
+            const mpMax = Math.max(1, numeroSeguro(p.mpMax, 1));
+
+            document.getElementById('o-hp-text').innerText = `${hpAtual}/${hpMax}`;
+            document.getElementById('o-mp-text').innerText = `${mpAtual}/${mpMax}`;
+            document.getElementById('o-hp-fill').style.width = limitarPercentual((hpAtual / hpMax) * 100) + '%';
+            document.getElementById('o-mp-fill').style.width = limitarPercentual((mpAtual / mpMax) * 100) + '%';
+            elements.widget.style.display = 'flex';
+            definirStatus(`${p.charName || 'Personagem'} (UID ${uidPersonagem}) carregado.`, 'ok');
+        }
+
+        function numeroSeguro(valor, padrao) {
+            const numero = Number.parseFloat(valor);
+            return Number.isFinite(numero) ? numero : padrao;
+        }
+
+        function limitarPercentual(valor) {
+            return Math.max(0, Math.min(100, valor));
+        }
+
+        function salvarConfiguracaoNaUrl() {
+            const params = new URLSearchParams(window.location.search);
+            params.set('sala', salaAtual);
+            params.set('uid', uidPersonagem);
+            params.delete('nome');
+            history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+        }
+
+        function definirStatus(texto, tipo) {
+            elements.status.textContent = texto;
+            elements.status.className = `connection-status${tipo ? ' ' + tipo : ''}`;
+        }
+
+        function abrirConfiguracao() {
+            elements.panel.classList.remove('hidden');
+            elements.toggle.classList.remove('visible');
+        }
+
+        function fecharConfiguracao() {
+            elements.panel.classList.add('hidden');
+            elements.toggle.classList.add('visible');
         }
     </script>
 </body>
