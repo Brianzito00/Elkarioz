@@ -927,7 +927,7 @@
             container.innerHTML += `
                 <div class="player-card">
                     <button class="btn-kick" onclick="expulsarJogador('${key}')" title="Remover Jogador">&times;</button>
-                    <div class="player-header">${imgHtml}<div style="flex:1;"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div><div class="player-name">${p.charName}</div><div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1}</div></div><div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${defDisplay}</div></div></div></div>
+                    <div class="player-header">${imgHtml}<div style="flex:1;"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div><div class="player-name">${p.charName}</div><div class="player-realname">${p.playerName || 'Jogador'} • Nvl ${p.nivel || 1} • UID ${p.idUnico || key}</div></div><div class="stat-badge" style="background:#455a64;" title="Defesa">🛡️ ${defDisplay}</div></div></div></div>
                     <div class="barras-container"><div class="bar-bg"><div class="bar-fill fill-hp" style="width: ${hpPerc}%;"></div><div class="bar-text">PV: ${hpAtual} / ${hpMax}</div></div><div class="bar-bg"><div class="bar-fill fill-mp" style="width: ${mpPerc}%;"></div><div class="bar-text">PM: ${mpAtual} / ${mpMax}</div></div></div>
                     <textarea class="player-gm-notes" placeholder="Anotações Privadas do Mestre..." onchange="salvarNotaGM('${key}', this.value)">${p.gmNotes || ''}</textarea>
                 </div>`;
