@@ -1591,17 +1591,49 @@
         if(fichaPronta) salvarFichaLocal();
     }, 5000);
 
-    window.onload = () => { 
+    window.onload = () => {
+        let dadosImportadosPendentes = null;
+        const importacaoPendente = sessionStorage.getItem('rpgFichaImportacaoPendente') === '1';
+
+        if (importacaoPendente) {
+            sessionStorage.removeItem('rpgFichaImportacaoPendente');
+            const fichaImportadaSalva = localStorage.getItem('rpgFichaLocal');
+            if (fichaImportadaSalva) {
+                try {
+                    dadosImportadosPendentes = JSON.parse(fichaImportadaSalva);
+                } catch (e) {
+                    console.error('Não foi possível ler a ficha importada.', e);
+                }
+            }
+        }
+
+        const arquivoDefineSala = dadosImportadosPendentes && Object.prototype.hasOwnProperty.call(dadosImportadosPendentes, 'uidSala');
+        const salaDoArquivo = arquivoDefineSala ? String(dadosImportadosPendentes.uidSala || '').trim().toUpperCase() : '';
+
+        if (arquivoDefineSala) {
+            if (salaDoArquivo) localStorage.setItem('rpgFichaSala', salaDoArquivo);
+            else localStorage.removeItem('rpgFichaSala');
+        }
+
         let salaConectada = obterSalaDaUrl();
         let salvaSala = localStorage.getItem('rpgFichaSala');
-        let salaFinal = salaConectada || salvaSala;
+        let salaFinal = arquivoDefineSala ? salaDoArquivo : (salaConectada || salvaSala);
 
         if (salaFinal) { 
             document.getElementById('uid-input').value = salaFinal; 
             meuUID = salaFinal;
         }
 
-        if (typeof socket !== 'undefined' && socket.emit) {
+        // A importação tem prioridade absoluta nesta inicialização. Depois de
+        // carregada, ela é salva no navegador e no servidor com os dados do arquivo.
+        if (dadosImportadosPendentes) {
+            carregarDadosNaTela(dadosImportadosPendentes);
+            iniciarSistemas(salaFinal);
+            salvarFichaLocal();
+            return;
+        }
+
+        if (typeof io !== 'undefined' && typeof socket !== 'undefined' && socket.emit) {
             socket.emit('pedir_ficha_db', idUnicoFicha, (dadosDoBanco) => {
                 if (dadosDoBanco) {
                     carregarDadosNaTela(dadosDoBanco);
@@ -1698,9 +1730,17 @@
             document.getElementById('raca-input').value = j.raca || '';
             document.getElementById('classe-input').value = j.classe || '';
             document.getElementById('divindade-input').value = j.divindade || '';
-            document.getElementById('nivel').value = j.nivel || 1;
-            document.getElementById('defesa-personagem').value = j.defesa || 0;
+            document.getElementById('nivel').value = j.nivel ?? 1;
+            document.getElementById('defesa-personagem').value = j.defesa ?? 0;
             definirModoCombate(j.modoCombate, false);
+
+            if (Object.prototype.hasOwnProperty.call(j, 'uidSala')) {
+                const salaDaFicha = String(j.uidSala || '').trim().toUpperCase();
+                document.getElementById('uid-input').value = salaDaFicha;
+                meuUID = salaDaFicha;
+                if (salaDaFicha) localStorage.setItem('rpgFichaSala', salaDaFicha);
+                else localStorage.removeItem('rpgFichaSala');
+            }
             
             document.getElementById('forca').value = j.attr ? j.attr.for : (j.forca || 0);
             document.getElementById('agilidade').value = j.attr ? j.attr.des : (j.agilidade || 0);
@@ -1709,16 +1749,20 @@
             document.getElementById('sabedoria').value = j.attr ? j.attr.sab : (j.sabedoria || 0);
             document.getElementById('carisma').value = j.attr ? j.attr.car : (j.carisma || 0);
             
-            document.getElementById('vida-atual').value = j.hpAtual || 10;
-            document.getElementById('vida-max').value = j.hpMax || 10;
-            document.getElementById('mana-atual').value = j.mpAtual || 10;
-            document.getElementById('mana-max').value = j.mpMax || 10;
-            document.getElementById('moedas-atual').value = j.moedas || 0;
+            document.getElementById('vida-atual').value = j.hpAtual ?? 10;
+            document.getElementById('vida-max').value = j.hpMax ?? 10;
+            document.getElementById('mana-atual').value = j.mpAtual ?? 10;
+            document.getElementById('mana-max').value = j.mpMax ?? 10;
+            document.getElementById('moedas-atual').value = j.moedas ?? 0;
 
             if (j.img && j.img.trim() !== "" && !j.img.includes('placeholder')) {
                 document.getElementById('portrait-img').src = j.img;
                 document.getElementById('portrait-img').style.display = 'block';
                 document.getElementById('portrait-placeholder').style.display = 'none';
+            } else {
+                document.getElementById('portrait-img').removeAttribute('src');
+                document.getElementById('portrait-img').style.display = 'none';
+                document.getElementById('portrait-placeholder').style.display = 'flex';
             }
 
             if (j.dbPericias) dbPericias = j.dbPericias;
@@ -1782,6 +1826,8 @@
         if (typeof socket !== 'undefined' && socket.emit) {
             socket.emit('salvar_ficha_db', dadosParaSalvar);
         }
+
+        return dadosParaSalvar;
     }
 
     function abrirZoomImagem(url) {
@@ -1800,9 +1846,9 @@
     }
 
     function exportarFicha() {
-        salvarFichaLocal(); 
-        let dados = localStorage.getItem('rpgFichaLocal');
-        if(!dados) return alert("Nenhum dado para exportar.");
+        const dadosAtuais = salvarFichaLocal();
+        if(!dadosAtuais) return alert("Nenhum dado para exportar.");
+        const dados = JSON.stringify(dadosAtuais, null, 2);
         
         let nomePersonagem = document.getElementById('char-name-input').value.trim();
         if(!nomePersonagem) nomePersonagem = "personagem";
@@ -1835,9 +1881,10 @@
                     jsonParsed.idUnico = uidImportado;
                     jsonParsed.idJogador = uidImportado;
                     localStorage.setItem('rpg_id_ficha', uidImportado);
-                    
+                     
                     localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
-                    alert("Ficha importada com sucesso! A página será atualizada para carregar os dados.");
+                    sessionStorage.setItem('rpgFichaImportacaoPendente', '1');
+                    alert("Ficha importada com sucesso! Os dados deste arquivo terão prioridade ao recarregar.");
                     window.location.reload();
                 } else {
                     alert("Erro: O arquivo não parece ser uma ficha válida.");
