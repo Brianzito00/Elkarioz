@@ -101,6 +101,18 @@
         
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-end; }
         .uid-especial { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #5c3a21; text-transform: uppercase; font-size: 1.2rem; font-weight: 900;}
+
+        /* ID único de cada ficha/jogador */
+        .id-jogador-container { flex: 1; min-width: 170px; }
+        .id-jogador-input {
+            background: #202633 !important;
+            color: #ffffff !important;
+            border-color: #4a5365 !important;
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 0.82rem !important;
+            letter-spacing: 0.5px;
+            cursor: default;
+        }
         
         /* === BOTÕES === */
         .btn-acao { background: linear-gradient(to bottom, #795548, #5c3a21); color: #fff; border: 2px solid #3e2723; border-radius: 6px; padding: 12px 20px; font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-shadow: 1px 1px 2px #000; letter-spacing: 1px;}
@@ -766,6 +778,12 @@
                             <input type="text" id="uid-input" class="form-input uid-especial" placeholder="EX: MESA1">
                         </div>
                     </div>
+                    <div class="campo-rpg id-jogador-container">
+                        <div class="input-wrapper">
+                            <label>ID ÚNICO DO JOGADOR</label>
+                            <input type="text" id="id-jogador-input" class="form-input id-jogador-input" readonly title="ID único desta ficha. Não altere este valor.">
+                        </div>
+                    </div>
                     <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
                 </div>
             </div>
@@ -1344,10 +1362,20 @@
     // 1. CONFIGURAÇÃO BASE E SOCKET.IO
     // ==============================================================
 
+    // ID exclusivo desta ficha/jogador. Ele permanece o mesmo após recarregar a página.
     let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
     if (!idUnicoFicha) {
-        idUnicoFicha = "ficha_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            idUnicoFicha = 'jogador_' + window.crypto.randomUUID();
+        } else {
+            idUnicoFicha = 'jogador_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+        }
         localStorage.setItem('rpg_id_ficha', idUnicoFicha);
+    }
+
+    function atualizarIdJogadorNaTela() {
+        const campoId = document.getElementById('id-jogador-input');
+        if (campoId) campoId.value = idUnicoFicha;
     }
 
     let socket;
@@ -1447,6 +1475,7 @@
     }, 5000);
 
     window.onload = () => { 
+        atualizarIdJogadorNaTela();
         let salaConectada = obterSalaDaUrl();
         let salvaSala = localStorage.getItem('rpgFichaSala');
         let salaFinal = salaConectada || salvaSala;
@@ -1497,6 +1526,7 @@
     function lerCampos() {
         return {
             idUnico: idUnicoFicha,
+            idJogador: idUnicoFicha,
             charName: document.getElementById('char-name-input').value || 'Desconhecido',
             playerName: document.getElementById('player-name-input').value || 'Jogador',
             nivel: parseInt(document.getElementById('nivel').value) || 1,
@@ -1519,7 +1549,11 @@
 
     function carregarDadosNaTela(j) {
         try {
-            if(j.idUnico) idUnicoFicha = j.idUnico;
+            if(j.idJogador || j.idUnico) {
+                idUnicoFicha = j.idJogador || j.idUnico;
+                localStorage.setItem('rpg_id_ficha', idUnicoFicha);
+            }
+            atualizarIdJogadorNaTela();
             
             document.getElementById('char-name-input').value = j.charName || '';
             document.getElementById('player-name-input').value = j.playerName || '';
@@ -1572,6 +1606,7 @@
         
         let dadosParaSalvar = {
             idUnico: idUnicoFicha,
+            idJogador: idUnicoFicha,
             charName: document.getElementById('char-name-input').value,
             playerName: document.getElementById('player-name-input').value,
             uidSala: document.getElementById('uid-input').value.toUpperCase(),
@@ -1648,8 +1683,8 @@
                 let jsonParsed = JSON.parse(jsonStr);
                 
                 if(jsonParsed && typeof jsonParsed === 'object') {
-                    if (jsonParsed.idUnico) {
-                        localStorage.setItem('rpg_id_ficha', jsonParsed.idUnico);
+                    if (jsonParsed.idJogador || jsonParsed.idUnico) {
+                        localStorage.setItem('rpg_id_ficha', jsonParsed.idJogador || jsonParsed.idUnico);
                     }
                     
                     localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
@@ -2788,6 +2823,7 @@
             socket.emit('player_dice_roll', {
                 uid: uidAtual.toUpperCase(),
                 idUnico: idUnicoFicha,
+            idJogador: idUnicoFicha,
                 playerName: meuNome,
                 nomeRolagem: item.nome,
                 resultadoFinal: "", 
