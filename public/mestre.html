@@ -676,7 +676,7 @@
         <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="0"></div></div>
         <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
-        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div><div style="flex:1;"><input type="number" id="mon-atq-bonus" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Atq (+5)"></div><div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (2d6+4)"></div><div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crit (x2)"></div><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button></div><div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div></div>
+        <div style="background: rgba(183, 28, 28, 0.05); border: 1px solid rgba(183, 28, 28, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px; color:#b71c1c;">CRIAR ATAQUE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-atq-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome (Ex: Mordida)"></div><div style="flex:1;"><input type="number" id="mon-atq-bonus" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Atq (+5)"></div><div style="flex:1;"><input type="text" id="mon-atq-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (2d6+4)"></div><div style="flex:1;"><input type="text" id="mon-atq-crit" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Crit (19/x3; padrão 20/x2)"></div><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroAtaque()">+</button></div><div id="lista-temp-ataques" style="display:flex; flex-wrap:wrap; gap:5px;"></div></div>
         <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Imunidades</label><input type="text" id="mon-imun" class="form-input" style="margin-bottom:0;" placeholder="Ex: Fogo"></div><div style="flex:1;"><label class="form-label-modal">Vulnerabilidades</label><input type="text" id="mon-vuln" class="form-input" style="margin-bottom:0;" placeholder="Ex: Gelo"></div></div>
         <div style="background: rgba(92, 58, 33, 0.05); border: 1px solid rgba(92, 58, 33, 0.4); padding: 15px; border-radius: 6px; margin-bottom: 15px;"><h4 class="section-title" style="font-size: 1rem; border:none; margin-bottom:10px;">CRIAR HABILIDADE</h4><div style="display:flex; gap:10px; margin-bottom:10px;"><div style="flex:2;"><input type="text" id="mon-hab-nome" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Nome da Hab."></div><div style="flex:1;"><input type="text" id="mon-hab-dano" class="form-input" style="margin-bottom:0; font-size:0.85rem;" placeholder="Dano (Opcional)"></div></div><div style="display:flex; gap:10px; margin-bottom:10px;"><textarea id="mon-hab-desc" class="form-input" style="margin-bottom:0; height:50px; resize:vertical; font-size:0.85rem;" placeholder="Descrição do Efeito..."></textarea><button class="btn-acao" style="padding:0 15px; width:auto;" onclick="addMonstroHab()">+</button></div><div id="lista-temp-habs" style="display:flex; flex-direction:column; gap:5px;"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Enigma de Batalha (LORE)</label><textarea id="mon-enigma" class="form-input" style="margin-bottom:15px; height:60px; resize:vertical;" placeholder="Condições secretas para derrotar..."></textarea></div>
@@ -940,7 +940,7 @@
             let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">Ataques</span>${m.ataques.map(a => {
                 let safeAtqNome = a.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
                 let safeDano = (a.dano || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                let safeCrit = (a.crit || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeCrit = (a.crit || '20/x2').replace(/'/g, "\\'").replace(/"/g, "&quot;");
                 let bAtq = a.bonus || 0;
                 let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
                 return `
@@ -1192,7 +1192,7 @@
         let d = document.getElementById('mon-atq-dano').value.trim(); 
         let c = document.getElementById('mon-atq-crit').value.trim(); 
         if(n && d) { 
-            tempAtaques.push({id: Date.now(), nome: n, bonus: parseInt(b)||0, dano: d, crit: c}); 
+            tempAtaques.push({id: Date.now(), nome: n, bonus: parseInt(b)||0, dano: d, crit: c || '20/x2'}); 
             document.getElementById('mon-atq-nome').value = ''; 
             document.getElementById('mon-atq-bonus').value = ''; 
             document.getElementById('mon-atq-dano').value = ''; 
@@ -1301,7 +1301,7 @@
             let atqSecao = m.ataques.length > 0 ? `<div class="monstro-secao"><span class="monstro-secao-titulo">⚔️ Ataques</span>${m.ataques.map(a => {
                 let safeAtqNome = a.nome.replace(/'/g, "\\'").replace(/"/g, "&quot;");
                 let safeDano = (a.dano || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                let safeCrit = (a.crit || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
+                let safeCrit = (a.crit || '20/x2').replace(/'/g, "\\'").replace(/"/g, "&quot;");
                 let bAtq = a.bonus || 0;
                 let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
                 
@@ -1906,6 +1906,20 @@
         try { let parts = parsedStr.match(/[+-]?\d+/g); return parts ? parts.reduce((a, b) => a + parseInt(b), 0) : 0; } catch(e) { return 0; }
     }
 
+    function interpretarCriticoArma(valor) {
+        const texto = String(valor || '').trim().toLowerCase();
+        const multMatch = texto.match(/[x×]\s*(\d+)/i);
+        let multiplicador = multMatch ? parseInt(multMatch[1], 10) : 2;
+        if (!Number.isFinite(multiplicador) || multiplicador < 2) multiplicador = 2;
+
+        const textoSemMultiplicador = texto.replace(/[x×]\s*\d+/gi, ' ');
+        const numeros = (textoSemMultiplicador.match(/\d+/g) || []).map(Number);
+        const margemInformada = numeros.find(numero => numero >= 2 && numero <= 20);
+        const margem = margemInformada || 20;
+
+        return { margem, multiplicador };
+    }
+
     function mostrarResultadoFinal() {
         try {
             diceState = 2; 
@@ -1930,17 +1944,22 @@
                 let dadoReal = Math.floor(Math.random() * 20) + 1; let bonus = currentRollData.bonus; let totalSoma = dadoReal + bonus;
                 let categoria = "NORMAL", corCataroria = "#2e7d32"; let extraCritHtml = ""; 
 
+                const configCritico = currentRollData.isAtaqueArma
+                    ? interpretarCriticoArma(currentRollData.critStr)
+                    : { margem: 20, multiplicador: 2 };
+                const atingiuCritico = dadoReal === 20 ||
+                    (currentRollData.isAtaqueArma && dadoReal >= configCritico.margem);
+
                 if (dadoReal === 1) { 
                     categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
                 } 
-                else if (dadoReal === 20) {
+                else if (atingiuCritico) {
                     categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
                     if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                        let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
-                        let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                        let mult = configCritico.multiplicador;
                         let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
                         let sinal = bonus >= 0 ? '+' : '';
-                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Margem ${configCritico.margem}-20, x${mult}: ${mult}×[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
                     }
                 } else {
                     // A categoria usa o valor natural do d20; o bônus altera apenas o total exibido.
