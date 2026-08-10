@@ -3257,10 +3257,11 @@
                         extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
                     }
                 } else {
-                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
-                    else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
-                    else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
-                    else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
+                    // A categoria usa o valor natural do d20; o bônus altera apenas o total exibido.
+                    if (dadoReal >= 2 && dadoReal <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                    else if (dadoReal >= 7 && dadoReal <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
+                    else if (dadoReal >= 13 && dadoReal <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
+                    else if (dadoReal >= 18 && dadoReal <= 19) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
                 }
 
                 resultadoLog = totalSoma; 
