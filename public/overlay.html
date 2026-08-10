@@ -68,6 +68,8 @@
 
         /* Barra do Topo (Nome e Nível) */
         .top-bar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
             background: transparent;
             height: 100px;
             justify-content: flex-start;
@@ -81,14 +83,25 @@
         }
 
         .identity-block {
+            grid-area: 1 / 1;
             min-width: 0;
             display: flex;
-            flex: 1;
+            width: 100%;
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0s;
+            will-change: opacity, transform;
         }
-        .identity-block.hidden { display: none; }
+        .identity-block.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-5px);
+            transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
+        }
 
         .char-name {
             display: block;
@@ -110,15 +123,26 @@
         }
 
         .combat-stats {
-            display: none;
-            flex: 1;
+            grid-area: 1 / 1;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
             gap: 0;
             width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
+            will-change: opacity, transform;
+            pointer-events: none;
         }
-        .combat-stats.active { display: flex; }
+        .combat-stats.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0s;
+        }
         .combat-number {
             display: block;
             font-family: 'Lora', serif;
