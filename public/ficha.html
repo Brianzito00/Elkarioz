@@ -1121,7 +1121,7 @@
             </div>
             <div class="input-wrapper arma-field" style="flex:1; min-width:90px; display:none;">
                 <label>CRÍTICO</label>
-                <input type="text" id="mi-crit" placeholder="Ex: x2, 19" class="form-input" style="text-align:center;">
+                <input type="text" id="mi-crit" placeholder="Ex: 19/x3 (padrão 20/x2)" class="form-input" style="text-align:center;">
             </div>
             <div class="input-wrapper" id="mi-mun-container" style="flex:1; min-width:120px; display:none;">
                 <label id="lbl-capacidade">CAPACIDADE MÁX</label>
@@ -2402,7 +2402,7 @@
                 
                 let safeNome = i.nome.replace(/'/g, "\\'");
                 let safeDano = (i.dano || '').replace(/'/g, "\\'");
-                let safeCrit = (i.crit || '').replace(/'/g, "\\'");
+                let safeCrit = (i.crit || '20/x2').replace(/'/g, "\\'");
 
                 let btnAtqHtml = `<button type="button" class="btn-atq" onclick="rolarAtaqueArma('${safeNome}', ${bonusAtq}, '${safeDano}', '${safeCrit}')"><img src="${DADO_IMG_URL}" style="width:12px; height:12px;"> ATQ ${sinalBonus}</button>`;
                 let danoSide = i.dano ? `<button type="button" class="box-dano" onclick="rolarDano('Dano: ${safeNome}', '${safeDano}', ${bonusAtq})">DANO: ${danoDisplay}</button>` : `<div class="box-dano" style="cursor:default;">DANO: -</div>`;
@@ -2573,7 +2573,7 @@
             extraText += ` | Tipo: ${t || '-'}`;
             if(abaItemAtual == 'dist') extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`;
             if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink)
-                extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value || '-'}`;
+                extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value.trim() || '20/x2'}`;
         } else if(abaItemAtual == 'armadura') {
             let bonusDef = parseInt(document.getElementById('mi-defesa').value) || 0;
             let penArm = parseInt(document.getElementById('mi-penalidade').value) || 0;
@@ -2588,7 +2588,7 @@
             equipado: existente ? existente.equipado : false,
             periciaLink,
             dano: document.getElementById('mi-dano').value,
-            crit: document.getElementById('mi-crit').value,
+            crit: document.getElementById('mi-crit').value.trim() || '20/x2',
             bonusDefesa: parseInt(document.getElementById('mi-defesa').value) || 0,
             penalidadeArmadura: Math.abs(parseInt(document.getElementById('mi-penalidade').value) || 0)
         };
@@ -2964,7 +2964,7 @@
             if(item.tipo === 'corpo' || item.tipo === 'dist') {
                 if(item.periciaLink) info += `<div><strong>Perícia:</strong> ${item.periciaLink}</div>`;
                 if(item.dano) info += `<div><strong>Dano:</strong> ${item.dano}</div>`;
-                if(item.crit) info += `<div><strong>Crítico:</strong> ${item.crit}</div>`;
+                info += `<div><strong>Crítico:</strong> ${item.crit || '20/x2'}</div>`;
             }
             if(item.tipo === 'dist') {
                 info += `<div><strong>Munição:</strong> ${item.munNomeReq || 'Nenhuma'}</div>`;
@@ -3196,6 +3196,20 @@
         }
     }
 
+    function interpretarCriticoArma(valor) {
+        const texto = String(valor || '').trim().toLowerCase();
+        const multMatch = texto.match(/[x×]\s*(\d+)/i);
+        let multiplicador = multMatch ? parseInt(multMatch[1], 10) : 2;
+        if (!Number.isFinite(multiplicador) || multiplicador < 2) multiplicador = 2;
+
+        const textoSemMultiplicador = texto.replace(/[x×]\s*\d+/gi, ' ');
+        const numeros = (textoSemMultiplicador.match(/\d+/g) || []).map(Number);
+        const margemInformada = numeros.find(numero => numero >= 2 && numero <= 20);
+        const margem = margemInformada || 20;
+
+        return { margem, multiplicador };
+    }
+
     function mostrarResultadoFinal() {
         try {
             diceState = 2; 
@@ -3244,17 +3258,22 @@
                 let categoria = "NORMAL", corCataroria = "#2e7d32"; 
                 let extraCritHtml = ""; 
 
+                const configCritico = currentRollData.isAtaqueArma
+                    ? interpretarCriticoArma(currentRollData.critStr)
+                    : { margem: 20, multiplicador: 2 };
+                const atingiuCritico = dadoReal === 20 ||
+                    (currentRollData.isAtaqueArma && dadoReal >= configCritico.margem);
+
                 if (dadoReal === 1) { 
                     categoria = "DESASTRE"; corCataroria = "#b71c1c"; isDesastre = true; 
                 } 
-                else if (dadoReal === 20) {
+                else if (atingiuCritico) {
                     categoria = "CRÍTICO!"; corCataroria = "#ff9100"; isCrit = true;
                     if(currentRollData.isAtaqueArma && currentRollData.danoBase && currentRollData.danoBase !== '-') {
-                        let multMatch = (currentRollData.critStr || "").match(/x(\d+)/i); 
-                        let mult = multMatch ? parseInt(multMatch[1]) : 2; 
+                        let mult = configCritico.multiplicador;
                         let totalDanoCritico = calcularDanoStr(currentRollData.danoBase, mult) + bonus; 
                         let sinal = bonus >= 0 ? '+' : '';
-                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Rolagem: ${mult}x[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
+                        extraCritHtml = `<div style="margin-top:10px; padding-top:10px; border-top:2px dashed ${corCataroria};"><span style="font-size:0.75rem; color:#5c3a21; font-family:'Roboto'; font-weight:900; letter-spacing:1px;">DANO CRÍTICO APLICADO</span><br><span style="color:#8b0000; font-size:2.5rem; font-weight:900; line-height:1; font-family:'Cinzel'; text-shadow:1px 1px 0px rgba(0,0,0,0.1);">${totalDanoCritico}</span><br><small style="color:#666; font-weight:bold;">(Margem ${configCritico.margem}-20, x${mult}: ${mult}×[${currentRollData.danoBase}] ${sinal}${bonus})</small></div>`;
                     }
                 } else {
                     // A categoria usa o valor natural do d20; o bônus altera apenas o total exibido.
