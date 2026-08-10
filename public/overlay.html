@@ -27,18 +27,18 @@
 
         /* Avatar do Personagem */
         .avatar-box {
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            border: 6px solid #000;
-            background-color: #c24d45; /* Fundo avermelhado igual à imagem */
+            border: 4px solid #24185f;
+            background-color: #1a1535;
             overflow: hidden;
             position: relative;
             z-index: 10; /* Fica por cima das barras */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 0 2px #000;
         }
 
         .avatar-box img {
@@ -53,7 +53,7 @@
             flex-direction: column;
             margin-left: -20px; /* Puxa as barras para debaixo do avatar */
             z-index: 5;
-            width: 320px;
+            width: 360px;
         }
 
         /* Estilo base de todas as barras */
@@ -68,36 +68,79 @@
 
         /* Barra do Topo (Nome e Nível) */
         .top-bar {
-            background-color: #fdfbf7;
-            height: 45px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.76) 75%, rgba(0,0,0,0) 100%);
+            height: 70px;
             justify-content: space-between;
-            padding: 0 20px 0 35px;
-            border-bottom: none; /* Junta com a barra de baixo */
-            border-radius: 0 8px 0 0;
-            /* Efeito de papel rasgado na direita (opcional, simulado com clip-path) */
-            clip-path: polygon(0 0, 98% 0, 100% 20%, 99% 40%, 100% 60%, 98% 80%, 100% 100%, 0 100%);
+            align-items: flex-end;
+            padding: 0 18px 7px 35px;
+            border: none;
+            border-bottom: 4px solid #fff;
+            border-radius: 0;
+            clip-path: none;
+            overflow: visible;
+            box-sizing: border-box;
+        }
+
+        .identity-block {
+            min-width: 0;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            gap: 3px;
         }
 
         .char-name {
-            font-family: 'Lora', serif;
-            font-size: 1.4rem;
+            max-width: 270px;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+            font-size: 2rem;
             font-weight: 900;
-            color: #170f0a;
+            line-height: 0.9;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: -1px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            -webkit-text-stroke: 1px #24185f;
+            text-shadow: 3px 3px 0 #120b35, -1px -1px 0 #120b35, 1px -1px 0 #120b35, -1px 1px 0 #120b35;
+        }
+
+        .char-class {
+            display: inline-block;
+            max-width: 250px;
+            overflow: hidden;
+            padding: 2px 7px;
+            background: #24185f;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.72rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .char-level {
             font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
+            margin: 0 0 2px 10px;
+            padding: 3px 7px;
+            border: 2px solid #fff;
+            border-radius: 4px;
+            background: #24185f;
+            font-size: 0.72rem;
             font-weight: 900;
-            color: #b69d2f; /* Amarelo/Dourado */
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+            color: #fff;
+            text-shadow: 1px 1px 0 #000;
+            white-space: nowrap;
         }
 
         /* Barras de HP e MP (Fundo vazio) */
         .hp-bar, .mp-bar {
-            height: 32px;
+            height: 25px;
             background-color: #2a0b0b; /* Fundo vermelho escuro quando vazio */
             border-bottom: none;
             overflow: hidden;
@@ -267,8 +310,11 @@
         <div class="bars-container">
             
             <div class="bar-row top-bar">
-                <span class="char-name" id="o-nome">Carregando...</span>
-                <span class="char-level" id="o-nivel">1</span>
+                <div class="identity-block">
+                    <span class="char-name" id="o-nome">Carregando...</span>
+                    <span class="char-class" id="o-classe">Aventureiro</span>
+                </div>
+                <span class="char-level" id="o-nivel">NV. 1</span>
             </div>
 
             <div class="bar-row hp-bar">
@@ -465,7 +511,8 @@
             const imagem = p.img && String(p.img).trim() ? p.img : 'https://via.placeholder.com/150';
             document.getElementById('o-img').src = imagem;
             document.getElementById('o-nome').innerText = p.charName || 'Sem nome';
-            document.getElementById('o-nivel').innerText = p.nivel || 1;
+            document.getElementById('o-classe').innerText = p.classe || p.class || 'Aventureiro';
+            document.getElementById('o-nivel').innerText = `NV. ${p.nivel || 1}`;
 
             const hpAtual = numeroSeguro(p.hpAtual, 0);
             const hpMax = Math.max(1, numeroSeguro(p.hpMax, 1));
