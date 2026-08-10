@@ -137,6 +137,7 @@
         .btn-acao.green { background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #1b5e20; }
         .btn-acao.blue { background: linear-gradient(to bottom, #1e88e5, #0d47a1); border-color: #002171; }
         .btn-acao.purple { background: linear-gradient(to bottom, #8e24aa, #512da8); border-color: #311b92; }
+        .btn-acao.orange { background: linear-gradient(to bottom, #f39c12, #b66a00); border-color: #7a4600; }
 
         .btn-entrar { height: 46px; border-radius: 6px; padding: 0 20px; flex-shrink: 0; }
 
@@ -325,6 +326,25 @@
         .custom-dice-total { display:block; margin:6px 0; font-family:'Cinzel'; font-size:3.3rem; font-weight:900; line-height:1; color:#fff; text-shadow:0 0 8px rgba(155,110,255,0.7); }
         .custom-dice-rolls { font-family:'Roboto'; font-size:0.85rem; color:#cbd2df; line-height:1.5; word-break:break-word; }
 
+        .bonus-skills-toolbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:8px 0; flex-wrap:wrap; }
+        .bonus-skills-actions { display:flex; gap:7px; flex-wrap:wrap; }
+        .bonus-skills-actions button { border:1px solid #69758a; border-radius:5px; background:#202633; color:#fff; padding:7px 10px; cursor:pointer; font-family:'Roboto'; font-weight:800; font-size:0.72rem; }
+        .bonus-skills-actions button:hover { background:#30394b; border-color:#9aa6bb; }
+        .bonus-skills-list { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:7px; max-height:260px; overflow-y:auto; padding:10px; margin-bottom:16px; background:rgba(0,0,0,0.55); border:1px solid #4a5365; border-radius:8px; }
+        .bonus-skill-option { display:flex; align-items:center; gap:9px; min-width:0; padding:9px 10px; border:1px solid #343d4d; border-radius:6px; background:#171c26; color:#fff; cursor:pointer; font-family:'Roboto'; font-size:0.82rem; font-weight:700; transition:0.18s; }
+        .bonus-skill-option:hover { background:#252d3b; border-color:#69758a; }
+        .bonus-skill-option input { flex:0 0 auto; width:17px; height:17px; margin:0; accent-color:#c0392b; cursor:pointer; }
+        .bonus-skill-option span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .bonus-active-list { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+        .bonus-active-card { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 12px; background:#151a23; border:1px solid #4a5365; border-left:4px solid #f4b942; border-radius:7px; }
+        .bonus-active-info { min-width:0; font-family:'Roboto'; }
+        .bonus-active-value { color:#ffd36a !important; font-family:'Cinzel'; font-weight:900; font-size:0.95rem; }
+        .bonus-active-skills { margin-top:3px; color:#c4cad5 !important; font-size:0.73rem; line-height:1.35; overflow-wrap:anywhere; }
+        .bonus-remove-btn { flex:0 0 auto; border:1px solid #a6372c; border-radius:5px; background:#651f1a; color:#fff; padding:7px 9px; cursor:pointer; font-weight:900; }
+        .bonus-remove-btn:hover { background:#9b2d24; }
+        .bonus-empty { padding:13px; border:1px dashed #4a5365; border-radius:7px; color:#aeb7c7 !important; text-align:center; font-family:'Roboto'; font-size:0.78rem; }
+        .bonus-pericia-tag { margin-top:2px; color:#ffd36a !important; font-family:'Roboto'; font-size:0.59rem; font-weight:900; }
+
         /* === BOTÃO DE REGRAS FLUTUANTE === */
         .btn-regras-flutuante {
             position: fixed;
@@ -485,6 +505,7 @@
             .btn-entrar { width: 100%; }
             #toast-container { width: 90%; right: 5%; bottom: 10px; }
             .custom-dice-grid { grid-template-columns:1fr; }
+            .bonus-skills-list { grid-template-columns:1fr; }
             #painel-regras { width: 100vw; left: -100vw; }
             .btn-regras-flutuante { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.6rem;}
         }
@@ -907,6 +928,7 @@
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
                     <div style="display:flex; gap:8px; align-items:center;">
                         <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
+                        <button type="button" class="btn-acao orange" style="width:auto; padding:8px 15px; margin:0; font-size:0.8rem;" onclick="abrirModalBonusPericias()" title="Aplicar bônus em várias perícias">✨ BÔNUS</button>
                         <button type="button" class="btn-acao purple" style="width:42px; min-width:42px; padding:8px; margin:0; font-size:1.1rem;" onclick="abrirModalDadosPersonalizados()" title="Rolar dados personalizados" aria-label="Rolar dados personalizados">🎲</button>
                     </div>
                 </div>
@@ -1201,6 +1223,35 @@
     </div>
 </div>
 
+<div id="modal-bonus-pericias" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" style="max-width: 650px;" onclick="event.stopPropagation()">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title">✨ BÔNUS DE PERÍCIAS</h3>
+        <p style="text-align:center; font-family:'Roboto'; font-size:0.82rem; color:#aeb7c7; margin-top:-5px; margin-bottom:18px;">Escolha as perícias e informe quanto será somado ou reduzido em todas elas.</p>
+
+        <div class="input-wrapper" style="max-width:180px; margin:0 auto 15px; align-items:center;">
+            <label>VALOR DO BÔNUS</label>
+            <input type="number" id="bonus-pericias-valor" class="form-input" min="-9999" max="9999" step="1" value="1" style="text-align:center; font-size:1.3rem;">
+        </div>
+
+        <div class="bonus-skills-toolbar">
+            <strong id="bonus-pericias-contador" style="font-family:'Roboto'; font-size:0.78rem;">0 selecionadas</strong>
+            <div class="bonus-skills-actions">
+                <button type="button" onclick="selecionarTodasPericiasBonus(true)">SELECIONAR TODAS</button>
+                <button type="button" onclick="selecionarTodasPericiasBonus(false)">LIMPAR</button>
+            </div>
+        </div>
+        <div id="bonus-pericias-lista" class="bonus-skills-list"></div>
+
+        <button type="button" class="btn-acao orange" style="width:100%; padding:14px; font-size:1rem;" onclick="aplicarBonusPericias()">✨ APLICAR BÔNUS</button>
+
+        <div style="margin-top:22px; border-top:1px solid #4a5365; padding-top:16px;">
+            <h4 style="margin:0; font-family:'Cinzel'; font-size:0.9rem; text-align:center;">BÔNUS ATIVOS</h4>
+            <div id="bonus-pericias-ativos" class="bonus-active-list"></div>
+        </div>
+    </div>
+</div>
+
 <div id="modal-dados-personalizados" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" style="max-width: 520px;" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -1488,6 +1539,7 @@
     listaPericiasBase.forEach(p => { dbPericias[p.n] = {treinado: false, bonus: 0, total: 0} });
     
     let dbPericiasCustom = []; 
+    let dbBonusPericias = [];
     let dbInventario = [];
     let dbProficiencias = [];
     let dbHabilidades = [];
@@ -1671,6 +1723,13 @@
 
             if (j.dbPericias) dbPericias = j.dbPericias;
             dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
+            dbBonusPericias = Array.isArray(j.dbBonusPericias)
+                ? j.dbBonusPericias.map((grupo, indice) => ({
+                    id: String(grupo.id || `bonus_importado_${indice}`),
+                    valor: parseFloat(grupo.valor) || 0,
+                    pericias: Array.isArray(grupo.pericias) ? grupo.pericias.filter(nome => typeof nome === 'string') : []
+                })).filter(grupo => grupo.valor !== 0 && grupo.pericias.length > 0)
+                : [];
             dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario.map(migrarItemInventarioAntigo) : [];
             dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
             dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
@@ -1710,6 +1769,7 @@
             img: pImg.style.display !== 'none' ? pImg.src : "",
             dbPericias: dbPericias || {}, 
             dbPericiasCustom: dbPericiasCustom || [], 
+            dbBonusPericias: dbBonusPericias || [],
             dbInventario: dbInventario || [], 
             dbProficiencias: dbProficiencias || [], 
             dbHabilidades: dbHabilidades || [], 
@@ -2091,7 +2151,7 @@
         listaPericiasBase.forEach(p => { 
             if(!dbPericias[p.n]) dbPericias[p.n] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.n]; 
-            let totalBase = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0); 
+            let totalBase = getValor(p.a) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0) + calcularBonusGruposPericia(p.n); 
             
             if (periciasComPenalidade.includes(p.n.toLowerCase().trim())) {
                 d.total = totalBase - penalidadeArmaduraTotal;
@@ -2105,7 +2165,7 @@
         dbPericiasCustom.forEach(p => {
             if(!dbPericias[p.nome]) dbPericias[p.nome] = {treinado: false, bonus: 0, total: 0};
             let d = dbPericias[p.nome];
-            let totalBase = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0);
+            let totalBase = getValor(p.atributo) + (d.treinado ? bonusProf : 0) + (parseFloat(d.bonus) || 0) + calcularBonusGruposPericia(p.nome);
             
             if (periciasComPenalidade.includes(p.nome.toLowerCase().trim())) {
                 d.total = totalBase - penalidadeArmaduraTotal;
@@ -2148,7 +2208,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
@@ -2210,10 +2270,12 @@
             let safePN = p.n.replace(/'/g, "\\'");
             let attrTag = p.isCustom ? `<div style="font-family:'Roboto'; font-size:0.55rem; color:#888; margin-top:2px;">(${p.a.substring(0,3).toUpperCase()})</div>` : '';
             let penTag = d.penalidadeAplicada ? `<div style="font-family:'Roboto'; font-size:0.6rem; color:#b71c1c; margin-top:2px; font-weight: 900;">(-${d.penalidadeAplicada} ARM)</div>` : '';
+            let bonusGrupo = calcularBonusGruposPericia(p.n);
+            let bonusTag = bonusGrupo !== 0 ? `<div class="bonus-pericia-tag">(${formatarValorBonus(bonusGrupo)} BÔNUS)</div>` : '';
 
             grid.innerHTML += `
                 <div class="pericia-card ${d.treinado ? 'treinado' : ''}" onclick="abrirModalPericia('${safePN}', ${p.isCustom})">
-                    <div class="pericia-header">${p.n} ${attrTag} ${penTag}</div>
+                    <div class="pericia-header">${p.n} ${attrTag} ${penTag} ${bonusTag}</div>
                     <div class="pericia-roll-box" onclick="event.stopPropagation(); rolarDado('${safePN}', ${d.total})">
                         <img src="${DADO_IMG_URL}" class="icone-dado" style="margin-right:5px;"> <span>${d.total >= 0 ? '+'+d.total : d.total}</span>
                     </div>
@@ -2492,6 +2554,142 @@
         document.getElementById('modal-add-pericia').style.display = 'flex'; 
     }
 
+    function obterNomesTodasPericias() {
+        return [...new Set([
+            ...listaPericiasBase.map(p => p.n),
+            ...dbPericiasCustom.map(p => p.nome)
+        ])].sort((a, b) => a.localeCompare(b));
+    }
+
+    function formatarValorBonus(valor) {
+        const numero = parseFloat(valor) || 0;
+        return numero > 0 ? `+${numero}` : String(numero);
+    }
+
+    function calcularBonusGruposPericia(nome) {
+        return dbBonusPericias.reduce((total, grupo) => {
+            const contemPericia = Array.isArray(grupo.pericias) && grupo.pericias.includes(nome);
+            return contemPericia ? total + (parseFloat(grupo.valor) || 0) : total;
+        }, 0);
+    }
+
+    function atualizarContadorBonusPericias() {
+        const contador = document.getElementById('bonus-pericias-contador');
+        if (!contador) return;
+        const quantidade = document.querySelectorAll('#bonus-pericias-lista input[type="checkbox"]:checked').length;
+        contador.textContent = `${quantidade} ${quantidade === 1 ? 'selecionada' : 'selecionadas'}`;
+    }
+
+    function renderizarSelecaoBonusPericias() {
+        const lista = document.getElementById('bonus-pericias-lista');
+        if (!lista) return;
+        lista.innerHTML = '';
+
+        obterNomesTodasPericias().forEach(nome => {
+            const opcao = document.createElement('label');
+            opcao.className = 'bonus-skill-option';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = nome;
+            checkbox.addEventListener('change', atualizarContadorBonusPericias);
+
+            const texto = document.createElement('span');
+            texto.textContent = nome;
+            texto.title = nome;
+
+            opcao.appendChild(checkbox);
+            opcao.appendChild(texto);
+            lista.appendChild(opcao);
+        });
+
+        atualizarContadorBonusPericias();
+    }
+
+    function selecionarTodasPericiasBonus(marcar) {
+        document.querySelectorAll('#bonus-pericias-lista input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = marcar;
+        });
+        atualizarContadorBonusPericias();
+    }
+
+    function renderizarBonusAtivos() {
+        const lista = document.getElementById('bonus-pericias-ativos');
+        if (!lista) return;
+        lista.innerHTML = '';
+
+        if (dbBonusPericias.length === 0) {
+            const vazio = document.createElement('div');
+            vazio.className = 'bonus-empty';
+            vazio.textContent = 'Nenhum bônus coletivo ativo.';
+            lista.appendChild(vazio);
+            return;
+        }
+
+        dbBonusPericias.forEach(grupo => {
+            const card = document.createElement('div');
+            card.className = 'bonus-active-card';
+
+            const info = document.createElement('div');
+            info.className = 'bonus-active-info';
+
+            const valor = document.createElement('div');
+            valor.className = 'bonus-active-value';
+            valor.textContent = `${formatarValorBonus(grupo.valor)} nas perícias`;
+
+            const pericias = document.createElement('div');
+            pericias.className = 'bonus-active-skills';
+            pericias.textContent = grupo.pericias.join(', ');
+
+            const remover = document.createElement('button');
+            remover.type = 'button';
+            remover.className = 'bonus-remove-btn';
+            remover.textContent = 'REMOVER';
+            remover.title = 'Remover este bônus';
+            remover.addEventListener('click', () => removerBonusPericias(grupo.id));
+
+            info.appendChild(valor);
+            info.appendChild(pericias);
+            card.appendChild(info);
+            card.appendChild(remover);
+            lista.appendChild(card);
+        });
+    }
+
+    function abrirModalBonusPericias() {
+        document.getElementById('bonus-pericias-valor').value = 1;
+        renderizarSelecaoBonusPericias();
+        renderizarBonusAtivos();
+        document.getElementById('modal-bonus-pericias').style.display = 'flex';
+    }
+
+    function aplicarBonusPericias() {
+        const valor = parseFloat(document.getElementById('bonus-pericias-valor').value);
+        const periciasSelecionadas = Array.from(document.querySelectorAll('#bonus-pericias-lista input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+
+        if (!Number.isFinite(valor) || valor === 0) return alert('Informe um bônus diferente de zero. Você pode usar valores positivos ou negativos.');
+        if (periciasSelecionadas.length === 0) return alert('Escolha pelo menos uma perícia para receber o bônus.');
+
+        dbBonusPericias.push({
+            id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+            valor: valor,
+            pericias: periciasSelecionadas
+        });
+
+        selecionarTodasPericiasBonus(false);
+        document.getElementById('bonus-pericias-valor').value = 1;
+        recalcularTudo();
+        salvarFichaLocal();
+        renderizarBonusAtivos();
+    }
+
+    function removerBonusPericias(id) {
+        dbBonusPericias = dbBonusPericias.filter(grupo => grupo.id !== id);
+        recalcularTudo();
+        salvarFichaLocal();
+        renderizarBonusAtivos();
+    }
+
     function abrirModalDadosPersonalizados() {
         dadosPersonalizadosRolando = false;
         document.getElementById('custom-dice-result').style.display = 'none';
@@ -2593,6 +2791,9 @@
     function removerPericiaAberta() {
         if(confirm(`Tem certeza que deseja remover a perícia ${periciaAbertaNome}?`)) {
             dbPericiasCustom = dbPericiasCustom.filter(p => p.nome !== periciaAbertaNome); 
+            dbBonusPericias = dbBonusPericias
+                .map(grupo => ({ ...grupo, pericias: grupo.pericias.filter(nome => nome !== periciaAbertaNome) }))
+                .filter(grupo => grupo.pericias.length > 0);
             delete dbPericias[periciaAbertaNome];
             fecharModais(); 
             recalcularTudo(); 
