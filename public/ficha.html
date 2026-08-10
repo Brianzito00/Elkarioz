@@ -102,16 +102,20 @@
         .campo-uid-container { display: flex; gap: 10px; flex: 1.2; align-items: flex-end; }
         .uid-especial { background: #d7ccc8; color: #3e2723; text-align: center; border-color: #5c3a21; text-transform: uppercase; font-size: 1.2rem; font-weight: 900;}
 
-        /* ID único de cada ficha/jogador */
-        .id-jogador-container { flex: 1; min-width: 170px; }
-        .id-jogador-input {
-            background: #202633 !important;
-            color: #ffffff !important;
-            border-color: #4a5365 !important;
-            font-family: 'Roboto', sans-serif !important;
-            font-size: 0.82rem !important;
-            letter-spacing: 0.5px;
+        /* Código único de 4 dígitos da ficha/jogador */
+        .codigo-jogador-badge {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            background: rgba(32, 38, 51, 0.95);
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #69758a;
+            letter-spacing: 1.5px;
+            user-select: text;
             cursor: default;
+            white-space: nowrap;
         }
         
         /* === BOTÕES === */
@@ -739,8 +743,9 @@
 <div class="ficha-container">
     
     <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; border-bottom: 2px dashed rgba(139, 90, 43, 0.4); padding-bottom: 15px; flex-wrap: wrap;">
-        <div style="flex:1; display:flex; align-items:center;">
+        <div style="flex:1; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span style="font-family:'Roboto'; font-size:0.8rem; font-weight:bold; color:#2e7d32; background:rgba(46,125,50,0.1); padding:6px 12px; border-radius:4px; border:1px solid #2e7d32;">💾 SALVO AUTO.</span>
+            <span id="id-jogador-codigo" class="codigo-jogador-badge" title="Código único desta ficha. Gerado automaticamente e não pode ser editado.">ID: ----</span>
         </div>
 
         <button type="button" class="btn-acao blue" style="width: auto; padding: 8px 15px; font-size: 0.85rem;" onclick="exportarFicha()">📤 EXPORTAR FICHA</button>
@@ -776,12 +781,6 @@
                         <div class="input-wrapper">
                             <label>SALA / UID DO MESTRE</label>
                             <input type="text" id="uid-input" class="form-input uid-especial" placeholder="EX: MESA1">
-                        </div>
-                    </div>
-                    <div class="campo-rpg id-jogador-container">
-                        <div class="input-wrapper">
-                            <label>ID ÚNICO DO JOGADOR</label>
-                            <input type="text" id="id-jogador-input" class="form-input id-jogador-input" readonly title="ID único desta ficha. Não altere este valor.">
                         </div>
                     </div>
                     <button type="button" class="btn-entrar" id="btn-entrar-label" onclick="conectarSalaJogador()">ENTRAR</button>
@@ -1362,20 +1361,29 @@
     // 1. CONFIGURAÇÃO BASE E SOCKET.IO
     // ==============================================================
 
-    // ID exclusivo desta ficha/jogador. Ele permanece o mesmo após recarregar a página.
-    let idUnicoFicha = localStorage.getItem('rpg_id_ficha');
-    if (!idUnicoFicha) {
-        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-            idUnicoFicha = 'jogador_' + window.crypto.randomUUID();
-        } else {
-            idUnicoFicha = 'jogador_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+    // ID exclusivo desta ficha/jogador: sempre um código numérico de 4 dígitos.
+    // O código fica salvo no navegador e não muda ao recarregar a página.
+    function gerarIdFicha4Digitos() {
+        // 1000 até 9999, garantindo sempre exatamente 4 dígitos.
+        if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+            const valores = new Uint32Array(1);
+            window.crypto.getRandomValues(valores);
+            return String(1000 + (valores[0] % 9000));
         }
-        localStorage.setItem('rpg_id_ficha', idUnicoFicha);
+        return String(Math.floor(1000 + Math.random() * 9000));
     }
 
+    function normalizarIdFicha(valor) {
+        const id = String(valor || '').trim();
+        return /^\d{4}$/.test(id) ? id : gerarIdFicha4Digitos();
+    }
+
+    let idUnicoFicha = normalizarIdFicha(localStorage.getItem('rpg_id_ficha'));
+    localStorage.setItem('rpg_id_ficha', idUnicoFicha);
+
     function atualizarIdJogadorNaTela() {
-        const campoId = document.getElementById('id-jogador-input');
-        if (campoId) campoId.value = idUnicoFicha;
+        const codigo = document.getElementById('id-jogador-codigo');
+        if (codigo) codigo.textContent = 'ID: ' + idUnicoFicha;
     }
 
     let socket;
@@ -1549,8 +1557,8 @@
 
     function carregarDadosNaTela(j) {
         try {
-            if(j.idJogador || j.idUnico) {
-                idUnicoFicha = j.idJogador || j.idUnico;
+            if (j.idJogador || j.idUnico) {
+                idUnicoFicha = normalizarIdFicha(j.idJogador || j.idUnico);
                 localStorage.setItem('rpg_id_ficha', idUnicoFicha);
             }
             atualizarIdJogadorNaTela();
@@ -1684,7 +1692,15 @@
                 
                 if(jsonParsed && typeof jsonParsed === 'object') {
                     if (jsonParsed.idJogador || jsonParsed.idUnico) {
-                        localStorage.setItem('rpg_id_ficha', jsonParsed.idJogador || jsonParsed.idUnico);
+                        const idImportado = normalizarIdFicha(jsonParsed.idJogador || jsonParsed.idUnico);
+                        jsonParsed.idJogador = idImportado;
+                        jsonParsed.idUnico = idImportado;
+                        localStorage.setItem('rpg_id_ficha', idImportado);
+                    } else {
+                        const novoId = gerarIdFicha4Digitos();
+                        jsonParsed.idJogador = novoId;
+                        jsonParsed.idUnico = novoId;
+                        localStorage.setItem('rpg_id_ficha', novoId);
                     }
                     
                     localStorage.setItem('rpgFichaLocal', JSON.stringify(jsonParsed));
