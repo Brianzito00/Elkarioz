@@ -1629,7 +1629,7 @@
 
             if (j.dbPericias) dbPericias = j.dbPericias;
             dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
-            dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario : [];
+            dbInventario = Array.isArray(j.dbInventario) ? j.dbInventario.map(migrarItemInventarioAntigo) : [];
             dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
             dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
             dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
@@ -2554,39 +2554,63 @@
         }
     }
 
+    function limparDescricaoInventario(valor) {
+        const texto = String(valor || '');
+        const marcadoresAutomaticos = [
+            /\s*\|\s*Tipo\s*:/i,
+            /\n\s*Usa Munição\s*:/i,
+            /\n\s*LIGADA A\s*:/i,
+            /\n\s*DEFESA\s*:\s*[+-]/i,
+            /\n\s*\[\s*(?:INCOMUM|RARO|ÚNICO|UNICO|LENDÁRIO|LENDARIO)\s*\]/i
+        ];
+        let corte = texto.length;
+        marcadoresAutomaticos.forEach(regex => {
+            const encontrado = regex.exec(texto);
+            if (encontrado && encontrado.index < corte) corte = encontrado.index;
+        });
+        return texto.slice(0, corte).trim();
+    }
+
+    function migrarItemInventarioAntigo(itemOriginal) {
+        const item = { ...itemOriginal };
+        const descricaoAntiga = String(item.desc || '');
+
+        if (!item.raridade) {
+            const raridade = descricaoAntiga.match(/\[\s*(INCOMUM|RARO|ÚNICO|UNICO|LENDÁRIO|LENDARIO)\s*\]/i);
+            item.raridade = raridade ? raridade[1] : 'Normal';
+        }
+        if (!item.tipoDano) {
+            const tipo = descricaoAntiga.match(/\|\s*Tipo\s*:\s*([^|\n]+)/i);
+            item.tipoDano = tipo ? tipo[1].trim() : '';
+        }
+        if (!item.alcance) {
+            const alcance = descricaoAntiga.match(/\|\s*Alcance\s*:\s*([^|\n]+)/i);
+            item.alcance = alcance ? alcance[1].trim() : '';
+        }
+
+        item.desc = limparDescricaoInventario(descricaoAntiga);
+        return item;
+    }
+
     function salvarItemInv() {
         let nome = document.getElementById('mi-nome').value.trim();
         let peso = parseFloat(document.getElementById('mi-peso').value) || 0;
         let descBase = document.getElementById('mi-desc').value.trim();
         if(!nome) return alert("Digite o nome do item!");
 
-        let extraText = "";
         let munMax = parseInt(document.getElementById('mi-mun').value) || 0;
         let munNomeLink = document.getElementById('mi-mun-nome').value.trim();
         let periciaLink = document.getElementById('mi-pericia').value;
-        let r = document.getElementById('mi-raridade').value;
-
-        if(r !== 'Normal') extraText += `\n[ ${r.toUpperCase()} ]`;
-
-        if(abaItemAtual == 'corpo' || abaItemAtual == 'dist') {
-            let a = document.getElementById('mi-alc').value;
-            let t = document.getElementById('mi-tipo').value;
-            extraText += ` | Tipo: ${t || '-'}`;
-            if(abaItemAtual == 'dist') extraText += ` | Alcance: ${a || '-'}\nUsa Munição: ${munNomeLink || 'Nenhuma'}`;
-            if(document.getElementById('mi-dano').value || document.getElementById('mi-crit').value || periciaLink)
-                extraText += `\nLIGADA A: ${periciaLink || 'Nenhuma'} | Dano: ${document.getElementById('mi-dano').value || '-'} | Crítico: ${document.getElementById('mi-crit').value.trim() || '20/x2'}`;
-        } else if(abaItemAtual == 'armadura') {
-            let bonusDef = parseInt(document.getElementById('mi-defesa').value) || 0;
-            let penArm = parseInt(document.getElementById('mi-penalidade').value) || 0;
-            extraText += `\nDEFESA: +${bonusDef} | PENALIDADE: -${penArm}`;
-        }
 
         let existente = editandoInventarioId ? dbInventario.find(x => x.id === editandoInventarioId) : null;
 
         let dados = {
-            nome, peso, desc: descBase + extraText, tipo: abaItemAtual,
+            nome, peso, desc: descBase, tipo: abaItemAtual,
             img: tempImgBase64,
             equipado: existente ? existente.equipado : false,
+            raridade: document.getElementById('mi-raridade').value || 'Normal',
+            tipoDano: document.getElementById('mi-tipo').value.trim(),
+            alcance: document.getElementById('mi-alc').value.trim(),
             periciaLink,
             dano: document.getElementById('mi-dano').value,
             crit: document.getElementById('mi-crit').value.trim() || '20/x2',
@@ -2633,16 +2657,16 @@
 
         document.getElementById('mi-nome').value = item.nome || '';
         document.getElementById('mi-peso').value = item.peso ?? 1;
-        document.getElementById('mi-desc').value = item.desc || '';
+        document.getElementById('mi-desc').value = limparDescricaoInventario(item.desc);
         document.getElementById('mi-img').value = item.img || '';
-        document.getElementById('mi-raridade').value = 'Normal';
+        document.getElementById('mi-raridade').value = item.raridade || 'Normal';
         document.getElementById('mi-mun').value = item.tipo === 'dist' ? (item.munMax ?? 20) : (item.tipo === 'municao' ? (item.munAtual ?? 0) : 20);
         document.getElementById('mi-mun-nome').value = item.munNomeReq || '';
         document.getElementById('mi-pericia').value = item.periciaLink || '';
         document.getElementById('mi-dano').value = item.dano || '';
         document.getElementById('mi-crit').value = item.crit || '';
-        document.getElementById('mi-alc').value = '';
-        document.getElementById('mi-tipo').value = '';
+        document.getElementById('mi-alc').value = item.alcance || '';
+        document.getElementById('mi-tipo').value = item.tipoDano || '';
         document.getElementById('mi-defesa').value = item.bonusDefesa ?? 0;
         document.getElementById('mi-penalidade').value = item.penalidadeArmadura ?? 0;
         document.getElementById('mi-catalogo-armadura').value = '';
@@ -2962,10 +2986,14 @@
                     <div><strong>Espaços:</strong> ${item.peso ?? 0}</div>
                     <div><strong>Equipado:</strong> ${item.equipado ? 'Sim' : 'Não'}</div>`;
 
+            if(item.raridade && item.raridade !== 'Normal') info += `<div><strong>Raridade:</strong> ${item.raridade}</div>`;
+
             if(item.tipo === 'corpo' || item.tipo === 'dist') {
                 if(item.periciaLink) info += `<div><strong>Perícia:</strong> ${item.periciaLink}</div>`;
                 if(item.dano) info += `<div><strong>Dano:</strong> ${item.dano}</div>`;
                 info += `<div><strong>Crítico:</strong> ${item.crit || '20/x2'}</div>`;
+                if(item.tipoDano) info += `<div><strong>Tipo:</strong> ${item.tipoDano}</div>`;
+                if(item.tipo === 'dist' && item.alcance) info += `<div><strong>Alcance:</strong> ${item.alcance}</div>`;
             }
             if(item.tipo === 'dist') {
                 info += `<div><strong>Munição:</strong> ${item.munNomeReq || 'Nenhuma'}</div>`;
@@ -2980,7 +3008,8 @@
             }
 
             info += `</div>`;
-            const descricao = (item.desc || "Sem descrição.").replace(/\n/g, '<br>');
+            const descricaoLimpa = limparDescricaoInventario(item.desc);
+            const descricao = (descricaoLimpa || "Sem descrição.").replace(/\n/g, '<br>');
             textoFormatado = info + `
                 <div class="mv-item-descricao">
                     <strong>Descrição</strong>
