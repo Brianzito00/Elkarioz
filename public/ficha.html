@@ -226,7 +226,7 @@
         .box-dano { flex: 1; background: rgba(92, 58, 33, 0.9); color: #fff; border: 1px solid #3e2723; border-radius: 4px; padding: 6px; font-weight: bold; font-size: 0.75rem; font-family: 'Roboto'; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s;}
         .box-dano:hover { background: rgba(183, 28, 28, 0.9); transform: translateY(-2px);}
 
-        /* === ABA 2: INVENTÁRIO E MUNDO === */
+        /* === ABA 2: INVENTÁRIO === */
         .inv-top-bar { display: flex; gap: 20px; justify-content: space-between; margin-bottom: 25px; align-items: flex-start; flex-wrap: wrap; width: 100%; }
         .carga-container { flex: 1 1 50%; min-width: 280px; text-align: center; background: rgba(234, 221, 197, 0.9); padding: 20px; border-radius: 10px; border: 2px solid #8b5a2b; display: flex; flex-direction: column; justify-content: center;}
         .carga-texto { font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; }
@@ -841,7 +841,8 @@
 
     <div class="tabs-nav">
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Atributos & Habilidades</button>
-        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário / Mundo</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-mundo', this)">🗺️ Guildas / NPC'S / Locais</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Mágias</button>
     </div>
 
@@ -962,10 +963,12 @@
                 </div>
                 <div id="grid-inventario" class="pericias-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));"></div>
             </div>
-            
-            <div class="sidebar-direita">
-                <div class="box-rpg" style="padding: 15px; border-top-color: #2e7d32; min-height: 400px; margin-bottom:0;">
-                    <h2 class="section-title" style="color: #1b5e20; font-size:1.1rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
+        </div>
+    </div>
+
+    <div id="tab-mundo" class="tab-content">
+        <div class="box-rpg" style="padding: 25px; border-top-color: #2e7d32; min-height: 400px; max-width: 1000px; width:100%; margin:0 auto;">
+                    <h2 class="section-title" style="color: #1b5e20; font-size:1.3rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
                     <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
                     
                     <div id="msg-mundo-vazio" class="placeholder-dashed" style="border-color:#2e7d32; color:#2e7d32; text-align:center;">Seu arquivo de lore e mapas está vazio.</div>
@@ -992,8 +995,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1815,7 +1816,7 @@
                 renderizarMundoRecebido();
                 
                 let icone = tipo === 'historia' ? '📖' : '📜';
-                alert(`${icone} O Mestre atualizou as informações! Verifique a aba MOCHILA / MUNDO.`);
+                alert(`${icone} O Mestre atualizou as informações! Verifique a aba GUILDAS / NPCs / LOCAIS.`);
             }
         }
     });
