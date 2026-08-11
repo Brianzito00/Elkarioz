@@ -84,6 +84,14 @@
         
         /* === CABEÇALHO === */
         .header-rpg-container { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 35px; width: 100%; }
+
+        .portrait-states { display:flex; flex-direction:column; align-items:center; gap:7px; flex-shrink:0; }
+        .portrait-state-label {
+            padding:4px 9px; border:1px solid #4a5365; border-radius:20px; background:#171c26;
+            color:#aeb7c7; font-family:'Roboto', sans-serif; font-size:0.62rem; font-weight:900;
+            letter-spacing:0.5px; text-transform:uppercase; transition:0.25s;
+        }
+        .portrait-state-label.vida-baixa { background:#b71c1c; border-color:#ff7766; color:#fff; box-shadow:0 0 9px rgba(255,80,60,0.35); }
         
         .portrait-slot {
             width: 140px; height: 180px; border: 4px solid #3e2723; outline: 3px solid #8b5a2b; outline-offset: -3px; 
@@ -93,8 +101,14 @@
         }
         
         .portrait-slot:hover { border-color: #b71c1c; outline-color: #ff9100; }
-        #portrait-img { width: 100%; height: 100%; object-fit: cover; }
-        #portrait-placeholder { font-size: 4rem; color: #8b5a2b; opacity: 0.6; }
+        .portrait-slot.vida-baixa { border-color:#b71c1c; outline-color:#ff7766; box-shadow:0 0 18px rgba(255,75,55,0.38), 0 8px 20px rgba(0,0,0,0.6); }
+        .portrait-image { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; filter:brightness(0.86); transition:opacity 0.7s ease, filter 0.7s ease; pointer-events:none; }
+        .portrait-image.ativo { opacity:1; filter:brightness(1); }
+        #portrait-placeholder { position:relative; z-index:2; font-size:4rem; color:#8b5a2b; opacity:0.6; }
+        .portrait-config-actions { display:flex; gap:5px; width:100%; }
+        .portrait-config-btn { flex:1; padding:5px 6px; border:1px solid #4a5365; border-radius:4px; background:#171c26; color:#aeb7c7; cursor:pointer; font-family:'Roboto', sans-serif; font-size:0.58rem; font-weight:900; text-transform:uppercase; transition:0.2s; }
+        .portrait-config-btn:hover { background:#252d3b; color:#fff; }
+        .portrait-config-btn.configurado { border-color:#2e7d32; color:#8fe39a; }
         
         .header-info-grid { flex: 1; display: flex; flex-direction: column; gap: 15px; }
         .header-row { display: flex; gap: 15px; width: 100%; align-items: flex-end; }
@@ -495,6 +509,9 @@
         }
         
         @media (max-width: 600px) {
+            .portrait-slot { width:105px; height:130px; }
+            #portrait-placeholder { font-size:3rem; }
+            .portrait-config-btn { font-size:0.52rem; padding:5px 3px; }
             .grid-atributos { grid-template-columns: repeat(2, 1fr); }
             .pericias-grid { grid-template-columns: 1fr; }
             .tabs-container { gap: 5px; }
@@ -796,9 +813,17 @@
     </div>
 
     <div class="header-rpg-container">
-        <div class="portrait-slot" onclick="pedirUrlRetrato()">
-            <img id="portrait-img" src="" style="display: none;">
-            <div id="portrait-placeholder">📷</div>
+        <div class="portrait-states" aria-label="Retratos dos estados do personagem">
+            <span class="portrait-state-label" id="portrait-state-label">🙂 Estado normal</span>
+            <div class="portrait-slot" id="portrait-slot-unico" onclick="pedirUrlRetrato('normal')" title="Clique para definir o retrato normal">
+                <img id="portrait-img" class="portrait-image" src="" alt="Retrato do estado normal">
+                <img id="portrait-img-ferido" class="portrait-image" src="" alt="Retrato do estado de vida baixa">
+                <div id="portrait-placeholder">📷</div>
+            </div>
+            <div class="portrait-config-actions">
+                <button type="button" class="portrait-config-btn" id="btn-retrato-normal" onclick="pedirUrlRetrato('normal')" title="Configurar imagem normal">NORMAL</button>
+                <button type="button" class="portrait-config-btn" id="btn-retrato-ferido" onclick="pedirUrlRetrato('ferido')" title="Configurar imagem de vida baixa">VIDA BAIXA</button>
+            </div>
         </div>
 
         <div class="header-info-grid">
@@ -1703,7 +1728,9 @@
             mpAtual: getValor('mana-atual'),
             mpMax: getValor('mana-max'),
             defesa: getValor('defesa-personagem') || 0,
-            img: document.getElementById('portrait-img').src,
+            img: obterRetratoAtivo(),
+            imgNormal: obterUrlRetrato('normal'),
+            imgFerido: obterUrlRetrato('ferido'),
             attr: {
                 for: getValor('forca'),
                 des: getValor('agilidade'),
@@ -1755,15 +1782,11 @@
             document.getElementById('mana-max').value = j.mpMax ?? 10;
             document.getElementById('moedas-atual').value = j.moedas ?? 0;
 
-            if (j.img && j.img.trim() !== "" && !j.img.includes('placeholder')) {
-                document.getElementById('portrait-img').src = j.img;
-                document.getElementById('portrait-img').style.display = 'block';
-                document.getElementById('portrait-placeholder').style.display = 'none';
-            } else {
-                document.getElementById('portrait-img').removeAttribute('src');
-                document.getElementById('portrait-img').style.display = 'none';
-                document.getElementById('portrait-placeholder').style.display = 'flex';
-            }
+            const retratoNormalSalvo = typeof j.imgNormal === 'string' ? j.imgNormal : (typeof j.img === 'string' ? j.img : '');
+            const retratoFeridoSalvo = typeof j.imgFerido === 'string' ? j.imgFerido : (typeof j.imgCombate === 'string' ? j.imgCombate : '');
+            definirImagemRetrato('normal', retratoNormalSalvo);
+            definirImagemRetrato('ferido', retratoFeridoSalvo);
+            atualizarEstadoRetratoVisual();
 
             if (j.dbPericias) dbPericias = j.dbPericias;
             dbPericiasCustom = Array.isArray(j.dbPericiasCustom) ? j.dbPericiasCustom : [];
@@ -1792,7 +1815,8 @@
     function salvarFichaLocal() {
         if (!fichaPronta) return; 
 
-        let pImg = document.getElementById('portrait-img');
+        const retratoNormal = obterUrlRetrato('normal');
+        const retratoFerido = obterUrlRetrato('ferido');
         
         let dadosParaSalvar = {
             idUnico: idUnicoFicha,
@@ -1810,7 +1834,9 @@
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
             hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
             mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
-            img: pImg.style.display !== 'none' ? pImg.src : "",
+            img: obterRetratoAtivo(),
+            imgNormal: retratoNormal,
+            imgFerido: retratoFerido,
             dbPericias: dbPericias || {}, 
             dbPericiasCustom: dbPericiasCustom || [], 
             dbBonusPericias: dbBonusPericias || [],
@@ -2231,6 +2257,7 @@
         let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
         document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
         document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
+        atualizarEstadoRetratoVisual();
         sincronizarComMestre();
     }
 
@@ -2262,14 +2289,79 @@
         });
     }
 
-    function pedirUrlRetrato() {
-        let url = prompt("Cole a URL da imagem do seu personagem:");
-        if (url !== null && url.trim() !== "") {
-            document.getElementById('portrait-img').src = url.trim();
-            document.getElementById('portrait-img').style.display = 'block';
-            document.getElementById('portrait-placeholder').style.display = 'none';
-            sincronizarComMestre();
+    function idsRetrato(estado) {
+        const ferido = estado === 'ferido';
+        return {
+            imagem: ferido ? 'portrait-img-ferido' : 'portrait-img'
+        };
+    }
+
+    function obterUrlRetrato(estado) {
+        const ids = idsRetrato(estado);
+        const imagem = document.getElementById(ids.imagem);
+        if (!imagem) return '';
+        return String(imagem.getAttribute('src') || '').trim();
+    }
+
+    function definirImagemRetrato(estado, url) {
+        const ids = idsRetrato(estado);
+        const imagem = document.getElementById(ids.imagem);
+        const urlLimpa = typeof url === 'string' ? url.trim() : '';
+
+        if (urlLimpa && !urlLimpa.includes('placeholder')) {
+            imagem.src = urlLimpa;
+        } else {
+            imagem.removeAttribute('src');
         }
+        atualizarEstadoRetratoVisual();
+    }
+
+    function obterRetratoAtivo() {
+        const normal = obterUrlRetrato('normal');
+        const ferido = obterUrlRetrato('ferido');
+        return estaComVidaBaixa() ? (ferido || normal) : (normal || ferido);
+    }
+
+    function estaComVidaBaixa() {
+        const vidaAtual = getValor('vida-atual');
+        const vidaMaxima = getValor('vida-max');
+        return vidaMaxima > 0 && vidaAtual < (vidaMaxima / 2);
+    }
+
+    function atualizarEstadoRetratoVisual() {
+        const imagemNormal = document.getElementById('portrait-img');
+        const imagemFerido = document.getElementById('portrait-img-ferido');
+        const placeholder = document.getElementById('portrait-placeholder');
+        const slot = document.getElementById('portrait-slot-unico');
+        const label = document.getElementById('portrait-state-label');
+        const btnNormal = document.getElementById('btn-retrato-normal');
+        const btnFerido = document.getElementById('btn-retrato-ferido');
+        const retratoNormal = obterUrlRetrato('normal');
+        const retratoFerido = obterUrlRetrato('ferido');
+        const vidaBaixa = estaComVidaBaixa();
+        const exibirFerido = Boolean(retratoFerido) && (vidaBaixa || !retratoNormal);
+        const exibirNormal = Boolean(retratoNormal) && !exibirFerido;
+
+        if (imagemNormal) imagemNormal.classList.toggle('ativo', exibirNormal);
+        if (imagemFerido) imagemFerido.classList.toggle('ativo', exibirFerido);
+        if (placeholder) placeholder.style.display = retratoNormal || retratoFerido ? 'none' : 'flex';
+        if (slot) slot.classList.toggle('vida-baixa', vidaBaixa);
+        if (label) {
+            label.classList.toggle('vida-baixa', vidaBaixa);
+            label.textContent = vidaBaixa ? '🩸 Vida abaixo de 50%' : '🙂 Estado normal';
+        }
+        if (btnNormal) btnNormal.classList.toggle('configurado', Boolean(retratoNormal));
+        if (btnFerido) btnFerido.classList.toggle('configurado', Boolean(retratoFerido));
+    }
+
+    function pedirUrlRetrato(estado = 'normal') {
+        const nomeEstado = estado === 'ferido' ? 'estado de vida baixa' : 'estado normal';
+        const urlAtual = obterUrlRetrato(estado);
+        const url = prompt(`Cole a URL da imagem do ${nomeEstado}. Deixe vazio para remover:`, urlAtual);
+        if (url === null) return;
+
+        definirImagemRetrato(estado, url);
+        sincronizarComMestre();
     }
 
     function atualizarPreview(inputId, imgId, containerId) {
