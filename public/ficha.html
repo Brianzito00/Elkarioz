@@ -311,6 +311,9 @@
         .magia-circulo-section { margin-bottom: 30px; }
         .magia-circulo-title { font-family: 'Cinzel'; color: #b71c1c; font-size: 1.4rem; font-weight: 900; border-bottom: 3px double #b71c1c; padding-bottom: 8px; margin-bottom: 15px; margin-top: 25px; text-shadow: 1px 1px 0px rgba(255,255,255,0.5); }
         .magia-escola { font-size: 0.65rem; color: #5c3a21; font-weight: bold; margin-top: 5px; font-family: 'Roboto'; text-transform: uppercase; }
+        .magia-aprendida-card { position:relative; padding-right:42px; }
+        .btn-apagar-magia { position:absolute; top:8px; right:8px; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border:1px solid #8a3333; border-radius:6px; background:#310d11; color:#ffb5b5; cursor:pointer; font-size:.9rem; transition:.18s; }
+        .btn-apagar-magia:hover { background:#8b1b25; color:#fff; border-color:#e85862; transform:scale(1.06); }
 
         /* === GRIMÓRIO E CATÁLOGO DE MAGIAS === */
         .grimorio-section { margin-top: 26px; }
@@ -2865,7 +2868,7 @@
 
                 magiasDoCirculo.forEach(magia => {
                     const card = document.createElement('div');
-                    card.className = 'pericia-card';
+                    card.className = 'pericia-card magia-aprendida-card';
                     card.style.borderColor = '#3c78c8';
                     card.setAttribute('role', 'button');
                     card.tabIndex = 0;
@@ -2885,7 +2888,15 @@
                     escola.className = 'magia-escola';
                     escola.style.color = '#d7e5ff';
                     escola.textContent = [magia.origem, magia.escola, `${obterCustoBaseMagia(magia.circulo)} PM`].filter(Boolean).join(' • ');
-                    card.append(nome, escola);
+                    const apagar = document.createElement('button');
+                    apagar.type = 'button';
+                    apagar.className = 'btn-apagar-magia';
+                    apagar.title = `Apagar ${magia.nome || 'magia'}`;
+                    apagar.setAttribute('aria-label', apagar.title);
+                    apagar.textContent = '🗑';
+                    apagar.addEventListener('click', evento => removerMagiaAprendida(magia.id, evento));
+                    apagar.addEventListener('keydown', evento => evento.stopPropagation());
+                    card.append(nome, escola, apagar);
                     grid.appendChild(card);
                 });
 
@@ -2895,6 +2906,18 @@
         }
 
         renderizarCatalogoMagias();
+    }
+
+    function removerMagiaAprendida(id, evento) {
+        if(evento) evento.stopPropagation();
+        const magia = dbMagias.find(item => String(item.id) === String(id));
+        if(!magia) return;
+        if(!confirm(`Apagar a magia "${magia.nome}" da ficha?`)) return;
+
+        dbMagias = dbMagias.filter(item => String(item.id) !== String(id));
+        recalcularTudo();
+        renderizarListas();
+        salvarFichaLocal();
     }
 
     function renderizarCatalogoMagias() {
