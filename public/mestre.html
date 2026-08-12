@@ -844,6 +844,7 @@
         let pSalvo = localStorage.getItem('rpgPessoas'); if(pSalvo) { try { dbPessoas = JSON.parse(pSalvo); } catch(e){} }
         let gSalvo = localStorage.getItem('rpgGuildas'); if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
         let lSalvo = localStorage.getItem('rpgLocais'); if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
+        normalizarPessoasVinculadas();
 
         let iSalva = localStorage.getItem('rpgIniciativa'); 
         if(iSalva) { 
@@ -1526,7 +1527,7 @@
 
     function enviarCapituloAtivo() {
         if(!capituloAtivoId) return;
-        abrirModalEnvio(event, 'historia', capituloAtivoId);
+        abrirModalEnvio(null, 'historia', capituloAtivoId);
     }
 
     // === MUNDO E LORE: EDIÇÃO E CRIAÇÃO ===
@@ -1619,8 +1620,14 @@
                 localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
             } else if(tipoContexto == 'pessoa') { 
                 let item = dbPessoas.find(x => x.id === mundoEditandoId);
-                if(item) { item.nome = nome; item.desc = desc; item.img = img; }
+                if(item) {
+                    item.nome = nome;
+                    item.desc = desc;
+                    item.img = img;
+                    sincronizarPessoaNosLocais(item);
+                }
                 localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); 
+                localStorage.setItem('rpgLocais', JSON.stringify(dbLocais));
             }
             mundoEditandoId = null;
         } else {
@@ -1634,22 +1641,16 @@
                 localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
             } else if(tipoContexto == 'pessoa') { 
                 let localId = document.getElementById('mcl-local-link').value;
+                let novaPessoa = { id: novoId, nome: nome, desc: desc, img: img, localId: localId || '' };
+                dbPessoas.push(novaPessoa);
+                localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas));
                 if(localId) {
                     let localObj = dbLocais.find(l => l.id == localId);
                     if(localObj) {
                         if(!localObj.pontos) localObj.pontos = [];
-                        localObj.pontos.push({
-                            id: novoId, 
-                            nome: nome,
-                            desc: desc,
-                            img: img,
-                            localId: localId
-                        });
+                        localObj.pontos.push({ ...novaPessoa });
                         localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); 
                     }
-                } else {
-                    dbPessoas.push({ id: novoId, nome: nome, desc: desc, img: img }); 
-                    localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); 
                 }
             }
         }
@@ -1697,24 +1698,81 @@
         if(confirm("Tem certeza que deseja apagar permanentemente?")) {
             if(tipo === 'guilda') { dbGuildas = dbGuildas.filter(h => h.id !== id); localStorage.setItem('rpgGuildas', JSON.stringify(dbGuildas)); }
             else if(tipo === 'local') { dbLocais = dbLocais.filter(h => h.id !== id); localStorage.setItem('rpgLocais', JSON.stringify(dbLocais)); }
-            else if(tipo === 'pessoa') { dbPessoas = dbPessoas.filter(h => h.id !== id); localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas)); }
+            else if(tipo === 'pessoa') {
+                dbPessoas = dbPessoas.filter(h => String(h.id) !== String(id));
+                dbLocais.forEach(local => {
+                    local.pontos = Array.isArray(local.pontos)
+                        ? local.pontos.filter(ponto => String(ponto.id) !== String(id))
+                        : [];
+                });
+                localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas));
+                localStorage.setItem('rpgLocais', JSON.stringify(dbLocais));
+            }
             renderizarMundo();
         }
     }
 
+    function normalizarPessoasVinculadas() {
+        let houveAlteracao = false;
+        dbLocais.forEach(local => {
+            if (!Array.isArray(local.pontos)) local.pontos = [];
+            local.pontos.forEach(ponto => {
+                if (!ponto || !ponto.localId) return;
+                const jaExiste = dbPessoas.some(pessoa => String(pessoa.id) === String(ponto.id));
+                if (!jaExiste) {
+                    dbPessoas.push({
+                        id: ponto.id,
+                        nome: ponto.nome || 'NPC sem nome',
+                        desc: ponto.desc || '',
+                        img: ponto.img || '',
+                        localId: ponto.localId || local.id
+                    });
+                    houveAlteracao = true;
+                }
+            });
+        });
+        if (houveAlteracao) localStorage.setItem('rpgPessoas', JSON.stringify(dbPessoas));
+    }
+
+    function sincronizarPessoaNosLocais(pessoa) {
+        dbLocais.forEach(local => {
+            if (!Array.isArray(local.pontos)) return;
+            local.pontos = local.pontos.map(ponto => {
+                if (String(ponto.id) !== String(pessoa.id)) return ponto;
+                return {
+                    ...ponto,
+                    nome: pessoa.nome,
+                    desc: pessoa.desc,
+                    img: pessoa.img,
+                    localId: pessoa.localId || ponto.localId || local.id
+                };
+            });
+        });
+    }
+
     function abrirModalEnvio(event, tipo, id) {
-        event.stopPropagation();
+        if (event && event.stopPropagation) event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
         
         itemPendenteEnvio = { tipo: tipo, id: id };
         let select = document.getElementById('select-alvo');
-        select.innerHTML = '<option value="todos">Mandar para Todos os Jogadores</option>';
+        select.innerHTML = '';
+
+        const opcaoTodos = document.createElement('option');
+        opcaoTodos.value = 'todos';
+        opcaoTodos.textContent = 'Mandar para Todos os Jogadores';
+        select.appendChild(opcaoTodos);
         
         let chaves = Object.keys(jogadores);
         chaves.forEach(key => {
             let p = jogadores[key];
             if (p.charName && p.charName !== "Sem nome") {
-                select.innerHTML += `<option value="${p.charName}">${p.charName} (${p.playerName || 'Jogador'})</option>`;
+                const idJogador = String(p.idUnico || p.idJogador || key);
+                const opcao = document.createElement('option');
+                opcao.value = idJogador;
+                opcao.dataset.nomePersonagem = p.charName;
+                opcao.textContent = `${p.charName} (${p.playerName || 'Jogador'}) • UID ${idJogador}`;
+                select.appendChild(opcao);
             }
         });
         
@@ -1723,23 +1781,45 @@
 
     function confirmarEnvioAlvo() {
         if(!itemPendenteEnvio) return;
-        let { tipo, id } = itemPendenteEnvio; let alvoSelecionado = document.getElementById('select-alvo').value;
+        let { tipo, id } = itemPendenteEnvio;
+        const selectAlvo = document.getElementById('select-alvo');
+        let alvoSelecionado = selectAlvo.value;
         let db = tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos));
-        let item = db.find(x => x.id === id);
+        let item = db.find(x => String(x.id) === String(id));
         
-        if(!item) return;
+        if(!item) return alert('Não foi possível encontrar esta informação para enviar.');
 
-        let dadosEnviados = { ...item };
+        let dadosEnviados = JSON.parse(JSON.stringify(item));
         
         if(tipo === 'historia') {
             dadosEnviados.titulo = item.nome;
             dadosEnviados.conteudo = item.texto;
         }
 
-        socket.emit('gm_send_entity', { uidSala: gmUid, target: alvoSelecionado, entidade: { tipoLista: tipo, dados: dadosEnviados } });
+        if (tipo === 'guilda' && !Array.isArray(dadosEnviados.membros)) dadosEnviados.membros = [];
+        if (tipo === 'local' && !Array.isArray(dadosEnviados.pontos)) dadosEnviados.pontos = [];
+
+        const opcaoSelecionada = selectAlvo.options[selectAlvo.selectedIndex];
+        const alvoNomePersonagem = alvoSelecionado === 'todos'
+            ? 'todos'
+            : (opcaoSelecionada ? opcaoSelecionada.dataset.nomePersonagem || '' : '');
+
+        socket.emit('gm_send_entity', {
+            uidSala: String(gmUid).trim().toUpperCase(),
+            target: alvoSelecionado,
+            targetId: alvoSelecionado,
+            targetName: alvoNomePersonagem,
+            entidade: {
+                tipoLista: tipo,
+                dados: dadosEnviados,
+                enviadoEm: Date.now(),
+                versao: 2
+            }
+        });
         
-        let alvoNome = alvoSelecionado === 'todos' ? 'Todos os Jogadores' : alvoSelecionado;
-        alert(`O item foi enviado para ${alvoNome} com sucesso!`);
+        let alvoNome = alvoSelecionado === 'todos' ? 'Todos os Jogadores' : (alvoNomePersonagem || `UID ${alvoSelecionado}`);
+        alert(`A informação foi enviada para ${alvoNome}.`);
+        itemPendenteEnvio = null;
         fecharModais();
     }
 
