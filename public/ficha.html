@@ -359,6 +359,25 @@
         .bonus-empty { padding:13px; border:1px dashed #4a5365; border-radius:7px; color:#aeb7c7 !important; text-align:center; font-family:'Roboto'; font-size:0.78rem; }
         .bonus-pericia-tag { margin-top:2px; color:#ffd36a !important; font-family:'Roboto'; font-size:0.59rem; font-weight:900; }
 
+        /* === COMPANHEIROS === */
+        .companheiros-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; }
+        .companheiro-card { background:#151a23; border:2px solid #4a5365; border-left:5px solid #2e7d32; border-radius:10px; padding:14px; box-shadow:0 5px 14px rgba(0,0,0,0.35); transition:0.2s; }
+        .companheiro-card:hover { border-color:#69758a; border-left-color:#57b863; transform:translateY(-2px); }
+        .companheiro-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+        .companheiro-retrato { width:70px; height:70px; flex:0 0 70px; border-radius:50%; border:3px solid #69758a; background:#080a0e; object-fit:cover; display:flex; align-items:center; justify-content:center; color:#fff; font-size:2rem; overflow:hidden; }
+        .companheiro-nome { margin:0; color:#fff; font-family:'Cinzel'; font-size:1.05rem; font-weight:900; overflow-wrap:anywhere; }
+        .companheiro-tipo { margin-top:4px; color:#8fe39a; font-family:'Roboto'; font-size:0.72rem; font-weight:900; text-transform:uppercase; }
+        .companheiro-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+        .companheiro-stat { background:#090b10; border:1px solid #343d4d; border-radius:7px; padding:8px; text-align:center; }
+        .companheiro-stat-label { display:block; color:#aeb7c7; font-family:'Roboto'; font-size:0.62rem; font-weight:900; text-transform:uppercase; }
+        .companheiro-stat-valor { display:block; margin-top:3px; color:#fff; font-family:'Cinzel'; font-size:1.05rem; font-weight:900; }
+        .companheiro-vida-controles { display:flex; align-items:center; justify-content:center; gap:7px; }
+        .companheiro-vida-btn { width:25px; height:25px; padding:0; border:1px solid #69758a; border-radius:50%; background:#202633; color:#fff; cursor:pointer; font-family:'Roboto'; font-weight:900; }
+        .companheiro-vida-btn:hover { background:#b71c1c; border-color:#ff7766; }
+        .companheiro-desc { min-height:42px; margin:0 0 12px; color:#c8ced9; font-family:'Roboto'; font-size:0.78rem; line-height:1.45; white-space:pre-wrap; overflow-wrap:anywhere; }
+        .companheiro-actions { display:flex; gap:8px; padding-top:10px; border-top:1px solid #343d4d; }
+        .companheiro-actions .btn-acao { padding:8px 10px; font-size:0.72rem; }
+
         /* === BOTÃO DE REGRAS FLUTUANTE === */
         .btn-regras-flutuante {
             position: fixed;
@@ -523,6 +542,7 @@
             #toast-container { width: 90%; right: 5%; bottom: 10px; }
             .custom-dice-grid { grid-template-columns:1fr; }
             .bonus-skills-list { grid-template-columns:1fr; }
+            .companheiros-grid { grid-template-columns:1fr; }
             #painel-regras { width: 100vw; left: -100vw; }
             .btn-regras-flutuante { bottom: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.6rem;}
         }
@@ -896,6 +916,7 @@
         <button type="button" class="tab-btn active" onclick="mudarAbaPrincipal('tab-principal', this)">⚔️ Atributos & Habilidades</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-inventario', this)">🎒 Inventário</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-mundo', this)">🗺️ Guildas / NPC'S / Locais</button>
+        <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-companheiros', this)">🐾 Companheiros</button>
         <button type="button" class="tab-btn" onclick="mudarAbaPrincipal('tab-magias', this)">🔮 Mágias</button>
     </div>
 
@@ -1052,6 +1073,20 @@
                         </div>
                     </div>
 
+        </div>
+    </div>
+
+    <div id="tab-companheiros" class="tab-content">
+        <div class="box-rpg" style="padding:25px; border-top-color:#2e7d32; min-height:400px; max-width:1100px; width:100%; margin:0 auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:22px; flex-wrap:wrap;">
+                <div>
+                    <h2 class="section-title" style="color:#57b863; margin:0 0 5px; border:none; padding:0; text-align:left;">🐾 COMPANHEIROS</h2>
+                    <p style="margin:0; color:#aeb7c7; font-family:'Roboto'; font-size:0.78rem;">Animais, familiares, montarias e outros aliados do personagem.</p>
+                </div>
+                <button type="button" class="btn-acao green" style="width:auto; padding:11px 18px;" onclick="abrirModalCompanheiro()">➕ NOVO COMPANHEIRO</button>
+            </div>
+            <div id="companheiros-vazio" class="placeholder-dashed" style="border-color:#2e7d32; color:#8fe39a;">Nenhum companheiro cadastrado.</div>
+            <div id="companheiros-grid" class="companheiros-grid"></div>
         </div>
     </div>
 
@@ -1392,6 +1427,58 @@
     </div>
 </div>
 
+<div id="modal-companheiro" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content" style="max-width:560px;" onclick="event.stopPropagation()">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <h3 class="section-title" id="mc-titulo">NOVO COMPANHEIRO</h3>
+
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-bottom:14px;">
+            <div class="input-wrapper">
+                <label>NOME</label>
+                <input type="text" id="mc-nome" class="form-input" maxlength="80" placeholder="Ex: Presa, Faísca, Ventania...">
+            </div>
+            <div class="input-wrapper">
+                <label>TIPO</label>
+                <select id="mc-tipo" class="form-input">
+                    <option value="Animal">Animal</option>
+                    <option value="Familiar">Familiar</option>
+                    <option value="Montaria">Montaria</option>
+                    <option value="Construto">Construto</option>
+                    <option value="Aliado">Aliado</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-wrapper" style="margin-bottom:14px;">
+            <label>URL DA FOTO (OPCIONAL)</label>
+            <input type="text" id="mc-img" class="form-input" placeholder="https://...">
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:14px;">
+            <div class="input-wrapper">
+                <label>VIDA ATUAL</label>
+                <input type="number" id="mc-vida-atual" class="form-input" min="0" value="10" style="text-align:center;">
+            </div>
+            <div class="input-wrapper">
+                <label>VIDA MÁXIMA</label>
+                <input type="number" id="mc-vida-max" class="form-input" min="0" value="10" style="text-align:center;">
+            </div>
+            <div class="input-wrapper">
+                <label>DEFESA</label>
+                <input type="number" id="mc-defesa" class="form-input" value="10" style="text-align:center;">
+            </div>
+        </div>
+
+        <div class="input-wrapper" style="margin-bottom:22px;">
+            <label>DESCRIÇÃO / HABILIDADES</label>
+            <textarea id="mc-desc" class="form-input" maxlength="2000" style="height:120px; resize:vertical; text-align:left;" placeholder="Aparência, personalidade, ataques e habilidades do companheiro..."></textarea>
+        </div>
+
+        <button type="button" class="btn-acao green" style="padding:15px;" onclick="salvarCompanheiro()">✔️ SALVAR COMPANHEIRO</button>
+    </div>
+</div>
+
 <div id="modal-view" class="modal-overlay" onclick="fecharModais()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
@@ -1569,6 +1656,8 @@
     let dbProficiencias = [];
     let dbHabilidades = [];
     let dbMagias = [];
+    let dbCompanheiros = [];
+    let companheiroEditandoId = null;
     
     let fichaDados = {
         mundoRecebido: []
@@ -1801,6 +1890,7 @@
             dbProficiencias = Array.isArray(j.dbProficiencias) ? j.dbProficiencias : [];
             dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
             dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
+            dbCompanheiros = Array.isArray(j.dbCompanheiros) ? j.dbCompanheiros.map(normalizarCompanheiro) : [];
             
             fichaDados.mundoRecebido = normalizarMundoRecebido(j.mundoRecebido);
             
@@ -1844,6 +1934,7 @@
             dbProficiencias: dbProficiencias || [], 
             dbHabilidades: dbHabilidades || [], 
             dbMagias: dbMagias || [],
+            dbCompanheiros: dbCompanheiros || [],
             mundoRecebido: fichaDados.mundoRecebido || []
         };
         
@@ -2346,7 +2437,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-companheiro', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
@@ -2675,6 +2766,222 @@
         }
     }
 
+    function normalizarCompanheiro(companheiro, indice = 0) {
+        const origem = companheiro && typeof companheiro === 'object' ? companheiro : {};
+        const vidaMaximaLida = parseFloat(origem.vidaMax ?? origem.hpMax);
+        const vidaMaxima = Number.isFinite(vidaMaximaLida) ? Math.max(0, vidaMaximaLida) : 10;
+        const vidaAtualLida = parseFloat(origem.vidaAtual ?? origem.hpAtual);
+        const vidaAtualBase = Number.isFinite(vidaAtualLida) ? Math.max(0, vidaAtualLida) : vidaMaxima;
+        const defesaLida = parseFloat(origem.defesa);
+
+        return {
+            id: String(origem.id ?? `companheiro_${Date.now()}_${indice}`),
+            nome: String(origem.nome || 'Companheiro sem nome').trim(),
+            tipo: String(origem.tipo || 'Animal').trim(),
+            img: String(origem.img || '').trim(),
+            vidaAtual: vidaMaxima > 0 ? Math.min(vidaAtualBase, vidaMaxima) : vidaAtualBase,
+            vidaMax: vidaMaxima,
+            defesa: Number.isFinite(defesaLida) ? defesaLida : 10,
+            desc: String(origem.desc || origem.descricao || '').trim()
+        };
+    }
+
+    function abrirModalCompanheiro(id = null) {
+        companheiroEditandoId = id === null ? null : String(id);
+        const companheiro = companheiroEditandoId === null
+            ? null
+            : dbCompanheiros.find(item => String(item.id) === companheiroEditandoId);
+
+        document.getElementById('mc-titulo').textContent = companheiro ? 'EDITAR COMPANHEIRO' : 'NOVO COMPANHEIRO';
+        document.getElementById('mc-nome').value = companheiro ? companheiro.nome : '';
+        document.getElementById('mc-tipo').value = companheiro ? companheiro.tipo : 'Animal';
+        if (!Array.from(document.getElementById('mc-tipo').options).some(opcao => opcao.value === document.getElementById('mc-tipo').value)) {
+            document.getElementById('mc-tipo').value = 'Outro';
+        }
+        document.getElementById('mc-img').value = companheiro ? companheiro.img : '';
+        document.getElementById('mc-vida-atual').value = companheiro ? companheiro.vidaAtual : 10;
+        document.getElementById('mc-vida-max').value = companheiro ? companheiro.vidaMax : 10;
+        document.getElementById('mc-defesa').value = companheiro ? companheiro.defesa : 10;
+        document.getElementById('mc-desc').value = companheiro ? companheiro.desc : '';
+        document.getElementById('modal-companheiro').style.display = 'flex';
+    }
+
+    function salvarCompanheiro() {
+        const nome = document.getElementById('mc-nome').value.trim();
+        if (!nome) return alert('Digite o nome do companheiro!');
+
+        const vidaMaxima = Math.max(0, parseFloat(document.getElementById('mc-vida-max').value) || 0);
+        const vidaAtual = Math.max(0, parseFloat(document.getElementById('mc-vida-atual').value) || 0);
+        const dados = normalizarCompanheiro({
+            id: companheiroEditandoId || `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+            nome: nome,
+            tipo: document.getElementById('mc-tipo').value,
+            img: document.getElementById('mc-img').value,
+            vidaAtual: vidaAtual,
+            vidaMax: vidaMaxima,
+            defesa: document.getElementById('mc-defesa').value,
+            desc: document.getElementById('mc-desc').value
+        });
+
+        if (companheiroEditandoId !== null) {
+            const indice = dbCompanheiros.findIndex(item => String(item.id) === companheiroEditandoId);
+            if (indice >= 0) dbCompanheiros[indice] = dados;
+            else dbCompanheiros.push(dados);
+        } else {
+            dbCompanheiros.push(dados);
+        }
+
+        companheiroEditandoId = null;
+        fecharModais();
+        renderizarCompanheiros();
+        salvarFichaLocal();
+    }
+
+    function alterarVidaCompanheiro(id, delta) {
+        const companheiro = dbCompanheiros.find(item => String(item.id) === String(id));
+        if (!companheiro) return;
+        const limite = Math.max(0, parseFloat(companheiro.vidaMax) || 0);
+        const atual = Math.max(0, parseFloat(companheiro.vidaAtual) || 0);
+        companheiro.vidaAtual = limite > 0
+            ? Math.max(0, Math.min(limite, atual + delta))
+            : Math.max(0, atual + delta);
+        renderizarCompanheiros();
+        salvarFichaLocal();
+    }
+
+    function removerCompanheiro(id) {
+        const companheiro = dbCompanheiros.find(item => String(item.id) === String(id));
+        if (!companheiro) return;
+        if (!confirm(`Remover ${companheiro.nome} da ficha?`)) return;
+        dbCompanheiros = dbCompanheiros.filter(item => String(item.id) !== String(id));
+        renderizarCompanheiros();
+        salvarFichaLocal();
+    }
+
+    function criarStatCompanheiro(label, valor, companheiro = null) {
+        const stat = document.createElement('div');
+        stat.className = 'companheiro-stat';
+
+        const titulo = document.createElement('span');
+        titulo.className = 'companheiro-stat-label';
+        titulo.textContent = label;
+        stat.appendChild(titulo);
+
+        if (companheiro && label === 'Vida') {
+            const controles = document.createElement('div');
+            controles.className = 'companheiro-vida-controles';
+
+            const diminuir = document.createElement('button');
+            diminuir.type = 'button';
+            diminuir.className = 'companheiro-vida-btn';
+            diminuir.textContent = '−';
+            diminuir.title = 'Diminuir vida';
+            diminuir.addEventListener('click', () => alterarVidaCompanheiro(companheiro.id, -1));
+
+            const texto = document.createElement('span');
+            texto.className = 'companheiro-stat-valor';
+            texto.textContent = valor;
+
+            const aumentar = document.createElement('button');
+            aumentar.type = 'button';
+            aumentar.className = 'companheiro-vida-btn';
+            aumentar.textContent = '+';
+            aumentar.title = 'Aumentar vida';
+            aumentar.addEventListener('click', () => alterarVidaCompanheiro(companheiro.id, 1));
+
+            controles.appendChild(diminuir);
+            controles.appendChild(texto);
+            controles.appendChild(aumentar);
+            stat.appendChild(controles);
+        } else {
+            const texto = document.createElement('span');
+            texto.className = 'companheiro-stat-valor';
+            texto.textContent = valor;
+            stat.appendChild(texto);
+        }
+
+        return stat;
+    }
+
+    function renderizarCompanheiros() {
+        const grid = document.getElementById('companheiros-grid');
+        const vazio = document.getElementById('companheiros-vazio');
+        if (!grid || !vazio) return;
+        grid.innerHTML = '';
+        vazio.style.display = dbCompanheiros.length === 0 ? 'block' : 'none';
+        if (dbCompanheiros.length === 0) return;
+
+        dbCompanheiros.forEach(companheiroOriginal => {
+            const companheiro = normalizarCompanheiro(companheiroOriginal);
+            const card = document.createElement('article');
+            card.className = 'companheiro-card';
+
+            const header = document.createElement('div');
+            header.className = 'companheiro-header';
+
+            const retrato = document.createElement('div');
+            retrato.className = 'companheiro-retrato';
+            if (companheiro.img) {
+                const imagem = document.createElement('img');
+                imagem.src = companheiro.img;
+                imagem.alt = `Retrato de ${companheiro.nome}`;
+                imagem.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                imagem.addEventListener('error', () => {
+                    imagem.remove();
+                    retrato.textContent = '🐾';
+                });
+                retrato.appendChild(imagem);
+                retrato.style.cursor = 'zoom-in';
+                retrato.addEventListener('click', () => abrirZoomImagem(companheiro.img));
+            } else {
+                retrato.textContent = '🐾';
+            }
+
+            const identidade = document.createElement('div');
+            identidade.style.minWidth = '0';
+            const nome = document.createElement('h3');
+            nome.className = 'companheiro-nome';
+            nome.textContent = companheiro.nome;
+            const tipo = document.createElement('div');
+            tipo.className = 'companheiro-tipo';
+            tipo.textContent = companheiro.tipo;
+            identidade.appendChild(nome);
+            identidade.appendChild(tipo);
+            header.appendChild(retrato);
+            header.appendChild(identidade);
+
+            const stats = document.createElement('div');
+            stats.className = 'companheiro-stats';
+            stats.appendChild(criarStatCompanheiro('Vida', `${companheiro.vidaAtual}/${companheiro.vidaMax}`, companheiro));
+            stats.appendChild(criarStatCompanheiro('Defesa', companheiro.defesa));
+
+            const descricao = document.createElement('p');
+            descricao.className = 'companheiro-desc';
+            descricao.textContent = companheiro.desc || 'Sem descrição ou habilidades cadastradas.';
+
+            const actions = document.createElement('div');
+            actions.className = 'companheiro-actions';
+            const editar = document.createElement('button');
+            editar.type = 'button';
+            editar.className = 'btn-acao blue';
+            editar.textContent = '✏️ EDITAR';
+            editar.addEventListener('click', () => abrirModalCompanheiro(companheiro.id));
+            const remover = document.createElement('button');
+            remover.type = 'button';
+            remover.className = 'btn-acao red';
+            remover.textContent = '🗑️ REMOVER';
+            remover.addEventListener('click', () => removerCompanheiro(companheiro.id));
+            actions.appendChild(editar);
+            actions.appendChild(remover);
+
+            card.appendChild(header);
+            card.appendChild(stats);
+            card.appendChild(descricao);
+            card.appendChild(actions);
+            grid.appendChild(card);
+        });
+    }
+
     function renderizarListas() {
         const gridInv = document.getElementById('grid-inventario'); 
         if(gridInv) gridInv.innerHTML = '';
@@ -2748,7 +3055,8 @@
         if(document.getElementById('lista-habilidades-principal')) document.getElementById('lista-habilidades-principal').innerHTML = renderCascadeHab('principal');
         if(document.getElementById('lista-magias-principal')) document.getElementById('lista-magias-principal').innerHTML = renderCascadeMagia('principal');
         
-        renderizarMagias(); 
+        renderizarMagias();
+        renderizarCompanheiros();
     }
 
     function abrirModalAddPericia() { 
