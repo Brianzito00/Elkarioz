@@ -1802,7 +1802,7 @@
             dbHabilidades = Array.isArray(j.dbHabilidades) ? j.dbHabilidades : [];
             dbMagias = Array.isArray(j.dbMagias) ? j.dbMagias : [];
             
-            fichaDados.mundoRecebido = Array.isArray(j.mundoRecebido) ? j.mundoRecebido : [];
+            fichaDados.mundoRecebido = normalizarMundoRecebido(j.mundoRecebido);
             
             renderizarListas();
             renderizarMundoRecebido();
@@ -1966,35 +1966,98 @@
         }
     });
 
-    socket.on('gm_send_entity', function(payload) {
-        if (payload && payload.entidade) {
-            let meuNome = document.getElementById('char-name-input').value.trim();
-            if (payload.target === 'todos' || payload.target === meuNome) {
-                
-                let tipo = payload.entidade.tipoLista;
-                let dados = payload.entidade.dados;
-                let gmId = dados.id;
+    function normalizarTipoMundo(tipo) {
+        const valor = String(tipo || '').trim().toLowerCase();
+        const aliases = {
+            guildas: 'guilda',
+            faccao: 'guilda',
+            faccoes: 'guilda',
+            locais: 'local',
+            npc: 'pessoa',
+            npcs: 'pessoa',
+            pessoas: 'pessoa',
+            historia: 'historia',
+            historias: 'historia'
+        };
+        return aliases[valor] || valor;
+    }
 
-                let indexExistente = fichaDados.mundoRecebido.findIndex(item => item.tipo === tipo && item.dados.id === gmId);
+    function normalizarMundoRecebido(lista) {
+        if (!Array.isArray(lista)) return [];
+        const registros = [];
 
-                if (indexExistente !== -1) {
-                    fichaDados.mundoRecebido[indexExistente].dados = dados;
-                } else {
-                    fichaDados.mundoRecebido.push({
-                        id: gmId, 
-                        tipo: tipo,
-                        dados: dados
-                    });
-                }
+        lista.forEach((registro, indice) => {
+            if (!registro || typeof registro !== 'object') return;
+            const tipo = normalizarTipoMundo(registro.tipo || registro.tipoLista);
+            const dadosOriginais = registro.dados && typeof registro.dados === 'object' ? registro.dados : registro;
+            if (!['guilda', 'local', 'pessoa', 'historia'].includes(tipo)) return;
 
-                salvarFichaLocal();
-                renderizarMundoRecebido();
-                
-                let icone = tipo === 'historia' ? '📖' : '📜';
-                alert(`${icone} O Mestre atualizou as informações! Verifique a aba GUILDAS / NPCs / LOCAIS.`);
-            }
-        }
-    });
+            const dados = JSON.parse(JSON.stringify(dadosOriginais));
+            const idEntidade = dados.id ?? registro.id ?? `recebido_${indice}`;
+            dados.id = idEntidade;
+            if (tipo === 'guilda' && !Array.isArray(dados.membros)) dados.membros = [];
+            if (tipo === 'local' && !Array.isArray(dados.pontos)) dados.pontos = [];
+
+            const existente = registros.findIndex(item => item.tipo === tipo && String(item.dados.id) === String(idEntidade));
+            const registroNormalizado = { id: idEntidade, tipo: tipo, dados: dados };
+            if (existente >= 0) registros[existente] = registroNormalizado;
+            else registros.push(registroNormalizado);
+        });
+
+        return registros;
+    }
+
+    function envioMestreDestinadoAEstaFicha(payload) {
+        if (!payload || !payload.entidade) return false;
+
+        const salaPayload = String(payload.uidSala || '').trim().toUpperCase();
+        const salaFicha = String(document.getElementById('uid-input').value || meuUID || '').trim().toUpperCase();
+        if (salaPayload && salaFicha && salaPayload !== salaFicha) return false;
+
+        const alvo = String(payload.targetId ?? payload.target ?? '').trim();
+        const alvoNome = String(payload.targetName || payload.target || '').trim();
+        const meuNome = document.getElementById('char-name-input').value.trim();
+        const meusIds = [idUnicoFicha, String(idUnicoFicha), document.getElementById('id-jogador-display')?.textContent?.replace(/\D/g, '')]
+            .filter(Boolean)
+            .map(String);
+
+        return alvo.toLowerCase() === 'todos'
+            || meusIds.includes(alvo)
+            || (alvoNome && alvoNome === meuNome);
+    }
+
+    function receberEntidadeMestre(payload) {
+        if (!envioMestreDestinadoAEstaFicha(payload)) return false;
+
+        const entidade = payload.entidade;
+        const tipo = normalizarTipoMundo(entidade.tipoLista || entidade.tipo);
+        if (!['guilda', 'local', 'pessoa', 'historia'].includes(tipo)) return false;
+        if (!entidade.dados || typeof entidade.dados !== 'object') return false;
+
+        const dados = JSON.parse(JSON.stringify(entidade.dados));
+        const gmId = dados.id ?? `${tipo}_${Date.now()}`;
+        dados.id = gmId;
+        if (tipo === 'guilda' && !Array.isArray(dados.membros)) dados.membros = [];
+        if (tipo === 'local' && !Array.isArray(dados.pontos)) dados.pontos = [];
+
+        let indexExistente = fichaDados.mundoRecebido.findIndex(item =>
+            item.tipo === tipo && item.dados && String(item.dados.id) === String(gmId)
+        );
+
+        const registro = { id: gmId, tipo: tipo, dados: dados };
+        if (indexExistente !== -1) fichaDados.mundoRecebido[indexExistente] = registro;
+        else fichaDados.mundoRecebido.push(registro);
+
+        salvarFichaLocal();
+        renderizarMundoRecebido();
+
+        const icones = { historia: '📖', guilda: '🛡️', local: '📍', pessoa: '👤' };
+        const nomes = { historia: 'História', guilda: 'Guilda', local: 'Local', pessoa: 'NPC' };
+        alert(`${icones[tipo]} ${nomes[tipo]} recebido(a) do Mestre! Verifique a aba GUILDAS / NPCs / LOCAIS.`);
+        return true;
+    }
+
+    socket.on('gm_send_entity', receberEntidadeMestre);
 
     function renderizarMundoRecebido() {
         const wrapper = document.getElementById('mundo-recebido-wrapper');
@@ -2027,8 +2090,9 @@
         let temHistoria = false, temGuilda = false, temPessoa = false, temLocal = false;
 
         fichaDados.mundoRecebido.slice().reverse().forEach(item => {
+            if (!item || !item.dados) return;
             let d = item.dados;
-            let tipo = item.tipo;
+            let tipo = normalizarTipoMundo(item.tipo);
             
             let cor = '#2e7d32'; let icone = '👤';
             let nome = d.nome;
