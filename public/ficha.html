@@ -211,6 +211,20 @@
         .max-input { width: 40px; height: 40px; border: 2px solid #000; border-radius: 50%; text-align: center; font-family: 'Cinzel'; font-weight: 900; font-size: 1.1rem; background: #fff; color: #000; -moz-appearance: textfield;}
         .max-input::-webkit-outer-spin-button, .max-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
+        .temporarios-container { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; width:100%; padding:0 10px; margin-bottom:12px; }
+        .temporario-module { display:flex; align-items:center; gap:12px; min-width:0; padding:10px 14px; border:1px solid #4a5365; border-radius:10px; background:linear-gradient(145deg,#171d28,#0c1018); box-shadow:0 5px 12px rgba(0,0,0,.2); }
+        .temporario-module.vida-temporaria { border-left:4px solid #c6424b; }
+        .temporario-module.mana-temporaria { border-left:4px solid #3977d5; }
+        .temporario-icon { width:40px; height:40px; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:50%; color:#fff; font:900 .72rem 'Cinzel',serif; border:2px solid currentColor; }
+        .vida-temporaria .temporario-icon { color:#ff9da3; background:#3a1116; }
+        .mana-temporaria .temporario-icon { color:#91bfff; background:#0e2446; }
+        .temporario-conteudo { flex:1; min-width:0; }
+        .temporario-titulo { display:block; margin-bottom:6px; color:#e7eaf0; font:900 .68rem 'Roboto',sans-serif; letter-spacing:.04em; text-transform:uppercase; }
+        .temporario-controle { display:grid; grid-template-columns:28px minmax(48px,1fr) 28px; gap:7px; align-items:center; }
+        .temporario-controle .btn-status { width:28px; height:28px; font-size:1rem; }
+        .temporario-input { width:100%; height:30px; min-width:0; border:1px solid #5d687a; border-radius:6px; background:#030508; color:#fff; text-align:center; font:900 1rem 'Lora',serif; -moz-appearance:textfield; }
+        .temporario-input::-webkit-outer-spin-button, .temporario-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+
         /* === PERÍCIAS === */
         .pericias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
         .pericia-card { background-color: rgba(255,255,255,0.5); border: 2px solid #8b5a2b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
@@ -576,6 +590,7 @@
         }
         
         @media (max-width: 600px) {
+            .temporarios-container { grid-template-columns:1fr; }
             .portrait-slot { width:105px; height:130px; }
             #portrait-placeholder { font-size:3rem; }
             .portrait-config-btn { font-size:0.52rem; padding:5px 3px; }
@@ -981,7 +996,33 @@
             </div>
 
             <div class="conteudo-principal">
-                
+
+                <div class="temporarios-container" aria-label="Vida e mana temporárias">
+                    <div class="temporario-module vida-temporaria">
+                        <div class="temporario-icon">+PV</div>
+                        <div class="temporario-conteudo">
+                            <label class="temporario-titulo" for="vida-temporaria">VIDA TEMPORÁRIA</label>
+                            <div class="temporario-controle">
+                                <button type="button" class="btn-status" onclick="alterarStatus('vida-temporaria', -1)" aria-label="Diminuir vida temporária">−</button>
+                                <input type="number" id="vida-temporaria" class="temporario-input" min="0" value="0" oninput="atualizarBarras()">
+                                <button type="button" class="btn-status" onclick="alterarStatus('vida-temporaria', 1)" aria-label="Aumentar vida temporária">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="temporario-module mana-temporaria">
+                        <div class="temporario-icon">+PM</div>
+                        <div class="temporario-conteudo">
+                            <label class="temporario-titulo" for="mana-temporaria">MANA TEMPORÁRIA</label>
+                            <div class="temporario-controle">
+                                <button type="button" class="btn-status" onclick="alterarStatus('mana-temporaria', -1)" aria-label="Diminuir mana temporária">−</button>
+                                <input type="number" id="mana-temporaria" class="temporario-input" min="0" value="0" oninput="atualizarBarras()">
+                                <button type="button" class="btn-status" onclick="alterarStatus('mana-temporaria', 1)" aria-label="Aumentar mana temporária">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="status-container">
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
@@ -1928,8 +1969,10 @@
             modoCombate: modoCombateAtivo,
             hpAtual: getValor('vida-atual'),
             hpMax: getValor('vida-max'),
+            hpTemporario: getValor('vida-temporaria'),
             mpAtual: getValor('mana-atual'),
             mpMax: getValor('mana-max'),
+            mpTemporario: getValor('mana-temporaria'),
             defesa: getValor('defesa-personagem') || 0,
             img: obterRetratoAtivo(),
             imgNormal: obterUrlRetrato('normal'),
@@ -1981,8 +2024,10 @@
             
             document.getElementById('vida-atual').value = j.hpAtual ?? 10;
             document.getElementById('vida-max').value = j.hpMax ?? 10;
+            document.getElementById('vida-temporaria').value = Math.max(0, j.hpTemporario ?? j.vidaTemporaria ?? 0);
             document.getElementById('mana-atual').value = j.mpAtual ?? 10;
             document.getElementById('mana-max').value = j.mpMax ?? 10;
+            document.getElementById('mana-temporaria').value = Math.max(0, j.mpTemporario ?? j.manaTemporaria ?? 0);
             document.getElementById('moedas-atual').value = j.moedas ?? 0;
 
             const retratoNormalSalvo = typeof j.imgNormal === 'string' ? j.imgNormal : (typeof j.img === 'string' ? j.img : '');
@@ -2036,8 +2081,8 @@
             defesa: getValor('defesa-personagem') || 0,
             forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
-            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), 
-            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), moedas: getValor('moedas-atual'),
+            hpAtual: getValor('vida-atual'), hpMax: getValor('vida-max'), hpTemporario: getValor('vida-temporaria'),
+            mpAtual: getValor('mana-atual'), mpMax: getValor('mana-max'), mpTemporario: getValor('mana-temporaria'), moedas: getValor('moedas-atual'),
             img: obterRetratoAtivo(),
             imgNormal: retratoNormal,
             imgFerido: retratoFerido,
@@ -2523,6 +2568,10 @@
     }
 
     function atualizarBarras() {
+        ['vida-temporaria', 'mana-temporaria'].forEach(id => {
+            const input = document.getElementById(id);
+            if(input && (parseFloat(input.value) || 0) < 0) input.value = 0;
+        });
         let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
         document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
         document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
@@ -2531,9 +2580,19 @@
     }
 
     function alterarStatus(id, delta) { 
-        let input = document.getElementById(id); 
-        input.value = (parseInt(input.value) || 0) + delta; 
-        if (id === 'moedas-atual' && parseInt(input.value) < 0) input.value = 0; 
+        let input = document.getElementById(id);
+        if(!input) return;
+
+        const temporarioRelacionado = id === 'vida-atual'
+            ? document.getElementById('vida-temporaria')
+            : (id === 'mana-atual' ? document.getElementById('mana-temporaria') : null);
+        if(delta < 0 && temporarioRelacionado && (parseInt(temporarioRelacionado.value) || 0) > 0) {
+            temporarioRelacionado.value = Math.max(0, (parseInt(temporarioRelacionado.value) || 0) + delta);
+        } else {
+            input.value = (parseInt(input.value) || 0) + delta;
+        }
+
+        if (['moedas-atual', 'vida-temporaria', 'mana-temporaria'].includes(id) && parseInt(input.value) < 0) input.value = 0;
         atualizarBarras(); 
         if (id === 'moedas-atual') recalcularTudo(); 
     }
@@ -4065,13 +4124,18 @@
         if(custo <= 0) return true;
 
         const manaInput = document.getElementById('mana-atual');
+        const manaTemporariaInput = document.getElementById('mana-temporaria');
         const manaAtual = Math.max(0, parseInt(manaInput?.value) || 0);
-        if(manaAtual < custo) {
-            alert(`PM insuficientes para conjurar ${magia.nome}.\nCusto: ${custo} PM | Disponível: ${manaAtual} PM.`);
+        const manaTemporaria = Math.max(0, parseInt(manaTemporariaInput?.value) || 0);
+        const manaDisponivel = manaAtual + manaTemporaria;
+        if(manaDisponivel < custo) {
+            alert(`PM insuficientes para conjurar ${magia.nome}.\nCusto: ${custo} PM | Disponível: ${manaDisponivel} PM.`);
             return false;
         }
 
-        manaInput.value = manaAtual - custo;
+        const gastoTemporario = Math.min(manaTemporaria, custo);
+        if(manaTemporariaInput) manaTemporariaInput.value = manaTemporaria - gastoTemporario;
+        manaInput.value = manaAtual - (custo - gastoTemporario);
         atualizarBarras();
         salvarFichaLocal();
         return true;
