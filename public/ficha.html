@@ -4689,6 +4689,7 @@
     // === EVENTO DO SOCKET E TOASTS DO JOGADOR ===
     socket.on('player_dice_roll', function(roll) {
         if(meuUID && roll.uid && roll.uid.trim().toUpperCase() !== meuUID.trim().toUpperCase()) return;
+        if (roll.categoria === 'CONTROLE_TURNO' || roll.categoria === 'SOLICITAR_TURNO_OVERLAY') return;
         mostrarToastRolagem(roll);
     });
 
