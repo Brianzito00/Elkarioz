@@ -23,6 +23,58 @@
             align-items: center;
             position: relative;
             filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.5));
+            transition: filter 0.35s ease;
+        }
+
+        .turn-indicator {
+            position: absolute;
+            z-index: 20;
+            top: -10px;
+            left: 148px;
+            padding: 5px 12px;
+            border: 2px solid #fff1a8;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #6f4700, #d99a18);
+            color: #fff9d9;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(7px) scale(0.94);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 0 12px rgba(255,198,57,0.4);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+            pointer-events: none;
+        }
+
+        .widget-container.turno-ativo .turn-indicator {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s;
+            animation: turnBadgePulse 1.8s ease-in-out infinite;
+        }
+
+        .widget-container.turno-ativo .avatar-box {
+            border-color: #ffd45c;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 0 2px #fff1a8, 0 0 18px rgba(255,196,45,0.85);
+            animation: turnAvatarGlow 1.8s ease-in-out infinite;
+        }
+
+        .widget-container.turno-ativo .combat-stats {
+            filter: drop-shadow(0 0 5px rgba(255,210,82,0.35));
+        }
+
+        @keyframes turnAvatarGlow {
+            0%, 100% { box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 0 2px #fff1a8, 0 0 12px rgba(255,196,45,0.55); }
+            50% { box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 0 3px #fff6ca, 0 0 24px rgba(255,196,45,0.95); }
+        }
+
+        @keyframes turnBadgePulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.18); }
         }
 
         /* Avatar do Personagem */
@@ -283,6 +335,7 @@
     </section>
 
     <div class="widget-container" id="widget" style="display: none;">
+        <div class="turn-indicator" id="turn-indicator" aria-live="polite">&#9876; SEU TURNO</div>
         
         <div class="avatar-box">
             <img id="o-img" src="https://via.placeholder.com/150" alt="Avatar">
@@ -314,13 +367,16 @@
             uid: document.getElementById('character-uid-input'),
             players: document.getElementById('players-select'),
             status: document.getElementById('connection-status'),
-            widget: document.getElementById('widget')
+            widget: document.getElementById('widget'),
+            turnIndicator: document.getElementById('turn-indicator')
         };
 
         let salaAtual = normalizarSala(urlParams.get('sala') || localStorage.getItem('overlaySala') || '');
         let uidPersonagem = normalizarUid(urlParams.get('uid') || localStorage.getItem('overlayPersonagemUid') || '');
         const nomeLegado = (urlParams.get('nome') || '').trim().toLowerCase();
         let jogadoresDaSala = {};
+        let personagemAtual = null;
+        let estadoTurno = { combateAtivo: false, idUnico: '', nome: '' };
 
         elements.mesa.value = salaAtual;
         elements.uid.value = uidPersonagem;
@@ -364,6 +420,7 @@
 
             if (uidPersonagem) mostrarPersonagemPorUid(uidPersonagem, false);
             else definirStatus(`Mesa ${salaAtual} conectada. Escolha um personagem.`, 'ok');
+            solicitarTurnoAtual();
         });
 
         socket.on('atualizarDados', function(data) {
@@ -376,6 +433,19 @@
             jogadoresDaSala[uidRecebido] = data.dados;
             preencherListaPersonagens();
             if (uidPersonagem === uidRecebido) desenharPersonagem(data.dados);
+        });
+
+        socket.on('player_dice_roll', function(roll) {
+            if (!roll || !salaAtual) return;
+            if (roll.uid && normalizarSala(roll.uid) !== salaAtual) return;
+            if (roll.categoria !== 'CONTROLE_TURNO') return;
+
+            estadoTurno = {
+                combateAtivo: roll.combateAtivo === true || roll.combateAtivo === 'true',
+                idUnico: normalizarUid(roll.turnoIdUnico),
+                nome: String(roll.turnoNome || '')
+            };
+            atualizarDestaqueTurno();
         });
 
         function normalizarSala(valor) {
@@ -403,13 +473,31 @@
                 localStorage.setItem('overlayPersonagemUid', uidPersonagem);
             }
             jogadoresDaSala = {};
+            personagemAtual = null;
+            estadoTurno = { combateAtivo: false, idUnico: '', nome: '' };
+            atualizarDestaqueTurno();
             elements.players.disabled = true;
             elements.players.innerHTML = '<option value="">Buscando personagens...</option>';
             localStorage.setItem('overlaySala', salaAtual);
             definirStatus(`Conectando à mesa ${salaAtual}...`);
 
-            if (socket.connected) socket.emit('solicitarEstadoSala', salaAtual);
+            if (socket.connected) {
+                socket.emit('solicitarEstadoSala', salaAtual);
+                solicitarTurnoAtual();
+            }
             else if (!automatico) definirStatus('Aguardando conexão com o servidor...', 'error');
+        }
+
+        function solicitarTurnoAtual() {
+            if (!salaAtual || !socket.connected) return;
+            socket.emit('player_dice_roll', {
+                uid: salaAtual,
+                idUnico: 'overlay',
+                playerName: 'OVERLAY',
+                nomeRolagem: 'Solicitar turno atual',
+                categoria: 'SOLICITAR_TURNO_OVERLAY',
+                _trigger: Math.random()
+            });
         }
 
         function preencherListaPersonagens() {
@@ -481,6 +569,7 @@
 
         function desenharPersonagem(p) {
             if (!p) return;
+            personagemAtual = p;
             const imagem = p.img && String(p.img).trim() ? p.img : 'https://via.placeholder.com/150';
             document.getElementById('o-img').src = imagem;
             document.getElementById('o-nome').innerText = p.charName || 'Sem nome';
@@ -497,7 +586,20 @@
             document.getElementById('o-mp-text').innerText = `${mpAtual}/${mpMax}`;
 
             elements.widget.style.display = 'flex';
+            atualizarDestaqueTurno();
             definirStatus(`${p.charName || 'Personagem'} (UID ${uidPersonagem}) carregado.`, 'ok');
+        }
+
+        function atualizarDestaqueTurno() {
+            const modoCombate = personagemAtual && (personagemAtual.modoCombate === true || personagemAtual.modoCombate === 'true');
+            const personagemDaVez = Boolean(
+                modoCombate &&
+                estadoTurno.combateAtivo &&
+                uidPersonagem &&
+                estadoTurno.idUnico === uidPersonagem
+            );
+
+            elements.widget.classList.toggle('turno-ativo', personagemDaVez);
         }
 
         function numeroSeguro(valor, padrao) {
