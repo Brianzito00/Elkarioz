@@ -17,11 +17,21 @@
             align-items: flex-start;
         }
 
+        .overlay-grid {
+            display: none;
+            grid-template-columns: repeat(2, minmax(480px, 500px));
+            gap: 24px 34px;
+            width: min(1034px, calc(100vw - 40px));
+            align-items: center;
+        }
+
         /* Container Principal */
         .widget-container {
             display: flex;
             align-items: center;
             position: relative;
+            width: 100%;
+            min-width: 0;
             filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.5));
             transition: filter 0.35s ease;
         }
@@ -298,6 +308,16 @@
             .connection-panel { top: 10px; left: 10px; width: calc(100vw - 20px); }
             .connection-grid { grid-template-columns: 1fr; }
             .connection-button { width: 100%; }
+            .overlay-grid { width: calc(100vw - 20px); }
+            .avatar-box { width: 105px; height: 105px; }
+            .bars-container { width: calc(100% - 85px); }
+            .char-name { font-size: 1.65rem; }
+            .combat-number { font-size: 2.1rem; }
+            .turn-indicator { left: 118px; }
+        }
+
+        @media (max-width: 1050px) {
+            .overlay-grid { grid-template-columns: minmax(0, 500px); }
         }
 
     </style>
@@ -308,7 +328,7 @@
 
     <section class="connection-panel" id="connection-panel" aria-label="Conexao do overlay">
         <h1 class="connection-title">CONECTAR OVERLAY</h1>
-        <p class="connection-help">Informe a mesa, conecte e escolha um personagem da lista ou digite o UID de 4 dígitos mostrado na ficha.</p>
+        <p class="connection-help">Informe a mesa e todos os personagens conectados aparecerão automaticamente na grade.</p>
 
         <div class="connection-grid">
             <div class="connection-field">
@@ -317,44 +337,11 @@
             </div>
             <button type="button" class="connection-button" id="connect-room-button">CONECTAR À MESA</button>
 
-            <div class="connection-field full">
-                <label for="players-select">PERSONAGENS ENCONTRADOS</label>
-                <select class="connection-select" id="players-select" disabled>
-                    <option value="">Conecte a uma mesa para listar os personagens</option>
-                </select>
-            </div>
-
-            <div class="connection-field">
-                <label for="character-uid-input">UID DO PERSONAGEM (4 DÍGITOS)</label>
-                <input class="connection-input" id="character-uid-input" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="EX: 4827">
-            </div>
-            <button type="button" class="connection-button secondary" id="load-character-button">CARREGAR PERSONAGEM</button>
-
             <div class="connection-status" id="connection-status" role="status">Aguardando configuração.</div>
         </div>
     </section>
 
-    <div class="widget-container" id="widget" style="display: none;">
-        <div class="turn-indicator" id="turn-indicator" aria-live="polite">&#9876; SEU TURNO</div>
-        
-        <div class="avatar-box">
-            <img id="o-img" src="https://via.placeholder.com/150" alt="Avatar">
-        </div>
-
-        <div class="bars-container">
-            
-            <div class="bar-row top-bar">
-                <div class="identity-block">
-                    <span class="char-name" id="o-nome">Carregando...</span>
-                </div>
-                <div class="combat-stats" id="combat-stats" aria-label="Vida e mana do personagem">
-                    <span class="combat-number hp" id="o-hp-text">0/0</span>
-                    <span class="combat-number mp" id="o-mp-text">0/0</span>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <main class="overlay-grid" id="overlay-grid" aria-live="polite"></main>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -364,36 +351,19 @@
             panel: document.getElementById('connection-panel'),
             toggle: document.getElementById('config-toggle'),
             mesa: document.getElementById('mesa-input'),
-            uid: document.getElementById('character-uid-input'),
-            players: document.getElementById('players-select'),
             status: document.getElementById('connection-status'),
-            widget: document.getElementById('widget'),
-            turnIndicator: document.getElementById('turn-indicator')
+            grid: document.getElementById('overlay-grid')
         };
 
         let salaAtual = normalizarSala(urlParams.get('sala') || localStorage.getItem('overlaySala') || '');
-        let uidPersonagem = normalizarUid(urlParams.get('uid') || localStorage.getItem('overlayPersonagemUid') || '');
-        const nomeLegado = (urlParams.get('nome') || '').trim().toLowerCase();
         let jogadoresDaSala = {};
-        let personagemAtual = null;
         let estadoTurno = { combateAtivo: false, idUnico: '', nome: '' };
 
         elements.mesa.value = salaAtual;
-        elements.uid.value = uidPersonagem;
 
         document.getElementById('connect-room-button').addEventListener('click', () => conectarMesa(false));
-        document.getElementById('load-character-button').addEventListener('click', carregarPersonagemSelecionado);
-        elements.players.addEventListener('change', function() {
-            if (this.value) elements.uid.value = normalizarUid(this.value);
-        });
-        elements.uid.addEventListener('input', function() {
-            this.value = this.value.replace(/\D/g, '').slice(0, 4);
-        });
         elements.mesa.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') conectarMesa(false);
-        });
-        elements.uid.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') carregarPersonagemSelecionado();
         });
         elements.toggle.addEventListener('click', abrirConfiguracao);
 
@@ -408,18 +378,7 @@
 
         socket.on('estadoSalaCompleto', function(jogadores) {
             jogadoresDaSala = jogadores && typeof jogadores === 'object' ? jogadores : {};
-            preencherListaPersonagens();
-
-            if (!uidPersonagem && nomeLegado) {
-                const legado = Object.values(jogadoresDaSala).find(p => p && p.charName && p.charName.toLowerCase() === nomeLegado);
-                if (legado) {
-                    uidPersonagem = normalizarUid(legado.idUnico);
-                    elements.uid.value = uidPersonagem;
-                }
-            }
-
-            if (uidPersonagem) mostrarPersonagemPorUid(uidPersonagem, false);
-            else definirStatus(`Mesa ${salaAtual} conectada. Escolha um personagem.`, 'ok');
+            renderizarGrade();
             solicitarTurnoAtual();
         });
 
@@ -431,8 +390,16 @@
             if (!uidRecebido) return;
 
             jogadoresDaSala[uidRecebido] = data.dados;
-            preencherListaPersonagens();
-            if (uidPersonagem === uidRecebido) desenharPersonagem(data.dados);
+            renderizarGrade();
+        });
+
+        socket.on('player_kicked', function(payload) {
+            if (!payload) return;
+            if (payload.uidSala && normalizarSala(payload.uidSala) !== salaAtual) return;
+            const uidRemovido = normalizarUid(payload.idUnico);
+            if (!uidRemovido) return;
+            delete jogadoresDaSala[uidRemovido];
+            renderizarGrade();
         });
 
         socket.on('player_dice_roll', function(roll) {
@@ -445,7 +412,7 @@
                 idUnico: normalizarUid(roll.turnoIdUnico),
                 nome: String(roll.turnoNome || '')
             };
-            atualizarDestaqueTurno();
+            renderizarGrade();
         });
 
         function normalizarSala(valor) {
@@ -467,17 +434,10 @@
 
             salaAtual = novaSala;
             elements.mesa.value = salaAtual;
-            const uidInformado = normalizarUid(elements.uid.value);
-            if (uidInformado) {
-                uidPersonagem = uidInformado;
-                localStorage.setItem('overlayPersonagemUid', uidPersonagem);
-            }
             jogadoresDaSala = {};
-            personagemAtual = null;
             estadoTurno = { combateAtivo: false, idUnico: '', nome: '' };
-            atualizarDestaqueTurno();
-            elements.players.disabled = true;
-            elements.players.innerHTML = '<option value="">Buscando personagens...</option>';
+            elements.grid.innerHTML = '';
+            elements.grid.style.display = 'none';
             localStorage.setItem('overlaySala', salaAtual);
             definirStatus(`Conectando à mesa ${salaAtual}...`);
 
@@ -500,106 +460,81 @@
             });
         }
 
-        function preencherListaPersonagens() {
-            const jogadores = Object.entries(jogadoresDaSala)
+        function listarPersonagens() {
+            return Object.entries(jogadoresDaSala)
                 .map(([chave, dados]) => ({
-                    chave: normalizarUid(dados && dados.idUnico) || normalizarUid(chave),
+                    uid: normalizarUid(dados && dados.idUnico) || normalizarUid(chave),
                     dados: dados || {}
                 }))
-                .filter(item => item.chave)
+                .filter(item => item.uid)
                 .sort((a, b) => String(a.dados.charName || '').localeCompare(String(b.dados.charName || ''), 'pt-BR'));
-
-            elements.players.innerHTML = '';
-            const inicial = document.createElement('option');
-            inicial.value = '';
-            inicial.textContent = jogadores.length ? 'Selecione um personagem' : 'Nenhum personagem encontrado na mesa';
-            elements.players.appendChild(inicial);
-
-            jogadores.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.chave;
-                option.textContent = `${item.dados.charName || 'Sem nome'} — UID ${item.chave}`;
-                option.selected = item.chave === uidPersonagem;
-                elements.players.appendChild(option);
-            });
-
-            elements.players.disabled = jogadores.length === 0;
         }
 
-        function carregarPersonagemSelecionado() {
-            const uidDigitado = normalizarUid(elements.uid.value || elements.players.value);
-            if (!uidDigitado) {
-                definirStatus('Informe ou selecione um UID válido de 4 dígitos.', 'error');
-                return;
-            }
+        function renderizarGrade() {
+            const personagens = listarPersonagens();
 
-            uidPersonagem = uidDigitado;
-            elements.uid.value = uidPersonagem;
-            localStorage.setItem('overlayPersonagemUid', uidPersonagem);
-
-            if (!salaAtual) {
-                conectarMesa(false);
-                return;
-            }
-
-            mostrarPersonagemPorUid(uidPersonagem, true);
-        }
-
-        function encontrarPersonagem(uid) {
-            return Object.entries(jogadoresDaSala).find(([chave, dados]) => {
-                return normalizarUid(chave) === uid || normalizarUid(dados && dados.idUnico) === uid;
-            });
-        }
-
-        function mostrarPersonagemPorUid(uid, solicitarSeFaltar) {
-            const encontrado = encontrarPersonagem(uid);
-            if (!encontrado) {
-                elements.widget.style.display = 'none';
+            if (personagens.length === 0) {
+                elements.grid.innerHTML = '';
+                elements.grid.style.display = 'none';
                 abrirConfiguracao();
-                definirStatus(`UID ${uid} não foi encontrado na mesa ${salaAtual}.`, 'error');
-                if (solicitarSeFaltar && socket.connected) socket.emit('solicitarEstadoSala', salaAtual);
-                return false;
+                definirStatus(`Mesa ${salaAtual} conectada. Aguardando personagens...`, 'ok');
+                return;
             }
 
-            desenharPersonagem(encontrado[1]);
+            elements.grid.innerHTML = personagens.map(montarCardPersonagem).join('');
+            elements.grid.style.display = 'grid';
             salvarConfiguracaoNaUrl();
             fecharConfiguracao();
-            return true;
+
+            const quantidade = personagens.length;
+            definirStatus(`${quantidade} ${quantidade === 1 ? 'personagem conectado' : 'personagens conectados'} na mesa ${salaAtual}.`, 'ok');
         }
 
-        function desenharPersonagem(p) {
-            if (!p) return;
-            personagemAtual = p;
-            const imagem = p.img && String(p.img).trim() ? p.img : 'https://via.placeholder.com/150';
-            document.getElementById('o-img').src = imagem;
-            document.getElementById('o-nome').innerText = p.charName || 'Sem nome';
-
+        function montarCardPersonagem(item) {
+            const p = item.dados;
+            const uid = item.uid;
+            const nome = String(p.charName || 'Sem nome');
+            const imagem = p.img && String(p.img).trim() ? String(p.img) : 'https://via.placeholder.com/150';
             const modoCombate = p.modoCombate === true || p.modoCombate === 'true';
-            document.querySelector('.identity-block').classList.toggle('hidden', modoCombate);
-            document.getElementById('combat-stats').classList.toggle('active', modoCombate);
+            const personagemDaVez = Boolean(
+                modoCombate &&
+                estadoTurno.combateAtivo &&
+                estadoTurno.idUnico === uid
+            );
 
             const hpAtual = numeroSeguro(p.hpAtual, 0);
             const hpMax = Math.max(0, numeroSeguro(p.hpMax, 0));
             const mpAtual = numeroSeguro(p.mpAtual, 0);
             const mpMax = Math.max(0, numeroSeguro(p.mpMax, 0));
-            document.getElementById('o-hp-text').innerText = `${hpAtual}/${hpMax}`;
-            document.getElementById('o-mp-text').innerText = `${mpAtual}/${mpMax}`;
 
-            elements.widget.style.display = 'flex';
-            atualizarDestaqueTurno();
-            definirStatus(`${p.charName || 'Personagem'} (UID ${uidPersonagem}) carregado.`, 'ok');
+            return `
+                <article class="widget-container${personagemDaVez ? ' turno-ativo' : ''}" data-character-uid="${uid}" aria-label="${escapeHtml(nome)}">
+                    <div class="turn-indicator" aria-hidden="${personagemDaVez ? 'false' : 'true'}">&#9876; SEU TURNO</div>
+                    <div class="avatar-box">
+                        <img src="${escapeHtml(imagem)}" alt="Avatar de ${escapeHtml(nome)}">
+                    </div>
+                    <div class="bars-container">
+                        <div class="bar-row top-bar">
+                            <div class="identity-block${modoCombate ? ' hidden' : ''}">
+                                <span class="char-name">${escapeHtml(nome)}</span>
+                            </div>
+                            <div class="combat-stats${modoCombate ? ' active' : ''}" aria-label="Vida e mana de ${escapeHtml(nome)}">
+                                <span class="combat-number hp">${hpAtual}/${hpMax}</span>
+                                <span class="combat-number mp">${mpAtual}/${mpMax}</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>`;
         }
 
-        function atualizarDestaqueTurno() {
-            const modoCombate = personagemAtual && (personagemAtual.modoCombate === true || personagemAtual.modoCombate === 'true');
-            const personagemDaVez = Boolean(
-                modoCombate &&
-                estadoTurno.combateAtivo &&
-                uidPersonagem &&
-                estadoTurno.idUnico === uidPersonagem
-            );
-
-            elements.widget.classList.toggle('turno-ativo', personagemDaVez);
+        function escapeHtml(valor) {
+            return String(valor == null ? '' : valor).replace(/[&<>"']/g, caractere => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[caractere]);
         }
 
         function numeroSeguro(valor, padrao) {
@@ -610,7 +545,7 @@
         function salvarConfiguracaoNaUrl() {
             const params = new URLSearchParams(window.location.search);
             params.set('sala', salaAtual);
-            params.set('uid', uidPersonagem);
+            params.delete('uid');
             params.delete('nome');
             history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
         }
