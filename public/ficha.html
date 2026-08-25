@@ -1715,6 +1715,94 @@
             overflow-wrap: anywhere;
         }
 
+        /* FILTRO DE PERÍCIAS TREINADAS */
+        .pericias-cabecalho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pericias-acoes {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-filtro-pericias {
+            width: auto;
+            min-height: 38px;
+            margin: 0;
+            padding: 8px 13px;
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 10px;
+            background: #080808;
+            color: #d1d5db;
+            font: 900 .7rem 'Roboto', sans-serif;
+            letter-spacing: .045em;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-filtro-pericias:hover {
+            color: #fff;
+            border-color: rgba(45,212,191,.56);
+            background: rgba(45,212,191,.10);
+        }
+
+        .btn-filtro-pericias.ativo {
+            color: #ccfbf1;
+            border-color: rgba(45,212,191,.72);
+            background: linear-gradient(145deg, rgba(13,148,136,.34), rgba(0,0,0,.92));
+            box-shadow: 0 0 0 3px rgba(45,212,191,.07), 0 0 18px rgba(45,212,191,.10);
+        }
+
+        .pericias-filtro-vazio {
+            grid-column: 1 / -1;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 24px;
+            border: 1px dashed rgba(45,212,191,.32);
+            border-radius: 14px;
+            background: rgba(0,0,0,.62);
+            color: #d1d5db;
+            font: 700 .82rem 'Roboto', sans-serif;
+            text-align: center;
+        }
+
+        .pericias-filtro-vazio strong {
+            color: #fff;
+            font-size: .95rem;
+        }
+
+        .pericias-filtro-vazio button {
+            padding: 8px 13px;
+            border: 1px solid rgba(124,92,255,.54);
+            border-radius: 9px;
+            background: rgba(124,92,255,.16);
+            color: #ddd6fe;
+            font: 900 .68rem 'Roboto', sans-serif;
+            cursor: pointer;
+        }
+
+        .pericias-filtro-vazio button:hover { background: rgba(124,92,255,.28); }
+
+        @media (max-width: 700px) {
+            .pericias-cabecalho { align-items: stretch; }
+            .pericias-cabecalho .section-title { width: 100%; }
+            .pericias-acoes { width: 100%; justify-content: flex-start; }
+            .btn-filtro-pericias { flex: 1 1 145px; }
+        }
+
 </style>
 </head>
 <body>
@@ -1924,9 +2012,10 @@
                 
                 <div class="section-separator"></div>
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; gap:10px; margin-bottom: 15px; flex-wrap:wrap;">
+                <div class="pericias-cabecalho">
                     <h3 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">PERÍCIAS & TREINAMENTOS</h3>
-                    <div style="display:flex; gap:8px; align-items:center;">
+                    <div class="pericias-acoes">
+                        <button type="button" id="btn-filtro-pericias-treinadas" class="btn-filtro-pericias" aria-pressed="false" onclick="alternarFiltroPericiasTreinadas()" title="Mostrar somente as perícias treinadas">○ SÓ TREINADAS</button>
                         <button type="button" class="btn-acao" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.8rem;" onclick="abrirModalAddPericia()">➕ PERÍCIA</button>
                         <button type="button" class="btn-acao orange" style="width:auto; padding:8px 15px; margin:0; font-size:0.8rem;" onclick="abrirModalBonusPericias()" title="Aplicar bônus em várias perícias">✨ BÔNUS</button>
                         <button type="button" class="btn-acao purple" style="width:42px; min-width:42px; padding:8px; margin:0; font-size:1.1rem;" onclick="abrirModalDadosPersonalizados()" title="Rolar dados personalizados" aria-label="Rolar dados personalizados">🎲</button>
@@ -2669,6 +2758,7 @@
     
     let dbPericias = {}; 
     listaPericiasBase.forEach(p => { dbPericias[p.n] = {treinado: false, bonus: 0, total: 0} });
+    let mostrarSomentePericiasTreinadas = localStorage.getItem('rpgFiltroPericiasTreinadas') === '1';
     
     let dbPericiasCustom = []; 
     let dbBonusPericias = [];
@@ -3593,6 +3683,7 @@
         if(!grid) return;
         
         grid.innerHTML = '';
+        atualizarBotaoFiltroPericias();
         
         const todasPericias = [
             ...listaPericiasBase.map(p => ({ n: p.n, a: p.a, isCustom: false })),
@@ -3600,7 +3691,21 @@
         ];
         todasPericias.sort((a, b) => a.n.localeCompare(b.n));
 
-        todasPericias.forEach(p => {
+        const periciasVisiveis = mostrarSomentePericiasTreinadas
+            ? todasPericias.filter(p => dbPericias[p.n] && dbPericias[p.n].treinado)
+            : todasPericias;
+
+        if(periciasVisiveis.length === 0) {
+            grid.innerHTML = `
+                <div class="pericias-filtro-vazio">
+                    <strong>NENHUMA PERÍCIA TREINADA</strong>
+                    <span>Marque uma perícia como treinada ou volte a mostrar a lista completa.</span>
+                    <button type="button" onclick="alternarFiltroPericiasTreinadas(false)">MOSTRAR TODAS</button>
+                </div>`;
+            return;
+        }
+
+        periciasVisiveis.forEach(p => {
             const d = dbPericias[p.n];
             if(!d) return;
             
@@ -3618,6 +3723,27 @@
                     </div>
                 </div>`;
         });
+    }
+
+    function atualizarBotaoFiltroPericias() {
+        const botao = document.getElementById('btn-filtro-pericias-treinadas');
+        if(!botao) return;
+
+        botao.classList.toggle('ativo', mostrarSomentePericiasTreinadas);
+        botao.setAttribute('aria-pressed', mostrarSomentePericiasTreinadas ? 'true' : 'false');
+        botao.innerText = mostrarSomentePericiasTreinadas ? '✓ SÓ TREINADAS' : '○ SÓ TREINADAS';
+        botao.title = mostrarSomentePericiasTreinadas
+            ? 'Mostrar todas as perícias'
+            : 'Mostrar somente as perícias treinadas';
+    }
+
+    function alternarFiltroPericiasTreinadas(estadoForcado = null) {
+        mostrarSomentePericiasTreinadas = typeof estadoForcado === 'boolean'
+            ? estadoForcado
+            : !mostrarSomentePericiasTreinadas;
+
+        localStorage.setItem('rpgFiltroPericiasTreinadas', mostrarSomentePericiasTreinadas ? '1' : '0');
+        renderizarPericias();
     }
 
     function aplicarCatalogoArmadura() {
