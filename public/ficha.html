@@ -1563,6 +1563,158 @@
             .max-box { margin-left: 0 !important; }
         }
 
+        /* PALETA FINAL: PRETO NEUTRO + TEXTOS BRANCOS/CORES VIVAS */
+        :root {
+            --ui-surface: rgba(0, 0, 0, .94);
+            --ui-surface-2: #050505;
+            --ui-surface-3: #111111;
+            --ui-line: rgba(255, 255, 255, .13);
+            --ui-line-strong: rgba(255, 255, 255, .28);
+            --ui-text: #ffffff;
+            --ui-muted: #d1d5db;
+        }
+
+        .ficha-container { background: rgba(0, 0, 0, .78) !important; }
+
+        .sheet-toolbar,
+        .header-rpg-container,
+        .tabs-nav,
+        .sidebar-atributos,
+        .temporario-module,
+        .status-module,
+        .sidebar-direita,
+        .carga-container,
+        .moedas-container,
+        .box-rpg,
+        .grimorio-section,
+        .pericia-card,
+        .arma-equipada-card,
+        .hab-category-wrapper,
+        .hab-subitem,
+        .mundo-item-recebido,
+        .companheiro-card,
+        .catalogo-magia-card,
+        .magia-card {
+            background: rgba(0, 0, 0, .88) !important;
+        }
+
+        .sheet-toolbar,
+        .header-rpg-container,
+        .status-module,
+        .defesa-box,
+        .modal-content {
+            background-image: linear-gradient(145deg, rgba(255,255,255,.035), transparent) !important;
+        }
+
+        .atributo-box,
+        .defesa-box {
+            background: #050505 !important;
+        }
+
+        .form-input,
+        .uid-especial,
+        .input-moeda,
+        .temporario-input,
+        .max-input,
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select,
+        .catalogo-magias-filtros input,
+        .catalogo-magias-filtros select {
+            background: #030303 !important;
+            color: #ffffff !important;
+        }
+
+        .pericia-card:hover,
+        .arma-equipada-card:hover,
+        .hab-category-wrapper:hover,
+        .hab-subitem:hover,
+        .mundo-item-recebido:hover,
+        .companheiro-card:hover,
+        .catalogo-magia-card:hover,
+        .magia-card:hover {
+            background: #111111 !important;
+        }
+
+        .pericia-card.treinado {
+            background: linear-gradient(145deg, rgba(13, 94, 82, .38), #030303) !important;
+        }
+
+        .modal-content,
+        #dice-result-container {
+            background: linear-gradient(145deg, #0b0b0b, #000000) !important;
+        }
+
+        #painel-regras,
+        .painel-regras-header { background: #050505 !important; }
+        ::-webkit-scrollbar-track { background: #000000 !important; }
+        ::-webkit-scrollbar-thumb { border-color: #000000 !important; background: #525252 !important; }
+
+        .section-title,
+        .list-section-title,
+        .input-wrapper label,
+        .bar-title,
+        .carga-texto,
+        .moedas-title,
+        .pericia-header,
+        .hab-category-title,
+        .grimorio-heading h3,
+        .defesa-box label,
+        .atributo-box label,
+        .atributo-box label * {
+            color: #ffffff !important;
+        }
+
+        .grimorio-heading p,
+        .companheiro-desc,
+        .placeholder-dashed { color: #d1d5db !important; }
+
+        .toast-entry {
+            background: rgba(0, 0, 0, .97) !important;
+            border-top-color: rgba(255,255,255,.28) !important;
+            border-right-color: rgba(255,255,255,.28) !important;
+            border-bottom-color: rgba(255,255,255,.28) !important;
+            color: #ffffff !important;
+        }
+        .toast-entry .log-player-name {
+            color: #ffffff !important;
+            font: 800 1rem 'Roboto', sans-serif !important;
+        }
+        .toast-entry .log-category {
+            flex-shrink: 0;
+            font-family: 'Roboto', sans-serif !important;
+            font-weight: 900;
+            white-space: nowrap;
+            filter: brightness(1.35) saturate(1.35);
+            text-shadow: 0 0 10px currentColor;
+        }
+        .toast-entry .log-roll-name {
+            margin-top: 6px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid rgba(255,255,255,.16);
+            color: #fbbf24 !important;
+            font: 900 .9rem 'Roboto', sans-serif;
+            letter-spacing: .06em;
+            text-align: left;
+            text-transform: uppercase;
+            overflow-wrap: anywhere;
+        }
+        .toast-entry .log-result {
+            filter: brightness(1.4) saturate(1.45);
+            text-shadow: 0 0 13px currentColor;
+        }
+        .toast-entry .log-details {
+            max-height: 150px;
+            margin-top: 6px;
+            padding-right: 5px;
+            overflow-y: auto;
+            color: #f3f4f6 !important;
+            font: 500 .8rem 'Roboto', sans-serif;
+            line-height: 1.45;
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+
 </style>
 </head>
 <body>
@@ -5327,7 +5479,7 @@
                     }
                 } else {
                     // Fora o desastre natural e o crítico natural/da arma, a categoria usa d20 + bônus.
-                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#607d8b"; } 
+                    if (totalSoma <= 6) { categoria = "FALHA"; corCataroria = "#fb7185"; } 
                     else if (totalSoma >= 7 && totalSoma <= 12) { categoria = "NORMAL"; corCataroria = "#2e7d32"; } 
                     else if (totalSoma >= 13 && totalSoma <= 17) { categoria = "BOM"; corCataroria = "#1976d2"; } 
                     else if (totalSoma >= 18) { categoria = "EXTREMO"; corCataroria = "#ffc107"; } 
@@ -5422,12 +5574,12 @@
 
         toast.innerHTML = `
             <div class="log-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-                <span style="flex: 1; word-break: break-word; text-align: left; line-height: 1.2; padding-right: 5px;"><strong style="font-family:'Lora', serif; font-size:1rem; color:#333;">${roll.playerName || 'Jogador'}</strong></span>
-                <span style="flex-shrink: 0; color:${color}; font-family:'Cinzel'; font-weight:900; white-space:nowrap;">${roll.categoria}</span>
+                <span style="flex: 1; word-break: break-word; text-align: left; line-height: 1.2; padding-right: 5px;"><strong class="log-player-name">${roll.playerName || 'Jogador'}</strong></span>
+                <span class="log-category" style="color:${color};">${roll.categoria}</span>
             </div>
-            <div style="font-family:'Cinzel'; font-weight:900; color:#5c3a21; font-size: 0.95rem; margin-top:5px; border-bottom:1px dashed rgba(0,0,0,0.1); padding-bottom:5px; word-wrap: break-word; word-break: break-word; text-align: left;">${roll.nomeRolagem}</div>
+            <div class="log-roll-name">${roll.nomeRolagem}</div>
             ${resultHtml}
-            <div style="font-size:0.8rem; color:#444; text-align:left; font-family:'Roboto'; font-weight:normal; max-height: 150px; overflow-y: auto; margin-top: 5px; padding-right: 5px; word-wrap: break-word; word-break: break-word;">${detalhesBR}</div>
+            <div class="log-details">${detalhesBR}</div>
         `;
         
         toast.onclick = function() {
