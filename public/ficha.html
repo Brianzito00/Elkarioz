@@ -1803,6 +1803,165 @@
             .btn-filtro-pericias { flex: 1 1 145px; }
         }
 
+        /* RECURSOS TEMPORÁRIOS DIRETO NAS BARRAS */
+        .glass-track.temporario-clicavel {
+            cursor: pointer;
+            isolation: isolate;
+        }
+
+        .glass-track.temporario-clicavel .atual-input {
+            padding-right: 72px !important;
+            cursor: text;
+        }
+
+        .temp-bar-trigger {
+            position: absolute;
+            z-index: 8;
+            top: 50%;
+            right: 5px;
+            min-width: 62px;
+            min-height: 27px;
+            padding: 4px 7px;
+            transform: translateY(-50%);
+            border: 1px solid rgba(255,255,255,.48);
+            border-radius: 999px;
+            background: rgba(0,0,0,.72);
+            color: #fff;
+            font: 900 .58rem 'Roboto', sans-serif;
+            letter-spacing: .035em;
+            cursor: pointer;
+            text-shadow: 0 1px 2px #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,.35);
+            transition: .2s ease;
+        }
+
+        .temp-bar-trigger:hover {
+            transform: translateY(-50%) scale(1.04);
+            background: #111;
+            border-color: #fff;
+        }
+
+        .temp-bar-trigger.ativo {
+            color: #fff;
+            border-color: currentColor;
+            box-shadow: 0 0 13px currentColor, 0 4px 10px rgba(0,0,0,.35);
+        }
+
+        #vida-temp-trigger.ativo { color: #fecdd3; background: rgba(159,18,57,.82); }
+        #mana-temp-trigger.ativo { color: #dbeafe; background: rgba(29,78,216,.82); }
+
+        .recurso-temp-modal { width: min(94vw, 520px) !important; }
+
+        .recurso-temp-cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 18px;
+            padding-right: 42px;
+        }
+
+        .recurso-temp-icone {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 15px;
+            color: #fff;
+            background: #111;
+            font: 900 .85rem 'Roboto', sans-serif;
+        }
+
+        .recurso-temp-cabecalho .section-title {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            text-align: left !important;
+        }
+
+        .recurso-temp-ajuda {
+            margin: -6px 0 18px;
+            color: #d1d5db !important;
+            font: 500 .8rem/1.45 'Roboto', sans-serif;
+            text-align: left;
+        }
+
+        .recurso-temp-resumo {
+            display: grid;
+            grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 13px;
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 14px;
+            background: #030303;
+        }
+
+        .recurso-temp-resumo-item {
+            min-width: 0;
+            text-align: center;
+        }
+
+        .recurso-temp-resumo-item span {
+            display: block;
+            margin-bottom: 4px;
+            color: #9ca3af;
+            font: 900 .55rem 'Roboto', sans-serif;
+            letter-spacing: .06em;
+        }
+
+        .recurso-temp-resumo-item strong {
+            display: block;
+            color: #fff;
+            font: 900 1.45rem 'Roboto', sans-serif;
+        }
+
+        .recurso-temp-operador { color: #737780; font: 900 1.25rem 'Roboto', sans-serif; }
+
+        .recurso-temp-atalhos {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: 8px;
+            margin: 10px 0 16px;
+        }
+
+        .recurso-temp-atalhos button {
+            min-height: 38px;
+            border: 1px solid rgba(124,92,255,.48);
+            border-radius: 10px;
+            background: rgba(124,92,255,.13);
+            color: #ddd6fe;
+            font: 900 .75rem 'Roboto', sans-serif;
+            cursor: pointer;
+        }
+
+        .recurso-temp-atalhos button:hover { color: #fff; background: rgba(124,92,255,.25); }
+
+        .recurso-temp-acoes { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 9px; }
+
+        .btn-limpar-temporario {
+            min-height: 44px;
+            padding: 9px 13px;
+            border: 1px solid rgba(251,113,133,.42);
+            border-radius: 11px;
+            background: rgba(159,18,57,.18);
+            color: #fecdd3;
+            font: 900 .68rem 'Roboto', sans-serif;
+            cursor: pointer;
+        }
+
+        .btn-limpar-temporario:hover { background: rgba(159,18,57,.32); }
+
+        @media (max-width: 430px) {
+            .glass-track.temporario-clicavel .atual-input { padding-right: 65px !important; }
+            .temp-bar-trigger { min-width: 56px; padding-inline: 5px; font-size: .52rem; }
+            .recurso-temp-resumo { gap: 5px; padding: 10px 7px; }
+            .recurso-temp-resumo-item strong { font-size: 1.2rem; }
+            .recurso-temp-acoes { grid-template-columns: minmax(0,1fr); }
+        }
+
 </style>
 </head>
 <body>
@@ -1950,31 +2109,8 @@
 
             <div class="conteudo-principal">
 
-                <div class="temporarios-container" aria-label="Vida e mana temporárias">
-                    <div class="temporario-module vida-temporaria">
-                        <div class="temporario-icon">+PV</div>
-                        <div class="temporario-conteudo">
-                            <label class="temporario-titulo" for="vida-temporaria">VIDA TEMPORÁRIA</label>
-                            <div class="temporario-controle">
-                                <button type="button" class="btn-status" onclick="alterarStatus('vida-temporaria', -1)" aria-label="Diminuir vida temporária">−</button>
-                                <input type="number" id="vida-temporaria" class="temporario-input" min="0" value="0" oninput="atualizarBarras()">
-                                <button type="button" class="btn-status" onclick="alterarStatus('vida-temporaria', 1)" aria-label="Aumentar vida temporária">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="temporario-module mana-temporaria">
-                        <div class="temporario-icon">+PM</div>
-                        <div class="temporario-conteudo">
-                            <label class="temporario-titulo" for="mana-temporaria">MANA TEMPORÁRIA</label>
-                            <div class="temporario-controle">
-                                <button type="button" class="btn-status" onclick="alterarStatus('mana-temporaria', -1)" aria-label="Diminuir mana temporária">−</button>
-                                <input type="number" id="mana-temporaria" class="temporario-input" min="0" value="0" oninput="atualizarBarras()">
-                                <button type="button" class="btn-status" onclick="alterarStatus('mana-temporaria', 1)" aria-label="Aumentar mana temporária">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <input type="hidden" id="vida-temporaria" value="0">
+                <input type="hidden" id="mana-temporaria" value="0">
 
                 <div class="status-container">
                     <div class="status-module">
@@ -1983,9 +2119,10 @@
                             <span class="bar-title">PONTOS DE VIDA</span>
                             <div class="bar-capsule">
                                 <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
-                                <div class="glass-track">
+                                <div class="glass-track temporario-clicavel" onclick="abrirTemporarioAoClicarBarra(event, 'vida')" title="Clique na barra para adicionar vida temporária">
                                     <div id="vida-fill" class="liquid-fill vida-color"></div>
                                     <input type="number" id="vida-atual" value="10" class="atual-input" oninput="atualizarBarras()">
+                                    <button type="button" class="temp-bar-trigger" id="vida-temp-trigger" onclick="abrirModalRecursoTemporario('vida')" title="Adicionar vida temporária">+ TEMP</button>
                                 </div>
                                 <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="vida-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
@@ -1999,9 +2136,10 @@
                             <span class="bar-title">PONTOS DE MANA</span>
                             <div class="bar-capsule">
                                 <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
-                                <div class="glass-track">
+                                <div class="glass-track temporario-clicavel" onclick="abrirTemporarioAoClicarBarra(event, 'mana')" title="Clique na barra para adicionar mana temporária">
                                     <div id="mana-fill" class="liquid-fill mana-color"></div>
                                     <input type="number" id="mana-atual" value="10" class="atual-input" oninput="atualizarBarras()">
+                                    <button type="button" class="temp-bar-trigger" id="mana-temp-trigger" onclick="abrirModalRecursoTemporario('mana')" title="Adicionar mana temporária">+ TEMP</button>
                                 </div>
                                 <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="mana-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
@@ -2346,6 +2484,52 @@
         <div style="text-align:center; font-weight:900; margin-top:25px; margin-bottom:15px; font-size:1.4rem; font-family:'Cinzel'; color:#5c3a21; border-top:2px dashed rgba(139,90,43,0.4); padding-top:15px;">TOTAL A ROLAR: <span id="mp-total" style="color:#b71c1c; font-size:2rem; margin-left:10px;">0</span></div>
         <button type="button" class="btn-acao green" style="width:100%; padding: 15px; margin-bottom: 10px;" onclick="fecharModais()">✔️ CONCLUÍDO</button>
         <button type="button" class="btn-acao red" id="btn-remover-pericia" style="display:none; width:100%; padding: 15px;" onclick="removerPericiaAberta()">🗑️ REMOVER PERÍCIA CUSTOMIZADA</button>
+    </div>
+</div>
+
+<div id="modal-recurso-temporario" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content recurso-temp-modal" onclick="event.stopPropagation()">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+
+        <div class="recurso-temp-cabecalho">
+            <div class="recurso-temp-icone" id="recurso-temp-icone">+PV</div>
+            <h3 class="section-title" id="recurso-temp-titulo">ADICIONAR VIDA TEMPORÁRIA</h3>
+        </div>
+
+        <p class="recurso-temp-ajuda" id="recurso-temp-ajuda">O valor será somado aos seus pontos atuais e continuará identificado como temporário para ser consumido primeiro.</p>
+
+        <div class="recurso-temp-resumo" aria-label="Resumo do recurso temporário">
+            <div class="recurso-temp-resumo-item">
+                <span id="recurso-temp-base-label">VIDA NORMAL</span>
+                <strong id="recurso-temp-base">0</strong>
+            </div>
+            <div class="recurso-temp-operador">+</div>
+            <div class="recurso-temp-resumo-item">
+                <span>TEMPORÁRIO</span>
+                <strong id="recurso-temp-existente">0</strong>
+            </div>
+            <div class="recurso-temp-operador">=</div>
+            <div class="recurso-temp-resumo-item">
+                <span>DISPONÍVEL</span>
+                <strong id="recurso-temp-total">0</strong>
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <label for="recurso-temp-valor">QUANTO DESEJA ADICIONAR?</label>
+            <input type="number" id="recurso-temp-valor" class="form-input" min="1" max="9999" step="1" value="1" inputmode="numeric" oninput="atualizarResumoRecursoTemporario()" style="text-align:center; font-size:1.35rem;">
+        </div>
+
+        <div class="recurso-temp-atalhos" aria-label="Valores rápidos">
+            <button type="button" onclick="selecionarQuantidadeRecursoTemporario(1)">+1</button>
+            <button type="button" onclick="selecionarQuantidadeRecursoTemporario(5)">+5</button>
+            <button type="button" onclick="selecionarQuantidadeRecursoTemporario(10)">+10</button>
+        </div>
+
+        <div class="recurso-temp-acoes">
+            <button type="button" class="btn-acao green" id="btn-adicionar-recurso-temporario" onclick="adicionarRecursoTemporario()">+ SOMAR VIDA TEMPORÁRIA</button>
+            <button type="button" class="btn-limpar-temporario" onclick="zerarRecursoTemporario()">ZERAR TEMPORÁRIO</button>
+        </div>
     </div>
 </div>
 
@@ -2778,6 +2962,7 @@
     let editandoItemId = null; // Controle de edição de Habilidades/Magias
     let editandoInventarioId = null; // Controle de edição de itens do inventário
     let periciaAbertaNome = null;
+    let recursoTemporarioAberto = null;
     let abaItemAtual = 'comum';
     let tempImgBase64 = "";
     let animacaoGiro = null;
@@ -2922,6 +3107,7 @@
             classe: document.getElementById('classe-input').value || 'Aventureiro',
             nivel: parseInt(document.getElementById('nivel').value) || 1,
             modoCombate: modoCombateAtivo,
+            recursosTemporariosSomados: true,
             hpAtual: getValor('vida-atual'),
             hpMax: getValor('vida-max'),
             hpTemporario: getValor('vida-temporaria'),
@@ -2977,12 +3163,22 @@
             document.getElementById('sabedoria').value = j.attr ? j.attr.sab : (j.sabedoria || 0);
             document.getElementById('carisma').value = j.attr ? j.attr.car : (j.carisma || 0);
             
+            const vidaTemporariaCarregada = Math.max(0, parseFloat(j.hpTemporario ?? j.vidaTemporaria ?? 0) || 0);
+            const manaTemporariaCarregada = Math.max(0, parseFloat(j.mpTemporario ?? j.manaTemporaria ?? 0) || 0);
+            const recursosJaSomados = j.recursosTemporariosSomados === true;
+
             document.getElementById('vida-atual').value = j.hpAtual ?? 10;
             document.getElementById('vida-max').value = j.hpMax ?? 10;
-            document.getElementById('vida-temporaria').value = Math.max(0, j.hpTemporario ?? j.vidaTemporaria ?? 0);
+            document.getElementById('vida-temporaria').value = vidaTemporariaCarregada;
             document.getElementById('mana-atual').value = j.mpAtual ?? 10;
             document.getElementById('mana-max').value = j.mpMax ?? 10;
-            document.getElementById('mana-temporaria').value = Math.max(0, j.mpTemporario ?? j.manaTemporaria ?? 0);
+            document.getElementById('mana-temporaria').value = manaTemporariaCarregada;
+            if (!recursosJaSomados) {
+                const vidaAtualCarregada = parseFloat(document.getElementById('vida-atual').value) || 0;
+                const manaAtualCarregada = parseFloat(document.getElementById('mana-atual').value) || 0;
+                document.getElementById('vida-atual').value = vidaAtualCarregada + vidaTemporariaCarregada;
+                document.getElementById('mana-atual').value = manaAtualCarregada + manaTemporariaCarregada;
+            }
             document.getElementById('moedas-atual').value = j.moedas ?? 0;
 
             const retratoNormalSalvo = typeof j.imgNormal === 'string' ? j.imgNormal : (typeof j.img === 'string' ? j.img : '');
@@ -3033,6 +3229,7 @@
             divindade: document.getElementById('divindade-input').value,
             nivel: document.getElementById('nivel').value,
             modoCombate: modoCombateAtivo,
+            recursosTemporariosSomados: true,
             defesa: getValor('defesa-personagem') || 0,
             forca: getValor('forca'), agilidade: getValor('agilidade'), vigor: getValor('vigor'), 
             intelecto: getValor('intelecto'), sabedoria: getValor('sabedoria'), carisma: getValor('carisma'),
@@ -3530,8 +3727,129 @@
         let vA = getValor('vida-atual'), vM = getValor('vida-max'), mA = getValor('mana-atual'), mM = getValor('mana-max');
         document.getElementById('vida-fill').style.width = Math.min((vA/(vM||1))*100, 100) + '%';
         document.getElementById('mana-fill').style.width = Math.min((mA/(mM||1))*100, 100) + '%';
+
+        const vidaTemporaria = Math.max(0, getValor('vida-temporaria'));
+        const manaTemporaria = Math.max(0, getValor('mana-temporaria'));
+        atualizarIndicadorTemporario('vida-temp-trigger', vidaTemporaria, 'vida');
+        atualizarIndicadorTemporario('mana-temp-trigger', manaTemporaria, 'mana');
+
+        if(document.getElementById('modal-recurso-temporario')?.style.display === 'flex') {
+            atualizarResumoRecursoTemporario();
+        }
         atualizarEstadoRetratoVisual();
         sincronizarComMestre();
+    }
+
+    function atualizarIndicadorTemporario(idBotao, valor, tipo) {
+        const botao = document.getElementById(idBotao);
+        if(!botao) return;
+
+        const sigla = tipo === 'vida' ? 'PV' : 'PM';
+        botao.classList.toggle('ativo', valor > 0);
+        botao.innerText = valor > 0 ? `+${valor} TEMP` : '+ TEMP';
+        botao.title = valor > 0
+            ? `${valor} ${sigla} temporários ativos. Clique para adicionar ou zerar.`
+            : `Adicionar ${sigla} temporários`;
+        botao.setAttribute('aria-label', botao.title);
+    }
+
+    function obterConfigRecursoTemporario(tipo = recursoTemporarioAberto) {
+        if(tipo === 'mana') {
+            return {
+                tipo: 'mana',
+                atualId: 'mana-atual',
+                temporarioId: 'mana-temporaria',
+                sigla: 'PM',
+                nome: 'MANA',
+                cor: '#60a5fa'
+            };
+        }
+
+        return {
+            tipo: 'vida',
+            atualId: 'vida-atual',
+            temporarioId: 'vida-temporaria',
+            sigla: 'PV',
+            nome: 'VIDA',
+            cor: '#fb7185'
+        };
+    }
+
+    function abrirModalRecursoTemporario(tipo) {
+        recursoTemporarioAberto = tipo === 'mana' ? 'mana' : 'vida';
+        const config = obterConfigRecursoTemporario();
+
+        const icone = document.getElementById('recurso-temp-icone');
+        icone.innerText = `+${config.sigla}`;
+        icone.style.color = config.cor;
+        icone.style.borderColor = config.cor;
+        icone.style.boxShadow = `0 0 18px ${config.cor}33`;
+
+        document.getElementById('recurso-temp-titulo').innerText = `ADICIONAR ${config.nome} TEMPORÁRIA`;
+        document.getElementById('recurso-temp-base-label').innerText = `${config.nome} NORMAL`;
+        document.getElementById('btn-adicionar-recurso-temporario').innerText = `+ SOMAR ${config.nome} TEMPORÁRIA`;
+
+        const input = document.getElementById('recurso-temp-valor');
+        input.value = 1;
+        atualizarResumoRecursoTemporario();
+        document.getElementById('modal-recurso-temporario').style.display = 'flex';
+        setTimeout(() => input.select(), 0);
+    }
+
+    function abrirTemporarioAoClicarBarra(event, tipo) {
+        if(event.target.closest('input, button')) return;
+        abrirModalRecursoTemporario(tipo);
+    }
+
+    function selecionarQuantidadeRecursoTemporario(valor) {
+        const input = document.getElementById('recurso-temp-valor');
+        input.value = valor;
+        atualizarResumoRecursoTemporario();
+        input.focus();
+    }
+
+    function atualizarResumoRecursoTemporario() {
+        if(!recursoTemporarioAberto) return;
+        const config = obterConfigRecursoTemporario();
+        const temporario = Math.max(0, getValor(config.temporarioId));
+        const totalAtual = getValor(config.atualId);
+        const valorBase = totalAtual - temporario;
+        const quantidade = Math.max(0, parseInt(document.getElementById('recurso-temp-valor')?.value) || 0);
+
+        document.getElementById('recurso-temp-base').innerText = valorBase;
+        document.getElementById('recurso-temp-existente').innerText = temporario + quantidade;
+        document.getElementById('recurso-temp-total').innerText = totalAtual + quantidade;
+    }
+
+    function adicionarRecursoTemporario() {
+        if(!recursoTemporarioAberto) return;
+        const config = obterConfigRecursoTemporario();
+        const quantidade = Math.min(9999, Math.max(0, parseInt(document.getElementById('recurso-temp-valor').value) || 0));
+        if(quantidade <= 0) return alert('Informe uma quantidade maior que zero.');
+
+        const inputAtual = document.getElementById(config.atualId);
+        const inputTemporario = document.getElementById(config.temporarioId);
+        inputAtual.value = (parseInt(inputAtual.value) || 0) + quantidade;
+        inputTemporario.value = (parseInt(inputTemporario.value) || 0) + quantidade;
+
+        atualizarBarras();
+        salvarFichaLocal();
+        fecharModais();
+    }
+
+    function zerarRecursoTemporario() {
+        if(!recursoTemporarioAberto) return;
+        const config = obterConfigRecursoTemporario();
+        const inputAtual = document.getElementById(config.atualId);
+        const inputTemporario = document.getElementById(config.temporarioId);
+        const temporario = Math.max(0, parseInt(inputTemporario.value) || 0);
+
+        inputAtual.value = (parseInt(inputAtual.value) || 0) - temporario;
+        inputTemporario.value = 0;
+
+        atualizarBarras();
+        salvarFichaLocal();
+        fecharModais();
     }
 
     function alterarStatus(id, delta) { 
@@ -3542,10 +3860,11 @@
             ? document.getElementById('vida-temporaria')
             : (id === 'mana-atual' ? document.getElementById('mana-temporaria') : null);
         if(delta < 0 && temporarioRelacionado && (parseInt(temporarioRelacionado.value) || 0) > 0) {
-            temporarioRelacionado.value = Math.max(0, (parseInt(temporarioRelacionado.value) || 0) + delta);
-        } else {
-            input.value = (parseInt(input.value) || 0) + delta;
+            const temporarioAtual = parseInt(temporarioRelacionado.value) || 0;
+            const consumoTemporario = Math.min(temporarioAtual, Math.abs(delta));
+            temporarioRelacionado.value = temporarioAtual - consumoTemporario;
         }
+        input.value = (parseInt(input.value) || 0) + delta;
 
         if (['moedas-atual', 'vida-temporaria', 'mana-temporaria'].includes(id) && parseInt(input.value) < 0) input.value = 0;
         atualizarBarras(); 
@@ -3565,11 +3884,12 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-catalogo-magias', 'modal-companheiro', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-recurso-temporario', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-catalogo-magias', 'modal-companheiro', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
         });
+        recursoTemporarioAberto = null;
     }
 
     function fecharModalVisualizacao() {
@@ -5118,7 +5438,7 @@
         const manaTemporariaInput = document.getElementById('mana-temporaria');
         const manaAtual = Math.max(0, parseInt(manaInput?.value) || 0);
         const manaTemporaria = Math.max(0, parseInt(manaTemporariaInput?.value) || 0);
-        const manaDisponivel = manaAtual + manaTemporaria;
+        const manaDisponivel = manaAtual;
         if(manaDisponivel < custo) {
             alert(`PM insuficientes para conjurar ${magia.nome}.\nCusto: ${custo} PM | Disponível: ${manaDisponivel} PM.`);
             return false;
@@ -5126,7 +5446,7 @@
 
         const gastoTemporario = Math.min(manaTemporaria, custo);
         if(manaTemporariaInput) manaTemporariaInput.value = manaTemporaria - gastoTemporario;
-        manaInput.value = manaAtual - (custo - gastoTemporario);
+        manaInput.value = manaAtual - custo;
         atualizarBarras();
         salvarFichaLocal();
         return true;
