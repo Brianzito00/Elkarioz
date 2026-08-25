@@ -1810,41 +1810,54 @@
         }
 
         .glass-track.temporario-clicavel .atual-input {
-            padding-right: 72px !important;
             cursor: text;
         }
 
+        .bar-heading {
+            width: 100%;
+            min-height: 20px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .bar-heading .bar-title {
+            margin: 0 !important;
+            line-height: 1;
+            text-align: center;
+        }
+
         .temp-bar-trigger {
-            position: absolute;
-            z-index: 8;
-            top: 50%;
-            right: 5px;
-            min-width: 62px;
-            min-height: 27px;
-            padding: 4px 7px;
-            transform: translateY(-50%);
-            border: 1px solid rgba(255,255,255,.48);
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            border: 1px solid rgba(255,255,255,.22);
             border-radius: 999px;
-            background: rgba(0,0,0,.72);
-            color: #fff;
-            font: 900 .58rem 'Roboto', sans-serif;
-            letter-spacing: .035em;
+            background: rgba(255,255,255,.06);
+            color: rgba(255,255,255,.78);
+            font: 900 .62rem 'Roboto', sans-serif;
             cursor: pointer;
-            text-shadow: 0 1px 2px #000;
-            box-shadow: 0 4px 10px rgba(0,0,0,.35);
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
             transition: .2s ease;
         }
 
         .temp-bar-trigger:hover {
-            transform: translateY(-50%) scale(1.04);
-            background: #111;
-            border-color: #fff;
+            transform: translateY(-1px);
+            background: rgba(255,255,255,.13);
+            border-color: rgba(255,255,255,.55);
+            color: #fff;
         }
 
         .temp-bar-trigger.ativo {
             color: #fff;
             border-color: currentColor;
-            box-shadow: 0 0 13px currentColor, 0 4px 10px rgba(0,0,0,.35);
+            box-shadow: 0 0 8px currentColor;
         }
 
         #vida-temp-trigger.ativo { color: #fecdd3; background: rgba(159,18,57,.82); }
@@ -1955,8 +1968,8 @@
         .btn-limpar-temporario:hover { background: rgba(159,18,57,.32); }
 
         @media (max-width: 430px) {
-            .glass-track.temporario-clicavel .atual-input { padding-right: 65px !important; }
-            .temp-bar-trigger { min-width: 56px; padding-inline: 5px; font-size: .52rem; }
+            .bar-heading { margin-bottom: 5px; }
+            .temp-bar-trigger { min-width: 18px; height: 18px; padding-inline: 4px; font-size: .56rem; }
             .recurso-temp-resumo { gap: 5px; padding: 10px 7px; }
             .recurso-temp-resumo-item strong { font-size: 1.2rem; }
             .recurso-temp-acoes { grid-template-columns: minmax(0,1fr); }
@@ -2116,13 +2129,15 @@
                     <div class="status-module">
                         <div class="circle-icon">PV</div>
                         <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE VIDA</span>
+                            <div class="bar-heading">
+                                <span class="bar-title">PONTOS DE VIDA</span>
+                                <button type="button" class="temp-bar-trigger" id="vida-temp-trigger" onclick="abrirModalRecursoTemporario('vida')" title="Adicionar vida temporária">+</button>
+                            </div>
                             <div class="bar-capsule">
                                 <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', -1)">-</button>
                                 <div class="glass-track temporario-clicavel" onclick="abrirTemporarioAoClicarBarra(event, 'vida')" title="Clique na barra para adicionar vida temporária">
                                     <div id="vida-fill" class="liquid-fill vida-color"></div>
                                     <input type="number" id="vida-atual" value="10" class="atual-input" oninput="atualizarBarras()">
-                                    <button type="button" class="temp-bar-trigger" id="vida-temp-trigger" onclick="abrirModalRecursoTemporario('vida')" title="Adicionar vida temporária">+ TEMP</button>
                                 </div>
                                 <button type="button" class="btn-status" onclick="alterarStatus('vida-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="vida-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
@@ -2133,13 +2148,15 @@
                     <div class="status-module">
                         <div class="circle-icon">PM</div>
                         <div class="bar-wrapper">
-                            <span class="bar-title">PONTOS DE MANA</span>
+                            <div class="bar-heading">
+                                <span class="bar-title">PONTOS DE MANA</span>
+                                <button type="button" class="temp-bar-trigger" id="mana-temp-trigger" onclick="abrirModalRecursoTemporario('mana')" title="Adicionar mana temporária">+</button>
+                            </div>
                             <div class="bar-capsule">
                                 <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', -1)">-</button>
                                 <div class="glass-track temporario-clicavel" onclick="abrirTemporarioAoClicarBarra(event, 'mana')" title="Clique na barra para adicionar mana temporária">
                                     <div id="mana-fill" class="liquid-fill mana-color"></div>
                                     <input type="number" id="mana-atual" value="10" class="atual-input" oninput="atualizarBarras()">
-                                    <button type="button" class="temp-bar-trigger" id="mana-temp-trigger" onclick="abrirModalRecursoTemporario('mana')" title="Adicionar mana temporária">+ TEMP</button>
                                 </div>
                                 <button type="button" class="btn-status" onclick="alterarStatus('mana-atual', 1)">+</button>
                                 <div class="max-box"><label>MÁX</label><input type="number" id="mana-max" value="10" class="max-input" oninput="atualizarBarras()"></div>
@@ -3746,7 +3763,7 @@
 
         const sigla = tipo === 'vida' ? 'PV' : 'PM';
         botao.classList.toggle('ativo', valor > 0);
-        botao.innerText = valor > 0 ? `+${valor} TEMP` : '+ TEMP';
+        botao.innerText = valor > 0 ? `+${valor}` : '+';
         botao.title = valor > 0
             ? `${valor} ${sigla} temporários ativos. Clique para adicionar ou zerar.`
             : `Adicionar ${sigla} temporários`;
