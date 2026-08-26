@@ -3450,6 +3450,10 @@
 
         const entidade = payload.entidade;
         const tipo = normalizarTipoMundo(entidade.tipoLista || entidade.tipo);
+        if (['inventario', 'item', 'arma', 'objeto'].includes(tipo)) {
+            if (!entidade.dados || typeof entidade.dados !== 'object') return false;
+            return receberItemInventarioMestre(entidade.dados);
+        }
         if (!['guilda', 'local', 'pessoa', 'historia'].includes(tipo)) return false;
         if (!entidade.dados || typeof entidade.dados !== 'object') return false;
 
@@ -3473,6 +3477,40 @@
         const icones = { historia: '📖', guilda: '🛡️', local: '📍', pessoa: '👤' };
         const nomes = { historia: 'História', guilda: 'Guilda', local: 'Local', pessoa: 'NPC' };
         alert(`${icones[tipo]} ${nomes[tipo]} recebido(a) do Mestre! Verifique a aba GUILDAS / NPCs / LOCAIS.`);
+        return true;
+    }
+
+    function receberItemInventarioMestre(dadosOriginais) {
+        const copia = migrarItemInventarioAntigo(JSON.parse(JSON.stringify(dadosOriginais || {})));
+        const tiposPermitidos = ['comum', 'corpo', 'dist', 'municao', 'armadura'];
+        copia.tipo = tiposPermitidos.includes(copia.tipo) ? copia.tipo : 'comum';
+        copia.origemMestreId = copia.origemMestreId ?? copia.id ?? null;
+
+        let novoId = Date.now();
+        while(dbInventario.some(item => String(item.id) === String(novoId))) novoId++;
+
+        copia.id = novoId;
+        copia.nome = String(copia.nome || 'Item recebido do Mestre').trim() || 'Item recebido do Mestre';
+        copia.peso = Math.max(0, parseFloat(copia.peso) || 0);
+        copia.raridade = copia.raridade || 'Normal';
+        copia.desc = limparDescricaoInventario(copia.desc || '');
+        copia.equipado = false;
+        copia.crit = copia.crit || '20/x2';
+
+        if(copia.tipo === 'corpo' && !copia.periciaLink) copia.periciaLink = 'Luta';
+        if(copia.tipo === 'dist') {
+            if(!copia.periciaLink) copia.periciaLink = 'Pontaria';
+            copia.munMax = Math.max(0, parseInt(copia.munMax) || 0);
+            copia.munAtual = copia.munMax;
+        }
+
+        dbInventario.push(copia);
+        recalcularTudo();
+        renderizarListas();
+        salvarFichaLocal();
+
+        const icone = copia.tipo === 'corpo' ? '⚔️' : (copia.tipo === 'dist' ? '🏹' : '🎒');
+        alert(`${icone} ${copia.nome} foi recebido(a) do Mestre e adicionado(a) ao seu Inventário!`);
         return true;
     }
 
