@@ -178,18 +178,33 @@
             width: auto;
             max-width: 260px;
             font-family: 'Cinzel', serif;
-            font-size: 2.15rem;
             font-weight: 900;
-            line-height: 0.95;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
             white-space: normal;
             overflow-wrap: anywhere;
             text-align: left;
             -webkit-text-stroke: 0.4px rgba(15, 18, 28, 0.75);
             text-shadow: 0 2px 3px rgba(0,0,0,0.8), 0 0 3px rgba(255,255,255,0.35);
             transform: rotate(-3deg);
+        }
+
+        .char-name-primary,
+        .char-name-secondary { display: block; }
+
+        .char-name-primary {
+            font-size: 2.15rem;
+            line-height: .92;
+            letter-spacing: 1px;
+        }
+
+        .char-name-secondary {
+            margin-top: 5px;
+            padding-left: 3px;
+            font-size: 1.68rem;
+            line-height: .94;
+            letter-spacing: .75px;
+            color: rgba(255,255,255,.92);
         }
 
         .combat-stats {
@@ -321,7 +336,8 @@
             .avatar-box { width: 140px; height: 140px; }
             .bars-container { width: calc(100% - 116px); margin-left: -24px; }
             .top-bar { height: 100px; padding-left: 28px; }
-            .char-name { font-size: 1.65rem; }
+            .char-name-primary { font-size: 1.65rem; }
+            .char-name-secondary { margin-top: 4px; font-size: 1.28rem; }
             .combat-number { font-size: 2.1rem; }
             .turn-indicator { left: 138px; }
         }
@@ -504,6 +520,7 @@
             const p = item.dados;
             const uid = item.uid;
             const nome = String(p.charName || 'Sem nome');
+            const partesNome = separarNomePersonagem(nome);
             const imagem = p.img && String(p.img).trim() ? String(p.img) : 'https://via.placeholder.com/150';
             const modoCombate = p.modoCombate === true || p.modoCombate === 'true';
             const personagemDaVez = Boolean(
@@ -526,7 +543,10 @@
                     <div class="bars-container">
                         <div class="bar-row top-bar">
                             <div class="identity-block${modoCombate ? ' hidden' : ''}">
-                                <span class="char-name">${escapeHtml(nome)}</span>
+                                <span class="char-name">
+                                    <span class="char-name-primary">${escapeHtml(partesNome.primeiro)}</span>
+                                    ${partesNome.restante ? `<span class="char-name-secondary">${escapeHtml(partesNome.restante)}</span>` : ''}
+                                </span>
                             </div>
                             <div class="combat-stats${modoCombate ? ' active' : ''}" aria-label="Vida e mana de ${escapeHtml(nome)}">
                                 <span class="combat-number hp">${hpAtual}/${hpMax}</span>
@@ -535,6 +555,14 @@
                         </div>
                     </div>
                 </article>`;
+        }
+
+        function separarNomePersonagem(nomeCompleto) {
+            const partes = String(nomeCompleto || 'Sem nome').trim().split(/\s+/).filter(Boolean);
+            return {
+                primeiro: partes.shift() || 'Sem nome',
+                restante: partes.join(' ')
+            };
         }
 
         function escapeHtml(valor) {
