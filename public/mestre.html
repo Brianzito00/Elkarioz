@@ -1011,6 +1011,42 @@
 
         .btn-atq-monstro { border-color: rgba(255,255,255,.14); border-radius: 8px; }
 
+        .monstro-ataque-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+            padding: 5px 0 9px;
+            border-bottom: 1px solid var(--gm-border);
+        }
+
+        .monstro-ataque-item:last-child { margin-bottom: 0; border-bottom: 0; }
+
+        .monstro-ataque-nome {
+            min-width: 0;
+            flex: 1;
+            color: var(--gm-text);
+            font: 800 .82rem/1.25 'Lora', serif;
+        }
+
+        .monstro-ataque-acoes { display: flex; flex-shrink: 0; gap: 6px; }
+
+        .monstro-info-extra,
+        .monstro-enigma-texto {
+            margin-top: 9px;
+            padding: 9px 10px;
+            color: var(--gm-text);
+            background: #09090b;
+            border: 1px solid var(--gm-border);
+            border-radius: 9px;
+            font: 600 .76rem/1.45 'Roboto', sans-serif;
+        }
+
+        .monstro-info-extra b { color: var(--gm-cyan); }
+        .monstro-enigma-texto { margin-top: 0; color: #d8d9df; font-style: italic; border-left: 3px solid var(--gm-purple); }
+        .monstro-detalhes .monstro-skill-btn { background: #0b0b0d !important; }
+
         #lista-iniciativa { gap: 8px; }
 
         .ini-row {
@@ -1317,6 +1353,8 @@
             .monstro-resumo { grid-template-columns: 34px minmax(0, 1fr) 18px; min-height: 60px; padding: 9px; }
             .monstro-resumo-icone { width: 34px; height: 34px; }
             .monstro-resumo-indicadores { display: none; }
+            .monstro-ataque-item { align-items: stretch; flex-direction: column; }
+            .monstro-ataque-acoes > .btn-atq-monstro { flex: 1; justify-content: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1807,10 +1845,12 @@
                 let bAtq = a.bonus || 0;
                 let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
                 return `
-                <div style="display:flex; gap:5px; margin-bottom:6px; align-items:center;">
-                    <div style="flex:1.5; font-family:'Lora'; font-size:0.8rem; font-weight:bold; color:#3e2723; line-height:1.1;">${a.nome}</div>
-                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; flex:1; justify-content:center; background:#b71c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
-                    <button class="btn-atq-monstro" style="margin:0; padding:6px 0; background:#5c3a21; flex:1; justify-content:center;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                <div class="monstro-ataque-item">
+                    <div class="monstro-ataque-nome">${a.nome}</div>
+                    <div class="monstro-ataque-acoes">
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 9px; justify-content:center; background:#b91c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 9px; justify-content:center; background:#6d28d9;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                    </div>
                 </div>`;
             }).join('')}</div>` : '';
 
@@ -2202,11 +2242,11 @@
                 let bStr = bAtq >= 0 ? '+' + bAtq : bAtq;
                 
                 return `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(139,90,43,0.1); padding-bottom:6px;">
-                    <div style="font-family:'Lora'; font-size:0.9rem; font-weight:bold; color:#3e2723; line-height:1.2; flex:1;">${a.nome}</div>
-                    <div style="display:flex; gap:6px; flex-shrink:0;">
-                        <button class="btn-atq-monstro" style="margin:0; padding:6px 12px; background:#b71c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
-                        <button class="btn-atq-monstro" style="margin:0; padding:6px 12px; background:#5c3a21;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
+                <div class="monstro-ataque-item">
+                    <div class="monstro-ataque-nome">${a.nome}</div>
+                    <div class="monstro-ataque-acoes">
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 10px; background:#b91c1c;" onclick="rolarAtaqueArmaGM('${safeNome}', '${safeAtqNome}', ${bAtq}, '${safeDano}', '${safeCrit}')">🎲 ATQ ${bStr}</button>
+                        <button class="btn-atq-monstro" style="margin:0; padding:6px 10px; background:#6d28d9;" onclick="rolarDanoGM('${safeNome}: ${safeAtqNome}', '${safeDano}', 0)">⚔️ ${a.dano}</button>
                     </div>
                 </div>`;
             }).join('')}</div>` : '';
@@ -2227,15 +2267,15 @@
             }).join('')}</div>` : '';
             
             let extraInfos = []; if(m.mov) extraInfos.push(`<b>MOV:</b> ${m.mov}`); if(m.imun) extraInfos.push(`<b>Imune:</b> ${m.imun}`); if(m.vuln) extraInfos.push(`<b>Vuln:</b> ${m.vuln}`);
-            let infoSecao = extraInfos.length > 0 ? `<div style="font-size:0.8rem; font-family:'Roboto'; color:#5c3a21; margin-top:8px; background: rgba(255,255,255,0.4); padding: 6px; border-radius: 4px; border: 1px dashed rgba(139,90,43,0.3);">${extraInfos.join(' | ')}</div>` : '';
-            let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">📖 Enigma / Lore</span><div style="font-size:0.8rem; font-style:italic; color:#5c3a21; background: rgba(255,255,255,0.4); padding: 8px; border-radius: 4px; border-left: 3px solid #5c3a21;">${m.enigma}</div></div>` : '';
+            let infoSecao = extraInfos.length > 0 ? `<div class="monstro-info-extra">${extraInfos.join(' | ')}</div>` : '';
+            let enigmaSecao = m.enigma ? `<div class="monstro-secao"><span class="monstro-secao-titulo">📖 Enigma / Lore</span><div class="monstro-enigma-texto">${m.enigma}</div></div>` : '';
             
             let periciasHtml = `<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 12px;">
                 <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Iniciativa)', ${m.attr.des}, true)">⏱️ Inic. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
                 <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Luta)', ${m.attr.for})">⚔️ Luta ${m.attr.for>=0?'+':''}${m.attr.for}</button>
                 <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Fortitude)', ${m.attr.con})">🛡️ Fort. ${m.attr.con>=0?'+':''}${m.attr.con}</button>
                 <button class="monstro-skill-btn" onclick="rolarDadoMonstro('${safeNome} (Reflexos)', ${m.attr.des})">⚡ Refl. ${m.attr.des>=0?'+':''}${m.attr.des}</button>
-                <button class="monstro-skill-btn" style="grid-column: 1 / -1; background: rgba(255,255,255,0.5);" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vontade ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
+                <button class="monstro-skill-btn" style="grid-column: 1 / -1;" onclick="rolarDadoMonstro('${safeNome} (Vontade)', ${m.attr.sab})">🧠 Vontade ${m.attr.sab>=0?'+':''}${m.attr.sab}</button>
             </div>`;
 
             let isAtivoClass = m.naMesa ? 'ativo' : '';
@@ -2255,7 +2295,7 @@
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-right:50px; margin-bottom: 12px;">
                     <div style="display:flex; flex-direction:column; gap:4px;">
-                        <h3 class="player-name" style="font-size:1.3rem; margin:0; color:#3e2723;">${m.nome}</h3>
+                        <h3 class="player-name" style="font-size:1.3rem; margin:0;">${m.nome}</h3>
                         <label class="toggle-fixar ${isAtivoClass}">
                             <input type="checkbox" ${m.naMesa ? 'checked' : ''} onchange="toggleMonstroMesa(${m.id}, this.checked)"> 
                             ${m.naMesa ? '📌 NA MESA' : '📌 FIXAR NA MESA'}
