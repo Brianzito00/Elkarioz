@@ -1484,6 +1484,174 @@
 
         #players-container > .player-card:not(.monstro-card-compacto):hover .btn-kick { opacity: 1; }
 
+        /* ARSENAL DO MESTRE */
+        .arsenal-page {
+            min-height: calc(100vh - 235px);
+            display: flex;
+            flex-direction: column;
+            padding: 20px !important;
+            overflow: hidden;
+        }
+
+        .arsenal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid var(--gm-border);
+        }
+
+        .arsenal-header .section-title { margin: 4px 0 5px !important; padding: 0 !important; border: 0 !important; }
+        .arsenal-header p { margin: 0; color: var(--gm-muted); font: 500 .73rem/1.4 'Roboto', sans-serif; }
+        .arsenal-eyebrow { color: var(--gm-purple); font: 900 .57rem 'Roboto', sans-serif; letter-spacing: .14em; }
+
+        .arsenal-btn-novo {
+            min-height: 39px;
+            padding: 0 14px;
+            flex: 0 0 auto;
+            border: 1px solid rgba(139,92,246,.6);
+            border-radius: 10px;
+            background: rgba(109,40,217,.22);
+            color: #ede9fe;
+            font: 900 .67rem 'Roboto', sans-serif;
+            letter-spacing: .04em;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .arsenal-btn-novo:hover { color: #fff; background: rgba(109,40,217,.4); transform: translateY(-1px); }
+
+        .arsenal-toolbar {
+            display: grid;
+            grid-template-columns: minmax(190px, 1fr) 210px auto;
+            align-items: center;
+            gap: 9px;
+            padding: 14px 0;
+        }
+
+        .arsenal-busca {
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 11px;
+            border: 1px solid var(--gm-border);
+            border-radius: 10px;
+            background: #08080a;
+            color: var(--gm-muted);
+        }
+
+        .arsenal-busca:focus-within { border-color: var(--gm-purple); box-shadow: 0 0 0 3px rgba(139,92,246,.12); }
+        .arsenal-busca input { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #fff; font: 600 .74rem 'Roboto', sans-serif; }
+        .arsenal-busca input::placeholder { color: #70737d; }
+
+        .arsenal-filtro {
+            min-height: 38px;
+            padding: 0 10px;
+            border: 1px solid var(--gm-border);
+            border-radius: 10px;
+            outline: 0;
+            background: #08080a;
+            color: #d8d9df;
+            font: 700 .68rem 'Roboto', sans-serif;
+        }
+
+        .arsenal-contador { color: var(--gm-muted); font: 800 .61rem 'Roboto', sans-serif; white-space: nowrap; }
+
+        .arsenal-grid {
+            min-height: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 11px;
+            align-content: start;
+            overflow-y: auto;
+            padding: 2px 5px 8px 2px;
+        }
+
+        .arsenal-card {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 68px minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            gap: 10px;
+            padding: 11px;
+            border: 1px solid var(--gm-border);
+            border-radius: 13px;
+            background: linear-gradient(145deg, #111114, #070709);
+            transition: .18s ease;
+        }
+
+        .arsenal-card:hover { border-color: rgba(139,92,246,.58); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0,0,0,.3); }
+
+        .arsenal-card-imagem {
+            width: 68px;
+            height: 68px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            border: 1px solid var(--gm-border);
+            border-radius: 11px;
+            background: #050506;
+            font-size: 1.6rem;
+        }
+
+        .arsenal-card-imagem img { width: 100%; height: 100%; object-fit: cover; }
+        .arsenal-card-conteudo { min-width: 0; }
+        .arsenal-card-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+        .arsenal-card h3 { margin: 0; overflow: hidden; color: #fff; font: 900 .83rem/1.2 'Cinzel', serif; text-overflow: ellipsis; white-space: nowrap; }
+        .arsenal-card-tipo { margin-top: 4px; color: var(--gm-purple); font: 900 .54rem 'Roboto', sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+
+        .arsenal-card-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+        .arsenal-card-meta span { padding: 3px 5px; border: 1px solid var(--gm-border); border-radius: 6px; color: #c9cbd2; background: #08080a; font: 800 .55rem 'Roboto', sans-serif; }
+        .arsenal-card-desc { margin: 7px 0 0; overflow: hidden; color: #90939d; font: 500 .65rem/1.35 'Roboto', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+        .arsenal-card-acoes { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) 32px 32px; gap: 6px; }
+        .arsenal-card-acoes button {
+            min-height: 32px;
+            border: 1px solid var(--gm-border);
+            border-radius: 8px;
+            background: #0b0b0d;
+            color: #cfd1d8;
+            font: 900 .62rem 'Roboto', sans-serif;
+            cursor: pointer;
+            transition: .16s ease;
+        }
+
+        .arsenal-card-acoes .arsenal-enviar { color: #bfdbfe; background: rgba(29,78,216,.16); border-color: rgba(96,165,250,.34); }
+        .arsenal-card-acoes .arsenal-enviar:hover { color: #fff; background: rgba(29,78,216,.34); }
+        .arsenal-card-acoes .arsenal-editar:hover { color: #ddd6fe; border-color: rgba(139,92,246,.55); }
+        .arsenal-card-acoes .arsenal-apagar:hover { color: #fda4af; border-color: rgba(251,113,133,.5); }
+
+        .arsenal-vazio {
+            grid-column: 1 / -1;
+            min-height: 260px;
+            display: grid;
+            place-content: center;
+            justify-items: center;
+            padding: 30px;
+            color: var(--gm-muted);
+            text-align: center;
+        }
+
+        .arsenal-vazio div { margin-bottom: 10px; font-size: 2.3rem; }
+        .arsenal-vazio strong { color: #d8d9df; font: 900 .8rem 'Roboto', sans-serif; }
+        .arsenal-vazio span { margin-top: 5px; font: 500 .68rem 'Roboto', sans-serif; }
+
+        .arsenal-modal { width: min(94vw, 690px) !important; }
+        .arsenal-modal-header { display: flex; align-items: center; gap: 12px; margin-bottom: 17px; padding-right: 35px; }
+        .arsenal-modal-header > div:last-child > span { color: var(--gm-muted); font: 900 .54rem 'Roboto', sans-serif; letter-spacing: .12em; }
+        .arsenal-modal-header .section-title { margin: 3px 0 0 !important; padding: 0 !important; border: 0 !important; text-align: left !important; }
+        .arsenal-modal-icone { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 44px; border: 1px solid rgba(139,92,246,.4); border-radius: 12px; background: rgba(109,40,217,.16); font-size: 1.15rem; }
+        .arsenal-form-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+        .arsenal-form-span-2 { grid-column: span 2; }
+        .arsenal-campos-arma { display: none; margin: 5px 0 12px; padding: 12px; border: 1px solid rgba(251,113,133,.23); border-radius: 12px; background: rgba(159,18,57,.07); }
+        .arsenal-distancia { display: none; margin-top: 9px; }
+        .arsenal-modal .form-group-modal { margin-bottom: 10px; }
+        .arsenal-modal .form-input { margin-bottom: 0 !important; }
+        .arsenal-modal textarea { min-height: 90px; resize: vertical; }
+        .arsenal-salvar { min-height: 43px; margin-top: 4px; background: #6d28d9 !important; }
+
         /* FICHAS DE MONSTRO RECOLHÍVEIS */
         #lista-bestiario-container { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
 
@@ -1631,6 +1799,14 @@
             .monstro-ataque-item { align-items: stretch; flex-direction: column; }
             .monstro-ataque-acoes > .btn-atq-monstro { flex: 1; justify-content: center; }
             #players-container { grid-template-columns: minmax(0, 1fr); }
+            .arsenal-page { min-height: 560px; padding: 14px !important; }
+            .arsenal-header { align-items: stretch; flex-direction: column; }
+            .arsenal-btn-novo { width: 100%; }
+            .arsenal-toolbar { grid-template-columns: minmax(0, 1fr); }
+            .arsenal-contador { text-align: right; }
+            .arsenal-grid { grid-template-columns: minmax(0, 1fr); }
+            .arsenal-form-grid { grid-template-columns: minmax(0, 1fr); }
+            .arsenal-form-span-2 { grid-column: auto; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1678,7 +1854,7 @@
     <div class="tabs-container">
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
         <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
-        <button class="tab-btn" onclick="mudarAba('mundo')">📖 MUNDO E LORE</button>
+        <button class="tab-btn" onclick="mudarAba('mundo')">🎒 ARSENAL</button>
     </div>
 
     <div class="conteudo-wrapper">
@@ -1731,55 +1907,28 @@
             </div>
             
             <div id="tab-mundo" class="tab-content">
-                <div class="mesa-layout">
-                    
-                    <div class="mesa-jogadores box-rpg" style="background: transparent; border: none; box-shadow: none; padding: 0; position: relative;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(139, 90, 43, 0.4); padding-bottom: 10px; margin-bottom: 20px;">
-                            <h2 class="section-title" style="margin: 0; border: none; padding: 0; text-align: left;">CAPÍTULOS DA CAMPANHA</h2>
-                            <button class="btn-acao" id="btn-novo-capitulo" style="width: auto; padding: 8px 15px; font-size: 0.9rem;" onclick="document.getElementById('modal-criar-capitulo').style.display='flex'">+ NOVO CAPÍTULO</button>
-                        </div>
-                        
-                        <div id="lista-capitulos"></div>
-
-                        <div id="area-edicao-capitulo" class="story-paper" style="display: none;">
-                            <div class="story-header-inline">
-                                <input type="text" id="titulo-capitulo-ativo" class="story-title-input" placeholder="Título do Capítulo..." oninput="salvarTextoCapituloAtivo()">
-                                <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                                    <button class="btn-acao" style="width: auto; padding: 6px 12px; background: #0d47a1; font-size: 0.8rem;" onclick="enviarCapituloAtivo()">📤 ENVIAR</button>
-                                    <button class="btn-acao" style="width: auto; padding: 6px 12px; background: transparent; border: 2px solid #b71c1c; color: #b71c1c; font-size: 0.8rem;" onclick="apagarCapituloAtivo()">🗑️ APAGAR</button>
-                                </div>
-                            </div>
-                            <div class="story-divider"></div>
-                            <textarea id="gm-capitulo-texto" class="story-body-input" placeholder="Escreva a lore da campanha aqui..." oninput="salvarTextoCapituloAtivo()"></textarea>
-                        </div>
-
-                        <div id="msg-sem-capitulo" class="placeholder-dashed">
-                            Crie um novo capítulo para começar a escrever sua história.
-                        </div>
-                    </div>
-
-                    <div class="mesa-sidebar" style="overflow-y: auto; padding-right: 5px;">
+                <div class="arsenal-page box-rpg">
+                    <div class="arsenal-header">
                         <div>
-                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">GUILDAS E FACÇÕES</h3>
-                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
-                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('guilda')">+ NOVA GUILDA</button>
-                            <div id="lista-guildas-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
+                            <span class="arsenal-eyebrow">ITENS DO MESTRE</span>
+                            <h2 class="section-title">OBJETOS E ARMAS</h2>
+                            <p>Cadastre recompensas e envie diretamente ao inventário dos jogadores conectados.</p>
                         </div>
-
-                        <div style="margin-top: 25px;">
-                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">PESSOAS / NPCS</h3>
-                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
-                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('pessoa')">+ NOVA PESSOA</button>
-                            <div id="lista-pessoas-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
-                        </div>
-
-                        <div style="margin-top: 25px;">
-                            <h3 class="section-title" style="font-size: 1.1rem; margin-bottom: 5px; border-color: rgba(139, 90, 43, 0.3);">LOCAIS CHAVE</h3>
-                            <div style="border-bottom: 1px solid rgba(139, 90, 43, 0.3); margin-bottom: 15px;"></div>
-                            <button class="btn-dashed" onclick="abrirModalCriacaoListas('local')">+ NOVO LOCAL</button>
-                            <div id="lista-locais-container" style="display: flex; flex-direction: column; margin-top: 10px;"></div>
-                        </div>
+                        <button type="button" class="arsenal-btn-novo" onclick="abrirModalArsenal()">＋ NOVO ITEM</button>
                     </div>
+
+                    <div class="arsenal-toolbar">
+                        <label class="arsenal-busca"><span>⌕</span><input type="search" id="arsenal-busca" placeholder="Buscar no arsenal..." oninput="renderizarArsenal()"></label>
+                        <select id="arsenal-filtro-tipo" class="arsenal-filtro" onchange="renderizarArsenal()" aria-label="Filtrar arsenal por tipo">
+                            <option value="todos">Todos os tipos</option>
+                            <option value="comum">Objetos</option>
+                            <option value="corpo">Armas corpo a corpo</option>
+                            <option value="dist">Armas à distância</option>
+                        </select>
+                        <span id="arsenal-contador" class="arsenal-contador">0 itens</span>
+                    </div>
+
+                    <div id="lista-arsenal-container" class="arsenal-grid"></div>
                 </div>
             </div>
 
@@ -1892,11 +2041,45 @@
     </div>
 </div>
 
+<div id="modal-arsenal" class="modal-overlay" style="z-index: 3040;">
+    <div class="modal-content arsenal-modal">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <div class="arsenal-modal-header">
+            <div class="arsenal-modal-icone" id="arsenal-modal-icone">🎒</div>
+            <div><span>ARSENAL DO MESTRE</span><h3 class="section-title" id="arsenal-modal-titulo">NOVO OBJETO</h3></div>
+        </div>
+
+        <div class="arsenal-form-grid">
+            <div class="form-group-modal arsenal-form-span-2"><label class="form-label-modal">Nome</label><input type="text" id="arsenal-nome" class="form-input" placeholder="Ex: Espada da Aurora"></div>
+            <div class="form-group-modal"><label class="form-label-modal">Tipo</label><select id="arsenal-tipo" class="form-input" onchange="atualizarCamposArsenal()"><option value="comum">Objeto</option><option value="corpo">Arma corpo a corpo</option><option value="dist">Arma à distância</option></select></div>
+            <div class="form-group-modal"><label class="form-label-modal">Raridade</label><select id="arsenal-raridade" class="form-input"><option>Normal</option><option>Incomum</option><option>Raro</option><option>Único</option><option>Lendário</option></select></div>
+            <div class="form-group-modal"><label class="form-label-modal">Peso</label><input type="number" min="0" step="0.1" id="arsenal-peso" class="form-input" value="1"></div>
+            <div class="form-group-modal arsenal-form-span-2"><label class="form-label-modal">URL da imagem <small>(opcional)</small></label><input type="text" id="arsenal-img" class="form-input" placeholder="https://..."></div>
+        </div>
+
+        <div id="arsenal-campos-arma" class="arsenal-campos-arma">
+            <div class="arsenal-form-grid">
+                <div class="form-group-modal"><label class="form-label-modal">Dano</label><input type="text" id="arsenal-dano" class="form-input" placeholder="Ex: 1d8+2"></div>
+                <div class="form-group-modal"><label class="form-label-modal">Crítico</label><input type="text" id="arsenal-crit" class="form-input" value="20/x2" placeholder="20/x2"></div>
+                <div class="form-group-modal"><label class="form-label-modal">Tipo de dano</label><input type="text" id="arsenal-tipo-dano" class="form-input" placeholder="Ex: Corte"></div>
+                <div class="form-group-modal"><label class="form-label-modal">Alcance</label><input type="text" id="arsenal-alcance" class="form-input" placeholder="Ex: Curto"></div>
+            </div>
+            <div id="arsenal-campos-distancia" class="arsenal-form-grid arsenal-distancia">
+                <div class="form-group-modal"><label class="form-label-modal">Capacidade</label><input type="number" min="0" id="arsenal-municao" class="form-input" value="20"></div>
+                <div class="form-group-modal arsenal-form-span-2"><label class="form-label-modal">Munição necessária</label><input type="text" id="arsenal-municao-nome" class="form-input" placeholder="Ex: Flechas"></div>
+            </div>
+        </div>
+
+        <div class="form-group-modal"><label class="form-label-modal">Descrição e propriedades</label><textarea id="arsenal-desc" class="form-input" rows="4" placeholder="Descreva o objeto, seus efeitos ou propriedades..."></textarea></div>
+        <button type="button" class="btn-acao arsenal-salvar" onclick="salvarItemArsenal()">SALVAR NO ARSENAL</button>
+    </div>
+</div>
+
 <div id="modal-enviar-alvo" class="modal-overlay" style="z-index: 3050;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
         <h3 class="section-title">COMPARTILHAR COM...</h3>
-        <p style="font-family:'Roboto'; font-size:0.85rem; color:#5c3a21; margin-bottom:15px;">Escolha quem receberá esta informação na aba de Mundo deles:</p>
+        <p id="envio-alvo-ajuda" style="font-family:'Roboto'; font-size:0.85rem; color:#d1d5db; margin-bottom:15px;">Escolha quem receberá este conteúdo:</p>
         <div class="form-group-modal"><select id="select-alvo" class="form-input"></select></div>
         <button class="btn-acao" style="width: 100%; margin-top: 15px; background-color: #0d47a1;" onclick="confirmarEnvioAlvo()">📤 CONFIRMAR ENVIO</button>
     </div>
@@ -1946,6 +2129,8 @@
     let dbPessoas = []; 
     let dbGuildas = []; 
     let dbLocais = [];
+    let dbArsenal = [];
+    let arsenalEditandoId = null;
     
     let tipoContexto = ''; 
     let tempSubItemsLista = [];
@@ -1967,6 +2152,7 @@
         let pSalvo = localStorage.getItem('rpgPessoas'); if(pSalvo) { try { dbPessoas = JSON.parse(pSalvo); } catch(e){} }
         let gSalvo = localStorage.getItem('rpgGuildas'); if(gSalvo) { try { dbGuildas = JSON.parse(gSalvo); } catch(e){} }
         let lSalvo = localStorage.getItem('rpgLocais'); if(lSalvo) { try { dbLocais = JSON.parse(lSalvo); } catch(e){} }
+        let aSalvo = localStorage.getItem('rpgArsenalMestre'); if(aSalvo) { try { dbArsenal = JSON.parse(aSalvo); } catch(e){} }
         normalizarPessoasVinculadas();
 
         let iSalva = localStorage.getItem('rpgIniciativa'); 
@@ -1980,7 +2166,7 @@
         renderIniciativa();
 
         if (abaAtual === 'bestiario') renderizarBestiario();
-        if (abaAtual === 'mundo') inicializarHistoriaGM();
+        if (abaAtual === 'mundo') renderizarArsenal();
         if (abaAtual === 'mesa') renderizarJogadores();
     };
 
@@ -2000,7 +2186,7 @@
         }
         else if (aba === 'mundo') { 
             document.getElementById('tab-mundo').classList.add('active'); 
-            inicializarHistoriaGM(); 
+            renderizarArsenal(); 
         }
     }
 
@@ -2937,11 +3123,166 @@
         });
     }
 
+    function obterTipoArsenal(tipo) {
+        const tipos = {
+            comum: { nome: 'Objeto', icone: '🎒' },
+            corpo: { nome: 'Arma corpo a corpo', icone: '⚔️' },
+            dist: { nome: 'Arma à distância', icone: '🏹' }
+        };
+        return tipos[tipo] || tipos.comum;
+    }
+
+    function escaparHtmlArsenal(valor) {
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function salvarArsenalMestre() {
+        localStorage.setItem('rpgArsenalMestre', JSON.stringify(dbArsenal));
+    }
+
+    function abrirModalArsenal(id = null) {
+        arsenalEditandoId = id;
+        const item = id === null ? null : dbArsenal.find(registro => String(registro.id) === String(id));
+
+        document.getElementById('arsenal-nome').value = item?.nome || '';
+        document.getElementById('arsenal-tipo').value = item?.tipo || 'comum';
+        document.getElementById('arsenal-raridade').value = item?.raridade || 'Normal';
+        document.getElementById('arsenal-peso').value = item?.peso ?? 1;
+        document.getElementById('arsenal-img').value = item?.img || '';
+        document.getElementById('arsenal-dano').value = item?.dano || '';
+        document.getElementById('arsenal-crit').value = item?.crit || '20/x2';
+        document.getElementById('arsenal-tipo-dano').value = item?.tipoDano || '';
+        document.getElementById('arsenal-alcance').value = item?.alcance || '';
+        document.getElementById('arsenal-municao').value = item?.munMax ?? 20;
+        document.getElementById('arsenal-municao-nome').value = item?.munNomeReq || '';
+        document.getElementById('arsenal-desc').value = item?.desc || '';
+
+        document.getElementById('arsenal-modal-titulo').innerText = item ? 'EDITAR ITEM' : 'NOVO ITEM';
+        atualizarCamposArsenal();
+        document.getElementById('modal-arsenal').style.display = 'flex';
+        setTimeout(() => document.getElementById('arsenal-nome').focus(), 0);
+    }
+
+    function atualizarCamposArsenal() {
+        const tipo = document.getElementById('arsenal-tipo').value;
+        const info = obterTipoArsenal(tipo);
+        const ehArma = tipo === 'corpo' || tipo === 'dist';
+        document.getElementById('arsenal-campos-arma').style.display = ehArma ? 'block' : 'none';
+        document.getElementById('arsenal-campos-distancia').style.display = tipo === 'dist' ? 'grid' : 'none';
+        document.getElementById('arsenal-modal-icone').innerText = info.icone;
+        if(arsenalEditandoId === null) document.getElementById('arsenal-modal-titulo').innerText = `NOVO ${info.nome.toUpperCase()}`;
+    }
+
+    function salvarItemArsenal() {
+        const nome = document.getElementById('arsenal-nome').value.trim();
+        if(!nome) return alert('Digite o nome do item ou arma.');
+
+        const tipo = document.getElementById('arsenal-tipo').value;
+        const ehArma = tipo === 'corpo' || tipo === 'dist';
+        const existente = arsenalEditandoId === null ? null : dbArsenal.find(item => String(item.id) === String(arsenalEditandoId));
+        const capacidade = Math.max(0, parseInt(document.getElementById('arsenal-municao').value) || 0);
+        const dados = {
+            id: existente?.id ?? Date.now(),
+            nome,
+            tipo,
+            peso: Math.max(0, parseFloat(document.getElementById('arsenal-peso').value) || 0),
+            raridade: document.getElementById('arsenal-raridade').value || 'Normal',
+            img: document.getElementById('arsenal-img').value.trim(),
+            desc: document.getElementById('arsenal-desc').value.trim(),
+            dano: ehArma ? document.getElementById('arsenal-dano').value.trim() : '',
+            crit: ehArma ? (document.getElementById('arsenal-crit').value.trim() || '20/x2') : '20/x2',
+            tipoDano: ehArma ? document.getElementById('arsenal-tipo-dano').value.trim() : '',
+            alcance: ehArma ? document.getElementById('arsenal-alcance').value.trim() : '',
+            periciaLink: tipo === 'dist' ? 'Pontaria' : (tipo === 'corpo' ? 'Luta' : ''),
+            equipado: false
+        };
+
+        if(tipo === 'dist') {
+            dados.munMax = capacidade;
+            dados.munAtual = capacidade;
+            dados.munNomeReq = document.getElementById('arsenal-municao-nome').value.trim();
+        }
+
+        if(existente) Object.assign(existente, dados);
+        else dbArsenal.push(dados);
+
+        salvarArsenalMestre();
+        arsenalEditandoId = null;
+        fecharModais();
+        renderizarArsenal();
+    }
+
+    function editarItemArsenal(id) {
+        abrirModalArsenal(id);
+    }
+
+    function apagarItemArsenal(id) {
+        const item = dbArsenal.find(registro => String(registro.id) === String(id));
+        if(!item || !confirm(`Apagar ${item.nome} do Arsenal?`)) return;
+        dbArsenal = dbArsenal.filter(registro => String(registro.id) !== String(id));
+        salvarArsenalMestre();
+        renderizarArsenal();
+    }
+
+    function renderizarArsenal() {
+        const container = document.getElementById('lista-arsenal-container');
+        if(!container) return;
+
+        const busca = String(document.getElementById('arsenal-busca')?.value || '').trim().toLowerCase();
+        const filtro = document.getElementById('arsenal-filtro-tipo')?.value || 'todos';
+        const itens = dbArsenal
+            .filter(item => filtro === 'todos' || item.tipo === filtro)
+            .filter(item => !busca || `${item.nome || ''} ${item.desc || ''}`.toLowerCase().includes(busca))
+            .sort((a, b) => String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR'));
+
+        const contador = document.getElementById('arsenal-contador');
+        if(contador) contador.innerText = `${itens.length} ${itens.length === 1 ? 'item' : 'itens'}`;
+
+        if(itens.length === 0) {
+            const mensagem = dbArsenal.length === 0 ? 'Seu arsenal está vazio.' : 'Nenhum item corresponde aos filtros.';
+            container.innerHTML = `<div class="arsenal-vazio"><div>🎒</div><strong>${mensagem}</strong><span>Use “Novo item” para cadastrar objetos e armas.</span></div>`;
+            return;
+        }
+
+        container.innerHTML = itens.map(item => {
+            const info = obterTipoArsenal(item.tipo);
+            const imagem = item.img
+                ? `<img src="${escaparHtmlArsenal(item.img)}" alt="">`
+                : `<span>${info.icone}</span>`;
+            const metaArma = item.tipo === 'corpo' || item.tipo === 'dist'
+                ? `<span>DANO ${escaparHtmlArsenal(item.dano || '-')}</span><span>CRIT ${escaparHtmlArsenal(item.crit || '20/x2')}</span>`
+                : '';
+
+            return `<article class="arsenal-card">
+                <div class="arsenal-card-imagem">${imagem}</div>
+                <div class="arsenal-card-conteudo">
+                    <div class="arsenal-card-topo"><div style="min-width:0;"><h3>${escaparHtmlArsenal(item.nome)}</h3><div class="arsenal-card-tipo">${info.nome}</div></div></div>
+                    <div class="arsenal-card-meta"><span>${escaparHtmlArsenal(item.raridade || 'Normal')}</span><span>PESO ${Number(item.peso) || 0}</span>${metaArma}</div>
+                    <p class="arsenal-card-desc">${escaparHtmlArsenal(item.desc || 'Sem descrição.')}</p>
+                </div>
+                <div class="arsenal-card-acoes">
+                    <button type="button" class="arsenal-enviar" onclick="abrirModalEnvio(event, 'arsenal', ${item.id})">📤 ENVIAR</button>
+                    <button type="button" class="arsenal-editar" onclick="editarItemArsenal(${item.id})" title="Editar" aria-label="Editar ${escaparHtmlArsenal(item.nome)}">✎</button>
+                    <button type="button" class="arsenal-apagar" onclick="apagarItemArsenal(${item.id})" title="Apagar" aria-label="Apagar ${escaparHtmlArsenal(item.nome)}">×</button>
+                </div>
+            </article>`;
+        }).join('');
+    }
+
     function abrirModalEnvio(event, tipo, id) {
         if (event && event.stopPropagation) event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
         
         itemPendenteEnvio = { tipo: tipo, id: id };
+        const ajudaEnvio = document.getElementById('envio-alvo-ajuda');
+        if(ajudaEnvio) ajudaEnvio.innerText = tipo === 'arsenal'
+            ? 'O item será adicionado diretamente ao inventário de quem receber.'
+            : 'Escolha quem receberá este conteúdo.';
         let select = document.getElementById('select-alvo');
         select.innerHTML = '';
 
@@ -2971,7 +3312,7 @@
         let { tipo, id } = itemPendenteEnvio;
         const selectAlvo = document.getElementById('select-alvo');
         let alvoSelecionado = selectAlvo.value;
-        let db = tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos));
+        let db = tipo === 'arsenal' ? dbArsenal : (tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos)));
         let item = db.find(x => String(x.id) === String(id));
         
         if(!item) return alert('Não foi possível encontrar esta informação para enviar.');
@@ -2981,6 +3322,11 @@
         if(tipo === 'historia') {
             dadosEnviados.titulo = item.nome;
             dadosEnviados.conteudo = item.texto;
+        }
+
+        if(tipo === 'arsenal') {
+            dadosEnviados.origemMestreId = item.id;
+            dadosEnviados.equipado = false;
         }
 
         if (tipo === 'guilda' && !Array.isArray(dadosEnviados.membros)) dadosEnviados.membros = [];
@@ -2997,7 +3343,7 @@
             targetId: alvoSelecionado,
             targetName: alvoNomePersonagem,
             entidade: {
-                tipoLista: tipo,
+                tipoLista: tipo === 'arsenal' ? 'inventario' : tipo,
                 dados: dadosEnviados,
                 enviadoEm: Date.now(),
                 versao: 2
