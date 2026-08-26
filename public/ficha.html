@@ -1803,6 +1803,169 @@
             .btn-filtro-pericias { flex: 1 1 145px; }
         }
 
+        /* DIÁRIO DE GUILDAS, NPCS E LOCAIS */
+        .mundo-diario {
+            width: 100%;
+            max-width: 1180px;
+            min-height: 500px;
+            margin: 0 auto;
+            padding: 22px !important;
+            overflow: hidden;
+        }
+
+        .mundo-diario-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid var(--ui-line);
+        }
+
+        .mundo-diario-header .section-title { margin: 4px 0 5px !important; padding: 0 !important; border: 0 !important; text-align: left !important; }
+        .mundo-diario-header p { margin: 0; color: var(--ui-muted); font: 500 .74rem/1.45 'Roboto', sans-serif; }
+        .mundo-diario-eyebrow { color: #a78bfa; font: 900 .56rem 'Roboto', sans-serif; letter-spacing: .14em; }
+        .mundo-diario-acoes { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+
+        .mundo-add {
+            min-height: 36px;
+            padding: 0 11px;
+            border: 1px solid var(--ui-line);
+            border-radius: 9px;
+            background: #0a0a0b;
+            color: #e5e7eb;
+            font: 900 .62rem 'Roboto', sans-serif;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .mundo-add:hover { color: #fff; transform: translateY(-1px); }
+        .mundo-add.guilda { border-color: rgba(167,139,250,.42); }
+        .mundo-add.guilda:hover { background: rgba(109,40,217,.25); }
+        .mundo-add.pessoa { border-color: rgba(52,211,153,.38); }
+        .mundo-add.pessoa:hover { background: rgba(5,150,105,.22); }
+        .mundo-add.local { border-color: rgba(96,165,250,.4); }
+        .mundo-add.local:hover { background: rgba(29,78,216,.22); }
+
+        .mundo-diario-toolbar {
+            display: grid;
+            grid-template-columns: minmax(210px, 1fr) 190px auto;
+            align-items: center;
+            gap: 9px;
+            padding: 14px 0;
+        }
+
+        .mundo-diario-busca {
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 11px;
+            border: 1px solid var(--ui-line);
+            border-radius: 10px;
+            background: #070708;
+            color: var(--ui-muted);
+        }
+
+        .mundo-diario-busca:focus-within { border-color: var(--ui-accent); box-shadow: 0 0 0 3px rgba(124,92,255,.13); }
+        .mundo-diario-busca input { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #fff; font: 600 .73rem 'Roboto', sans-serif; }
+        .mundo-diario-busca input::placeholder { color: #737780; }
+        #mundo-filtro-tipo { min-height: 38px; padding: 0 10px; border: 1px solid var(--ui-line); border-radius: 10px; outline: 0; background: #070708; color: #e5e7eb; font: 700 .68rem 'Roboto', sans-serif; }
+        .mundo-contador { color: var(--ui-muted); font: 800 .6rem 'Roboto', sans-serif; white-space: nowrap; }
+
+        .mundo-diario-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 11px;
+            align-items: start;
+        }
+
+        .mundo-diario-coluna {
+            min-width: 0;
+            padding: 11px;
+            border: 1px solid var(--ui-line);
+            border-radius: 13px;
+            background: rgba(0,0,0,.38);
+        }
+
+        .mundo-diario-coluna.historias { grid-column: 1 / -1; }
+        .mundo-coluna-titulo { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; padding-bottom: 9px; border-bottom: 1px solid var(--ui-line); }
+        .mundo-coluna-titulo > span { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid var(--ui-line); border-radius: 9px; background: #0b0b0c; font-size: .92rem; }
+        .mundo-coluna-titulo strong { display: block; color: #f3f4f6; font: 900 .65rem 'Roboto', sans-serif; letter-spacing: .06em; }
+        .mundo-coluna-titulo small { display: block; margin-top: 2px; color: var(--ui-muted); font: 500 .56rem 'Roboto', sans-serif; }
+        .mundo-card-lista { display: flex; flex-direction: column; gap: 7px; }
+
+        .mundo-registro-card {
+            position: relative;
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 43px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 9px;
+            padding: 9px;
+            border: 1px solid var(--ui-line);
+            border-left: 3px solid var(--registro-cor, #a78bfa);
+            border-radius: 10px;
+            background: #080809;
+            cursor: pointer;
+            transition: .17s ease;
+        }
+
+        .mundo-registro-card:hover { border-color: var(--registro-cor, #a78bfa); background: #101012; transform: translateY(-1px); }
+        .mundo-registro-img { width: 43px; height: 43px; display: grid; place-items: center; overflow: hidden; border: 1px solid var(--ui-line); border-radius: 9px; background: #030303; font-size: 1rem; }
+        .mundo-registro-img img { width: 100%; height: 100%; object-fit: cover; }
+        .mundo-registro-info { min-width: 0; }
+        .mundo-registro-info strong { display: block; overflow: hidden; color: #fff; font: 800 .76rem/1.2 'Lora', serif; text-overflow: ellipsis; white-space: nowrap; }
+        .mundo-registro-info p { margin: 4px 0 0; overflow: hidden; color: #92959f; font: 500 .6rem/1.3 'Roboto', sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+        .mundo-registro-origem { display: inline-block; margin-top: 5px; padding: 2px 5px; border: 1px solid var(--ui-line); border-radius: 999px; color: #a7f3d0; background: rgba(5,150,105,.1); font: 900 .46rem 'Roboto', sans-serif; letter-spacing: .07em; }
+        .mundo-registro-origem.mestre { color: #bfdbfe; background: rgba(29,78,216,.11); }
+        .mundo-registro-card-acoes { display: flex; align-items: center; gap: 3px; }
+        .mundo-registro-card-acoes button { width: 25px; height: 25px; display: grid; place-items: center; padding: 0; border: 1px solid transparent; border-radius: 7px; background: transparent; color: #7d808a; font-size: .8rem; cursor: pointer; }
+        .mundo-registro-card-acoes .editar:hover { color: #ddd6fe; border-color: rgba(167,139,250,.32); background: rgba(109,40,217,.13); }
+        .mundo-registro-card-acoes .apagar:hover { color: #fda4af; border-color: rgba(251,113,133,.3); background: rgba(190,18,60,.13); }
+
+        .mundo-historia-card { grid-template-columns: minmax(0, 1fr) auto; }
+        .mundo-historia-card .mundo-registro-info strong { font-family: 'Cinzel', serif; }
+
+        .mundo-diario-vazio { min-height: 280px; display: grid; place-content: center; justify-items: center; padding: 30px; color: var(--ui-muted); text-align: center; }
+        .mundo-diario-vazio div { margin-bottom: 9px; font-size: 2.2rem; }
+        .mundo-diario-vazio strong { color: #e5e7eb; font: 900 .78rem 'Roboto', sans-serif; }
+        .mundo-diario-vazio span { margin-top: 5px; font: 500 .66rem 'Roboto', sans-serif; }
+
+        .mundo-registro-modal { width: min(94vw, 610px) !important; }
+        .mundo-registro-header { display: flex; align-items: center; gap: 12px; margin-bottom: 17px; padding-right: 35px; }
+        .mundo-registro-header > div:first-child { width: 43px; height: 43px; display: grid; place-items: center; flex: 0 0 43px; border: 1px solid rgba(124,92,255,.4); border-radius: 12px; background: rgba(124,92,255,.12); }
+        .mundo-registro-header > div:last-child > span { color: var(--ui-muted); font: 900 .53rem 'Roboto', sans-serif; letter-spacing: .12em; }
+        .mundo-registro-header .section-title { margin: 3px 0 0 !important; padding: 0 !important; border: 0 !important; text-align: left !important; }
+        .mundo-registro-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 10px; }
+        .mundo-registro-modal textarea { min-height: 120px; resize: vertical; }
+        .mundo-registro-salvar { min-height: 43px; margin-top: 5px; background: #6d28d9 !important; }
+
+        .mundo-detalhe-modal { width: min(94vw, 560px) !important; }
+        .mundo-detalhe-modal #mmd-desc { color: #e5e7eb !important; background: #070708 !important; border-color: var(--ui-line) !important; }
+        .mundo-origem-badge { display: inline-block; margin: -2px 0 14px; padding: 3px 7px; border: 1px solid var(--ui-line); border-radius: 999px; color: #bfdbfe; background: rgba(29,78,216,.1); font: 900 .5rem 'Roboto', sans-serif; letter-spacing: .08em; }
+        .mundo-origem-badge:not(.mestre) { color: #a7f3d0; background: rgba(5,150,105,.1); }
+        .mundo-detalhe-acoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+        .mundo-detalhe-acoes button { min-height: 38px; border: 1px solid var(--ui-line); border-radius: 9px; background: #0b0b0c; color: #e5e7eb; font: 900 .64rem 'Roboto', sans-serif; cursor: pointer; }
+        .mundo-detalhe-acoes .editar:hover { color: #ddd6fe; border-color: rgba(167,139,250,.46); }
+        .mundo-detalhe-acoes .apagar:hover { color: #fda4af; border-color: rgba(251,113,133,.44); }
+
+        @media (max-width: 820px) {
+            .mundo-diario-header { align-items: stretch; flex-direction: column; }
+            .mundo-diario-acoes { justify-content: flex-start; }
+            .mundo-diario-toolbar { grid-template-columns: minmax(0, 1fr); }
+            .mundo-contador { text-align: right; }
+            .mundo-diario-grid { grid-template-columns: minmax(0, 1fr); }
+            .mundo-diario-coluna.historias { grid-column: auto; }
+        }
+
+        @media (max-width: 500px) {
+            .mundo-diario { padding: 14px !important; }
+            .mundo-diario-acoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .mundo-add { padding: 0 5px; font-size: .55rem; }
+            .mundo-registro-grid { grid-template-columns: minmax(0, 1fr); }
+        }
+
         /* RECURSOS TEMPORÁRIOS DIRETO NAS BARRAS */
         .glass-track.temporario-clicavel {
             cursor: pointer;
@@ -2243,34 +2406,55 @@
     </div>
 
     <div id="tab-mundo" class="tab-content">
-        <div class="box-rpg" style="padding: 25px; border-top-color: #2e7d32; min-height: 400px; max-width: 1000px; width:100%; margin:0 auto;">
-                    <h2 class="section-title" style="color: #1b5e20; font-size:1.3rem; margin-bottom:5px;">Guildas / NPC'S / LOCAIS</h2>
-                    <p style="text-align:center; font-size:0.75rem; color:#555; margin-top:0; margin-bottom:20px;">Tudo que o Mestre compartilhar aparecerá aqui.</p>
-                    
-                    <div id="msg-mundo-vazio" class="placeholder-dashed" style="border-color:#2e7d32; color:#2e7d32; text-align:center;">Seu arquivo de lore e mapas está vazio.</div>
-                    
-                    <div id="mundo-recebido-wrapper" style="display:none;">
-                        <div id="sec-historias" style="margin-bottom: 20px; display:none;">
-                            <h3 class="section-title" style="font-size: 1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">📖 CAPÍTULOS E HISTÓRIA</h3>
-                            <div id="lista-historias-recebidas" style="display: flex; flex-direction: column;"></div>
-                        </div>
+        <div class="box-rpg mundo-diario">
+            <div class="mundo-diario-header">
+                <div>
+                    <span class="mundo-diario-eyebrow">DIÁRIO DO PERSONAGEM</span>
+                    <h2 class="section-title">GUILDAS, NPCS E LOCAIS</h2>
+                    <p>Guarde informações descobertas durante a aventura e consulte os registros enviados pelo Mestre.</p>
+                </div>
+                <div class="mundo-diario-acoes">
+                    <button type="button" class="mundo-add guilda" onclick="abrirModalRegistroMundo('guilda')">＋ GUILDA</button>
+                    <button type="button" class="mundo-add pessoa" onclick="abrirModalRegistroMundo('pessoa')">＋ NPC</button>
+                    <button type="button" class="mundo-add local" onclick="abrirModalRegistroMundo('local')">＋ LOCAL</button>
+                </div>
+            </div>
 
-                        <div id="sec-guildas" style="margin-bottom: 20px; display:none;">
-                            <h3 class="section-title" style="font-size: 1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">🛡️ GUILDAS E FACÇÕES</h3>
-                            <div id="lista-guildas-recebidas" style="display: flex; flex-direction: column;"></div>
-                        </div>
+            <div class="mundo-diario-toolbar">
+                <label class="mundo-diario-busca"><span>⌕</span><input type="search" id="mundo-busca" placeholder="Buscar nomes e anotações..." oninput="renderizarMundoRecebido()"></label>
+                <select id="mundo-filtro-tipo" onchange="renderizarMundoRecebido()" aria-label="Filtrar registros">
+                    <option value="todos">Todos os registros</option>
+                    <option value="guilda">Guildas</option>
+                    <option value="pessoa">NPCs</option>
+                    <option value="local">Locais</option>
+                    <option value="historia">Histórias antigas</option>
+                </select>
+                <span id="mundo-contador" class="mundo-contador">0 registros</span>
+            </div>
 
-                        <div id="sec-pessoas" style="margin-bottom: 20px; display:none;">
-                            <h3 class="section-title" style="font-size: 1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">👤 PESSOAS / NPCS</h3>
-                            <div id="lista-pessoas-recebidas" style="display: flex; flex-direction: column;"></div>
-                        </div>
+            <div id="msg-mundo-vazio" class="mundo-diario-vazio"><div>🗺️</div><strong>NENHUM REGISTRO AINDA</strong><span>Use um dos botões acima para começar seu diário.</span></div>
 
-                        <div id="sec-locais" style="margin-bottom: 20px; display:none;">
-                            <h3 class="section-title" style="font-size: 1rem; margin-bottom: 10px; border-color: rgba(139, 90, 43, 0.3);">📍 LOCAIS CHAVE</h3>
-                            <div id="lista-locais-recebidos" style="display: flex; flex-direction: column;"></div>
-                        </div>
-                    </div>
+            <div id="mundo-recebido-wrapper" class="mundo-diario-grid" style="display:none;">
+                <section id="sec-historias" class="mundo-diario-coluna historias" style="display:none;">
+                    <div class="mundo-coluna-titulo"><span>📖</span><div><strong>HISTÓRIAS ANTIGAS</strong><small>Registros recebidos anteriormente</small></div></div>
+                    <div id="lista-historias-recebidas" class="mundo-card-lista"></div>
+                </section>
 
+                <section id="sec-guildas" class="mundo-diario-coluna guildas" style="display:none;">
+                    <div class="mundo-coluna-titulo"><span>🛡️</span><div><strong>GUILDAS E FACÇÕES</strong><small>Grupos e organizações</small></div></div>
+                    <div id="lista-guildas-recebidas" class="mundo-card-lista"></div>
+                </section>
+
+                <section id="sec-pessoas" class="mundo-diario-coluna pessoas" style="display:none;">
+                    <div class="mundo-coluna-titulo"><span>👤</span><div><strong>PESSOAS E NPCS</strong><small>Aliados, rivais e contatos</small></div></div>
+                    <div id="lista-pessoas-recebidas" class="mundo-card-lista"></div>
+                </section>
+
+                <section id="sec-locais" class="mundo-diario-coluna locais" style="display:none;">
+                    <div class="mundo-coluna-titulo"><span>📍</span><div><strong>LOCAIS IMPORTANTES</strong><small>Lugares descobertos</small></div></div>
+                    <div id="lista-locais-recebidos" class="mundo-card-lista"></div>
+                </section>
+            </div>
         </div>
     </div>
 
@@ -2812,18 +2996,42 @@
     </div>
 </div>
 
+<div id="modal-registro-mundo" class="modal-overlay" onclick="fecharModais()">
+    <div class="modal-content mundo-registro-modal" onclick="event.stopPropagation()">
+        <span class="fechar-modal" onclick="fecharModais()">&times;</span>
+        <div class="mundo-registro-header">
+            <div id="mundo-registro-icone">🛡️</div>
+            <div><span>DIÁRIO DO PERSONAGEM</span><h3 class="section-title" id="mundo-registro-titulo">NOVA GUILDA</h3></div>
+        </div>
+
+        <div class="mundo-registro-grid">
+            <div class="input-wrapper"><label>TIPO DE REGISTRO</label><select id="mundo-registro-tipo" class="form-input" onchange="atualizarModalRegistroMundo()"><option value="guilda">Guilda ou Facção</option><option value="pessoa">Pessoa ou NPC</option><option value="local">Local importante</option></select></div>
+            <div class="input-wrapper"><label>NOME</label><input type="text" id="mundo-registro-nome" class="form-input" placeholder="Nome do registro"></div>
+        </div>
+
+        <div class="input-wrapper"><label>URL DA IMAGEM <small>(opcional)</small></label><input type="text" id="mundo-registro-img" class="form-input" placeholder="https://..."></div>
+        <div class="input-wrapper"><label>ANOTAÇÕES</label><textarea id="mundo-registro-desc" class="form-input" rows="6" placeholder="O que seu personagem sabe sobre este registro?"></textarea></div>
+        <button type="button" class="btn-acao mundo-registro-salvar" onclick="salvarRegistroMundoJogador()">SALVAR NO DIÁRIO</button>
+    </div>
+</div>
+
 <div id="modal-mundo-detalhe" class="modal-overlay" onclick="fecharModais()">
-    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+    <div class="modal-content mundo-detalhe-modal" onclick="event.stopPropagation()">
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <div style="display:flex; flex-direction:column; align-items:center;">
             <img id="mmd-img" src="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; border: 3px solid #8b5a2b; margin-bottom: 15px; display: none; cursor: zoom-in;" onclick="abrirZoomImagem(this.src)">
             <h3 class="section-title" id="mmd-nome" style="margin-bottom:10px;"></h3>
+            <span id="mmd-origem" class="mundo-origem-badge"></span>
         </div>
         <div id="mmd-desc" style="white-space:pre-wrap; background:rgba(0,0,0,0.05); padding:20px; border-radius:8px; max-height: 30vh; overflow-y: auto; font-family: 'Roboto'; margin-top:0; margin-bottom: 20px; line-height:1.6; word-wrap: break-word; word-break: break-word; font-size:1rem; border:1px solid rgba(139,90,43,0.3); text-align: left;"></div>
         
         <div id="mmd-subitems-container" style="display:none; width:100%;">
             <h4 style="font-family:'Cinzel'; color:#5c3a21; border-bottom:2px dashed rgba(139,90,43,0.4); padding-bottom:5px; margin-bottom:10px; margin-top:0;" id="mmd-subitems-title">MEMBROS</h4>
             <div id="mmd-subitems-list" style="display:flex; flex-direction:column; gap:8px; max-height: 25vh; overflow-y: auto; padding-right:5px;"></div>
+        </div>
+        <div id="mmd-acoes-registro" class="mundo-detalhe-acoes" style="display:none;">
+            <button type="button" class="editar" onclick="editarRegistroMundo(null, registroMundoAbertoId)">✎ EDITAR</button>
+            <button type="button" class="apagar" onclick="apagarMundoRecebido(registroMundoAbertoId)">× APAGAR</button>
         </div>
     </div>
 </div>
@@ -2973,6 +3181,8 @@
     let fichaDados = {
         mundoRecebido: []
     };
+    let registroMundoEditandoId = null;
+    let registroMundoAbertoId = null;
     
     let tipoContexto = '';
     let itemAbertoId = null;
@@ -3460,6 +3670,7 @@
         const dados = JSON.parse(JSON.stringify(entidade.dados));
         const gmId = dados.id ?? `${tipo}_${Date.now()}`;
         dados.id = gmId;
+        dados.criadoPeloJogador = false;
         if (tipo === 'guilda' && !Array.isArray(dados.membros)) dados.membros = [];
         if (tipo === 'local' && !Array.isArray(dados.pontos)) dados.pontos = [];
 
@@ -3516,6 +3727,104 @@
 
     socket.on('gm_send_entity', receberEntidadeMestre);
 
+    function obterConfigRegistroMundo(tipo) {
+        const configuracoes = {
+            guilda: { icone: '🛡️', singular: 'GUILDA', cor: '#a78bfa' },
+            pessoa: { icone: '👤', singular: 'NPC', cor: '#34d399' },
+            local: { icone: '📍', singular: 'LOCAL', cor: '#60a5fa' },
+            historia: { icone: '📖', singular: 'HISTÓRIA', cor: '#d6a45d' }
+        };
+        return configuracoes[normalizarTipoMundo(tipo)] || configuracoes.pessoa;
+    }
+
+    function escaparHtmlMundo(valor) {
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function abrirModalRegistroMundo(tipo, id = null) {
+        const tipoNormalizado = normalizarTipoMundo(tipo);
+        if(!['guilda', 'pessoa', 'local'].includes(tipoNormalizado)) return;
+
+        const item = id === null ? null : fichaDados.mundoRecebido.find(registro => String(registro.id) === String(id));
+        if(item && item.dados?.criadoPeloJogador !== true) return;
+
+        registroMundoEditandoId = item ? item.id : null;
+        document.getElementById('mundo-registro-tipo').value = item ? normalizarTipoMundo(item.tipo) : tipoNormalizado;
+        document.getElementById('mundo-registro-nome').value = item?.dados?.nome || '';
+        document.getElementById('mundo-registro-img').value = item?.dados?.img || '';
+        document.getElementById('mundo-registro-desc').value = item?.dados?.desc || '';
+        atualizarModalRegistroMundo();
+        document.getElementById('modal-registro-mundo').style.display = 'flex';
+        setTimeout(() => document.getElementById('mundo-registro-nome').focus(), 0);
+    }
+
+    function atualizarModalRegistroMundo() {
+        const tipo = normalizarTipoMundo(document.getElementById('mundo-registro-tipo').value);
+        const config = obterConfigRegistroMundo(tipo);
+        document.getElementById('mundo-registro-icone').innerText = config.icone;
+        document.getElementById('mundo-registro-titulo').innerText = `${registroMundoEditandoId === null ? 'NOVO' : 'EDITAR'} ${config.singular}`;
+    }
+
+    function salvarRegistroMundoJogador() {
+        const tipo = normalizarTipoMundo(document.getElementById('mundo-registro-tipo').value);
+        const nome = document.getElementById('mundo-registro-nome').value.trim();
+        const img = document.getElementById('mundo-registro-img').value.trim();
+        const desc = document.getElementById('mundo-registro-desc').value.trim();
+
+        if(!['guilda', 'pessoa', 'local'].includes(tipo)) return;
+        if(!nome) {
+            alert('Digite um nome para salvar este registro.');
+            document.getElementById('mundo-registro-nome').focus();
+            return;
+        }
+
+        let item = registroMundoEditandoId === null ? null : fichaDados.mundoRecebido.find(registro => String(registro.id) === String(registroMundoEditandoId));
+        if(item && item.dados?.criadoPeloJogador !== true) item = null;
+
+        let id = item?.id ?? Date.now();
+        while(!item && fichaDados.mundoRecebido.some(registro => String(registro.id) === String(id))) id++;
+
+        const dadosAnteriores = item?.dados || {};
+        const dados = {
+            ...dadosAnteriores,
+            id,
+            nome,
+            img,
+            desc,
+            criadoPeloJogador: true,
+            criadoEm: dadosAnteriores.criadoEm || Date.now(),
+            atualizadoEm: Date.now()
+        };
+        if(tipo === 'guilda' && !Array.isArray(dados.membros)) dados.membros = [];
+        if(tipo === 'local' && !Array.isArray(dados.pontos)) dados.pontos = [];
+
+        const registro = { id, tipo, dados };
+        if(item) {
+            const indice = fichaDados.mundoRecebido.findIndex(atual => String(atual.id) === String(item.id));
+            fichaDados.mundoRecebido[indice] = registro;
+        } else {
+            fichaDados.mundoRecebido.push(registro);
+        }
+
+        salvarFichaLocal();
+        renderizarMundoRecebido();
+        fecharModais();
+        registroMundoEditandoId = null;
+    }
+
+    function editarRegistroMundo(evento, id) {
+        if(evento) evento.stopPropagation();
+        const item = fichaDados.mundoRecebido.find(registro => String(registro.id) === String(id));
+        if(!item || item.dados?.criadoPeloJogador !== true) return;
+        fecharModais();
+        abrirModalRegistroMundo(item.tipo, item.id);
+    }
+
     function renderizarMundoRecebido() {
         const wrapper = document.getElementById('mundo-recebido-wrapper');
         const secHistorias = document.getElementById('sec-historias');
@@ -3527,6 +3836,9 @@
         const secLocais = document.getElementById('sec-locais');
         const contLocais = document.getElementById('lista-locais-recebidos');
         const msgVazio = document.getElementById('msg-mundo-vazio');
+        const buscaEl = document.getElementById('mundo-busca');
+        const filtroEl = document.getElementById('mundo-filtro-tipo');
+        const contadorEl = document.getElementById('mundo-contador');
 
         if(!wrapper) return;
         
@@ -3535,54 +3847,84 @@
         contPessoas.innerHTML = '';
         contLocais.innerHTML = '';
         
-        if(!fichaDados.mundoRecebido || fichaDados.mundoRecebido.length === 0) {
-            msgVazio.style.display = 'block';
+        const todosRegistros = Array.isArray(fichaDados.mundoRecebido) ? fichaDados.mundoRecebido : [];
+        const busca = String(buscaEl?.value || '').trim().toLocaleLowerCase('pt-BR');
+        const filtro = normalizarTipoMundo(filtroEl?.value || 'todos');
+        const registrosFiltrados = todosRegistros.filter(item => {
+            if(!item || !item.dados) return false;
+            const tipo = normalizarTipoMundo(item.tipo);
+            if(filtro !== 'todos' && tipo !== filtro) return false;
+            const d = item.dados;
+            const texto = [d.nome, d.titulo, d.desc, d.conteudo].filter(Boolean).join(' ').toLocaleLowerCase('pt-BR');
+            return !busca || texto.includes(busca);
+        });
+
+        if(contadorEl) contadorEl.innerText = `${registrosFiltrados.length} ${registrosFiltrados.length === 1 ? 'registro' : 'registros'}`;
+
+        if(registrosFiltrados.length === 0) {
+            const semRegistros = todosRegistros.length === 0;
+            const tituloVazio = msgVazio.querySelector('strong');
+            const textoVazio = msgVazio.querySelector('span');
+            if(tituloVazio) tituloVazio.innerText = semRegistros ? 'NENHUM REGISTRO AINDA' : 'NENHUM RESULTADO ENCONTRADO';
+            if(textoVazio) textoVazio.innerText = semRegistros ? 'Use um dos botões acima para começar seu diário.' : 'Tente mudar a busca ou o tipo selecionado.';
+            msgVazio.style.display = 'grid';
             wrapper.style.display = 'none';
+            secHistorias.style.display = 'none';
+            secGuildas.style.display = 'none';
+            secPessoas.style.display = 'none';
+            secLocais.style.display = 'none';
             return;
         }
 
         msgVazio.style.display = 'none';
-        wrapper.style.display = 'block';
+        wrapper.style.display = 'grid';
 
         let temHistoria = false, temGuilda = false, temPessoa = false, temLocal = false;
 
-        fichaDados.mundoRecebido.slice().reverse().forEach(item => {
-            if (!item || !item.dados) return;
-            let d = item.dados;
-            let tipo = normalizarTipoMundo(item.tipo);
-            
-            let cor = '#2e7d32'; let icone = '👤';
-            let nome = d.nome;
+        registrosFiltrados.slice().reverse().forEach(item => {
+            const d = item.dados;
+            const tipo = normalizarTipoMundo(item.tipo);
+            const config = obterConfigRegistroMundo(tipo);
+            const proprio = d.criadoPeloJogador === true;
+            const idSeguro = escaparHtmlMundo(item.id);
+            const nome = escaparHtmlMundo(tipo === 'historia' ? (d.titulo || 'História sem título') : (d.nome || 'Sem nome'));
+            const resumo = escaparHtmlMundo(tipo === 'historia' ? (d.conteudo || 'Sem conteúdo.') : (d.desc || 'Sem anotações.'));
 
             if(tipo === 'historia') {
                 temHistoria = true;
-                nome = d.titulo;
                 contHistorias.innerHTML += `
-                    <div class="mundo-item-recebido" style="border-left-color: #8b5a2b; cursor:pointer;" onclick="abrirDetalheHistoriaRecebida(${item.id})">
-                        <div style="display:flex; justify-content:space-between; align-items:center; gap: 10px;">
-                            <h3 style="margin:0; text-align: left; word-break: break-word; flex: 1;">📖 ${nome}</h3>
-                            <button class="btn-kick" onclick="event.stopPropagation(); apagarMundoRecebido(${item.id})" style="position:relative; right:0; top:0; background:rgba(183, 28, 28, 0.1); border-radius:50%; width:24px; height:24px; display:flex; justify-content:center; align-items:center; border:none; color:#b71c1c; font-weight:bold; cursor:pointer; flex-shrink: 0;">&times;</button>
+                    <article class="mundo-registro-card mundo-historia-card" data-registro-id="${idSeguro}" style="--registro-cor:${config.cor}" onclick="abrirDetalheHistoriaRecebida(this.dataset.registroId)">
+                        <div class="mundo-registro-info">
+                            <strong>${config.icone} ${nome}</strong>
+                            <p>${resumo}</p>
+                            <span class="mundo-registro-origem mestre">MESTRE</span>
                         </div>
-                    </div>`;
+                        <div class="mundo-registro-card-acoes" onclick="event.stopPropagation()"><button type="button" class="apagar" title="Apagar" onclick="apagarMundoRecebido(this.closest('.mundo-registro-card').dataset.registroId)">×</button></div>
+                    </article>`;
             } else {
-                if(tipo === 'guilda') { cor = '#8b5a2b'; icone = '🛡️'; temGuilda = true; }
-                else if(tipo === 'local') { cor = '#0d47a1'; icone = '📍'; temLocal = true; }
-                else if(tipo === 'pessoa') { cor = '#2e7d32'; icone = '👤'; temPessoa = true; }
-                
-                let imgHtml = d.img ? `<img src="${d.img}" class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px;">` : `<div class="mini-img-moldura" style="width:50px; height:50px; font-size:1.2rem; flex-shrink: 0; border-color:${cor}; border-radius: 4px; background: #fff;">${icone}</div>`;
-                
-                let cardHtml = `
-                <div style="background-color: #000000; border: 1px solid #4a5365; border-left: 4px solid ${cor}; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; cursor:pointer; transition:0.2s;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';" onclick="abrirDetalheMundoRecebido(${item.id})">
-                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
-                            ${imgHtml}
-                            <span style="font-weight: 900; font-size: 1.05rem; font-family: 'Lora', serif; color: #ffffff !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; flex: 1; text-align: left;">${nome}</span>
-                        </div>
-                        <div style="display:flex; flex-shrink: 0; align-items:center;" onclick="event.stopPropagation()">
-                            <button style="background:transparent; border:none; color:#b71c1c; cursor:pointer; font-size:1.4rem; font-weight:bold; line-height:0.8; padding: 0;" onclick="apagarMundoRecebido(${item.id})" title="Apagar">&times;</button>
-                        </div>
+                if(tipo === 'guilda') temGuilda = true;
+                else if(tipo === 'local') temLocal = true;
+                else if(tipo === 'pessoa') temPessoa = true;
+
+                const imagem = d.img
+                    ? `<img src="${escaparHtmlMundo(d.img)}" alt="">`
+                    : config.icone;
+                const botaoEditar = proprio
+                    ? `<button type="button" class="editar" title="Editar" onclick="editarRegistroMundo(event, this.closest('.mundo-registro-card').dataset.registroId)">✎</button>`
+                    : '';
+                const cardHtml = `
+                <article class="mundo-registro-card" data-registro-id="${idSeguro}" style="--registro-cor:${config.cor}" onclick="abrirDetalheMundoRecebido(this.dataset.registroId)">
+                    <div class="mundo-registro-img">${imagem}</div>
+                    <div class="mundo-registro-info">
+                        <strong>${nome}</strong>
+                        <p>${resumo}</p>
+                        <span class="mundo-registro-origem ${proprio ? '' : 'mestre'}">${proprio ? 'MEU REGISTRO' : 'MESTRE'}</span>
                     </div>
-                </div>`;
+                    <div class="mundo-registro-card-acoes" onclick="event.stopPropagation()">
+                        ${botaoEditar}
+                        <button type="button" class="apagar" title="Apagar" onclick="apagarMundoRecebido(this.closest('.mundo-registro-card').dataset.registroId)">×</button>
+                    </div>
+                </article>`;
 
                 if(tipo === 'guilda') contGuildas.innerHTML += cardHtml;
                 else if(tipo === 'local') contLocais.innerHTML += cardHtml;
@@ -3597,14 +3939,20 @@
     }
 
     function abrirDetalheMundoRecebido(id) {
-        let item = fichaDados.mundoRecebido.find(x => x.id === id);
+        let item = fichaDados.mundoRecebido.find(x => String(x.id) === String(id));
         if(!item) return;
 
         let d = item.dados;
-        let tipo = item.tipo;
+        let tipo = normalizarTipoMundo(item.tipo);
+        let proprio = d.criadoPeloJogador === true;
+        registroMundoAbertoId = item.id;
         
-        document.getElementById('mmd-nome').innerText = d.nome;
-        document.getElementById('mmd-desc').innerHTML = d.desc ? d.desc.replace(/\n/g, '<br>') : '<i>Sem anotações.</i>';
+        document.getElementById('mmd-nome').innerText = d.nome || 'Sem nome';
+        document.getElementById('mmd-desc').innerText = d.desc || 'Sem anotações.';
+        const origem = document.getElementById('mmd-origem');
+        origem.innerText = proprio ? 'MEU REGISTRO' : 'ENVIADO PELO MESTRE';
+        origem.className = `mundo-origem-badge${proprio ? '' : ' mestre'}`;
+        document.getElementById('mmd-acoes-registro').style.display = proprio ? 'grid' : 'none';
         
         const imgEl = document.getElementById('mmd-img');
         if(d.img) {
@@ -3651,12 +3999,17 @@
     }
 
     function abrirDetalheHistoriaRecebida(id) {
-        let item = fichaDados.mundoRecebido.find(x => x.id === id);
+        let item = fichaDados.mundoRecebido.find(x => String(x.id) === String(id));
         if(!item) return;
+        registroMundoAbertoId = item.id;
         document.getElementById('mmd-nome').innerText = item.dados.titulo;
-        document.getElementById('mmd-desc').innerHTML = item.dados.conteudo ? item.dados.conteudo.replace(/\n/g, '<br>') : '';
+        document.getElementById('mmd-desc').innerText = item.dados.conteudo || '';
         document.getElementById('mmd-img').style.display = 'none';
         document.getElementById('mmd-subitems-container').style.display = 'none';
+        const origem = document.getElementById('mmd-origem');
+        origem.innerText = 'ENVIADO PELO MESTRE';
+        origem.className = 'mundo-origem-badge mestre';
+        document.getElementById('mmd-acoes-registro').style.display = 'none';
         document.getElementById('modal-mundo-detalhe').style.display = 'flex';
     }
 
@@ -3676,9 +4029,11 @@
 
     function apagarMundoRecebido(id) {
         if(confirm("Deseja apagar esta anotação do seu diário?")) {
-            fichaDados.mundoRecebido = fichaDados.mundoRecebido.filter(x => x.id !== id);
+            fichaDados.mundoRecebido = fichaDados.mundoRecebido.filter(x => String(x.id) !== String(id));
             salvarFichaLocal();
             renderizarMundoRecebido();
+            document.getElementById('modal-mundo-detalhe').style.display = 'none';
+            registroMundoAbertoId = null;
         }
     }
 
@@ -3939,7 +4294,7 @@
     }
 
     function fecharModais() { 
-        let modais = ['modal-inventario', 'modal-pericia', 'modal-recurso-temporario', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-catalogo-magias', 'modal-companheiro', 'modal-view', 'modal-zoom-img', 'modal-mundo-detalhe', 'modal-personagem'];
+        let modais = ['modal-inventario', 'modal-pericia', 'modal-recurso-temporario', 'modal-add-pericia', 'modal-bonus-pericias', 'modal-dados-personalizados', 'modal-hab', 'modal-magia-add', 'modal-catalogo-magias', 'modal-companheiro', 'modal-view', 'modal-zoom-img', 'modal-registro-mundo', 'modal-mundo-detalhe', 'modal-personagem'];
         modais.forEach(id => {
             let el = document.getElementById(id);
             if(el) el.style.display = 'none';
