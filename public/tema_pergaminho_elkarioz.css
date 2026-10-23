@@ -176,3 +176,200 @@ body::before {
   .ficha-container { border-width:1px !important; }
   .sheet-toolbar { border-radius:12px !important; }
 }
+
+
+/* CONTRASTE EM SUPERFÍCIES CLARAS — ELKARIOZ */
+/* A ficha antiga forçava texto branco (inclusive com !important).
+   O tema tem superfícies claras: textos comuns ficam quase pretos;
+   em botões, cabeçalhos vinho e indicadores escuros mantemos letras claras. */
+body, .ficha-container, .conteudo-principal, .sidebar-direita,
+.header-rpg-container, .sidebar-atributos, .box-rpg,
+.carga-container, .moedas-container, .status-module,
+.temporario-module, .modal-content, #dice-result-container {
+  color: #201916 !important;
+}
+.ficha-container input:not(.atual-input),
+.ficha-container textarea, .ficha-container select,
+.modal-content input, .modal-content textarea, .modal-content select {
+  color: #201916 !important;
+}
+.ficha-container .atributo-box input,
+.ficha-container .defesa-box input,
+.ficha-container #defesa-personagem,
+.ficha-container .defesa-valor {
+  color: #201916 !important;
+}
+#defesa-personagem { background: #fffaf2 !important; }
+.ficha-container .section-title, .ficha-container .list-section-title,
+.ficha-container .pericia-header, .ficha-container .magia-escola,
+.ficha-container .hab-category-title,
+.ficha-container .hab-category-wrapper .hab-category-title,
+.ficha-container .hab-category-header > span,
+.ficha-container .grimorio-heading h3,
+.ficha-container .arma-equipada-nome,
+.ficha-container .mundo-item-recebido h3,
+.ficha-container .companheiro-nome,
+.ficha-container .companheiro-stat-valor,
+.ficha-container .companheiro-stat-label,
+.ficha-container .companheiro-tipo,
+.ficha-container .catalogo-magia-nome,
+.ficha-container .catalogo-magia-meta,
+.ficha-container .catalogo-magias-resumo,
+.ficha-container .catalogo-vazio,
+.ficha-container .mundo-diario-vazio strong {
+  color: #201916 !important;
+}
+.ficha-container .hab-subitem, .ficha-container .hab-subitem:hover,
+.ficha-container .mundo-item-recebido,
+.ficha-container .companheiro-card {
+  color: #201916 !important;
+}
+.ficha-container .hab-subitem:hover, .ficha-container .hab-category-wrapper:hover,
+.ficha-container .arma-equipada-card:hover, .ficha-container .catalogo-magia-card:hover {
+  background: #eae1cd !important;
+}
+.ficha-container .pericia-card:hover .pericia-roll-box,
+.ficha-container .pericia-card.treinado .pericia-header {
+  color: #201916 !important;
+}
+.ficha-container .pericia-card.treinado .pericia-roll-box {
+  color: #fffaf0 !important; /* quadrado verde selecionado */
+}
+/* Campos menores, rótulos e botões neutros sobre papel. */
+.ficha-container .max-box label, .ficha-container .bar-title,
+.ficha-container .temporario-titulo,
+.ficha-container .input-wrapper label,
+.ficha-container .catalogo-magia-fonte,
+.ficha-container .catalogo-magia-chip,
+.ficha-container .companheiro-desc,
+.ficha-container .mundo-diario-vazio span,
+.ficha-container .mundo-diario-header p,
+.ficha-container .mundo-diario-eyebrow,
+.ficha-container .mundo-registro-origem {
+  color: #4c352b !important;
+}
+.ficha-container .btn-moeda, .ficha-container .companheiro-vida-btn {
+  color: #201916 !important;
+  background: #e9dbc5 !important;
+  border-color: #b3977b !important;
+}
+.ficha-container .btn-moeda:hover, .ficha-container .companheiro-vida-btn:hover {
+  color: #201916 !important;
+  background: #e3edcf !important;
+  border-color: #526631 !important;
+}
+.ficha-container .catalogo-magias-painel,
+.ficha-container .catalogo-magias-filtros,
+.ficha-container .catalogo-modal-meta-item {
+  background: #f5ecd9 !important;
+  border-color: #c5a78b !important;
+  color: #201916 !important;
+}
+.ficha-container .catalogo-magia-chip {
+  background: #e6e9d7 !important;
+  border-color: #b1bd91 !important;
+}
+.ficha-container .catalogo-modal-meta-item strong {
+  color: #526631 !important;
+}
+.ficha-container .catalogo-modal-descricao {
+  color: #201916 !important;
+  border-color: #c5a78b !important;
+}
+.ficha-container .companheiro-stat {
+  background: #f4e7d4 !important;
+  border-color: #cfb69b !important;
+}
+.ficha-container .companheiro-nome,
+.ficha-container .companheiro-stat-label,
+.ficha-container .companheiro-stat-valor { color: #201916 !important; }
+.ficha-container .companheiro-tipo { color: #526631 !important; }
+/* Pop-ups têm fundo marfim; o seletor antigo pintava todos os descendentes de branco. */
+.modal-content h1, .modal-content h2, .modal-content h3,
+.modal-content h4, .modal-content p, .modal-content span,
+.modal-content label, .modal-content strong, .modal-content div,
+.modal-content .pop-pericia-nome, .modal-content .pop-total,
+.modal-content .pop-detalhes, .modal-content .modal-title,
+.modal-content .total-label, .modal-content .bonus-label,
+.modal-content .form-label, .modal-content .modal-tab-btn,
+.modal-content .mv-item-info, .modal-content .mv-item-descricao,
+.modal-content .mv-item-descricao > div, .modal-content .catalogo-modal-descricao {
+  color: #201916 !important;
+}
+.modal-content .mv-item-info, .modal-content .mv-item-descricao,
+#mv-desc, #mmd-desc, .modal-content .pop-detalhes {
+  background: #f3e8d7 !important;
+  border-color: #c4a78d !important;
+  color: #201916 !important;
+}
+#dice-result-container .pop-pericia-nome,
+#dice-result-container .pop-detalhes,
+#dice-result-container .pop-hint,
+#dice-result-container .pop-total,
+#dice-result-container .log-details {
+  color: #201916 !important;
+}
+#dice-result-container .pop-detalhes {
+  background: #f1e4d0 !important;
+  border-color: #c7a990 !important;
+}
+.modal-content .fechar-modal, .modal-content .modal-tab-btn {
+  color: #4b2520 !important;
+  background: transparent !important;
+}
+.modal-content .modal-tab-btn.active { color: #526631 !important; }
+.modal-content .btn-acao, .modal-content .btn-salvar,
+.modal-content .btn-apagar, .modal-content .btn-disparar,
+.modal-content .btn-recarregar, .modal-content .catalogo-magia-btn,
+.modal-content .bonus-remove-btn, .modal-content .mundo-registro-salvar,
+.modal-content .btn-acao *, .modal-content .btn-salvar *,
+.modal-content .btn-apagar *, .modal-content .btn-disparar *,
+.modal-content .btn-recarregar * {
+  color: #fffaf0 !important; /* ações com fundo escuro */
+}
+/* Listas de bônus continuam escuras; números e descrições legíveis. */
+.modal-content .bonus-skills-list, .modal-content .bonus-skill-option,
+.modal-content .bonus-active-card {
+  background: #f6ecdc !important;
+  border-color: #c6aa8d !important;
+  color: #201916 !important;
+}
+.modal-content .bonus-skill-option span,
+.modal-content .bonus-active-card *,
+.modal-content .bonus-empty,
+.modal-content .bonus-active-skills {
+  color: #201916 !important;
+}
+/* Números de vida e mana: fundo escuro contínuo, letras claras. */
+.ficha-container .glass-track {
+  background: #47352e !important;
+  border-color: #8f705d !important;
+}
+.ficha-container .atual-input {
+  color: #fffaf0 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.75);
+}
+/* Sem inversão para ícones/imagens de dado no papel claro. */
+.ficha-container .icone-dado, .modal-content .pop-dado-img {
+  filter: none !important;
+}
+/* Botões escuros, seleção verde e topo vinho continuam com contraste claro. */
+.sheet-toolbar .sheet-brand strong,
+.sheet-toolbar .sheet-brand-kicker,
+.sheet-toolbar .sheet-autosave,
+.sheet-toolbar .player-uid-badge,
+.ficha-container .tab-btn.active,
+.ficha-container .atributo-box label,
+.ficha-container .atributo-box label *,
+.ficha-container .btn-acao,
+.ficha-container .btn-acao *,
+.ficha-container .btn-status,
+.ficha-container .btn-atq,
+.ficha-container .box-dano,
+.ficha-container .btn-salvar,
+.ficha-container .btn-disparar,
+.ficha-container .btn-recarregar,
+.ficha-container .btn-item-editar,
+.ficha-container .btn-item-apagar {
+  color: #fffaf0 !important;
+}
