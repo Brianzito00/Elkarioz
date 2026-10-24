@@ -1996,7 +1996,7 @@
             <p style="font-size:.75rem;line-height:1.5">Coloque este link como <strong>Fonte do navegador</strong> (1920 × 1080) no Streamlabs/OBS. O fundo fica transparente quando ninguém estiver exibindo uma foto.</p>
             <input id="link-overlay-retrato" type="text" class="form-input" style="text-align:left;font-size:.76rem;margin-bottom:9px" readonly aria-label="Link do overlay de retratos">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-                <button type="button" class="btn-acao" style="font-size:.67rem;padding:9px 6px" onclick="abrirOverlayRetrato()">🎭 ABRIR</button>
+                <button type="button" class="btn-acao" style="font-size:.67rem;padding:9px 6px" onclick="abrirOverlayRetrato()">🎭 SITE EXCLUSIVO</button>
                 <button type="button" class="btn-acao" style="font-size:.67rem;padding:9px 6px" onclick="copiarLinkOverlayRetrato()">📋 COPIAR LINK</button>
             </div>
             <button type="button" class="btn-acao" style="font-size:.71rem;padding:9px;background:#744337!important;border-color:#744337!important" onclick="ocultarOverlayRetrato()">✕ OCULTAR RETRATO ATUAL</button>
@@ -2281,9 +2281,9 @@
         return `${window.location.origin}/overlay-retrato.html?sala=${encodeURIComponent(sala)}`;
     }
     function abrirOverlayRetrato() {
-        const link = obterLinkOverlayRetrato();
-        if(!link) return alert('Configure a sessão antes de abrir o overlay.');
-        window.open(link, '_blank', 'noopener,noreferrer');
+        const sala = String(gmUid || document.getElementById('gm-uid')?.value || '').trim().toUpperCase();
+        if(!sala) return alert('Configure a sessão antes de abrir o site de retratos.');
+        window.open(`${window.location.origin}/retratos/?sala=${encodeURIComponent(sala)}`, '_blank', 'noopener,noreferrer');
     }
     async function copiarLinkOverlayRetrato() {
         const link = obterLinkOverlayRetrato();
