@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Retratos de Elkarioz · Estúdio do Overlay</title>
+  <meta name="description" content="Painel independente do overlay de retratos de Elkarioz. Conecte sua sala, acompanhe o retrato ao vivo e copie o link para Streamlabs/OBS.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Roboto:wght@400;500;600;700;900&display=swap');
+    :root {
+      --wine:#4b2520;--wine-dark:#2d1b19;--green:#526631;--green-light:#81965a;
+      --paper:#f8eddb;--paper-dark:#e9d7ba;--ink:#3c2b25;--muted:#7a6558;--line:#c7ae90;
+    }
+    * {box-sizing:border-box}
+    html {background:#241a19}
+    body {
+      min-height:100vh;margin:0;color:var(--ink);font-family:'Roboto',sans-serif;
+      background:
+        radial-gradient(circle at 8% 4%,rgba(212,172,115,.2),transparent 34%),
+        radial-gradient(circle at 94% 86%,rgba(93,125,61,.15),transparent 32%),
+        linear-gradient(125deg,#261b19,#3d2824 48%,#1f1b1c);
+    }
+    a {color:inherit}
+    button,input {font:inherit}
+    button {cursor:pointer}
+    button:disabled {cursor:not-allowed;opacity:.55}
+    :focus-visible {outline:3px solid #9da96f;outline-offset:3px}
+    .app {width:min(1180px,calc(100% - 32px));margin:0 auto;padding:26px 0 44px}
+    .eyebrow {color:#dac79f;letter-spacing:.22em;font-weight:900;font-size:.72rem;text-transform:uppercase}
+    .top {display:flex;justify-content:space-between;align-items:center;gap:18px;margin:4px 0 24px}
+    .brand {display:flex;align-items:center;gap:13px;color:#f8ebd0;text-decoration:none}
+    .brand-mark {
+      display:grid;place-items:center;width:52px;height:52px;border:1px solid #d8b986;border-radius:13px;
+      color:#f7e4b5;background:linear-gradient(135deg,#724537,#42231f);
+      font:900 1.65rem 'Cinzel',Georgia,serif;box-shadow:0 4px 18px rgba(0,0,0,.18)
+    }
+    .brand strong {display:block;font:900 1.08rem 'Cinzel',serif;letter-spacing:.16em}
+    .brand small {display:block;margin-top:4px;color:#d9bf9c;font-size:.7rem;letter-spacing:.11em;text-transform:uppercase}
+    .pill {display:flex;align-items:center;gap:8px;padding:9px 13px;border-radius:999px;border:1px solid #9a8069;color:#f1dabe;font-size:.75rem;font-weight:800;background:#47352d}
+    .pill::before {content:"";width:8px;height:8px;border-radius:50%;background:#d0ab77}
+    .pill.online::before {background:#a0c07a;box-shadow:0 0 10px #abc98a}
+    .intro {max-width:790px;margin-bottom:26px}
+    .intro h1 {margin:9px 0 10px;color:#fff4db;font:800 clamp(1.95rem,4vw,3.25rem)/1.15 'Cinzel',serif;letter-spacing:.025em}
+    .intro p {max-width:760px;color:#d9c7af;line-height:1.65;font-size:.96rem;margin:0}
+    .layout {display:grid;grid-template-columns:minmax(305px,.92fr) minmax(0,1.5fr);gap:22px;align-items:start}
+    .paper {
+      background:linear-gradient(150deg,#fff9ee,#f1e3cc);
+      border:2px solid #d6bd99;border-radius:19px;padding:22px;
+      box-shadow:0 16px 45px rgba(0,0,0,.2),inset 0 0 0 3px rgba(255,255,255,.27)
+    }
+    .panel-section + .panel-section {margin-top:22px;padding-top:21px;border-top:1px solid #cfb899}
+    .section-head {display:flex;align-items:center;gap:10px;margin:0 0 12px}
+    .num {display:grid;place-items:center;width:27px;height:27px;flex-shrink:0;border-radius:8px;background:#e0e8d2;color:var(--green);font-weight:900}
+    h2 {font:900 1.04rem/1.35 'Cinzel',serif;color:var(--wine);margin:0}
+    .hint {font-size:.8rem;color:var(--muted);line-height:1.55;margin:0 0 13px}
+    label {display:block;font-size:.71rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#765544;margin:0 0 8px}
+    .room-row {display:flex;gap:8px}
+    input[type=text] {min-width:0;width:100%;padding:12px;color:#34251e;border:1px solid #b39a7e;background:#fffdf7;border-radius:9px;font-weight:800;letter-spacing:.035em}
+    .btn {display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:43px;padding:10px 13px;border-radius:9px;border:1px solid transparent;text-align:center;font-weight:900;font-size:.78rem;letter-spacing:.01em;line-height:1.3;transition:filter .2s ease,transform .2s ease}
+    .btn:hover:not(:disabled) {filter:brightness(1.1);transform:translateY(-1px)}
+    .btn.green {color:#fff8e9;border-color:#364d25;background:var(--green)}
+    .btn.wine {color:#fff5e6;border-color:#55342e;background:#714438}
+    .btn.ghost {color:var(--wine);border-color:#bda084;background:#f3e4d0}
+    .full {width:100%}
+    .control-actions {display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .control-actions .full {grid-column:1/-1}
+    .url-box {display:block;width:100%;min-height:67px;resize:vertical;padding:9px 10px;border:1px solid #bfa588;background:#fffdf7;border-radius:9px;font-size:.76rem;color:#564234;overflow-wrap:anywhere;line-height:1.5}
+    .live {
+      display:flex;align-items:center;gap:9px;min-height:49px;padding:12px 14px;margin:0 0 12px;
+      border:1px solid #c6b093;background:rgba(255,255,255,.46);border-radius:11px;
+      font-size:.81rem;line-height:1.45;color:#725848;font-weight:700;
+    }
+    .live-dot {width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#b39679}
+    .live.active {background:#e8edda;border-color:#9fae7b;color:#3e512d}
+    .live.active .live-dot {background:#5e7b3f;box-shadow:0 0 11px rgba(82,102,49,.35)}
+    .notification {padding:11px 12px;border-radius:9px;border:1px solid #aaba91;background:#edf3e2;color:#40552d;font-size:.78rem;font-weight:800;line-height:1.45;margin-top:10px}
+    .notification.error {color:#873b31;background:#f9e5df;border-color:#ddb7a5}
+    .notification[hidden] {display:none}
+    .preview-panel {min-width:0;border:1px solid rgba(207,168,116,.57);border-radius:18px;overflow:hidden;background:#18100f;box-shadow:0 18px 46px rgba(0,0,0,.32)}
+    .preview-header {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:13px 17px;background:linear-gradient(120deg,#533027,#352322);border-bottom:1px solid rgba(211,168,106,.5)}
+    .preview-heading {display:flex;align-items:center;gap:8px;font:800 .85rem 'Cinzel',serif;color:#fae8c9}
+    .preview-heading span {display:grid;place-items:center;width:26px;height:26px;color:#f5e0b5;font-family:Roboto,sans-serif;border:1px solid #ae8565;border-radius:8px}
+    .preview-meta {color:#d8b897;font-size:.7rem;font-weight:700;letter-spacing:.05em}
+    .stage {
+      position:relative;aspect-ratio:16/9;overflow:hidden;
+      background-color:#1f1717;
+      background-image:
+        linear-gradient(45deg,rgba(245,233,214,.035) 25%,transparent 25%),
+        linear-gradient(-45deg,rgba(245,233,214,.035) 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,rgba(245,233,214,.035) 75%),
+        linear-gradient(-45deg,transparent 75%,rgba(245,233,214,.035) 75%);
+      background-size:20px 20px;
+      background-position:0 0,0 10px,10px -10px,-10px 0;
+    }
+    .stage::before {content:"";position:absolute;inset:0;border:1px solid rgba(223,183,118,.15);pointer-events:none;z-index:1}
+    .stage iframe {position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
+    .placeholder {position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:20px;text-align:center;color:#dfc7a1}
+    .placeholder[hidden] {display:none}
+    .placeholder .glyph {font:900 clamp(2rem,8vw,4rem) 'Cinzel',serif;color:#b49b75;opacity:.85}
+    .placeholder strong {font:900 clamp(.9rem,1.7vw,1.35rem) 'Cinzel',serif}
+    .placeholder p {max-width:325px;font-size:.82rem;line-height:1.5;margin:0;color:#bda78d}
+    .preview-foot {display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:13px 17px;color:#d9bd99;background:#2b1d1b;font-size:.76rem;line-height:1.5}
+    .status-message {color:#9dba83;font-weight:800}
+    .instructions {padding:21px;margin-top:20px;background:rgba(29,19,17,.68);border:1px solid #71513e;border-radius:15px}
+    .instructions h2 {color:#f6e3c6;margin-bottom:12px}
+    .instructions ol {padding-left:21px;color:#e4d1b8;font-size:.83rem;line-height:1.8;margin:0}
+    .instructions strong {color:#fff5df}
+    .instructions p {font-size:.76rem;line-height:1.55;color:#c7b398;margin:12px 0 0}
+    .footer {margin-top:25px;color:#b69c80;text-align:center;letter-spacing:.08em;text-transform:uppercase;font-weight:900;font-size:.62rem}
+    @media (max-width:880px) {
+      .layout {grid-template-columns:1fr}
+      .preview-panel {grid-row:1}
+      .intro {margin-bottom:19px}
+    }
+    @media (max-width:500px) {
+      .app {width:calc(100% - 22px);padding-top:18px}
+      .top {flex-wrap:wrap;align-items:flex-start}
+      .paper {padding:15px}
+      .brand-mark {width:44px;height:44px}
+      .control-actions {grid-template-columns:1fr 1fr}
+      .room-row {flex-direction:column}
+      .stage {aspect-ratio:16/10}
+      .preview-header {padding:11px}
+      .preview-foot {padding:11px}
+    }
+    @media(prefers-reduced-motion:reduce) {*,*::before,*::after {scroll-behavior:auto !important;transition:none !important}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="brand" aria-label="Elkarioz RPG">
+        <span class="brand-mark">E</span>
+        <div><strong>ELKARIOZ</strong><small>Estúdio de Transmissão</small></div>
+      </div>
+      <span id="connection-pill" class="pill">Aguardando mesa</span>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow">⚔️ Sistema independente de sobreposição</div>
+      <h1>Retratos em Destaque</h1>
+      <p>Um site exclusivo para o overlay dos personagens, inspirado na apresentação de pistas do Outro Lado. Conecte sua mesa, acompanhe a prévia e copie a fonte transparente para o Streamlabs ou OBS. <strong>Não é necessário deixar o Escudo do Mestre aberto.</strong></p>
+    </section>
+
+    <div class="layout">
+      <section class="paper" aria-label="Configurações e controles do overlay">
+        <div class="panel-section">
+          <div class="section-head"><span class="num">1</span><h2>Conectar à mesa</h2></div>
+          <p class="hint">Digite o mesmo código de sala usado pelas fichas dos jogadores.</p>
+          <form id="room-form">
+            <label for="room-input">Código da sala</label>
+            <div class="room-row">
+              <input type="text" id="room-input" placeholder="EX.: MESA-12345" maxlength="64" autocomplete="off" required>
+              <button type="submit" id="connect-button" class="btn green">CONECTAR</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-head"><span class="num">2</span><h2>Fonte para transmissão</h2></div>
+          <p class="hint">Use este endereço como <strong>Fonte do navegador</strong> (1920 × 1080) no Streamlabs/OBS.</p>
+          <label for="overlay-url">Link do overlay (fundo transparente)</label>
+          <textarea id="overlay-url" class="url-box" spellcheck="false" rows="2" readonly aria-label="URL da fonte do navegador">Conecte uma sala para gerar o link.</textarea>
+          <div class="control-actions" style="margin-top:9px">
+            <button type="button" class="btn green" id="copy-button" disabled>📋 COPIAR</button>
+            <button type="button" class="btn wine" id="open-button" disabled>↗ ABRIR FONTE</button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-head"><span class="num">3</span><h2>Controle do retrato</h2></div>
+          <p class="hint">O jogador clica na própria foto da ficha para revelar ou ocultar o retrato. Você pode encerrá-lo daqui.</p>
+          <div class="live" id="live-state"><span class="live-dot"></span><span id="live-text">Nenhum retrato sendo exibido.</span></div>
+          <button type="button" class="btn ghost full" id="hide-button" disabled>✕ OCULTAR RETRATO ATUAL</button>
+          <p id="notice" class="notification" role="status" aria-live="polite" hidden></p>
+        </div>
+      </section>
+
+      <section class="preview-panel" aria-label="Prévia do overlay de transmissão">
+        <header class="preview-header">
+          <div class="preview-heading"><span>◈</span> PRÉVIA AO VIVO</div>
+          <div class="preview-meta">16:9 · FUNDO TRANSPARENTE</div>
+        </header>
+        <div class="stage">
+          <iframe id="preview-frame" title="Prévia do overlay de retratos" loading="lazy" allow="autoplay" hidden></iframe>
+          <div class="placeholder" id="preview-placeholder">
+            <div class="glyph" aria-hidden="true">E</div>
+            <strong>Aguardando um retrato</strong>
+            <p>Conecte à sala e clique na foto de um personagem para ver a animação.</p>
+          </div>
+        </div>
+        <div class="preview-foot">
+          <span id="preview-room">Nenhuma sala selecionada</span>
+          <span class="status-message" id="preview-status">● PRONTO PARA CONFIGURAR</span>
+        </div>
+        <div class="instructions">
+          <h2>Como usar no Streamlabs</h2>
+          <ol>
+            <li>Conecte este site à sua <strong>sala</strong>.</li>
+            <li>Copie o link gerado em <strong>Fonte para transmissão</strong>.</li>
+            <li>No Streamlabs/OBS, adicione uma <strong>Fonte do navegador</strong> com <strong>1920 × 1080</strong>.</li>
+            <li>Quando um jogador clicar no retrato da própria ficha, a imagem aparece automaticamente; um segundo clique oculta.</li>
+          </ol>
+          <p>O site de controle e o link transparente são páginas separadas. Você pode fechar este painel depois de copiar a fonte: o overlay continua ouvindo a sala.</p>
+        </div>
+      </section>
+    </div>
+    <footer class="footer">Elkarioz · Retratos em destaque · Obra de fantasia e narrativa ao vivo</footer>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      const qs = new URLSearchParams(window.location.search);
+      const $ = id => document.getElementById(id);
+      const room = $('room-input');
+      const form = $('room-form');
+      const pill = $('connection-pill');
+      const url = $('overlay-url');
+      const copy = $('copy-button');
+      const open = $('open-button');
+      const hide = $('hide-button');
+      const live = $('live-state');
+      const liveText = $('live-text');
+      const status = $('preview-status');
+      const selected = $('preview-room');
+      const placeholder = $('preview-placeholder');
+      const frame = $('preview-frame');
+      const notice = $('notice');
+      let salaAtual = '';
+      let temRetrato = false;
+      let socket = null;
+      const normalizarSala = v => String(v || '').trim().toUpperCase();
+      const validarSala = value => /^[A-Z0-9_-]{1,64}$/.test(value);
+
+      function aviso(msg, erro) {
+        notice.textContent = msg;
+        notice.classList.toggle('error', Boolean(erro));
+        notice.hidden = false;
+      }
+      function urlOverlay() {
+        if (!validarSala(salaAtual)) return '';
+        return window.location.origin + '/overlay-retrato.html?sala=' + encodeURIComponent(salaAtual);
+      }
+      function atualizarControles() {
+        const valido = validarSala(salaAtual);
+        url.value = valido ? urlOverlay() : 'Conecte uma sala para gerar o link.';
+        copy.disabled = !valido;
+        open.disabled = !valido;
+        hide.disabled = !valido || !temRetrato;
+        selected.textContent = valido ? 'MESA: ' + salaAtual : 'Nenhuma sala selecionada';
+        placeholder.hidden = valido && temRetrato;
+        frame.hidden = !valido;
+        if (valido && !frame.src.includes('/overlay-retrato.html?sala=' + encodeURIComponent(salaAtual))) {
+          frame.src = urlOverlay();
+        }
+      }
+      function atualizarConexao() {
+        const conectado = Boolean(socket && socket.connected);
+        pill.classList.toggle('online', conectado && Boolean(salaAtual));
+        pill.textContent = conectado && salaAtual ? 'Conectado · ' + salaAtual : salaAtual ? 'Reconectando · ' + salaAtual : 'Aguardando mesa';
+        status.textContent = conectado && salaAtual ? '● AO VIVO / CONECTADO' : salaAtual ? '● RECONECTANDO' : '● PRONTO PARA CONFIGURAR';
+      }
+      function novoRetrato(data) {
+        if (!data || normalizarSala(data.sala) !== salaAtual) return;
+        temRetrato = Boolean(data.visible);
+        live.classList.toggle('active', temRetrato);
+        liveText.textContent = temRetrato
+          ? 'Exibindo: ' + String(data.nome || 'Aventureiro') + (data.raca ? ' · ' + String(data.raca) : '')
+          : 'Nenhum retrato sendo exibido.';
+        atualizarControles();
+      }
+      function conectarMesa(novaSala, mostrarMensagem) {
+        const codigo = normalizarSala(novaSala);
+        if (!validarSala(codigo)) {
+          aviso('Digite um código de sala válido: letras, números, hífen ou underline.', true);
+          return;
+        }
+        const mudou = codigo !== salaAtual;
+        salaAtual = codigo;
+        room.value = codigo;
+        notice.hidden = true;
+        if (mudou) {
+          temRetrato = false;
+          live.classList.remove('active');
+          liveText.textContent = 'Aguardando foto do personagem…';
+          frame.removeAttribute('src');
+          history.replaceState(null, '', window.location.pathname + '?sala=' + encodeURIComponent(codigo));
+        }
+        atualizarControles();
+        atualizarConexao();
+        if (!socket || !socket.connected) {
+          if (mostrarMensagem) aviso('Sala salva. Aguardando o servidor conectar…');
+          return;
+        }
+        socket.emit('portrait_overlay_join', { sala: codigo }, response => {
+          if (response && response.ok === false) aviso(response.error || 'Não foi possível conectar ao overlay.', true);
+          else if (mostrarMensagem) aviso('✓ Sala ' + codigo + ' conectada. O retrato aparecerá quando o jogador clicar na foto.');
+        });
+      }
+      form.addEventListener('submit', ev => {
+        ev.preventDefault();
+        conectarMesa(room.value, true);
+      });
+      copy.addEventListener('click', async () => {
+        const link = urlOverlay();
+        if (!link) return;
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('No clipboard');
+          await navigator.clipboard.writeText(link);
+          aviso('✓ Link da fonte do navegador copiado!');
+        } catch (e) {
+          url.focus();
+          url.select();
+          const ok = document.execCommand && document.execCommand('copy');
+          aviso(ok ? '✓ Link copiado!' : 'Copie manualmente o endereço selecionado.', !ok);
+        }
+      });
+      open.addEventListener('click', () => {
+        const link = urlOverlay();
+        if (link) window.open(link, '_blank', 'noopener,noreferrer');
+      });
+      hide.addEventListener('click', () => {
+        if (!socket || !socket.connected || !validarSala(salaAtual)) {
+          aviso('A conexão com a mesa ainda não está disponível.', true);
+          return;
+        }
+        socket.emit('portrait_overlay_clear', { sala: salaAtual }, res => {
+          if (res && res.ok) aviso('✓ Retrato ocultado na transmissão.');
+          else aviso(res && res.error ? res.error : 'Não foi possível ocultar o retrato.', true);
+        });
+      });
+      const codeFromURL = normalizarSala(qs.get('sala'));
+      if (validarSala(codeFromURL)) {
+        salaAtual = codeFromURL;
+        room.value = codeFromURL;
+        liveText.textContent = 'Aguardando foto do personagem…';
+      }
+      atualizarControles();
+      atualizarConexao();
+      if (typeof io === 'undefined') {
+        aviso('A conexão em tempo real não está disponível. Abra este site pelo servidor de Elkarioz.', true);
+        return;
+      }
+      socket = io();
+      socket.on('connect', () => {
+        atualizarConexao();
+        if (salaAtual) conectarMesa(salaAtual, false);
+      });
+      socket.on('disconnect', atualizarConexao);
+      socket.on('portrait_overlay_state', novoRetrato);
+      if (socket.connected && salaAtual) conectarMesa(salaAtual, false);
+    })();
+  </script>
+</body>
+</html>
