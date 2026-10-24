@@ -228,10 +228,19 @@
   background: #526631;
   border: 1px solid #40532e;
 }
-#tab-mundo .catalogo-equip-custom {
+#tab-mundo .catalogo-equip-send {
   color: #fffaf0;
   background: #734c3b;
   border: 1px solid #5c382c;
+}
+#tab-mundo .catalogo-equip-custom {
+  grid-column: 1 / -1;
+  color: #5e4437;
+  background: #f0e3d1;
+  border: 1px solid #bea28b;
+}
+#tab-mundo .catalogo-equip-custom:hover {
+  background: #e6d4ba;
 }
 #tab-mundo .catalogo-equip-vazio {
   grid-column: 1 / -1;
