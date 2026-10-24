@@ -1,0 +1,61 @@
+/* Elkarioz — Locais no Escudo do Mestre · pergaminho / vinho / oliva */
+.tabs-container {grid-template-columns:repeat(5,minmax(0,1fr))!important;}
+#tab-locais .locais-board {display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden;padding:19px!important}
+#tab-locais .locais-head {display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid #c7ac91}
+#tab-locais .locais-head h2 {margin:5px 0!important;color:#4b2520!important;border:0!important;font:900 clamp(1.1rem,2vw,1.45rem) 'Cinzel',serif!important}
+#tab-locais .locais-head p {max-width:620px;margin:0;color:#73594b;font:500 .81rem/1.5 'Roboto',sans-serif}
+#tab-locais .locais-kicker {font:900 .65rem 'Roboto',sans-serif;color:#627940;letter-spacing:.09em}
+#tab-locais .locais-primary,#modal-local-editor .locais-primary {min-height:42px;padding:10px 15px;color:#fff9ed!important;background:#526631!important;border:1px solid #354927;border-radius:9px;font:900 .75rem 'Roboto',sans-serif;cursor:pointer;white-space:nowrap}
+#tab-locais .locais-primary:hover,#modal-local-editor .locais-primary:hover {filter:brightness(1.12)}
+#tab-locais .locais-toolbar {display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0}
+#tab-locais .locais-search {min-height:42px;flex:1;max-width:530px;padding:11px 13px;border:1px solid #b79b7e;border-radius:9px;background:#fffaf2;color:#3b2921!important;font:600 .82rem 'Roboto',sans-serif!important}
+#tab-locais .locais-search::placeholder {color:#887060}
+#tab-locais .locais-count {font:900 .7rem 'Roboto',sans-serif;color:#765746}
+#tab-locais .locais-tip {padding:10px 13px;margin-bottom:12px;border:1px solid #b8c69e;border-radius:9px;background:#ecf0e2;color:#435633;font:700 .73rem/1.5 'Roboto',sans-serif}
+#tab-locais .locais-feedback {font:700 .75rem 'Roboto',sans-serif;color:#526631;min-height:0}
+#tab-locais .locais-feedback:empty {display:none}
+#tab-locais .locais-feedback.error {color:#a13f35}
+#tab-locais .locais-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,295px),1fr));gap:13px;align-content:start;overflow-y:auto;max-height:min(72vh,820px);padding:2px 7px 10px 1px}
+#tab-locais .local-card {display:flex;flex-direction:column;gap:10px;min-width:0;padding:14px;background:#fff9ef!important;border:1px solid #c7ad94!important;border-top:3px solid #805142!important;border-radius:13px;box-shadow:0 5px 13px rgba(69,40,30,.10)}
+#tab-locais .local-card:hover {border-color:#84986b!important;box-shadow:0 8px 19px rgba(69,40,30,.15)}
+#tab-locais .local-image {height:142px;border:1px solid #bb9c7e;border-radius:9px;overflow:hidden;background:linear-gradient(120deg,#e9d9be,#cba88e);display:grid;place-items:center;color:#79573c;font-size:3rem}
+#tab-locais .local-image img {width:100%;height:100%;object-fit:cover}
+#tab-locais .local-category {font:900 .63rem 'Roboto',sans-serif;color:#526631;letter-spacing:.09em;text-transform:uppercase}
+#tab-locais .local-title {color:#4b2520!important;margin:4px 0!important;font:900 1rem/1.2 'Cinzel',serif;overflow-wrap:anywhere}
+#tab-locais .local-desc {color:#594738!important;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;font:500 .75rem/1.52 'Roboto',sans-serif;flex:1;min-height:39px}
+#tab-locais .local-tags {font:800 .67rem 'Roboto',sans-serif;color:#816a56}
+#tab-locais .local-notes {border:1px solid #d2bca3;border-radius:8px;background:#f2e5d1;padding:8px;color:#75533c;font:700 .67rem/1.45 'Roboto',sans-serif}
+#tab-locais .local-notes strong {display:block;color:#6a4a38;margin-bottom:2px}
+#tab-locais .local-actions {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:auto}
+#tab-locais .local-actions button {display:flex;justify-content:center;align-items:center;min-height:38px;padding:7px 8px;font:900 .67rem 'Roboto',sans-serif;border:1px solid #bb9d84;border-radius:8px;background:#eee2d0;color:#634637;cursor:pointer}
+#tab-locais .local-actions button:hover:not(:disabled) {filter:brightness(1.1)}
+#tab-locais .local-actions .send {background:#526631;color:#fff9ec;border-color:#354927}
+#tab-locais .local-actions .show {background:#734638;color:#fff9ec;border-color:#5b3026}
+#tab-locais .local-actions .delete {color:#9e3c33;background:#fae8dd;border-color:#d9ada1}
+#tab-locais .local-actions button:disabled {opacity:.55;cursor:not-allowed}
+#tab-locais .locais-empty {grid-column:1/-1;padding:38px 18px;text-align:center;border:1px dashed #baa184;border-radius:12px;background:#f6ecdb;color:#755845;font:700 .85rem/1.6 'Roboto',sans-serif}
+#tab-locais .locais-empty strong {display:block;color:#4b2520;font:900 1rem 'Cinzel',serif}
+/* Editor próprio (mantém edição legada de Mundo isolada) */
+#modal-local-editor {z-index:5055!important}
+#modal-local-editor .local-modal {width:min(580px,calc(100vw - 28px));max-width:100%;max-height:92vh;overflow-y:auto;padding:21px 25px;background:linear-gradient(135deg,#fffaf2,#f2e4cc)!important;border:2px solid #a88269!important;border-radius:16px;color:#3b2921;text-align:left!important}
+#modal-local-editor h3 {margin:0 0 6px;color:#4b2520!important;font:900 1.15rem 'Cinzel',serif}
+#modal-local-editor .local-help {margin:0 0 16px;color:#766050;font:500 .77rem/1.5 'Roboto',sans-serif}
+#modal-local-editor .local-fields {display:grid;grid-template-columns:1fr 1fr;gap:13px}
+#modal-local-editor .local-field {min-width:0}
+#modal-local-editor .local-field.wide {grid-column:1/-1}
+#modal-local-editor label {display:block;color:#6a4d3c;margin-bottom:5px;font:900 .69rem 'Roboto',sans-serif;letter-spacing:.04em;text-transform:uppercase}
+#modal-local-editor input:not([type=file]),#modal-local-editor textarea {width:100%;color:#31231e!important;background:#fffefa!important;border:1px solid #b59c80!important;border-radius:9px;padding:10px;font:600 .81rem 'Roboto',sans-serif}
+#modal-local-editor input:not([type=file]) {min-height:40px}
+#modal-local-editor textarea {resize:vertical;min-height:82px;line-height:1.5}
+#modal-local-editor input[type=file] {width:100%;font:.75rem 'Roboto',sans-serif;color:#694a3e;padding:5px 0}
+#modal-local-editor .local-photo-row {display:flex;gap:13px;align-items:center;padding:8px;background:#f4e9d8;border:1px dashed #bda286;border-radius:10px}
+#modal-local-editor .local-preview {width:105px;height:82px;flex:0 0 105px;object-fit:cover;border:1px solid #b49476;border-radius:8px}
+#modal-local-editor .local-preview[hidden],#modal-local-editor .local-fallback[hidden] {display:none}
+#modal-local-editor .local-fallback {width:105px;height:82px;display:grid;place-items:center;flex:0 0 105px;font-size:2.3rem}
+#modal-local-editor small {display:block;font:500 .7rem/1.45 'Roboto',sans-serif;color:#796251;margin-top:4px}
+#modal-local-editor .local-footer {display:flex;gap:9px;margin-top:18px}
+#modal-local-editor .local-footer > button {flex:1}
+#modal-local-editor .local-secondary {padding:10px;border:1px solid #bea181;border-radius:9px;background:#e9d9c4;color:#624839;cursor:pointer;font:900 .71rem 'Roboto',sans-serif}
+@media(max-width:950px) {.tabs-container {grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:680px) {.tabs-container {grid-template-columns:repeat(2,minmax(0,1fr))!important} #tab-locais .locais-head {flex-wrap:wrap} #tab-locais .locais-primary {width:100%} #tab-locais .locais-grid {grid-template-columns:minmax(0,1fr)} #modal-local-editor .local-fields {grid-template-columns:1fr} #modal-local-editor .local-field.wide {grid-column:auto} #modal-local-editor .local-modal {padding:16px}}
+@media(max-width:420px) {.tabs-container {grid-template-columns:1fr!important}}
