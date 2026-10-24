@@ -1816,6 +1816,7 @@
     <!-- Escudo com a mesma paleta de pergaminho da ficha -->
     <link rel="stylesheet" href="tema_pergaminho_mestre_elkarioz.css">
     <link rel="stylesheet" href="catalogo_arsenal_elkarioz.css">
+    <link rel="stylesheet" href="npcs-mestre.css">
 </head>
 <body>
 
@@ -1857,6 +1858,7 @@
     <div class="tabs-container">
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
         <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
+        <button class="tab-btn" onclick="mudarAba('npcs')">👤 NPCs</button>
         <button class="tab-btn" onclick="mudarAba('mundo')">🎒 ARSENAL</button>
     </div>
 
@@ -1909,6 +1911,26 @@
                 </div>
             </div>
             
+            <div id="tab-npcs" class="tab-content">
+                <div class="npc-board box-rpg">
+                    <div class="npc-header">
+                        <div>
+                            <span class="npc-eyebrow">PERSONAGENS DA CAMPANHA</span>
+                            <h2>CATÁLOGO DE NPCs</h2>
+                            <p>Crie pessoas, armazene retratos e envie seus perfis aos jogadores. Mostre a foto no mesmo overlay dos personagens durante a transmissão.</p>
+                        </div>
+                        <button type="button" id="npc-add-button" class="npc-primary">＋ NOVO NPC</button>
+                    </div>
+                    <div class="npc-toolbar">
+                        <input type="search" id="npc-search" class="npc-search" placeholder="Buscar NPC por nome, função ou descrição..." autocomplete="off" aria-label="Buscar NPCs">
+                        <span id="npc-count" class="npc-count">0 NPCs</span>
+                    </div>
+                    <div class="npc-overlay-tip">🎭 <strong>No Overlay:</strong> o retrato aparece na mesma fonte transparente dos jogadores. Clique de novo no mesmo NPC para ocultar. Configure a sala pelo botão <strong>Configurar Sessão</strong>.</div>
+                    <div id="npc-status" class="npc-status" role="status" aria-live="polite"></div>
+                    <div id="npc-grid" class="npc-grid" aria-live="polite"></div>
+                </div>
+            </div>
+
             <div id="tab-mundo" class="tab-content">
                 <div class="arsenal-page box-rpg">
                     <div class="arsenal-header">
@@ -2122,6 +2144,55 @@
     </div>
 </div>
 
+<div id="modal-npc-editor" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="npc-editor-title" style="display:none">
+    <div class="modal-content npc-editor-shell">
+        <button type="button" id="npc-modal-close" class="fechar-modal" aria-label="Fechar editor do NPC" style="position:absolute;top:10px;right:13px;background:transparent;border:0;cursor:pointer;font-size:1.5rem">×</button>
+        <h3 id="npc-editor-title">CRIAR NPC</h3>
+        <p class="npc-editor-help">As informações públicas podem ser compartilhadas com os jogadores. As notas privadas ficam somente no seu navegador.</p>
+        <form id="npc-form" autocomplete="off">
+            <div class="npc-fields">
+                <div class="npc-field wide">
+                    <label for="npc-edit-nome">Nome do NPC *</label>
+                    <input id="npc-edit-nome" type="text" maxlength="110" placeholder="Ex.: Lysandra, a Guardiã do Norte" required>
+                </div>
+                <div class="npc-field wide">
+                    <label for="npc-edit-funcao">Função ou título</label>
+                    <input id="npc-edit-funcao" type="text" maxlength="110" placeholder="Ex.: Mercadora • Informante • Rainha">
+                </div>
+                <div class="npc-field wide">
+                    <label for="npc-edit-imagem">URL da foto (opcional)</label>
+                    <input id="npc-edit-imagem" type="text" placeholder="https://site.com/retrato.png" autocomplete="off">
+                    <small>Você também pode escolher uma imagem do seu computador.</small>
+                </div>
+                <div class="npc-field wide">
+                    <label for="npc-editor-file">Enviar foto do computador</label>
+                    <div class="npc-photo-row">
+                        <img id="npc-editor-preview" class="npc-editor-preview" alt="Prévia da foto do NPC" hidden>
+                        <div id="npc-editor-fallback" class="npc-editor-fallback" aria-hidden="true">👤</div>
+                        <div style="min-width:0;flex:1">
+                            <input type="file" id="npc-editor-file" accept="image/png,image/jpeg,image/webp,image/gif">
+                            <small id="npc-file-status">A foto será compactada para aparecer no overlay.</small>
+                            <button type="button" id="npc-remove-photo" class="npc-secondary" style="padding:6px 10px;margin-top:8px">REMOVER FOTO</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="npc-field wide">
+                    <label for="npc-edit-desc">Descrição pública / personalidade</label>
+                    <textarea id="npc-edit-desc" maxlength="6500" rows="4" placeholder="O que os personagens podem descobrir sobre esta pessoa..."></textarea>
+                </div>
+                <div class="npc-field wide">
+                    <label for="npc-edit-notas">🔒 Notas privadas do mestre (não enviar)</label>
+                    <textarea id="npc-edit-notas" maxlength="10000" rows="3" placeholder="Segredos, objetivos, conexões e revelações que só o mestre conhece..."></textarea>
+                </div>
+            </div>
+            <div class="npc-editor-footer">
+                <button type="button" class="npc-secondary" id="npc-modal-cancel">CANCELAR</button>
+                <button type="submit" class="npc-primary">💾 SALVAR NPC</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="modal-enviar-alvo" class="modal-overlay" style="z-index: 3050;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
@@ -2215,6 +2286,7 @@
         if (abaAtual === 'bestiario') renderizarBestiario();
         if (abaAtual === 'mundo') renderizarArsenal();
         if (abaAtual === 'mesa') renderizarJogadores();
+        if (abaAtual === 'npcs' && typeof renderizarNpcsGM === 'function') renderizarNpcsGM();
     };
 
     function mudarAba(aba) {
@@ -2234,6 +2306,10 @@
         else if (aba === 'mundo') { 
             document.getElementById('tab-mundo').classList.add('active'); 
             renderizarArsenal(); 
+        }
+        else if (aba === 'npcs') {
+            document.getElementById('tab-npcs').classList.add('active');
+            if (typeof renderizarNpcsGM === 'function') renderizarNpcsGM();
         }
     }
 
@@ -3364,10 +3440,10 @@
         if (event && event.stopPropagation) event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
         const envioDeItem = tipo === 'arsenal' || tipo === 'catalogo';
-        if(envioDeItem && !socket.connected) {
+        if((envioDeItem || tipo === 'pessoa') && !socket.connected) {
             return alert('Sem conexão com o servidor. Reconecte e tente enviar novamente.');
         }
-        if(envioDeItem && Object.keys(jogadores).length === 0) {
+        if((envioDeItem || tipo === 'pessoa') && Object.keys(jogadores).length === 0) {
             return alert('Nenhum jogador conectado à sala. Aguarde os jogadores abrirem suas fichas para enviar os equipamentos.');
         }
 
@@ -3423,6 +3499,12 @@
         if(ehEquipamento) {
             dadosEnviados.origemMestreId = item.id;
             dadosEnviados.equipado = false;
+        }
+        if(tipo === 'pessoa') {
+            // Nunca enviar aos jogadores os segredos/observações privadas do Mestre.
+            delete dadosEnviados.notasMestre;
+            delete dadosEnviados.notasPrivadas;
+            delete dadosEnviados.segredos;
         }
 
         if (tipo === 'guilda' && !Array.isArray(dadosEnviados.membros)) dadosEnviados.membros = [];
@@ -3855,5 +3937,6 @@
     }
 </script>
 <script src="catalogo_arsenal_elkarioz.js"></script>
+<script src="npcs-mestre.js"></script>
 </body>
 </html>
