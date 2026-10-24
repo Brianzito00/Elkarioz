@@ -1818,6 +1818,7 @@
     <link rel="stylesheet" href="catalogo_arsenal_elkarioz.css">
     <link rel="stylesheet" href="npcs-mestre.css">
     <link rel="stylesheet" href="locais-mestre.css">
+    <link rel="stylesheet" href="monstros-overlay.css">
 </head>
 <body>
 
@@ -2065,6 +2066,24 @@
         <span class="fechar-modal" onclick="fecharModais()">&times;</span>
         <h3 class="section-title">CRIAR MONSTRO</h3>
         <div class="form-group-modal"><label class="form-label-modal">Nome do Monstro</label><input type="text" id="mon-nome" class="form-input" style="margin-bottom:0;" placeholder="Ex: Dragão Vermelho"></div>
+        <div class="monstro-foto-form">
+            <label class="monstro-foto-label" for="mon-foto-url">🖼️ IMAGEM DO MONSTRO (OPCIONAL)</label>
+            <p class="monstro-foto-description">Exibida em tela cheia no overlay com apenas o nome. Todos os atributos de combate permanecem na ficha.</p>
+            <div class="monstro-foto-line">
+                <div class="monstro-foto-preview">
+                    <img id="mon-foto-preview-img" alt="Prévia da imagem do monstro" hidden>
+                    <span id="mon-foto-fallback" aria-hidden="true">🐉</span>
+                </div>
+                <div class="monstro-foto-controls">
+                    <input id="mon-foto-url" type="url" placeholder="https://site.com/monstro.jpg" autocomplete="off">
+                    <input id="mon-foto-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" aria-label="Enviar foto do monstro">
+                </div>
+            </div>
+            <div class="monstro-foto-bottom">
+                <span id="mon-foto-status" role="status" aria-live="polite">Adicione uma imagem por URL ou arquivo do computador.</span>
+                <button type="button" id="mon-foto-remover">REMOVER FOTO</button>
+            </div>
+        </div>
         <div style="display:flex; gap:10px; margin-bottom:15px;"><div style="flex:1;"><label class="form-label-modal">Vida Atual</label><input type="number" id="mon-hp-atual" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Vida Máxima</label><input type="number" id="mon-hp-max" class="form-input" style="margin-bottom:0;" value="50"></div><div style="flex:1;"><label class="form-label-modal">Defesa</label><input type="number" id="mon-def" class="form-input" style="margin-bottom:0;" value="0"></div></div>
         <label class="form-label-modal">Atributos Base</label><div class="grid-6"><div><label class="form-label-modal" style="text-align:center;">FOR</label><input type="number" id="mon-for" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">DES</label><input type="number" id="mon-des" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CON</label><input type="number" id="mon-con" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">INT</label><input type="number" id="mon-int" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">SAB</label><input type="number" id="mon-sab" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div><div><label class="form-label-modal" style="text-align:center;">CAR</label><input type="number" id="mon-car" class="form-input" style="margin-bottom:0; padding: 8px;" value="0"></div></div>
         <div class="form-group-modal"><label class="form-label-modal">Deslocamento (MOV)</label><input type="text" id="mon-mov" class="form-input" style="margin-bottom:0;" placeholder="Ex: 9m, Voo 12m"></div>
@@ -2558,18 +2577,22 @@
             container.innerHTML += `
                 <div class="player-card monstro-fixado monstro-card-compacto ${estaExpandido ? 'expandido' : ''}" data-monstro-card="mesa-${m.id}">
                     <button type="button" class="monstro-resumo" onclick="toggleDetalhesMonstro(event, ${m.id}, 'mesa')" aria-expanded="${estaExpandido}">
-                        <span class="monstro-resumo-icone">🐉</span>
+                        <span class="monstro-resumo-icone">${m.img ? `<img class="monstro-thumb" src="${escaparHtmlArsenal(m.img)}" alt="">` : '🐉'}</span>
                         <span class="monstro-resumo-texto"><strong>${m.nome}</strong><small>Monstro na mesa</small></span>
                         <span class="monstro-resumo-indicadores"><span class="resumo-pv">PV ${m.hpAtual}/${m.hpMax}</span><span class="resumo-def">DEF ${m.def}</span></span>
                         <span class="monstro-resumo-seta">▼</span>
                     </button>
+                    <div class="monstro-overlay-tools">
+                        <button type="button" class="monstro-btn-overlay" onclick="mostrarMonstroNoOverlay(${m.id})"
+                            ${!m.img ? 'disabled title="Adicione uma foto ao monstro para exibir no overlay"' : 'title="Exibir o monstro em tela cheia no overlay"'}>🎬 ${m.img ? 'MOSTRAR NO OVERLAY' : 'ADICIONE UMA FOTO PARA O OVERLAY'}</button>
+                    </div>
                     <div class="monstro-detalhes">
                     <div style="position:absolute; top:5px; right:8px; display:flex; gap:5px; z-index:10;">
                         <button class="btn-edit-monstro" onclick="editarMonstro(${m.id})" title="Editar Monstro">✏️</button>
                         <button class="btn-kick" style="position:static;" onclick="toggleMonstroMesa(${m.id}, false)" title="Remover da Mesa">&times;</button>
                     </div>
                     <div class="player-header" style="padding-right: 50px;">
-                        <div class="player-img" style="background:#b71c1c; color:#fff;">🐉</div>
+                        <div class="player-img ${m.img ? 'monstro-foto-mesa' : ''}" style="background:#b71c1c; color:#fff;">${m.img ? `<img src="${escaparHtmlArsenal(m.img)}" alt="">` : '🐉'}</div>
                         <div style="flex:1;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                                 <div><div class="player-name" style="color:#b71c1c;">${m.nome}</div><div class="player-realname" style="color:#b71c1c;">MONSTRO DO MESTRE</div></div>
@@ -2753,6 +2776,7 @@
 
     function abrirModalMonstro() {
         monstroEditandoId = null;
+        prepararFotoMonstroNovo();
         document.querySelector('#modal-monstro .section-title').innerText = 'CRIAR MONSTRO';
         tempAtaques = []; tempHabilidades = [];
         document.getElementById('mon-nome').value = ''; 
@@ -2776,6 +2800,7 @@
         let m = dbBestiario.find(x => x.id === id);
         if(!m) return;
         monstroEditandoId = id;
+        prepararFotoMonstroEdicao(m);
         document.querySelector('#modal-monstro .section-title').innerText = 'EDITAR MONSTRO';
         
         document.getElementById('mon-nome').value = m.nome;
@@ -2834,6 +2859,8 @@
     function salvarMonstro() {
         let nome = document.getElementById('mon-nome').value.trim(); 
         if(!nome) return alert("O monstro precisa de um nome!");
+        const fotoMonstro = fotoMonstroFormulario();
+        if (fotoMonstro === null) return;
         
         let defInput = document.getElementById('mon-def').value;
         let defVal = defInput === "" ? 0 : parseInt(defInput);
@@ -2844,6 +2871,7 @@
 
         let dados = { 
             nome: nome,
+            img: fotoMonstro,
             hpAtual: hpAtVal, 
             hpMax: hpMaxVal, 
             def: defVal, 
@@ -2985,11 +3013,15 @@
             container.innerHTML += `
             <div class="monstro-card monstro-card-compacto ${m.naMesa ? 'monstro-fixado' : ''} ${estaExpandido ? 'expandido' : ''}" data-monstro-card="bestiario-${m.id}">
                 <button type="button" class="monstro-resumo" onclick="toggleDetalhesMonstro(event, ${m.id}, 'bestiario')" aria-expanded="${estaExpandido}">
-                    <span class="monstro-resumo-icone">🐉</span>
+                    <span class="monstro-resumo-icone">${m.img ? `<img class="monstro-thumb" src="${escaparHtmlArsenal(m.img)}" alt="">` : '🐉'}</span>
                     <span class="monstro-resumo-texto"><strong>${m.nome}</strong><small>${m.naMesa ? 'Fixado na mesa' : 'Clique para ver a ficha'}</small></span>
                     <span class="monstro-resumo-indicadores"><span class="resumo-pv">PV ${m.hpAtual}/${m.hpMax}</span><span class="resumo-def">DEF ${m.def !== undefined ? m.def : 0}</span></span>
                     <span class="monstro-resumo-seta">▼</span>
                 </button>
+                <div class="monstro-overlay-tools">
+                    <button type="button" class="monstro-btn-overlay" onclick="mostrarMonstroNoOverlay(${m.id})"
+                        ${!m.img ? 'disabled title="Adicione uma foto ao monstro para exibir no overlay"' : 'title="Exibir o monstro em tela cheia no overlay"'}>🎬 ${m.img ? 'MOSTRAR NO OVERLAY' : 'ADICIONE UMA FOTO PARA O OVERLAY'}</button>
+                </div>
                 <div class="monstro-detalhes">
                 <div style="position:absolute; top:5px; right:8px; display:flex; gap:5px; z-index:10;">
                     <button class="btn-edit-monstro" onclick="editarMonstro(${m.id})" title="Editar Monstro">✏️</button>
@@ -4033,5 +4065,6 @@
 <script src="catalogo_arsenal_elkarioz.js"></script>
 <script src="npcs-mestre.js"></script>
 <script src="locais-mestre.js"></script>
+<script src="monstros-overlay.js"></script>
 </body>
 </html>
