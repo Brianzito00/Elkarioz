@@ -373,3 +373,60 @@ body, .ficha-container, .conteudo-principal, .sidebar-direita,
 .ficha-container .btn-item-apagar {
   color: #fffaf0 !important;
 }
+
+
+/* ELKARIOZ — CONTRASTE DO POP-UP APRENDER MAGIA (2026-10) */
+/* Cabeçalho e resumo ficam sobre uma faixa escura; cartões e filtros ficam claros. */
+#modal-catalogo-magias .catalogo-popup-heading h3 {
+  color: #fff3de !important;
+  text-shadow: none !important;
+}
+#modal-catalogo-magias .catalogo-popup-heading p {
+  color: #e2ceba !important;
+}
+#modal-catalogo-magias .catalogo-magias-resumo {
+  color: #e4d2bb !important;
+}
+#modal-catalogo-magias .catalogo-popup-acoes .catalogo-magia-chip {
+  color: #fff1dd !important;
+  background: #4b302c !important;
+  border-color: #bd987b !important;
+}
+#modal-catalogo-magias .catalogo-magias-filtros {
+  border-color: #9e7967 !important;
+  background: #241b1a !important;
+}
+#modal-catalogo-magias .catalogo-magias-filtros input,
+#modal-catalogo-magias .catalogo-magias-filtros select {
+  color: #2d211a !important;
+  -webkit-text-fill-color: #2d211a !important;
+  background: #fffaf1 !important;
+  border-color: #ba9d86 !important;
+}
+#modal-catalogo-magias .catalogo-magias-filtros input::placeholder {
+  color: #6f655c !important;
+  opacity: 1;
+}
+/* Cartões de pergaminho: manter títulos, metadados e descrições escuros. */
+#modal-catalogo-magias .catalogo-magia-card {
+  background: #faf6ef !important;
+  border-color: #cbb69d !important;
+}
+#modal-catalogo-magias .catalogo-magia-card .catalogo-magia-nome,
+#modal-catalogo-magias .catalogo-magia-card .catalogo-magia-meta,
+#modal-catalogo-magias .catalogo-magia-card .catalogo-magia-fonte {
+  color: #2d211a !important;
+}
+#modal-catalogo-magias .catalogo-magia-card .catalogo-magia-chip {
+  color: #40312c !important;
+  background: #ece4df !important;
+  border-color: #bea9de !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn,
+#modal-catalogo-magias .catalogo-popup-acoes .btn-acao {
+  color: #fffaf0 !important;
+}
+#modal-catalogo-magias .fechar-modal {
+  color: #4b2520 !important;
+  background: #f2e3d1 !important;
+}
