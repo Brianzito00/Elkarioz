@@ -1817,6 +1817,7 @@
     <link rel="stylesheet" href="tema_pergaminho_mestre_elkarioz.css">
     <link rel="stylesheet" href="catalogo_arsenal_elkarioz.css">
     <link rel="stylesheet" href="npcs-mestre.css">
+    <link rel="stylesheet" href="locais-mestre.css">
 </head>
 <body>
 
@@ -1859,6 +1860,7 @@
         <button class="tab-btn active" onclick="mudarAba('mesa')">🛡️ MESA</button>
         <button class="tab-btn" onclick="mudarAba('bestiario')">🐉 BESTIÁRIO</button>
         <button class="tab-btn" onclick="mudarAba('npcs')">👤 NPCs</button>
+        <button class="tab-btn" onclick="mudarAba('locais')">🏰 LOCAIS</button>
         <button class="tab-btn" onclick="mudarAba('mundo')">🎒 ARSENAL</button>
     </div>
 
@@ -1928,6 +1930,26 @@
                     <div class="npc-overlay-tip">🎭 <strong>No Overlay:</strong> o retrato aparece na mesma fonte transparente dos jogadores. Clique de novo no mesmo NPC para ocultar. Configure a sala pelo botão <strong>Configurar Sessão</strong>.</div>
                     <div id="npc-status" class="npc-status" role="status" aria-live="polite"></div>
                     <div id="npc-grid" class="npc-grid" aria-live="polite"></div>
+                </div>
+            </div>
+
+            <div id="tab-locais" class="tab-content">
+                <div class="locais-board box-rpg">
+                    <div class="locais-head">
+                        <div>
+                            <span class="locais-kicker">MAPA E CENÁRIOS DA CAMPANHA</span>
+                            <h2>CATÁLOGO DE LOCAIS</h2>
+                            <p>Cadastre reinos, vilas, castelos, florestas e outros lugares. Compartilhe-os com jogadores ou mostre a paisagem no mesmo overlay de retratos e NPCs.</p>
+                        </div>
+                        <button type="button" id="local-add" class="locais-primary">＋ NOVO LOCAL</button>
+                    </div>
+                    <div class="locais-toolbar">
+                        <input type="search" id="locais-search" class="locais-search" placeholder="Buscar reino, região, cidade ou descrição..." autocomplete="off" aria-label="Buscar locais da campanha">
+                        <span id="locais-count" class="locais-count">0 locais</span>
+                    </div>
+                    <div class="locais-tip">🎬 <strong>Overlay:</strong> envie a imagem do lugar ao mesmo overlay de jogadores/NPCs; a paisagem aparece com fundo desfocado. Clique novamente no local para ocultar. O envio ao diário inclui somente informações públicas.</div>
+                    <div id="locais-feedback" class="locais-feedback" role="status" aria-live="polite"></div>
+                    <div id="locais-grid" class="locais-grid" aria-live="polite"></div>
                 </div>
             </div>
 
@@ -2193,6 +2215,55 @@
     </div>
 </div>
 
+<div id="modal-local-editor" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="local-modal-title" style="display:none">
+    <div class="modal-content local-modal">
+        <button type="button" id="local-close" class="fechar-modal" aria-label="Fechar editor de local" style="position:absolute;top:10px;right:13px;border:0;background:transparent;font-size:1.5rem;cursor:pointer">×</button>
+        <h3 id="local-modal-title">CRIAR LOCAL</h3>
+        <p class="local-help">Preencha as informações visíveis aos jogadores e guarde separadamente os segredos da sua campanha.</p>
+        <form id="local-form" autocomplete="off">
+            <div class="local-fields">
+                <div class="local-field wide">
+                    <label for="local-edit-nome">Nome do local *</label>
+                    <input id="local-edit-nome" type="text" maxlength="115" required placeholder="Ex.: Fortaleza de Winterfel">
+                </div>
+                <div class="local-field wide">
+                    <label for="local-edit-regiao">Região, categoria ou subtítulo</label>
+                    <input id="local-edit-regiao" type="text" maxlength="100" placeholder="Ex.: Extremo Norte • Castelo • Reino de Nárnia">
+                </div>
+                <div class="local-field wide">
+                    <label for="local-edit-imagem">URL da imagem (opcional)</label>
+                    <input id="local-edit-imagem" type="text" placeholder="https://site.com/cenario.jpg" autocomplete="off">
+                    <small>Ou envie uma foto/ilustração do computador.</small>
+                </div>
+                <div class="local-field wide">
+                    <label for="local-image-file">Imagem do computador</label>
+                    <div class="local-photo-row">
+                        <img id="local-editor-preview" class="local-preview" hidden alt="Prévia do cenário">
+                        <div id="local-editor-fallback" class="local-fallback" aria-hidden="true">🏰</div>
+                        <div style="min-width:0;flex:1">
+                            <input type="file" id="local-image-file" accept="image/png,image/jpeg,image/webp,image/gif">
+                            <small id="local-file-status">A imagem será compactada para funcionar no overlay.</small>
+                            <button type="button" id="local-photo-remove" class="local-secondary" style="padding:6px 10px;margin-top:8px">REMOVER IMAGEM</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="local-field wide">
+                    <label for="local-edit-desc">Descrição pública</label>
+                    <textarea id="local-edit-desc" maxlength="6500" rows="4" placeholder="O que os jogadores enxergam ou conhecem sobre este lugar..."></textarea>
+                </div>
+                <div class="local-field wide">
+                    <label for="local-edit-notas">🔒 Segredos / notas privadas do Mestre</label>
+                    <textarea id="local-edit-notas" maxlength="10000" rows="3" placeholder="Segredos, habitantes ocultos, enigmas e conexões da trama..."></textarea>
+                </div>
+            </div>
+            <div class="local-footer">
+                <button type="button" id="local-cancel" class="local-secondary">CANCELAR</button>
+                <button type="submit" class="locais-primary">💾 SALVAR LOCAL</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div id="modal-enviar-alvo" class="modal-overlay" style="z-index: 3050;">
     <div class="modal-content" style="max-width: 450px; text-align: center;">
         <span class="fechar-modal" onclick="document.getElementById('modal-enviar-alvo').style.display='none'">&times;</span>
@@ -2287,6 +2358,7 @@
         if (abaAtual === 'mundo') renderizarArsenal();
         if (abaAtual === 'mesa') renderizarJogadores();
         if (abaAtual === 'npcs' && typeof renderizarNpcsGM === 'function') renderizarNpcsGM();
+        if (abaAtual === 'locais' && typeof renderizarLocaisGM === 'function') renderizarLocaisGM();
     };
 
     function mudarAba(aba) {
@@ -2310,6 +2382,10 @@
         else if (aba === 'npcs') {
             document.getElementById('tab-npcs').classList.add('active');
             if (typeof renderizarNpcsGM === 'function') renderizarNpcsGM();
+        }
+        else if (aba === 'locais') {
+            document.getElementById('tab-locais').classList.add('active');
+            if (typeof renderizarLocaisGM === 'function') renderizarLocaisGM();
         }
     }
 
@@ -3440,10 +3516,10 @@
         if (event && event.stopPropagation) event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
         const envioDeItem = tipo === 'arsenal' || tipo === 'catalogo';
-        if((envioDeItem || tipo === 'pessoa') && !socket.connected) {
+        if((envioDeItem || tipo === 'pessoa' || tipo === 'local') && !socket.connected) {
             return alert('Sem conexão com o servidor. Reconecte e tente enviar novamente.');
         }
-        if((envioDeItem || tipo === 'pessoa') && Object.keys(jogadores).length === 0) {
+        if((envioDeItem || tipo === 'pessoa' || tipo === 'local') && Object.keys(jogadores).length === 0) {
             return alert('Nenhum jogador conectado à sala. Aguarde os jogadores abrirem suas fichas para enviar os equipamentos.');
         }
 
@@ -3515,6 +3591,18 @@
 
         if (tipo === 'guilda' && !Array.isArray(dadosEnviados.membros)) dadosEnviados.membros = [];
         if (tipo === 'local' && !Array.isArray(dadosEnviados.pontos)) dadosEnviados.pontos = [];
+
+        if(tipo === 'local') {
+            // Só a parte pública vai para o diário: não revelar lugares ocultos,
+            // NPCs vinculados nem anotações secretas da campanha.
+            dadosEnviados = {
+                id: item.id,
+                nome: item.nome,
+                img: item.img || '',
+                desc: item.regiao ? ('Região: ' + item.regiao + '\n\n' + String(item.desc || '')).trim() : (item.desc || ''),
+                pontos: []
+            };
+        }
 
         const opcaoSelecionada = selectAlvo.options[selectAlvo.selectedIndex];
         const alvoNomePersonagem = alvoSelecionado === 'todos'
@@ -3944,5 +4032,6 @@
 </script>
 <script src="catalogo_arsenal_elkarioz.js"></script>
 <script src="npcs-mestre.js"></script>
+<script src="locais-mestre.js"></script>
 </body>
 </html>
