@@ -430,3 +430,94 @@ body, .ficha-container, .conteudo-principal, .sidebar-direita,
   color: #4b2520 !important;
   background: #f2e3d1 !important;
 }
+
+
+/* ELKARIOZ — CATÁLOGO VINHO E ATRIBUTOS EM COLUNA (2026-10) */
+/* Catálogo: remover o azul-marinho e harmonizar com pergaminho, vinho e oliva. */
+#modal-catalogo-magias .catalogo-magias-painel {
+  background: linear-gradient(150deg, #4a2d26 0%, #35231e 58%, #2b201b 100%) !important;
+  border: 1px solid #a7866d !important;
+  color: #f8eddd !important;
+  box-shadow: inset 0 1px 0 rgba(255,244,216,.10) !important;
+}
+#modal-catalogo-magias .catalogo-popup-heading {
+  border-bottom: 2px solid #a98566 !important;
+}
+#modal-catalogo-magias .catalogo-popup-heading h3 {
+  color: #fff2dc !important;
+}
+#modal-catalogo-magias .catalogo-popup-heading p,
+#modal-catalogo-magias .catalogo-magias-resumo {
+  color: #f0dfc8 !important;
+}
+#modal-catalogo-magias .catalogo-magias-filtros {
+  background: #563b32 !important;
+  border-color: #9e7967 !important;
+}
+#modal-catalogo-magias .catalogo-magias-filtros input:focus,
+#modal-catalogo-magias .catalogo-magias-filtros select:focus {
+  border-color: #627845 !important;
+  box-shadow: 0 0 0 3px rgba(158,183,112,.25) !important;
+}
+#modal-catalogo-magias .catalogo-magia-card {
+  background: #fcf7ed !important;
+  border: 1px solid #c7aa90 !important;
+  border-top: 3px solid #855343 !important;
+  box-shadow: 0 5px 14px rgba(28,15,10,.18) !important;
+}
+#modal-catalogo-magias .catalogo-magia-card:hover {
+  background: #fffaf1 !important;
+  border-color: #947257 !important;
+  box-shadow: 0 8px 18px rgba(28,15,10,.25) !important;
+}
+#modal-catalogo-magias .catalogo-magia-card.aprendida {
+  border-top-color: #526631 !important;
+}
+#modal-catalogo-magias .catalogo-magia-card .catalogo-magia-chip {
+  color: #4b352c !important;
+  background: #ebe6d8 !important;
+  border-color: #b7ab84 !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn {
+  color: #fff7e8 !important;
+  background: #5a352b !important;
+  border-color: #906b52 !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn:hover {
+  background: #724536 !important;
+  border-color: #b38a68 !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn.aprender {
+  background: #526631 !important;
+  border-color: #718a47 !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn.aprender:hover {
+  background: #647a3e !important;
+}
+#modal-catalogo-magias .catalogo-magia-btn:disabled {
+  color: #e6e8d6 !important;
+  background: #506045 !important;
+  border-color: #728266 !important;
+}
+/* Atributos FOR, AGI, VIG, INT, SAB, CAR: sempre um abaixo do outro. */
+#tab-principal .sidebar-atributos {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-auto-flow: row !important;
+  gap: 10px !important;
+  background: #f1e4cf !important;
+  border-color: #b6957a !important;
+}
+#tab-principal .sidebar-atributos > .atributo-box {
+  width: 100% !important;
+  min-width: 0;
+  margin: 0 !important;
+  background: #fffaf1 !important;
+  border: 1px solid #b89a7d !important;
+}
+@media (max-width: 1020px) {
+  #tab-principal .sidebar-atributos {
+    width: min(100%, 220px) !important;
+    justify-self: start;
+  }
+}
