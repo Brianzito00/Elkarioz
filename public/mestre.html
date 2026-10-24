@@ -1990,6 +1990,17 @@
         <p style="font-size: 0.75rem; color: #555; text-align:center; margin-top:0; margin-bottom: 10px;">Envie aos jogadores para entrarem direto:</p>
         <input type="text" id="link-convite" class="form-input" style="font-size: 0.8rem; color: #0d47a1; background: #fff; padding: 8px; margin-bottom: 10px;" readonly>
         <button class="btn-acao" style="padding: 8px;" onclick="copiarLink()">📋 COPIAR LINK</button>
+
+        <div style="margin-top:20px;padding-top:15px;border-top:1px solid #c3a88f">
+            <h3 class="section-title" style="margin-bottom:8px;font-size:1rem">🎭 OVERLAY DE RETRATOS</h3>
+            <p style="font-size:.75rem;line-height:1.5">Coloque este link como <strong>Fonte do navegador</strong> (1920 × 1080) no Streamlabs/OBS. O fundo fica transparente quando ninguém estiver exibindo uma foto.</p>
+            <input id="link-overlay-retrato" type="text" class="form-input" style="text-align:left;font-size:.76rem;margin-bottom:9px" readonly aria-label="Link do overlay de retratos">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+                <button type="button" class="btn-acao" style="font-size:.67rem;padding:9px 6px" onclick="abrirOverlayRetrato()">🎭 ABRIR</button>
+                <button type="button" class="btn-acao" style="font-size:.67rem;padding:9px 6px" onclick="copiarLinkOverlayRetrato()">📋 COPIAR LINK</button>
+            </div>
+            <button type="button" class="btn-acao" style="font-size:.71rem;padding:9px;background:#744337!important;border-color:#744337!important" onclick="ocultarOverlayRetrato()">✕ OCULTAR RETRATO ATUAL</button>
+        </div>
     </div>
 </div>
 
@@ -2234,6 +2245,8 @@
         
         let linkMagico = `${window.location.origin}/ficha.html?sala=${gmUid}`;
         document.getElementById('link-convite').value = linkMagico;
+        const linkOverlay = document.getElementById('link-overlay-retrato');
+        if(linkOverlay) linkOverlay.value = `${window.location.origin}/overlay-retrato.html?sala=${encodeURIComponent(gmUid)}`;
         
         let status = document.getElementById('status-texto');
         if(status) status.innerText = `Conectado à sala: ${gmUid}. Buscando jogadores...`;
@@ -2261,6 +2274,43 @@
     }
     
     function copiarLink() { document.getElementById('link-convite').select(); document.execCommand("copy"); alert("Link Copiado!"); }
+
+    function obterLinkOverlayRetrato() {
+        const sala = String(gmUid || document.getElementById('gm-uid')?.value || '').trim().toUpperCase();
+        if(!sala) return '';
+        return `${window.location.origin}/overlay-retrato.html?sala=${encodeURIComponent(sala)}`;
+    }
+    function abrirOverlayRetrato() {
+        const link = obterLinkOverlayRetrato();
+        if(!link) return alert('Configure a sessão antes de abrir o overlay.');
+        window.open(link, '_blank', 'noopener,noreferrer');
+    }
+    async function copiarLinkOverlayRetrato() {
+        const link = obterLinkOverlayRetrato();
+        if(!link) return alert('Configure a sessão antes de copiar o link.');
+        try {
+            if (!navigator.clipboard?.writeText) throw new Error('API de área de transferência indisponível');
+            await navigator.clipboard.writeText(link);
+            alert('🎭 Link do overlay copiado! Adicione como Fonte do navegador no Streamlabs/OBS.');
+        } catch (_) {
+            const input = document.getElementById('link-overlay-retrato');
+            if(input) {
+                input.value = link;
+                input.select();
+                if(document.execCommand('copy')) return alert('🎭 Link do overlay copiado!');
+            }
+            alert('Selecione e copie o link do campo do overlay.');
+        }
+    }
+    function ocultarOverlayRetrato() {
+        const sala = String(gmUid || '').trim().toUpperCase();
+        if(!sala) return alert('Configure a sessão antes de ocultar o retrato.');
+        if(!socket.connected) return alert('Não há conexão com o servidor agora.');
+        socket.emit('portrait_overlay_clear', { sala }, resposta => {
+            if(resposta?.ok) alert('🎭 Retrato ocultado no overlay.');
+            else alert(resposta?.error || 'Não foi possível ocultar o retrato.');
+        });
+    }
     function forcarSincronizacao() { if(!gmUid) return alert("Conecte a uma sala primeiro!"); socket.emit('solicitarEstadoSala', gmUid); }
 
     socket.on('estadoSalaCompleto', function(dados) {
