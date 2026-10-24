@@ -1,0 +1,390 @@
+/* ELKARIOZ RPG — ESCUDO DO MESTRE
+   Identidade visual da ficha: pergaminho, vinho, marrom e verde-oliva.
+   Apenas apresentação: mantém eventos, dados, funções e estrutura do painel. */
+
+:root {
+  --gm-bg: #d8bd9c;
+  --gm-surface: #fbf7ef;
+  --gm-surface-2: #f3e7d4;
+  --gm-surface-3: #e8d7be;
+  --gm-border: rgba(117, 81, 66, .30);
+  --gm-border-strong: rgba(117, 81, 66, .58);
+  --gm-text: #38261f;
+  --gm-muted: #72584a;
+  --gm-purple: #526631;
+  --gm-purple-soft: rgba(82, 102, 49, .12);
+  --gm-cyan: #6c553e;
+  --gm-green: #526631;
+  --gm-red: #9f4037;
+  --gm-blue: #587988;
+  --gm-gold: #af7e39;
+  --gm-shadow: 0 24px 64px rgba(69, 34, 26, .24);
+  color-scheme: light;
+}
+html { background: #d8bd9c !important; }
+body {
+  color: var(--gm-text) !important;
+  background-color: #d8bd9c !important;
+  background-image:
+    radial-gradient(circle at 7% 6%, rgba(75,37,32,.23), transparent 28%),
+    radial-gradient(circle at 96% 92%, rgba(117,81,66,.20), transparent 30%),
+    linear-gradient(115deg, #b69070, #ead8b7 23%, #e6d5b8 80%, #af8468) !important;
+  background-size: cover !important;
+}
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline-color: #526631 !important;
+}
+.painel-mestre {
+  color: var(--gm-text) !important;
+  background: radial-gradient(circle at 3% 14%,rgba(179,128,88,.09), transparent 35%), #f4e8d1 !important;
+  border: 2px solid #9c7762 !important;
+  border-radius: 16px !important;
+  box-shadow: var(--gm-shadow), inset 0 0 0 4px rgba(255,252,244,.30) !important;
+  backdrop-filter: none !important;
+}
+
+/* Cabeçalho vinho como na ficha do jogador. */
+.gm-toolbar {
+  padding: 15px 18px !important;
+  margin-bottom: 16px;
+  border: 1px solid #936b59;
+  border-radius: 14px;
+  background: linear-gradient(115deg, #47231e, #66362e 70%, #855646) !important;
+}
+.gm-brand-mark {
+  color: #fffaf0 !important;
+  background: linear-gradient(145deg, #788c57, #526631) !important;
+  border-color: #b4bc89 !important;
+  box-shadow: 0 3px 0 #332c20 !important;
+}
+.gm-brand-kicker, .gm-toolbar .header-titulo {
+  color: #fff4e4 !important;
+  text-shadow: none !important;
+}
+.gm-status-chip {
+  color: #fff4e4 !important;
+  background: rgba(255,249,236,.12) !important;
+  border-color: #bca286 !important;
+}
+.gm-status-dot { color: #c3df8f !important; }
+.gm-toolbar .btn-sessao {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border-color: #8b9d65 !important;
+  box-shadow: none !important;
+}
+.gm-toolbar .btn-sessao:hover { background: #687d45 !important; }
+
+/* Navegação em papel, seleção oliva. */
+.tabs-container {
+  background: #e8d5b7 !important;
+  border-color: #9b7862 !important;
+}
+.tabs-container .tab-btn {
+  color: #604034 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+.tabs-container .tab-btn:hover {
+  background: #f9f2e6 !important;
+  border-color: #bca183 !important;
+  color: #4b2520 !important;
+}
+.tabs-container .tab-btn.active {
+  color: #fffaf0 !important;
+  background: linear-gradient(135deg, #526631, #6c8b4f) !important;
+  border-color: #526631 !important;
+  box-shadow: 0 4px 12px rgba(61,80,40,.18) !important;
+}
+
+/* Conteúdo, bordas, títulos e estados vazios. */
+.painel-mestre .box-rpg,
+.painel-mestre .player-card,
+.painel-mestre .monstro-card,
+.painel-mestre .arsenal-card,
+.painel-mestre .story-paper {
+  color: #38261f !important;
+  background: #fbf7ef !important;
+  border-color: #c4a88f !important;
+  box-shadow: 0 4px 14px rgba(87,58,43,.09) !important;
+}
+.painel-mestre .section-title,
+.painel-mestre .player-name,
+.painel-mestre .ini-name,
+.painel-mestre .monstro-ataque-nome,
+.painel-mestre .arsenal-card h3,
+.painel-mestre .monstro-resumo-texto strong,
+.painel-mestre .arsenal-vazio strong,
+.painel-mestre .iniciativa-vazia strong {
+  color: #4b2520 !important;
+  text-shadow: none !important;
+}
+.painel-mestre .section-title,
+.painel-mestre .arsenal-header,
+.painel-mestre .iniciativa-cabecalho {
+  border-bottom-color: #c4a58a !important;
+}
+.painel-mestre .player-realname,
+.painel-mestre .iniciativa-sobretitulo,
+.painel-mestre .monstro-secao-titulo,
+.painel-mestre .monstro-stat-label,
+.painel-mestre .arsenal-header p,
+.painel-mestre .arsenal-contador,
+.painel-mestre .arsenal-card-desc,
+.painel-mestre .monstro-resumo-texto small,
+.painel-mestre .iniciativa-vazia,
+.painel-mestre .arsenal-vazio,
+.painel-mestre .placeholder-dashed,
+#status-texto, #bestiario-vazio-texto {
+  color: #765b50 !important;
+}
+.painel-mestre .player-card:hover,
+.painel-mestre .monstro-card:hover,
+.painel-mestre .arsenal-card:hover {
+  background: #fffaf1 !important;
+  border-color: #526631 !important;
+  box-shadow: 0 9px 22px rgba(87,58,43,.16) !important;
+}
+.painel-mestre .monstro-fixado {
+  background: #f9ecdf !important;
+  border-color: #9f4037 !important;
+}
+.painel-mestre .player-img {
+  background: #f2e3cf !important;
+  border-color: #aa876b !important;
+  color: #4b2520 !important;
+  box-shadow: 0 0 0 2px rgba(117,81,66,.12) !important;
+}
+.painel-mestre .stat-badge { color: #fffaf0 !important; background: #6d4a3c !important; border-color: #8c6856 !important; }
+.painel-mestre .combate-global-badge {
+  color: #64472e !important;
+  background: #efe3cc !important;
+  border-color: #bd9e7a !important;
+}
+.painel-mestre .iniciativa-painel { border-color: #b99a7d !important; }
+
+/* Campos claros, texto escuro e foco oliva. */
+.painel-mestre .form-input,
+.painel-mestre .player-gm-notes,
+.painel-mestre .story-title-input,
+.painel-mestre .story-body-input,
+.modal-content input:not([type="checkbox"]):not([type="radio"]),
+.modal-content textarea,
+.modal-content select {
+  color: #2e231f !important;
+  background: #fffdf8 !important;
+  border-color: #b89d85 !important;
+  box-shadow: inset 0 1px 2px rgba(84,47,34,.07) !important;
+}
+.painel-mestre .form-input::placeholder,
+.painel-mestre .player-gm-notes::placeholder,
+.painel-mestre .story-title-input::placeholder,
+.painel-mestre .story-body-input::placeholder,
+.modal-content input::placeholder,
+.modal-content textarea::placeholder { color: #877463 !important; opacity: 1; }
+.painel-mestre .form-input:focus,
+.painel-mestre .player-gm-notes:focus,
+.painel-mestre .story-title-input:focus,
+.painel-mestre .story-body-input:focus,
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+  border-color: #526631 !important;
+  box-shadow: 0 0 0 3px rgba(82,102,49,.16) !important;
+}
+.painel-mestre .placeholder-dashed {
+  background: #f4e9d7 !important;
+  border-color: #b79a80 !important;
+}
+.painel-mestre .btn-acao, .modal-content .btn-acao,
+.painel-mestre .btn-atq-monstro {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border: 1px solid #3d512c !important;
+  text-shadow: none !important;
+}
+.painel-mestre .btn-acao:hover, .modal-content .btn-acao:hover,
+.painel-mestre .btn-atq-monstro:hover { background: #657d41 !important; }
+.painel-mestre .btn-dashed {
+  color: #526631 !important;
+  background: #f1ead9 !important;
+  border-color: #94a371 !important;
+}
+.painel-mestre .btn-dashed:hover { color: #3b4c29 !important; background: #e5ecd5 !important; }
+.painel-mestre .btn-edit-monstro { color: #526631 !important; }
+.painel-mestre .btn-kick, .painel-mestre .btn-kick-ini { color: #9f4037 !important; }
+.painel-mestre .btn-kick:hover, .painel-mestre .btn-kick-ini:hover { color: #6f251f !important; }
+
+/* Iniciativa: pergaminho neutro, turno atual em verde-oliva. */
+.painel-mestre .ini-row {
+  color: #38261f !important;
+  background: #fffaf1 !important;
+  border-color: #c8ad93 !important;
+  box-shadow: none !important;
+}
+.painel-mestre .ini-row:hover { background: #f1eadb !important; border-color: #9a7d61 !important; }
+.painel-mestre .ini-row.ativo {
+  color: #2d3b22 !important;
+  background: linear-gradient(125deg, #dfe9cf, #f2efdf) !important;
+  border-color: #758c54 !important;
+  box-shadow: 0 0 0 1px rgba(82,102,49,.16) !important;
+  animation: none !important;
+}
+.painel-mestre .ini-row.ativo .ini-name { color: #2d3b22 !important; }
+.painel-mestre .ini-row.ativo::before { background: #526631 !important; }
+.painel-mestre .ini-posicao, .painel-mestre .ini-val::before { color: #765b50 !important; }
+.painel-mestre .ini-val,
+.painel-mestre .ini-row.ativo .ini-val {
+  background: #f3e7d4 !important;
+  border-color: #b89d85 !important;
+  color: #38261f !important;
+}
+.painel-mestre .ini-val-input { color: #38261f !important; }
+.painel-mestre .ini-turno-label {
+  color: #36502a !important;
+  background: #e5ecd7 !important;
+  border-color: #95a87d !important;
+}
+.painel-mestre .iniciativa-vazia div, .painel-mestre .ini-name .turn-marker { color: #526631 !important; }
+.painel-mestre .iniciativa-acao {
+  color: #5a4134 !important;
+  background: #eee1ce !important;
+  border-color: #c1a78f !important;
+}
+.painel-mestre .iniciativa-acao:hover { color: #38261f !important; background: #e3d3ba !important; }
+.painel-mestre .iniciativa-acao-principal {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border-color: #6e874b !important;
+}
+.painel-mestre .iniciativa-acao-principal:hover { color: #fffaf0 !important; background: #657b43 !important; }
+.painel-mestre .iniciativa-acao-perigo { color: #9f4037 !important; }
+.painel-mestre .iniciativa-acao-perigo:hover { color: #fffaf0 !important; background: #9f4037 !important; }
+
+/* Bestiário e estatísticas em superfícies claras. */
+.painel-mestre .monstro-resumo,
+.painel-mestre .monstro-ataque-item { color: #38261f !important; }
+.painel-mestre .monstro-resumo:hover { background: #f3ead9 !important; }
+.painel-mestre .monstro-resumo-texto small,
+.painel-mestre .monstro-resumo-seta { color: #765b50 !important; }
+.painel-mestre .monstro-resumo-indicadores span,
+.painel-mestre .monstro-stat-box,
+.painel-mestre .monstro-info-extra,
+.painel-mestre .monstro-enigma-texto,
+.painel-mestre .monstro-hab-item,
+.painel-mestre .monstro-skill-btn,
+.painel-mestre .toggle-fixar,
+.painel-mestre .capitulo-btn {
+  color: #38261f !important;
+  background: #f3e7d4 !important;
+  border-color: #c6aa90 !important;
+}
+.painel-mestre .monstro-resumo-indicadores .resumo-pv { color: #9f4037 !important; }
+.painel-mestre .monstro-resumo-indicadores .resumo-def { color: #53663a !important; }
+.painel-mestre .monstro-stat-val, .painel-mestre .monstro-info-extra b { color: #526631 !important; }
+.painel-mestre .monstro-skill-btn:hover,
+.painel-mestre .monstro-stat-box:hover { background: #e5ecd6 !important; border-color: #526631 !important; color: #36502a !important; }
+.painel-mestre .monstro-detalhes .monstro-skill-btn { background: #f3e7d4 !important; }
+.painel-mestre .monstro-detalhes { background: #f4ebdd !important; border-color: #c6aa90 !important; }
+.painel-mestre .monstro-secao, .painel-mestre .monstro-ataque-item { border-color: #c6aa90 !important; }
+.painel-mestre .toggle-fixar.ativo { color: #fffaf0 !important; background: #9f4037 !important; }
+.painel-mestre .capitulo-btn.active { color: #fffaf0 !important; background: #526631 !important; }
+.painel-mestre .story-divider { border-color: #c6aa90 !important; }
+.painel-mestre .mini-img-moldura { color: #38261f !important; background: #eee2cd !important; border-color: #b99a7d !important; }
+
+/* Barras: manter cores funcionais (vida e mana), com moldura marrom. */
+.painel-mestre .bar-bg { background: #43312b !important; border-color: #a2856e !important; }
+.painel-mestre .bar-text { color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,.8) !important; }
+.painel-mestre .fill-hp { background: linear-gradient(90deg, #93362f, #bb5b50) !important; box-shadow: none !important; }
+.painel-mestre .fill-mp { background: linear-gradient(90deg, #486b83, #6e91a2) !important; box-shadow: none !important; }
+
+/* Arsenal: cartões pergaminho, ações vinho e oliva. */
+.painel-mestre .arsenal-eyebrow,
+.painel-mestre .arsenal-card-tipo { color: #526631 !important; }
+.painel-mestre .arsenal-busca,
+.painel-mestre .arsenal-filtro {
+  color: #38261f !important;
+  background: #fffaf2 !important;
+  border-color: #b89d85 !important;
+}
+.painel-mestre .arsenal-busca:focus-within { border-color: #526631 !important; box-shadow: 0 0 0 3px rgba(82,102,49,.13) !important; }
+.painel-mestre .arsenal-busca input { color: #38261f !important; }
+.painel-mestre .arsenal-busca input::placeholder { color: #877463 !important; }
+.painel-mestre .arsenal-card-imagem { background: #eee2cd !important; border-color: #b99a7d !important; }
+.painel-mestre .arsenal-card-meta span { color: #5d4439 !important; background: #eee5d5 !important; border-color: #c8ad93 !important; }
+.painel-mestre .arsenal-card-acoes button {
+  color: #fffaf0 !important;
+  background: #6d4a3c !important;
+  border-color: #986e57 !important;
+}
+.painel-mestre .arsenal-card-acoes button:hover { background: #845a47 !important; }
+.painel-mestre .arsenal-card-acoes .arsenal-enviar {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border-color: #6a8248 !important;
+}
+.painel-mestre .arsenal-card-acoes .arsenal-enviar:hover { background: #647b3e !important; }
+.painel-mestre .arsenal-card-acoes .arsenal-apagar:hover { background: #9f4037 !important; }
+.painel-mestre .arsenal-btn-novo, .modal-content .arsenal-salvar {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border-color: #6c834c !important;
+}
+.painel-mestre .arsenal-btn-novo:hover { color: #fffaf0 !important; background: #667e44 !important; }
+.painel-mestre .arsenal-modal-icone { background: #e5ebd8 !important; border-color: #9caa79 !important; }
+.painel-mestre .arsenal-card h3 { color: #4b2520 !important; }
+
+/* Modais, toasts, livros de regras e resultado dos dados. */
+.modal-overlay { background: rgba(31,20,16,.70) !important; }
+.modal-content, #dice-result-container {
+  color: #38261f !important;
+  background: #fbf6ea !important;
+  border-color: #9d7865 !important;
+  box-shadow: 0 24px 60px rgba(45,26,18,.42) !important;
+}
+.modal-content .section-title, .modal-content h3,
+.modal-content h4, .modal-content p,
+.modal-content label, .form-label-modal { color: #4b2520 !important; }
+.modal-content .fechar-modal { color: #7f4e3c !important; }
+.modal-content .fechar-modal:hover { color: #9f4037 !important; }
+.modal-content .arsenal-modal-header > div:last-child > span { color: #765b50 !important; }
+.modal-content .arsenal-campos-arma { background: #f3e5db !important; border-color: #c99c90 !important; }
+#dice-result-container .pop-pericia-nome,
+#dice-result-container .pop-total { color: #4b2520 !important; }
+#dice-result-container .pop-detalhes,
+#dice-result-container .pop-hint,
+#dice-result-container [style*="color: #333"],
+#dice-result-container [style*="color:#555"] { color: #765b50 !important; }
+.toast-entry {
+  color: #4b2520 !important;
+  background: #fff9ed !important;
+  border-color: #997664 !important;
+  box-shadow: 0 10px 28px rgba(45,26,18,.24) !important;
+}
+.toast-entry .log-header strong,
+.toast-entry > div:not(.log-header):not(.log-result) { color: #4b2520 !important; }
+.btn-regras-flutuante {
+  color: #fffaf0 !important;
+  background: #526631 !important;
+  border-color: #849b5a !important;
+  box-shadow: 0 10px 22px rgba(45,26,18,.22) !important;
+}
+.btn-regras-flutuante:hover { background: #657c43 !important; }
+#painel-regras { background: #f5e9d4 !important; border-color: #97735d !important; }
+.painel-regras-header { background: #4b2520 !important; border-color: #8f6b59 !important; }
+.painel-regras-titulo { color: #fff6e4 !important; }
+.btn-fechar-regras { color: #f2d7bb !important; }
+::-webkit-scrollbar-track { background: #e3d1b5 !important; }
+::-webkit-scrollbar-thumb { background: #a48a71 !important; }
+::-webkit-scrollbar-thumb:hover { background: #526631 !important; }
+
+/* Algumas ações usam estilo inline nas janelas; preservar rótulos legíveis. */
+.modal-content .btn-acao,
+.modal-content .btn-acao span,
+.modal-content .btn-acao strong,
+.painel-mestre .btn-acao,
+.painel-mestre .btn-acao span { color: #fffaf0 !important; }
+@media (max-width: 700px) {
+  .gm-toolbar { padding: 13px !important; }
+  .painel-mestre { border-width: 1px !important; }
+}
