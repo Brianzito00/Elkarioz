@@ -194,7 +194,8 @@
           (arma ? '<div class="catalogo-equip-extra">Tipo: ' + escapar(item.tipoDano || '—') + ' · Alcance: ' + escapar(item.alcance || '—') + (item.tipo === 'dist' ? ' · Munição: ' + escapar(item.munNomeReq || '—') : '') + '</div>' : '') +
           '<div class="catalogo-equip-acoes">' +
           '<button type="button" class="catalogo-equip-add" onclick="adicionarDoCatalogoArsenal(' + item.i + ')">＋ ADICIONAR</button>' +
-          '<button type="button" class="catalogo-equip-custom" onclick="personalizarDoCatalogoArsenal(' + item.i + ')">✎ EDITAR ANTES</button>' +
+          '<button type="button" class="catalogo-equip-send" onclick="enviarDoCatalogoArsenal(event, ' + item.i + ')">📤 ENVIAR</button>' +
+          '<button type="button" class="catalogo-equip-custom" onclick="personalizarDoCatalogoArsenal(' + item.i + ')">✎ PERSONALIZAR ANTES</button>' +
           '</div></article>';
     }).join('');
   }
@@ -258,6 +259,17 @@
     }
   }
 
+  // Envia diretamente do catálogo, sem cadastrar nem alterar o Meu Arsenal.
+  // A seleção de destinatário e a transmissão aproveitam o fluxo existente do Mestre.
+  function enviarDoCatalogoArsenal(event, index) {
+    if (!modelos[Number(index)]) return;
+    if (typeof abrirModalEnvio !== 'function') {
+      avisar('A opção de envio não está disponível nesta versão do Escudo.');
+      return;
+    }
+    abrirModalEnvio(event, 'catalogo', Number(index));
+  }
+
   function personalizarDoCatalogoArsenal(index) {
     const item = montarItem(index);
     if (!item || typeof abrirModalArsenal !== 'function') return;
@@ -283,6 +295,8 @@
   window.trocarVisaoArsenal = trocarVisaoArsenal;
   window.renderizarCatalogoArsenal = renderizarCatalogoArsenal;
   window.adicionarDoCatalogoArsenal = adicionarDoCatalogoArsenal;
+  window.enviarDoCatalogoArsenal = enviarDoCatalogoArsenal;
+  window.obterModeloCatalogoArsenal = montarItem;
   window.personalizarDoCatalogoArsenal = personalizarDoCatalogoArsenal;
   sincronizarContadorCatalogo();
   atualizarCategorias();
