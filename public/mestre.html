@@ -3505,6 +3505,12 @@
             delete dadosEnviados.notasMestre;
             delete dadosEnviados.notasPrivadas;
             delete dadosEnviados.segredos;
+            // A ficha atual exibe o campo de descrição do NPC no diário:
+            // incluir a função/título público para que apareça ao jogador.
+            if (dadosEnviados.funcao) {
+                const cargo = String(dadosEnviados.funcao).trim();
+                dadosEnviados.desc = cargo ? ('Função: ' + cargo + '\n\n' + String(dadosEnviados.desc || '')).trim() : dadosEnviados.desc;
+            }
         }
 
         if (tipo === 'guilda' && !Array.isArray(dadosEnviados.membros)) dadosEnviados.membros = [];
