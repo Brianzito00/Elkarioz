@@ -1,0 +1,113 @@
+/* Elkarioz · NPCs do Escudo do Mestre
+   Paleta unificada com a ficha: pergaminho, vinho e oliva. */
+#tab-npcs .npc-board { display:flex; flex-direction:column; min-height:0; height:100%; padding:20px; overflow:hidden; }
+#tab-npcs .npc-header {
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  padding-bottom:18px;border-bottom:1px solid #c3a78d;
+}
+#tab-npcs .npc-header h2 {font:900 clamp(1.13rem,2.1vw,1.45rem) 'Cinzel',Georgia,serif!important;color:#4b2520!important;border:0!important;margin:5px 0 6px!important}
+#tab-npcs .npc-header p {color:#72594b;line-height:1.52;font-size:.82rem;margin:0;max-width:590px}
+#tab-npcs .npc-eyebrow {font:900 .66rem 'Roboto',sans-serif;color:#627940;letter-spacing:.11em}
+#tab-npcs button.npc-primary,#modal-npc-editor button.npc-primary {
+  background:linear-gradient(135deg,#526631,#718750)!important;border:1px solid #536939!important;
+  color:#fff9eb!important;border-radius:9px;padding:12px 16px;min-height:42px;
+  font:900 .74rem 'Roboto',sans-serif;letter-spacing:.02em;cursor:pointer;white-space:nowrap;
+}
+#tab-npcs button.npc-primary:hover,#modal-npc-editor button.npc-primary:hover {filter:brightness(1.12)}
+#tab-npcs .npc-toolbar {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:17px 0}
+#tab-npcs .npc-search {
+  min-width:170px;flex:1 1 270px;max-width:530px;
+  background:#fffcf5;color:#38261f!important;border:1px solid #b79b7e;border-radius:10px;
+  padding:11px 13px;font:600 .86rem 'Roboto',sans-serif!important;
+}
+#tab-npcs .npc-search:focus {border-color:#526631;outline:3px solid rgba(82,102,49,.2)}
+#tab-npcs .npc-search::placeholder {color:#8b786a}
+#tab-npcs .npc-count {color:#6c523f;font:900 .72rem 'Roboto',sans-serif;white-space:nowrap}
+#tab-npcs .npc-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,285px),1fr));
+  gap:14px;align-content:start;overflow-y:auto;min-height:0;max-height:min(76vh,810px);
+  padding:2px 7px 12px 1px;
+}
+#tab-npcs .npc-card {
+  display:flex;flex-direction:column;min-width:0;gap:12px;padding:15px;
+  background:linear-gradient(145deg,#fffbf3,#f5e8d4)!important;
+  border:1px solid #c6a88f!important;border-top:3px solid #835245!important;
+  border-radius:13px;box-shadow:0 5px 14px rgba(74,44,32,.11);
+}
+#tab-npcs .npc-card:hover {border-color:#82925c!important;box-shadow:0 8px 22px rgba(74,44,32,.15)}
+#tab-npcs .npc-identity {display:flex;align-items:center;gap:12px;min-width:0}
+#tab-npcs .npc-photo {
+  display:grid;place-items:center;flex:0 0 76px;width:76px;height:86px;
+  background:#e8d8bf;border:2px solid #997357;border-radius:9px;overflow:hidden;
+  color:#715137;font-size:2.05rem;box-shadow:inset 0 0 0 2px rgba(255,255,255,.45);
+}
+#tab-npcs .npc-photo img {width:100%;height:100%;object-fit:cover}
+#tab-npcs .npc-identity-text {min-width:0;flex:1}
+#tab-npcs .npc-kind {font:900 .57rem 'Roboto',sans-serif;letter-spacing:.09em;color:#597238;text-transform:uppercase}
+#tab-npcs .npc-name {margin:5px 0 5px;color:#4b2520!important;font:900 .94rem/1.2 'Cinzel',serif;overflow-wrap:anywhere}
+#tab-npcs .npc-job {font:800 .69rem 'Roboto',sans-serif;line-height:1.4;color:#735746;overflow-wrap:anywhere}
+#tab-npcs .npc-summary {color:#554437!important;font:500 .75rem/1.5 'Roboto',sans-serif;margin:0;min-height:37px;white-space:pre-wrap;overflow-wrap:anywhere}
+#tab-npcs .npc-private {border:1px solid #d5c09e;background:#f5eadb;border-radius:8px;padding:8px 10px;color:#79573c;font:700 .66rem/1.5 'Roboto',sans-serif}
+#tab-npcs .npc-private strong {display:block;margin-bottom:3px;color:#6e503d}
+#tab-npcs .npc-actions {display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+#tab-npcs .npc-action {
+  display:flex;align-items:center;justify-content:center;gap:4px;min-height:38px;
+  padding:7px 9px;border:1px solid #b89a80;border-radius:8px;
+  font:900 .67rem 'Roboto',sans-serif;cursor:pointer;text-align:center;
+  background:#efe3d0;color:#594234!important;
+}
+#tab-npcs .npc-action:hover {filter:brightness(1.09)}
+#tab-npcs .npc-action.send {background:#526631;color:#fff9ec!important;border-color:#40532e}
+#tab-npcs .npc-action.show {background:#73443a;color:#fff9ec!important;border-color:#5b352c}
+#tab-npcs .npc-action.show:disabled {opacity:.55;cursor:not-allowed}
+#tab-npcs .npc-action.delete {color:#9d4339!important;border-color:#d4a99c;background:#fae7dc}
+#tab-npcs .npc-empty {
+  grid-column:1/-1;text-align:center;padding:45px 20px;
+  border:1px dashed #baa183;background:#f9f2e6;border-radius:11px;
+  color:#745a49;line-height:1.6;font-size:.86rem;
+}
+#tab-npcs .npc-empty strong {display:block;color:#4b2520;font:900 1rem 'Cinzel',serif}
+#tab-npcs .npc-overlay-tip {border:1px solid #b7c39b;background:#edf0e3;border-radius:11px;margin:2px 0 16px;padding:11px 13px;font:700 .74rem/1.45 'Roboto',sans-serif;color:#4a5b37}
+#tab-npcs .npc-status {min-height:0;font:700 .76rem/1.4 'Roboto',sans-serif;color:#526631}
+#tab-npcs .npc-status:empty {display:none}
+#tab-npcs .npc-status.error {color:#a43f32}
+/* Editor de NPC: modal independente do editor legado de Mundo. */
+#modal-npc-editor {z-index:5050!important}
+#modal-npc-editor .npc-editor-shell {
+  width:min(560px,calc(100vw - 30px));max-width:100%;max-height:min(92vh,860px);
+  padding:23px 25px;overflow-y:auto;text-align:left!important;color:#38261f!important;
+  background:linear-gradient(140deg,#fffaf1,#f3e7d3)!important;border:2px solid #ac886f!important;
+  border-radius:16px!important;
+}
+#modal-npc-editor .npc-editor-shell h3 {color:#4b2520!important;font:900 1.16rem 'Cinzel',serif;margin:0 0 6px}
+#modal-npc-editor .npc-editor-help {color:#775b4a;font:500 .76rem/1.5 'Roboto',sans-serif;margin:0 0 15px}
+#modal-npc-editor .npc-fields {display:grid;grid-template-columns:1fr 1fr;gap:13px}
+#modal-npc-editor .npc-field {min-width:0}
+#modal-npc-editor .npc-field.wide {grid-column:1/-1}
+#modal-npc-editor label {display:block;color:#6b4e3e;font:900 .67rem 'Roboto',sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+#modal-npc-editor input:not([type=file]),#modal-npc-editor textarea {
+  width:100%;min-height:42px;color:#30231c!important;background:#fffefa!important;
+  border:1px solid #b69b80!important;border-radius:9px;padding:10px;
+  font:600 .81rem 'Roboto',sans-serif;box-shadow:none!important;
+}
+#modal-npc-editor textarea {resize:vertical;min-height:82px;font-weight:500;line-height:1.45}
+#modal-npc-editor input:focus,#modal-npc-editor textarea:focus {border-color:#526631!important;outline:3px solid rgba(82,102,49,.15)}
+#modal-npc-editor input[type=file] {width:100%;font:.75rem 'Roboto',sans-serif;color:#725647;padding:6px 0}
+#modal-npc-editor .npc-photo-row {display:flex;align-items:center;gap:14px;border:1px dashed #c7aa8a;background:#f5e9d9;padding:9px;border-radius:11px}
+#modal-npc-editor .npc-editor-preview {width:86px;height:96px;flex:0 0 86px;object-fit:cover;border:2px solid #ab8969;border-radius:9px;background:#e7d8c2}
+#modal-npc-editor .npc-editor-preview[hidden] {display:none}
+#modal-npc-editor .npc-editor-fallback {width:86px;height:96px;display:grid;place-items:center;font-size:2.5rem;color:#795a45}
+#modal-npc-editor .npc-editor-fallback[hidden] {display:none}
+#modal-npc-editor .npc-editor-footer {display:flex;gap:9px;margin-top:18px}
+#modal-npc-editor .npc-editor-footer button {flex:1}
+#modal-npc-editor .npc-secondary {background:#e8d7c0;border:1px solid #b29a7d;color:#634839!important;border-radius:9px;cursor:pointer;font:900 .74rem 'Roboto',sans-serif;padding:12px}
+#modal-npc-editor .npc-field small {font:500 .69rem/1.4 'Roboto',sans-serif;color:#766052;display:block;margin-top:5px}
+@media(max-width:680px) {
+ #tab-npcs .npc-board {padding:14px}
+ #tab-npcs .npc-header {align-items:stretch}
+ #tab-npcs button.npc-primary {width:100%}
+ #tab-npcs .npc-grid {grid-template-columns:minmax(0,1fr)}
+ #modal-npc-editor .npc-fields {grid-template-columns:minmax(0,1fr)}
+ #modal-npc-editor .npc-field.wide {grid-column:auto}
+ #modal-npc-editor .npc-editor-shell {padding:17px}
+}
