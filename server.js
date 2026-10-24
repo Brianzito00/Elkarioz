@@ -27,6 +27,22 @@ if (!fs.existsSync(dbPath)) {
 // MEMÓRIA VOLÁTIL (Para o Escudo do Mestre e Overlay ao vivo)
 // ==========================================
 let salas = {};
+// Estado temporário dos retratos em destaque no overlay, separado por mesa.
+// O último retrato ativo reaparece se a fonte do Streamlabs/OBS for recarregada.
+const retratosEmDestaque = new Map();
+const normalizarMesaRetrato = valor => {
+    const mesa = String(valor || '').trim().toUpperCase();
+    return /^[A-Z0-9_-]{1,64}$/.test(mesa) ? mesa : '';
+};
+const salaOverlayRetrato = mesa => 'overlay-retrato:' + mesa;
+const validarUrlRetrato = valor => {
+    const url = String(valor || '').trim();
+    if (!url || url.length > 250000) return '';
+    if (/^https?:\/\//i.test(url) || /^\/[^/]/.test(url)) return url;
+    if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(url)) return url;
+    return '';
+};
+
 
 io.on('connection', (socket) => {
     console.log('🟢 Novo dispositivo conectado:', socket.id);
@@ -71,6 +87,64 @@ io.on('connection', (socket) => {
 
         // Avisa a aba daquele jogador específico para se desconectar
         io.emit('player_kicked', data);
+    });
+
+
+    // Overlay de retratos: o visualizador assina apenas a sua própria mesa.
+    socket.on('portrait_overlay_join', (payload = {}, ack) => {
+        const mesa = normalizarMesaRetrato(payload.sala);
+        if (!mesa) {
+            if (typeof ack === 'function') ack({ ok: false, error: 'Sala inválida.' });
+            return;
+        }
+        // Evita continuar recebendo imagens da mesa anterior ao trocar de sessão.
+        if (socket.data.salaRetratoOverlay && socket.data.salaRetratoOverlay !== mesa) {
+            socket.leave(salaOverlayRetrato(socket.data.salaRetratoOverlay));
+        }
+        socket.data.salaRetratoOverlay = mesa;
+        socket.join(salaOverlayRetrato(mesa));
+        socket.emit('portrait_overlay_state', retratosEmDestaque.get(mesa) || { sala: mesa, visible: false });
+        if (typeof ack === 'function') ack({ ok: true });
+    });
+
+    // O jogador toca no próprio retrato: mostrar/ocultar no Streamlabs/OBS.
+    socket.on('portrait_overlay_toggle', (payload = {}, ack) => {
+        const mesa = normalizarMesaRetrato(payload.sala);
+        const id = String(payload.playerId || '').trim().slice(0, 40);
+        const url = validarUrlRetrato(payload.url);
+        if (!mesa || !id || !url) {
+            if (typeof ack === 'function') ack({ ok: false, error: 'Configure a mesa e uma foto válida.' });
+            return;
+        }
+        const antigo = retratosEmDestaque.get(mesa);
+        const visible = !(antigo && antigo.visible && antigo.playerId === id);
+        const proximo = visible
+            ? {
+                sala: mesa,
+                visible: true,
+                playerId: id,
+                nome: String(payload.nome || 'Aventureiro').trim().slice(0, 90),
+                raca: String(payload.raca || '').trim().slice(0, 65),
+                url,
+                updatedAt: Date.now()
+            }
+            : { sala: mesa, visible: false, updatedAt: Date.now() };
+        retratosEmDestaque.set(mesa, proximo);
+        io.to(salaOverlayRetrato(mesa)).emit('portrait_overlay_state', proximo);
+        if (typeof ack === 'function') ack({ ok: true, visible });
+    });
+
+    // O mestre pode encerrar a exibição sem mexer na ficha do jogador.
+    socket.on('portrait_overlay_clear', (payload = {}, ack) => {
+        const mesa = normalizarMesaRetrato(payload.sala);
+        if (!mesa) {
+            if (typeof ack === 'function') ack({ ok: false, error: 'Sala inválida.' });
+            return;
+        }
+        const vazio = { sala: mesa, visible: false, updatedAt: Date.now() };
+        retratosEmDestaque.set(mesa, vazio);
+        io.to(salaOverlayRetrato(mesa)).emit('portrait_overlay_state', vazio);
+        if (typeof ack === 'function') ack({ ok: true });
     });
 
     // Mestre compartilha um item/arma
