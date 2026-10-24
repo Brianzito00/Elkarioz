@@ -3313,11 +3313,18 @@
     function abrirModalEnvio(event, tipo, id) {
         if (event && event.stopPropagation) event.stopPropagation();
         if(!gmUid) return alert("Você precisa estar conectado em uma sala primeiro!");
-        
+        const envioDeItem = tipo === 'arsenal' || tipo === 'catalogo';
+        if(envioDeItem && !socket.connected) {
+            return alert('Sem conexão com o servidor. Reconecte e tente enviar novamente.');
+        }
+        if(envioDeItem && Object.keys(jogadores).length === 0) {
+            return alert('Nenhum jogador conectado à sala. Aguarde os jogadores abrirem suas fichas para enviar os equipamentos.');
+        }
+
         itemPendenteEnvio = { tipo: tipo, id: id };
         const ajudaEnvio = document.getElementById('envio-alvo-ajuda');
-        if(ajudaEnvio) ajudaEnvio.innerText = tipo === 'arsenal'
-            ? 'O item será adicionado diretamente ao inventário de quem receber.'
+        if(ajudaEnvio) ajudaEnvio.innerText = envioDeItem
+            ? 'Escolha um jogador conectado ou envie para todos. O equipamento irá diretamente para o inventário deles.'
             : 'Escolha quem receberá este conteúdo.';
         let select = document.getElementById('select-alvo');
         select.innerHTML = '';
@@ -3348,8 +3355,11 @@
         let { tipo, id } = itemPendenteEnvio;
         const selectAlvo = document.getElementById('select-alvo');
         let alvoSelecionado = selectAlvo.value;
-        let db = tipo === 'arsenal' ? dbArsenal : (tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos)));
-        let item = db.find(x => String(x.id) === String(id));
+        const ehEquipamento = tipo === 'arsenal' || tipo === 'catalogo';
+        const db = tipo === 'arsenal' ? dbArsenal : (tipo === 'guilda' ? dbGuildas : (tipo === 'pessoa' ? dbPessoas : (tipo === 'local' ? dbLocais : gmCapitulos)));
+        const item = tipo === 'catalogo'
+            ? (typeof window.obterModeloCatalogoArsenal === 'function' ? window.obterModeloCatalogoArsenal(id) : null)
+            : db.find(x => String(x.id) === String(id));
         
         if(!item) return alert('Não foi possível encontrar esta informação para enviar.');
 
@@ -3360,7 +3370,7 @@
             dadosEnviados.conteudo = item.texto;
         }
 
-        if(tipo === 'arsenal') {
+        if(ehEquipamento) {
             dadosEnviados.origemMestreId = item.id;
             dadosEnviados.equipado = false;
         }
@@ -3379,7 +3389,7 @@
             targetId: alvoSelecionado,
             targetName: alvoNomePersonagem,
             entidade: {
-                tipoLista: tipo === 'arsenal' ? 'inventario' : tipo,
+                tipoLista: ehEquipamento ? 'inventario' : tipo,
                 dados: dadosEnviados,
                 enviadoEm: Date.now(),
                 versao: 2
@@ -3387,7 +3397,9 @@
         });
         
         let alvoNome = alvoSelecionado === 'todos' ? 'Todos os Jogadores' : (alvoNomePersonagem || `UID ${alvoSelecionado}`);
-        alert(`A informação foi enviada para ${alvoNome}.`);
+        alert(ehEquipamento
+            ? `📦 ${item.nome} enviado para ${alvoNome}. O jogador receberá no inventário enquanto estiver conectado à sala.`
+            : `A informação foi enviada para ${alvoNome}.`);
         itemPendenteEnvio = null;
         fecharModais();
     }
