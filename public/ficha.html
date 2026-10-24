@@ -2229,7 +2229,7 @@
                 <div class="campo-rpg campo-raca-com-combate" style="flex: 1.5;">
                     <div class="input-wrapper">
                         <label>Raça</label>
-                        <select id="raca-input" class="form-input">
+                        <select id="raca-input" class="form-input" onchange="sincronizarComMestre()">
                             <option value="">Selecione...</option>
                             <option value="Humano">Humano</option><option value="Anão">Anão</option><option value="Elfo">Elfo</option>
                             <option value="Goblin">Goblin</option><option value="Minotauro">Minotauro</option><option value="Golem">Golem</option>
@@ -3333,6 +3333,7 @@
             idJogador: idUnicoFicha,
             charName: document.getElementById('char-name-input').value || 'Desconhecido',
             playerName: document.getElementById('player-name-input').value || 'Jogador',
+            raca: document.getElementById('raca-input').value || '',
             classe: document.getElementById('classe-input').value || 'Aventureiro',
             nivel: parseInt(document.getElementById('nivel').value) || 1,
             modoCombate: modoCombateAtivo,
