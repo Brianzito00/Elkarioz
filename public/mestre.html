@@ -1815,6 +1815,7 @@
     </style>
     <!-- Escudo com a mesma paleta de pergaminho da ficha -->
     <link rel="stylesheet" href="tema_pergaminho_mestre_elkarioz.css">
+    <link rel="stylesheet" href="catalogo_arsenal_elkarioz.css">
 </head>
 <body>
 
@@ -1919,7 +1920,13 @@
                         <button type="button" class="arsenal-btn-novo" onclick="abrirModalArsenal()">＋ NOVO ITEM</button>
                     </div>
 
-                    <div class="arsenal-toolbar">
+
+                    <div class="arsenal-view-switch" role="group" aria-label="Alternar arsenal do mestre">
+                        <button type="button" class="arsenal-view-btn ativo" id="arsenal-view-salvos" aria-pressed="true" onclick="trocarVisaoArsenal('salvos')">🎒 MEU ARSENAL</button>
+                        <button type="button" class="arsenal-view-btn" id="arsenal-view-catalogo" aria-pressed="false" onclick="trocarVisaoArsenal('catalogo')">⚔️ CATÁLOGO DE EQUIPAMENTOS <small id="arsenal-total-modelos">101</small></button>
+                    </div>
+
+                    <div class="arsenal-toolbar arsenal-bloco-salvos">
                         <label class="arsenal-busca"><span>⌕</span><input type="search" id="arsenal-busca" placeholder="Buscar no arsenal..." oninput="renderizarArsenal()"></label>
                         <select id="arsenal-filtro-tipo" class="arsenal-filtro" onchange="renderizarArsenal()" aria-label="Filtrar arsenal por tipo">
                             <option value="todos">Todos os tipos</option>
@@ -1930,7 +1937,34 @@
                         <span id="arsenal-contador" class="arsenal-contador">0 itens</span>
                     </div>
 
-                    <div id="lista-arsenal-container" class="arsenal-grid"></div>
+                    <div id="lista-arsenal-container" class="arsenal-grid arsenal-bloco-salvos"></div>
+
+                    <section id="arsenal-catalogo" class="arsenal-catalogo-area" aria-label="Catálogo de armas e itens" hidden>
+                        <div class="arsenal-catalogo-filtros">
+                            <label>Pesquisar equipamento
+                                <input type="search" id="arsenal-catalogo-busca" placeholder="Nome, descrição, tipo ou dano..." oninput="renderizarCatalogoArsenal()" autocomplete="off">
+                            </label>
+                            <label>Tipo
+                                <select id="arsenal-catalogo-tipo" onchange="renderizarCatalogoArsenal()">
+                                    <option value="todos">Todos os tipos</option>
+                                    <option value="corpo">Armas corpo a corpo</option>
+                                    <option value="dist">Armas à distância</option>
+                                    <option value="comum">Itens e proteções</option>
+                                </select>
+                            </label>
+                            <label>Categoria
+                                <select id="arsenal-catalogo-grupo" onchange="renderizarCatalogoArsenal()">
+                                    <option value="todos">Todas as categorias</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="arsenal-catalogo-barra">
+                            <strong id="arsenal-catalogo-contador">101 modelos</strong>
+                            <span>Dados e pesos sugeridos: personalize conforme as regras da sua campanha.</span>
+                        </div>
+                        <div id="arsenal-catalogo-aviso" role="status" aria-live="polite" hidden></div>
+                        <div id="arsenal-catalogo-grid" class="arsenal-catalogo-grid"></div>
+                    </section>
                 </div>
             </div>
 
@@ -3758,6 +3792,6 @@
         }, 12000); 
     }
 </script>
-
+<script src="catalogo_arsenal_elkarioz.js"></script>
 </body>
 </html>
