@@ -287,9 +287,9 @@
       clearTimeout(esconderTimer);
       estadoAtual = data;
       const token = ++mostrarToken;
-      const isLocal = data.kind === 'local';
+      const isLocal = data.kind === 'local' || data.kind === 'monstro';
       root.classList.toggle('local-view', isLocal);
-      img.alt = isLocal ? 'Imagem do local em tela cheia' : 'Retrato do personagem em destaque';
+      img.alt = isLocal ? 'Imagem em tela cheia' : 'Retrato do personagem em destaque';
       emblem.textContent = isLocal ? 'ELKARIOZ · LOCAL' : data.kind === 'npc' ? 'ELKARIOZ · NPC' : 'ELKARIOZ · RETRATO';
       nameElement.textContent = String(data.nome || (isLocal ? 'LOCAL DESCONHECIDO' : 'AVENTUREIRO'));
       detailsElement.textContent = String(data.raca || (isLocal ? 'CENÁRIO DE ELKARIOZ' : 'HERÓI DE ELKARIOZ'));
