@@ -192,6 +192,7 @@
     socket.timeout(6500).emit('portrait_overlay_toggle', {
       sala, playerId: 'npc-' + String(npc.id), nome: npc.nome,
       raca: npc.funcao ? 'NPC · ' + npc.funcao : 'PERSONAGEM NÃO JOGÁVEL',
+      kind: 'npc',
       url
     }, (err, result) => {
       if (err || !result?.ok) return avisarNPC('Não foi possível atualizar o overlay. Confira o servidor e o link da sala.', true);
