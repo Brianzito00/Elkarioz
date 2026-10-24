@@ -1,5 +1,6 @@
 /* Elkarioz · NPCs do Escudo do Mestre
    Paleta unificada com a ficha: pergaminho, vinho e oliva. */
+.tabs-container { grid-template-columns:repeat(4,minmax(0,1fr))!important; }
 #tab-npcs .npc-board { display:flex; flex-direction:column; min-height:0; height:100%; padding:20px; overflow:hidden; }
 #tab-npcs .npc-header {
   display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
@@ -103,6 +104,7 @@
 #modal-npc-editor .npc-secondary {background:#e8d7c0;border:1px solid #b29a7d;color:#634839!important;border-radius:9px;cursor:pointer;font:900 .74rem 'Roboto',sans-serif;padding:12px}
 #modal-npc-editor .npc-field small {font:500 .69rem/1.4 'Roboto',sans-serif;color:#766052;display:block;margin-top:5px}
 @media(max-width:680px) {
+ .tabs-container {grid-template-columns:repeat(2,minmax(0,1fr))!important}
  #tab-npcs .npc-board {padding:14px}
  #tab-npcs .npc-header {align-items:stretch}
  #tab-npcs button.npc-primary {width:100%}
@@ -111,3 +113,5 @@
  #modal-npc-editor .npc-field.wide {grid-column:auto}
  #modal-npc-editor .npc-editor-shell {padding:17px}
 }
+
+@media(max-width:420px) { .tabs-container {grid-template-columns:1fr!important} }
