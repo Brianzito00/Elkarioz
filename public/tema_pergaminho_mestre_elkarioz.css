@@ -536,3 +536,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
     font-size: .95rem !important;
   }
 }
+
+/* Raça do jogador no mesmo tamanho dos metadados da ficha. */
+#players-container > .player-card:not(.monstro-card-compacto) .player-realname.player-race {
+  margin-top: 3px !important;
+  color: #526631 !important;
+  line-height: 1.4 !important;
+  letter-spacing: .02em;
+}
