@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Elkarioz — Retratos em Destaque</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Roboto:wght@500;700;900&display=swap');
+    :root { --vinho:#4b2520; --ouro:#d4ad71; --pergaminho:#f1dfc0; --oliva:#a6bc78; }
+    * { box-sizing:border-box; }
+    html,body { width:100%;height:100%;margin:0;overflow:hidden;background:transparent; }
+    body { font-family:'Cinzel',Georgia,serif;color:var(--pergaminho); }
+    .inspection {
+      position:fixed;inset:0;display:grid;place-items:center;
+      opacity:0;visibility:hidden;pointer-events:none;
+      transition:opacity .42s ease,visibility 0s linear .42s;
+      isolation:isolate;
+    }
+    .inspection::before {
+      content:"";position:absolute;inset:0;z-index:-2;
+      background:radial-gradient(ellipse at 50% 46%,rgba(33,18,16,.28) 0%,rgba(16,10,10,.53) 62%,rgba(7,5,5,.72) 100%);
+      opacity:0;transition:opacity .55s ease;
+    }
+    .inspection.active { opacity:1;visibility:visible;transition:opacity .42s ease; }
+    .inspection.active::before { opacity:1; }
+    .inspection.leaving { opacity:0;visibility:visible;transition:opacity .5s ease; }
+    .inspection.leaving::before { opacity:0; }
+    .inspection-inner {
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      width:min(92vw,990px);max-height:96vh;min-height:0;gap:clamp(14px,2vh,24px);
+      transform-origin:50% 55%;filter:blur(0);will-change:transform,filter,opacity;
+    }
+    .inspection.active:not(.leaving) .inspection-inner {
+      animation:revelar-retrato .85s cubic-bezier(.17,.79,.19,1) both;
+    }
+    .inspection.leaving .inspection-inner {
+      animation:ocultar-retrato .46s cubic-bezier(.6,0,.8,.24) both;
+    }
+    .emblema {
+      display:flex;align-items:center;justify-content:center;gap:17px;
+      color:#ead5b1;letter-spacing:.32em;font-weight:800;
+      font-size:clamp(.62rem,1.12vw,.92rem);text-align:center;
+      text-transform:uppercase;text-shadow:0 2px 15px #000;
+    }
+    .emblema::before,.emblema::after {
+      content:"";display:block;width:clamp(35px,6vw,82px);height:1px;
+      background:linear-gradient(90deg,transparent,var(--ouro));
+    }
+    .emblema::after { transform:rotate(180deg); }
+    .artwork-shell {
+      position:relative;display:grid;place-items:center;
+      width:min(66vw,720px);height:min(70vh,730px);
+      min-width:0;min-height:0;padding:clamp(8px,1.2vw,15px);
+      border:1px solid rgba(214,171,107,.55);
+      border-radius:clamp(8px,1.4vw,17px);
+      background:linear-gradient(140deg,rgba(89,49,37,.40),rgba(23,14,13,.54) 53%,rgba(80,47,36,.45));
+      box-shadow:0 18px 55px rgba(0,0,0,.45),inset 0 0 0 4px rgba(224,184,125,.075);
+      transform-style:preserve-3d;
+    }
+    .artwork-shell::before,.artwork-shell::after {
+      content:"";position:absolute;width:clamp(21px,3.8vw,45px);
+      height:clamp(21px,3.8vw,45px);pointer-events:none;z-index:4;
+      border-color:#e7c58b;border-style:solid;
+      filter:drop-shadow(0 0 6px rgba(230,190,127,.32));
+    }
+    .artwork-shell::before { left:8px;top:8px;border-width:2px 0 0 2px;border-radius:6px 0 0; }
+    .artwork-shell::after { right:8px;bottom:8px;border-width:0 2px 2px 0;border-radius:0 0 6px; }
+    .portrait {
+      display:block;width:100%;height:100%;min-height:0;object-fit:contain;object-position:center;
+      border-radius:6px;filter:drop-shadow(0 10px 17px rgba(0,0,0,.68));
+      opacity:0;transition:opacity .3s ease;
+    }
+    .portrait.loaded { opacity:1; }
+    .fallback {
+      display:none;place-items:center;position:absolute;inset:8px;
+      font-size:clamp(85px,19vmin,220px);color:#d7b37b;
+      background:radial-gradient(ellipse at center,rgba(121,81,58,.26),transparent 70%);
+    }
+    .fallback.visible { display:grid; }
+    .caption {
+      text-align:center;max-width:min(92vw,880px);
+      display:flex;flex-direction:column;gap:9px;align-items:center;
+      padding:0 20px;
+    }
+    .character-name {
+      display:block;color:#fff4dd;font-size:clamp(1.3rem,3vw,2.6rem);
+      font-weight:900;letter-spacing:.11em;line-height:1.15;text-transform:uppercase;
+      text-shadow:0 5px 16px rgba(0,0,0,.85),0 0 22px rgba(198,146,85,.23);
+      overflow-wrap:anywhere;
+    }
+    .character-detail {
+      color:#e3c89f;font-family:'Roboto',sans-serif;
+      font-size:clamp(.66rem,1.2vw,.95rem);font-weight:900;
+      text-transform:uppercase;letter-spacing:.26em;text-shadow:0 3px 12px rgba(0,0,0,.9);
+    }
+    .caption::after { content:"";margin-top:5px;width:clamp(100px,21vw,270px);height:2px;background:linear-gradient(90deg,transparent,#d1ac75,transparent); }
+    .setup {
+      position:fixed;inset:0;display:grid;place-items:center;padding:20px;
+      background:radial-gradient(circle,#503229,#1a120f);
+      font:700 1rem 'Roboto',sans-serif;
+    }
+    .setup[hidden] { display:none; }
+    .setup-card {
+      width:min(95vw,440px);padding:26px;
+      background:#f6ebd8;color:var(--vinho);border:2px solid #b99b77;
+      border-radius:18px;box-shadow:0 22px 48px rgba(0,0,0,.36);
+    }
+    .setup h1 { font:800 1.3rem 'Cinzel',Georgia,serif;margin:0 0 9px; }
+    .setup p { font-size:.86rem;line-height:1.5;font-weight:500; }
+    .setup label { display:block;margin:18px 0 5px;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase; }
+    .setup input,.setup button { width:100%;height:45px;border-radius:9px;padding:10px;font:700 1rem 'Roboto',sans-serif; }
+    .setup input { color:#34241d;background:#fffdf6;border:1px solid #a98c73; }
+    .setup button { margin-top:11px;background:#526631;color:#fff9eb;border:0;cursor:pointer; }
+    .setup small { display:block;line-height:1.45;margin-top:13px;color:#755e4e; }
+    .setup .error { color:#9f4037;font-size:.8rem;font-weight:700; }
+    @keyframes revelar-retrato {
+      0% { opacity:0;transform:perspective(1400px) rotateY(-9deg) translateY(28px) scale(.84);filter:blur(17px) brightness(1.4); }
+      58% { opacity:1;transform:perspective(1400px) rotateY(2deg) translateY(-5px) scale(1.015);filter:blur(1px) brightness(1.12); }
+      100% { opacity:1;transform:perspective(1400px) rotateY(0) translateY(0) scale(1);filter:blur(0) brightness(1); }
+    }
+    @keyframes ocultar-retrato {
+      0% { opacity:1;transform:scale(1);filter:blur(0); }
+      100% { opacity:0;transform:translateY(15px) scale(.89);filter:blur(12px) brightness(.65); }
+    }
+    @media(max-width:680px) {
+      .artwork-shell { width:min(88vw,480px);height:min(66vh,600px); }
+      .inspection-inner { gap:12px; }
+      .character-detail { letter-spacing:.13em; }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      .inspection,.inspection::before,.portrait { transition:none !important; }
+      .inspection.active .inspection-inner,.inspection.leaving .inspection-inner { animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="portrait-inspection" class="inspection" aria-hidden="true">
+    <div class="inspection-inner">
+      <div class="emblema" aria-hidden="true">ELKARIOZ · RETRATO</div>
+      <div class="artwork-shell">
+        <img id="portrait-image" class="portrait" alt="Retrato do personagem em destaque">
+        <div id="portrait-fallback" class="fallback" aria-hidden="true">⚔</div>
+      </div>
+      <div class="caption">
+        <strong class="character-name" id="portrait-name"></strong>
+        <span class="character-detail" id="portrait-details"></span>
+      </div>
+    </div>
+  </main>
+
+  <section class="setup" id="setup" hidden aria-label="Configurar mesa do overlay">
+    <form id="setup-form" class="setup-card">
+      <h1>🎭 Overlay de Retratos</h1>
+      <p>Informe a mesma sala usada na ficha dos jogadores. Depois adicione esta página como <strong>Fonte do navegador</strong> no Streamlabs ou OBS.</p>
+      <label for="setup-room">Sala do mestre</label>
+      <input id="setup-room" placeholder="Ex.: MESA-12345" maxlength="64" required autocomplete="off">
+      <button type="submit">CONECTAR OVERLAY</button>
+      <p id="setup-error" class="error" role="alert" hidden></p>
+      <small>Com a sala configurada, o fundo fica 100% transparente até alguém clicar no retrato da própria ficha. Clique novamente para ocultar.</small>
+    </form>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const params = new URLSearchParams(window.location.search);
+    const root = document.getElementById('portrait-inspection');
+    const img = document.getElementById('portrait-image');
+    const fallback = document.getElementById('portrait-fallback');
+    const nameElement = document.getElementById('portrait-name');
+    const detailsElement = document.getElementById('portrait-details');
+    const setup = document.getElementById('setup');
+    const form = document.getElementById('setup-form');
+    const roomInput = document.getElementById('setup-room');
+    const errorElement = document.getElementById('setup-error');
+    const normalizar = value => String(value || '').trim().toUpperCase();
+    const validaSala = mesa => /^[A-Z0-9_-]{1,64}$/.test(mesa);
+    const validaImagem = value => /^(https?:\/\/|\/[^/]|data:image\/(png|jpe?g|webp|gif);base64,)/i.test(String(value || ''));
+    let sala = normalizar(params.get('sala'));
+    let transitionId = 0;
+    let mostrarToken = 0;
+    let esconderTimer;
+    let estadoAtual = null;
+
+    function ocultarRetrato() {
+      mostrarToken++;
+      const token = ++transitionId;
+      estadoAtual = null;
+      img.classList.remove('loaded');
+      root.classList.add('leaving');
+      clearTimeout(esconderTimer);
+      esconderTimer = setTimeout(() => {
+        if (token !== transitionId) return;
+        root.classList.remove('active','leaving');
+        root.setAttribute('aria-hidden','true');
+        img.removeAttribute('src');
+        fallback.classList.remove('visible');
+      }, 490);
+    }
+    function mostrarRetrato(data) {
+      if (!data || !data.visible || !validaImagem(data.url)) {
+        ocultarRetrato();
+        return;
+      }
+      ++transitionId;
+      clearTimeout(esconderTimer);
+      estadoAtual = data;
+      const token = ++mostrarToken;
+      nameElement.textContent = String(data.nome || 'AVENTUREIRO');
+      detailsElement.textContent = String(data.raca || 'HERÓI DE ELKARIOZ');
+      fallback.classList.remove('visible');
+      img.classList.remove('loaded');
+      img.onload = () => {
+        if (mostrarToken === token) {
+          fallback.classList.remove('visible');
+          img.classList.add('loaded');
+        }
+      };
+      img.onerror = () => {
+        if (mostrarToken === token) {
+          img.classList.remove('loaded');
+          fallback.classList.add('visible');
+        }
+      };
+      img.src = String(data.url);
+      root.classList.remove('active','leaving');
+      // Forçar reinício da animação ao trocar de personagem.
+      void root.offsetWidth;
+      root.classList.add('active');
+      root.setAttribute('aria-hidden','false');
+      if (img.complete && img.naturalWidth > 0) img.onload();
+    }
+    function entrarSala() {
+      if (!validaSala(sala)) return;
+      if (socket.connected) socket.emit('portrait_overlay_join', { sala }, response => {
+        if (response && response.ok === false) {
+          setup.hidden = false;
+          errorElement.hidden = false;
+          errorElement.textContent = response.error || 'Falha ao conectar à mesa.';
+        }
+      });
+    }
+    socket.on('connect', entrarSala);
+    socket.on('portrait_overlay_state', data => {
+      if (!data || normalizar(data.sala) !== sala) return;
+      if (data.visible) mostrarRetrato(data);
+      else ocultarRetrato();
+    });
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const chosen = normalizar(roomInput.value);
+      if (!validaSala(chosen)) {
+        errorElement.textContent = 'Digite uma sala válida (letras, números, hífen ou underline).';
+        errorElement.hidden = false;
+        return;
+      }
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('sala', chosen);
+      window.location.replace(currentUrl.toString());
+    });
+    if (!validaSala(sala)) {
+      setup.hidden = false;
+      roomInput.value = sala;
+    } else {
+      entrarSala();
+    }
+  </script>
+</body>
+</html>
