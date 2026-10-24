@@ -1,0 +1,34 @@
+/* Controle do overlay de retratos na ficha de Elkarioz.
+   Clique no retrato para transmitir. Os botões NORMAL / VIDA BAIXA continuam editando as fotos. */
+#portrait-slot-unico {
+  cursor: pointer;
+  border-color: #967259 !important;
+  outline-color: #d3aa71 !important;
+}
+#portrait-slot-unico:hover,
+#portrait-slot-unico:focus-visible {
+  border-color: #526631 !important;
+  outline-color: #8fa867 !important;
+  box-shadow: 0 10px 22px rgba(61,43,26,.27),0 0 0 3px rgba(82,102,49,.17) !important;
+}
+#portrait-slot-unico:focus-visible {
+  outline: 3px solid #8fa867 !important;
+  outline-offset: 3px !important;
+}
+.portrait-overlay-hint {
+  display:block;max-width:170px;
+  color:#775b44;
+  text-align:center;
+  font:900 .59rem/1.35 'Roboto',sans-serif;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+}
+.portrait-overlay-feedback {
+  min-height:0;
+  max-width:170px;
+  color:#526631;
+  text-align:center;
+  font:800 .64rem/1.35 'Roboto',sans-serif;
+}
+.portrait-overlay-feedback:empty { display:none; }
+.portrait-overlay-feedback.error { color:#9f4037; }
