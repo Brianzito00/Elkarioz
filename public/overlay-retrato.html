@@ -78,14 +78,49 @@
       box-shadow:0 18px 55px rgba(0,0,0,.45),inset 0 0 0 4px rgba(224,184,125,.075);
       transform-style:preserve-3d;
     }
-    /* Paisagens têm apresentação horizontal, enquanto retratos continuam verticais. */
-    .inspection.local-view .inspection-inner { width:min(96vw,1230px); }
-    .inspection.local-view .artwork-shell {
-      width:min(86vw,1090px);height:min(66vh,690px);
-      background:linear-gradient(145deg,rgba(88,53,40,.60),rgba(25,16,15,.62));
+    /* LOCAIS: cena em tela cheia e somente o nome, sem moldura nem subtítulo.
+       Retratos dos jogadores e NPCs mantêm a apresentação original. */
+    .inspection.local-view .inspection-inner {
+      position:absolute;inset:0;width:100%;height:100%;max-height:none;
+      display:block;gap:0;filter:none;transform-origin:center;
     }
-    .inspection.local-view .portrait { object-fit:contain; }
-    .inspection.local-view .character-name { font-size:clamp(1.35rem,3.3vw,2.95rem); }
+    .inspection.local-view .artwork-shell {
+      position:absolute;inset:0;
+      width:100%;height:100%;min-width:0;min-height:0;
+      padding:0;border:0;border-radius:0;
+      box-shadow:none;background:#211816;transform:none;
+    }
+    .inspection.local-view .artwork-shell::before,
+    .inspection.local-view .artwork-shell::after { display:none; }
+    .inspection.local-view .portrait {
+      width:100%;height:100%;object-fit:cover;object-position:center;
+      border-radius:0;filter:none;
+    }
+    .inspection.local-view .emblema,
+    .inspection.local-view .character-detail,
+    .inspection.local-view .caption::after,
+    .inspection.local-view .portrait-blurred-backdrop { display:none; }
+    .inspection.local-view .caption {
+      position:absolute;left:0;right:0;bottom:0;z-index:5;
+      width:100%;max-width:none;min-height:clamp(130px,24vh,260px);
+      display:flex;justify-content:flex-end;align-items:center;gap:0;
+      padding:clamp(24px,5vh,66px) clamp(16px,5vw,75px);
+      background:linear-gradient(to bottom,transparent 0%,rgba(13,8,7,.42) 40%,rgba(13,8,7,.84) 100%);
+      text-align:center;pointer-events:none;
+    }
+    .inspection.local-view .character-name {
+      max-width:100%;
+      color:#fff3db;
+      font-size:clamp(1.55rem,4.6vw,4.3rem);
+      line-height:1.17;letter-spacing:.065em;
+      text-shadow:0 3px 12px rgba(0,0,0,.90),0 0 28px rgba(0,0,0,.52);
+    }
+    .inspection.active.local-view:not(.leaving) .inspection-inner {
+      animation:revelar-local .62s ease-out both;
+    }
+    .inspection.leaving.local-view .inspection-inner {
+      animation:ocultar-local .46s ease-in both;
+    }
     .artwork-shell::before,.artwork-shell::after {
       content:"";position:absolute;width:clamp(21px,3.8vw,45px);
       height:clamp(21px,3.8vw,45px);pointer-events:none;z-index:4;
@@ -142,6 +177,14 @@
     .setup button { margin-top:11px;background:#526631;color:#fff9eb;border:0;cursor:pointer; }
     .setup small { display:block;line-height:1.45;margin-top:13px;color:#755e4e; }
     .setup .error { color:#9f4037;font-size:.8rem;font-weight:700; }
+    @keyframes revelar-local {
+      from { opacity:0;filter:brightness(.75) blur(9px); }
+      to { opacity:1;filter:brightness(1) blur(0); }
+    }
+    @keyframes ocultar-local {
+      from { opacity:1;filter:blur(0); }
+      to { opacity:0;filter:blur(7px); }
+    }
     @keyframes revelar-retrato {
       0% { opacity:0;transform:perspective(1400px) rotateY(-9deg) translateY(28px) scale(.84);filter:blur(17px) brightness(1.4); }
       58% { opacity:1;transform:perspective(1400px) rotateY(2deg) translateY(-5px) scale(1.015);filter:blur(1px) brightness(1.12); }
@@ -153,7 +196,8 @@
     }
     @media(max-width:680px) {
       .artwork-shell { width:min(88vw,480px);height:min(66vh,600px); }
-      .inspection.local-view .artwork-shell { width:92vw;height:min(59vh,560px); }
+      .inspection.local-view .caption { padding:22px 16px 32px; }
+      .inspection.local-view .character-name { font-size:clamp(1.5rem,6vw,3rem); }
       .inspection-inner { gap:12px; }
       .character-detail { letter-spacing:.13em; }
     }
@@ -245,6 +289,7 @@
       const token = ++mostrarToken;
       const isLocal = data.kind === 'local';
       root.classList.toggle('local-view', isLocal);
+      img.alt = isLocal ? 'Imagem do local em tela cheia' : 'Retrato do personagem em destaque';
       emblem.textContent = isLocal ? 'ELKARIOZ · LOCAL' : data.kind === 'npc' ? 'ELKARIOZ · NPC' : 'ELKARIOZ · RETRATO';
       nameElement.textContent = String(data.nome || (isLocal ? 'LOCAL DESCONHECIDO' : 'AVENTUREIRO'));
       detailsElement.textContent = String(data.raca || (isLocal ? 'CENÁRIO DE ELKARIOZ' : 'HERÓI DE ELKARIOZ'));
