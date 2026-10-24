@@ -2141,6 +2141,7 @@
 </style>
     <!-- Paleta pergaminho: tema visual separado, sem mudanças nas mecânicas -->
     <link rel="stylesheet" href="tema_pergaminho_elkarioz.css">
+    <link rel="stylesheet" href="overlay-retrato-ficha.css">
 </head>
 <body>
 
@@ -2188,7 +2189,7 @@
     <div class="header-rpg-container">
         <div class="portrait-states" aria-label="Retratos dos estados do personagem">
             <span class="portrait-state-label" id="portrait-state-label">🙂 Estado normal</span>
-            <div class="portrait-slot" id="portrait-slot-unico" onclick="pedirUrlRetrato('normal')" title="Clique para definir o retrato normal">
+            <div class="portrait-slot" id="portrait-slot-unico" role="button" tabindex="0" onclick="alternarRetratoNoOverlay()" onkeydown="if(event.key === 'Enter' || event.key === ' '){event.preventDefault();alternarRetratoNoOverlay();}" title="Clique para mostrar ou ocultar o retrato na transmissão">
                 <img id="portrait-img" class="portrait-image" src="" alt="Retrato do estado normal">
                 <img id="portrait-img-ferido" class="portrait-image" src="" alt="Retrato do estado de vida baixa">
                 <div id="portrait-placeholder">📷</div>
@@ -2197,6 +2198,8 @@
                 <button type="button" class="portrait-config-btn" id="btn-retrato-normal" onclick="pedirUrlRetrato('normal')" title="Configurar imagem normal">NORMAL</button>
                 <button type="button" class="portrait-config-btn" id="btn-retrato-ferido" onclick="pedirUrlRetrato('ferido')" title="Configurar imagem de vida baixa">VIDA BAIXA</button>
             </div>
+            <span class="portrait-overlay-hint">🎭 CLIQUE NA FOTO PARA EXIBIR NO OVERLAY</span>
+            <span id="portrait-overlay-feedback" class="portrait-overlay-feedback" role="status" aria-live="polite"></span>
         </div>
 
         <div class="header-info-grid">
@@ -4373,6 +4376,65 @@
         }
         if (btnNormal) btnNormal.classList.toggle('configurado', Boolean(retratoNormal));
         if (btnFerido) btnFerido.classList.toggle('configurado', Boolean(retratoFerido));
+    }
+
+    // Retratos em destaque para o Streamlabs/OBS: o mesmo clique alterna mostrar e ocultar.
+    let envioRetratoOverlayPendente = false;
+    let feedbackRetratoOverlayTimer = null;
+    function avisarRetratoOverlay(mensagem, erro = false) {
+        const el = document.getElementById('portrait-overlay-feedback');
+        if (!el) return;
+        el.textContent = mensagem;
+        el.classList.toggle('error', erro);
+        clearTimeout(feedbackRetratoOverlayTimer);
+        feedbackRetratoOverlayTimer = setTimeout(() => {
+            el.textContent = '';
+            el.classList.remove('error');
+        }, 4500);
+    }
+
+    function alternarRetratoNoOverlay() {
+        if (envioRetratoOverlayPendente) return;
+        const imagem = obterRetratoAtivo();
+        if (!imagem) {
+            avisarRetratoOverlay('Configure primeiro a foto NORMAL ou VIDA BAIXA.', true);
+            pedirUrlRetrato('normal');
+            return;
+        }
+        const sala = String(document.getElementById('uid-input')?.value || '').trim().toUpperCase();
+        if (!sala || sala === 'SEM SALA') {
+            avisarRetratoOverlay('Entre na sala do mestre antes de transmitir.', true);
+            return;
+        }
+        if (!socket || !socket.connected) {
+            avisarRetratoOverlay('Sem conexão com a mesa. Tente novamente.', true);
+            return;
+        }
+        envioRetratoOverlayPendente = true;
+        let respondido = false;
+        const timer = setTimeout(() => {
+            if (respondido) return;
+            respondido = true;
+            envioRetratoOverlayPendente = false;
+            avisarRetratoOverlay('O servidor não confirmou o overlay. Confira se está atualizado.', true);
+        }, 5000);
+        socket.emit('portrait_overlay_toggle', {
+            sala,
+            playerId: String(idUnicoFicha),
+            nome: document.getElementById('char-name-input')?.value || 'Aventureiro',
+            raca: document.getElementById('raca-input')?.value || '',
+            url: imagem
+        }, resposta => {
+            if (respondido) return;
+            respondido = true;
+            clearTimeout(timer);
+            envioRetratoOverlayPendente = false;
+            if (!resposta || !resposta.ok) {
+                avisarRetratoOverlay(resposta?.error || 'Não foi possível transmitir o retrato.', true);
+                return;
+            }
+            avisarRetratoOverlay(resposta.visible ? '✓ Retrato exibido no overlay!' : '✓ Retrato ocultado do overlay.');
+        });
     }
 
     function pedirUrlRetrato(estado = 'normal') {
