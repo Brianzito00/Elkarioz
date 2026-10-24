@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
                 playerId: id,
                 nome: String(payload.nome || 'Aventureiro').trim().slice(0, 90),
                 raca: String(payload.raca || '').trim().slice(0, 65),
-                kind: payload.kind === 'local' ? 'local' : (payload.kind === 'npc' ? 'npc' : 'personagem'),
+                kind: payload.kind === 'local' ? 'local' : (payload.kind === 'monstro' ? 'monstro' : (payload.kind === 'npc' ? 'npc' : 'personagem')),
                 url,
                 updatedAt: Date.now()
             }
