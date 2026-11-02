@@ -149,12 +149,16 @@
     $('ameacas-contador').textContent=resultados.length+' resultados · '+totalSalvos()+' salvos';
     grid.innerHTML=resultados.length ? resultados.map(({reg,i})=>{
       const [nome,g,nd,atq,dano,hab,conceito]=reg;
+      const ficha=sugerirFicha(reg);
       return '<article class="ameaca-card">'+
         '<div class="ameaca-card-top"><span class="ameaca-grupo">'+e(g)+'</span><span class="ameaca-nd">ND '+e(ndText(nd))+' *</span></div>'+
         '<h3>'+e(nome)+'</h3><p class="ameaca-conceito">'+e(conceito)+'</p>'+
-        '<div class="ameaca-infos"><span>⚔️ '+e(atq)+'</span><span>🎲 '+e(dano)+'</span></div>'+
+        '<div class="ameaca-infos"><span>❤️ PV '+ficha.hpMax+'</span><span>🛡️ DEF '+ficha.def+'</span><span>⚔️ '+e(atq)+'</span><span>🎲 '+e(dano)+'</span></div>'+
+        '<div class="ameaca-atributos">'+['for','des','con','int','sab','car'].map(k=>
+          '<span>'+k.toUpperCase()+' <strong>'+(ficha.attr[k]>=0?'+':'')+ficha.attr[k]+'</strong></span>'
+        ).join('')+'</div>'+
         '<p class="ameaca-habilidade">✦ '+e(hab)+'</p>'+
-        '<div class="ameaca-acoes"><button type="button" class="ameaca-adicionar" data-ameaca-action="add" data-index="'+i+'">＋ ADICIONAR À MESA</button>'+
+        '<div class="ameaca-acoes"><button type="button" class="ameaca-adicionar" data-ameaca-action="add" data-index="'+i+'">＋ ADICIONAR ÀS FICHAS</button>'+
         '<button type="button" class="ameaca-personalizar" data-ameaca-action="edit" data-index="'+i+'">✎ EDITAR ANTES</button></div>'+
         '</article>';
     }).join(''):'<div class="ameaca-vazio">Nenhuma criatura corresponde aos filtros.</div>';
