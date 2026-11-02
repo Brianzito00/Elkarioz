@@ -1819,6 +1819,7 @@
     <link rel="stylesheet" href="npcs-mestre.css">
     <link rel="stylesheet" href="locais-mestre.css">
     <link rel="stylesheet" href="monstros-overlay.css">
+    <link rel="stylesheet" href="catalogo_ameacas_elkarioz.css">
 </head>
 <body>
 
@@ -1903,15 +1904,51 @@
             </div>
 
             <div id="tab-bestiario" class="tab-content">
-                <div style="text-align:center; margin-bottom: 20px; flex-shrink: 0;">
-                    <button class="btn-acao" style="font-size: 1.2rem; padding: 15px 30px; display:inline-block; width:auto;" onclick="abrirModalMonstro()">+ CRIAR NOVO MONSTRO</button>
+                <div class="bestiario-switch" role="group" aria-label="Visões do Bestiário do Mestre">
+                    <button type="button" class="bestiario-view-btn ativo" id="ameacas-view-salvos" aria-pressed="true" onclick="trocarVisaoAmeacas('salvos')">🐉 MINHAS FICHAS</button>
+                    <button type="button" class="bestiario-view-btn" id="ameacas-view-catalogo" aria-pressed="false" onclick="trocarVisaoAmeacas('catalogo')">📖 CATÁLOGO T20</button>
                 </div>
-                <div class="box-rpg" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-                    <h2 class="section-title" style="flex-shrink: 0;">MONSTROS SALVOS</h2>
-                    <div id="lista-bestiario-container">
-                        <p style="grid-column: 1/-1; text-align:center; font-style:italic; color:#8b5a2b; font-size:0.9rem;" id="bestiario-vazio-texto">Nenhum monstro criado ainda.</p>
+                <div id="bestiario-salvos" class="bestiario-salvos">
+                    <div style="text-align:center; flex-shrink:0">
+                        <button class="btn-acao" style="font-size:1.1rem;padding:13px 25px;display:inline-block;width:auto;" onclick="abrirModalMonstro()">＋ CRIAR NOVO MONSTRO</button>
+                    </div>
+                    <div class="box-rpg" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+                        <h2 class="section-title" style="flex-shrink:0;">MONSTROS SALVOS</h2>
+                        <div id="lista-bestiario-container">
+                            <p style="grid-column:1/-1;text-align:center;font-style:italic;color:#8b5a2b;font-size:.9rem;" id="bestiario-vazio-texto">Nenhum monstro criado ainda.</p>
+                        </div>
                     </div>
                 </div>
+                <section class="ameacas-catalogo" id="ameacas-catalogo" aria-label="Catálogo temático de Tormenta20" hidden>
+                    <div class="ameacas-heading">
+                        <div>
+                            <span class="ameacas-kicker">AMEAÇAS E OPONENTES PARA SUAS AVENTURAS</span>
+                            <h2>CATÁLOGO DE CRIATURAS T20</h2>
+                            <p>Modelos de inimigos para usar na sua campanha, com atributos, ataques e habilidades editáveis. Clique para adicionar à sua ficha de combate.</p>
+                        </div>
+                        <span id="ameacas-total" class="ameacas-pill">Modelos</span>
+                    </div>
+                    <div class="ameacas-warning">
+                        <strong>Modelos adaptados, não oficiais.</strong> Os valores de ND, PV, Defesa, ataques e habilidades são sugestões criadas para Elkarioz, não transcrições do Tormenta20.
+                        Para consultar os valores oficiais, use seu livro <a href="https://jamboeditora.com.br/produto/ameacas-de-arton/" target="_blank" rel="noopener noreferrer">Ameaças de Arton, da Jambô Editora</a> ou importe suas próprias fichas em JSON.
+                    </div>
+                    <div class="ameacas-import">
+                        <p>Já tem fichas do seu material oficial? Importe um JSON no formato do Escudo e elas aparecerão em <strong>Minhas Fichas</strong>, com atributos e ataques preservados.</p>
+                        <div class="ameacas-import-actions">
+                            <button type="button" id="ameacas-json-exemplo">⬇ MODELO JSON</button>
+                            <button type="button" id="ameacas-importar-btn" class="main">📂 IMPORTAR FICHAS</button>
+                            <input type="file" id="ameacas-import-file" accept=".json,application/json" hidden aria-label="Selecionar arquivo JSON com fichas de criaturas">
+                        </div>
+                    </div>
+                    <div class="ameacas-filtros">
+                        <label>Pesquisar ameaça<input type="search" id="ameacas-busca" placeholder="Nome, ataque, habilidade..." autocomplete="off"></label>
+                        <label>Categoria<select id="ameacas-grupo"><option value="todos">Todas as categorias</option></select></label>
+                        <label>ND sugerido<select id="ameacas-nd"><option value="todos">Todos</option><option value="baixo">ND até 2</option><option value="medio">ND 3 a 6</option><option value="alto">ND 7+</option></select></label>
+                    </div>
+                    <div class="ameacas-bar"><strong id="ameacas-contador">Carregando modelos...</strong><span>* ND e estatísticas são sugestões, não números oficiais.</span></div>
+                    <div id="ameacas-aviso" role="status" aria-live="polite" hidden></div>
+                    <div class="ameacas-grid" id="ameacas-grid"></div>
+                </section>
             </div>
             
             <div id="tab-npcs" class="tab-content">
@@ -4066,5 +4103,6 @@
 <script src="npcs-mestre.js"></script>
 <script src="locais-mestre.js"></script>
 <script src="monstros-overlay.js"></script>
+<script src="catalogo_ameacas_elkarioz.js"></script>
 </body>
 </html>
